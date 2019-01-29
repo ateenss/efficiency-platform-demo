@@ -53,7 +53,7 @@ module.exports = function(webpackEnv) {
     ? paths.servedPath
     : isEnvDevelopment && '/';
   // Some apps do not use client-side routing with pushState.
-  // For these, "homepage" can be set to "." to enable relative asset paths.
+  // For these, "homepage" can be set to "." to enable relative assets paths.
   const shouldUseRelativeAssetPaths = publicPath === './';
 
   // `publicUrl` is just like `publicPath`, but we will provide it to our app
@@ -447,7 +447,7 @@ module.exports = function(webpackEnv) {
               ),
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
-            // When you `import` an asset, you get its (virtual) filename.
+            // When you `import` an assets, you get its (virtual) filename.
             // In production, they would get copied to the `build` folder.
             // This loader doesn't use a "test" so it will catch all modules
             // that fall through the other loaders.
@@ -535,11 +535,11 @@ module.exports = function(webpackEnv) {
           filename: 'static/css/[name].[contenthash:8].css',
           chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
         }),
-      // Generate a manifest file which contains a mapping of all asset filenames
+      // Generate a manifest file which contains a mapping of all assets filenames
       // to their corresponding output file so that tools can pick it up without
       // having to parse `index.html`.
       new ManifestPlugin({
-        fileName: 'asset-manifest.json',
+        fileName: 'assets-manifest.json',
         publicPath: publicPath,
       }),
       // Moment.js is an extremely popular library that bundles large locale files

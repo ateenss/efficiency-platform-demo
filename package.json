@@ -51,12 +51,35 @@
     "webpack": "4.19.1",
     "webpack-dev-server": "3.1.14",
     "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "3.6.3"
+    "workbox-webpack-plugin": "3.6.3",
+    "react-router-dom": "^4.3.1",
+    "react-router": "^3.2.1",
+    "history": "^4.7.2",
+    "react-redux": "^4.0.0",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.6.0",
+    "@material-ui/core": "3.1.0",
+    "@material-ui/icons": "3.0.1",
+    "@types/markerclustererplus": "2.1.33",
+    "prop-types": "^15.6.2",
+    "perfect-scrollbar": "1.4.0",
+    "classnames": "2.2.6",
+    "react-dnd": "^2.6.0",
+    "lodash": "^4.17.11",
+    "reactabular-table": "^8.14.0",
+    "reactabular-dnd": "^8.16.0",
+    "table-resolver": "^4.1.1",
+    "react-dnd-html5-backend": "^7.0.2",
+    "lodash.flow": "^3.5.0",
+    "jquery": "^3.3.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.1.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start"
   },
   "eslintConfig": {
     "extends": "react-app"
