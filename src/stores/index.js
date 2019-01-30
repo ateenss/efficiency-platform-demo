@@ -1,11 +1,10 @@
 import {applyMiddleware,compose,createStore,combineReducers } from 'redux';
-import reducer from '../reducers/makereducer';
+import reducer from '../reducers/index';
 import middleware from './middlewares';
 /*import enhances from './enhancers';*/
 /*import syncHistoryWithStore from './syncHistoryWithStore';*/
 //下面是和router有关的引用
-import { createBrowserHistory } from "history";
-import {routerReducer,syncHistoryWithStore} from 'react-router-redux';
+import {routerReducer} from 'react-router-redux';
 
 
 const store=createStore(

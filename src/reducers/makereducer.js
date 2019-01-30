@@ -1,7 +1,4 @@
-/*import createReducer from './util/utilReducer';
-import {ACTION_HANDLERS} from '../action/doAction'
-import initState from '../store/initState'*/
-import { combineReducers } from 'redux';
+
 import $ from 'jquery';
 
 const initialState = {
