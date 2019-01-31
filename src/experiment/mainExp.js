@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import {Button} from '@material-ui/core'
 import CardContent from '@material-ui/core/CardContent';
-import InputMy from '../Input/inputMy';
+import InputMy from './inputMy';
 
 //组件内部显示css
 const styles = theme=>({
@@ -104,7 +104,7 @@ class SimpleCard extends React.Component{
                 this.setState({
                     message:'6-10 letters or Numbers'
                 })
-            }else{
+        }else{
                 this.setState({
                     message:'',
                     showPassword:e.target.value
@@ -113,9 +113,9 @@ class SimpleCard extends React.Component{
         }
     };
 
-    onSubmit=()=>{
-        alert("邮箱："+this.state.showEmail+"//"+"密码："+this.state.showPassword)
-    };
+onSubmit=()=>{
+    alert("邮箱："+this.state.showEmail+"//"+"密码："+this.state.showPassword)
+};
 
     render(){
         const { classes  } = this.props;
@@ -163,8 +163,8 @@ const mapStateToProps=state=>{
 };
 
 // 动作的自动触发执行
-// const mapDispatchToProps=dispatch=>
-//     bindActionCreators(actions,dispatch);
+const mapDispatchToProps=dispatch=>
+    bindActionCreators(actions,dispatch);
 
 
 

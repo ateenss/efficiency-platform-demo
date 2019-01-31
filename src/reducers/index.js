@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import { reducer as form } from 'redux-form';
+import { reducer as reduxFormReducer } from 'redux-form';
 import authReducer from './authReducer';
 import {routerReducer} from 'react-router-redux'
 // import recordingsReducer from './recordingsReducer';
 import oldReducer from './makereducer';
 
 const rootReducer = combineReducers({
-    form,
+    form:reduxFormReducer,
     routing:routerReducer,
     auth:authReducer,
     old:oldReducer

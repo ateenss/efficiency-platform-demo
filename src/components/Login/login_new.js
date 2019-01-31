@@ -11,8 +11,9 @@ import { reduxForm, Field } from 'redux-form';
 import _ from "lodash";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {bindActionCreators} from 'redux'
-import {Input,Button,Message} from '@material-ui/core'
+import {Input,Button} from '@material-ui/core'
 import CardContent from '@material-ui/core/CardContent';
+import submit from './submit'
 
 //组件内部显示css
 const styles = theme=>({
@@ -83,31 +84,37 @@ class SimpleCard extends React.Component{
     //     this.props.loginUser(result);
     // };
 
+    // textEmailField(classes){
+    //     return(
+    //         <Input label="Input Email" placeholder="email"/>
+    //     )
+    // };
 
-    textEmailField(classes){
+    renderField=({label, type, classes,placeholder,id,field})=>{
         return(
             <TextField
-                id="standard-with-placeholder"
-                label="Input Email"
-                placeholder="Email"
+                id={id}
+                label={label}
+                placeholder={placeholder}
                 className={classes.textField}
+                type={type}
                 margin="normal"
             />
         )
     };
 
-    textPasswordField(classes){
-        return(
-            <TextField
-                id="standard-password-input"
-                label="Password"
-                className={classes.textField}
-                type="password"
-                autoComplete="current-password"
-                margin="normal"
-            />
-        )
-    };
+    // textPasswordField(classes){
+    //     return(
+    //         <TextField
+    //             id="standard-password-input"
+    //             label="password"
+    //             className={classes.textField}
+    //             type="password"
+    //             autoComplete="current-password"
+    //             margin="normal"
+    //         />
+    //     )
+    // };
 
 
     render(){
@@ -123,30 +130,39 @@ class SimpleCard extends React.Component{
         return (
             <div ref={(input) => this.wrapper = input} className="wrapperClass">
                 <Card className={classes.card}>
-                    <CardContent>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom align="center">
-                            效率平台
-                        </Typography>
-                        <Typography variant="h4" component="h3" align="center">
-                            Welcome
-                        </Typography>
-                        <form className="login-form" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+                    <form className="login-form" onSubmit={handleSubmit(submit)}>
+                        <CardContent>
+                            <Typography className={classes.title} color="textSecondary" gutterBottom align="center">
+                                效率平台
+                            </Typography>
+                            <Typography variant="caption" component="h3" align="center">
+                                Welcome
+                            </Typography>
+
                             <Field
-                                component={this.textEmailField.bind(this,classes)}
-                                name="email"
-                                key="email"
+                                name='email'
+                                type="email"
+                                label="Email"
+                                classes={classes}
+                                placeholder="email"
+                                id="standard-with-placeholder"
+                                component={this.renderField}
                             />
                             <Field
-                                component={this.textPasswordField.bind(this,classes)}
-                                name="password"
-                                key="password"
+                                name='password'
+                                type="password"
+                                label="Password"
+                                classes={classes}
+                                placeholder="Password"
+                                id="standard-password-input"
+                                component={this.renderField}
                             />
                             <div className="error-message">{ errorMessage }</div>
                             <div className="hint">{pristine}</div>
                             <Button  size="large" color="primary" {...submitProps} className="login-button"
                                      variant="contained" type="submit" label="Login" >Login</Button>
-                        </form>
-                    </CardContent>
+                        </CardContent>
+                    </form>
                 </Card>
             </div>
         )
@@ -188,8 +204,8 @@ const mapStateToProps=state=>{
 
 SimpleCard = reduxForm({
     form: 'login',
-    fields: _.keys(FIELDS),
-    validate
+    // fields: ['email', 'password'],
+    /*validate*/
 })(withStyles(styles)(SimpleCard));
 
 export default connect(mapStateToProps, actions)(SimpleCard);

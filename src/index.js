@@ -10,10 +10,11 @@ import {Provider} from 'react-redux';
 import store from "./stores/index";
 // import {syncHistoryWithStore} from 'react-router-redux';
 // import Login from './components/Login/login';
-import Login from './components/Login/login_new'
+// import Login from './components/Login/login_new'
 import Logout from './components/Logout/logout';
 // import {history as hist} from './actions/index';
 import history from './history/history';
+import Login from './components/Login/login';
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import getMuiTheme from 'material-ui/styles/getMuiTheme';
 // import { indigo500 } from 'material-ui/styles/colors';

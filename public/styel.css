@@ -1,6 +1,13 @@
 .login-button {
     position:relative;
     left:25%;
+    top:40px
+}
+
+.message{
+    position:relative;
+    left:10px;
+    color: red;
 }
 
 .wrapperClass{
@@ -14,4 +21,9 @@
     left:25%;
     height:40px;
     align-content:center;
+}
+
+.password-wrapper{
+    position:relative;
+    top:1px
 }
