@@ -6,3 +6,4 @@ export const FETCH_RECORDINGS = 'fetch_recordings';
 export const FETCHING_RECORDINGS = 'fetching_recordings';
 export const FETCH_ERROR = 'fetch_error';
 export const TOGGLE_CONFIRM_LOGOUT = 'confirm_logout';
+export const AUTH_VALIDATE = 'auth_validating';

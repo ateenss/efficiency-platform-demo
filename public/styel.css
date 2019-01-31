@@ -1,7 +1,7 @@
 .login-button {
     position:relative;
     left:25%;
-    top:40px
+    top:30px
 }
 
 .message{
@@ -17,10 +17,10 @@
 }
 
 .error-message{
-    top:20px;
-    left:25%;
-    height:40px;
-    align-content:center;
+    position:relative;
+    top:10px;
+    left:10px;
+    color: red;
 }
 
 .password-wrapper{

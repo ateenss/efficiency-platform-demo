@@ -1,5 +1,6 @@
 import axios from 'axios';
 import history from '../history/history';
+import store from '../stores/index';
 import {
     AUTH_USER,
     SENT_AUTH,
@@ -23,15 +24,15 @@ export const RECORDINGS_ENDPOINT = 'https://i2x-challenge.herokuapp.com/ai/recor
 export function loginUser({ email, password }) {
     console.log("loginuser被调用");
     console.log({ email, password });
-    return function(dispatch) {
-        dispatch({ type: SENT_AUTH });
+        console.log({ email, password });
+    store.dispatch({ type: SENT_AUTH });
         // POST email and password to API endpoint
         return axios.post(LOGIN_ENDPOINT, {email, password })
             .then(response => {
                 // If request is successful:
 
                 // update state to authenticate user
-                dispatch({ type: AUTH_USER });
+                store.dispatch({ type: AUTH_USER });
 
                 // store JWT token
                 localStorage.setItem('token', response.data.token);
@@ -41,14 +42,14 @@ export function loginUser({ email, password }) {
             })
             .catch(() => {
                 // If request fails
-
+                console.log("调用失败");
                 // update state to show error to user
-                dispatch({
+                store.dispatch({
                     type: AUTH_ERROR,
                     payload: 'Invalid credentials.'
                 });
             });
-    }
+
 }
 
 // LOGOUT ACTION

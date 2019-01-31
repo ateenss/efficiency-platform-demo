@@ -9,6 +9,7 @@ import {Button} from '@material-ui/core'
 import CardContent from '@material-ui/core/CardContent';
 import InputMy from '../Input/inputMy';
 import store from '../../stores/index'
+import {loginUser} from '../../actions/index';
 
 
 //组件内部显示css
@@ -100,13 +101,19 @@ class SimpleCard extends React.Component{
         }
     };
 
-    onSubmit=(authSend)=>{
+    onSubmit=()=>{
         console.log("邮箱："+this.state.showEmail+"//"+"密码："+this.state.showPassword);
-        authSend({email:this.state.showEmail,password:this.state.showPassword})
+        loginUser({email:this.state.showEmail,password:this.state.showPassword});
     };
 
     render(){
-        const { classes ,errorMessage ,authSend} = this.props;
+        const { classes ,errorMessage ,authSend,isAuthenticating} = this.props;
+        let submitProps = {};
+        if (isAuthenticating) {
+            submitProps = {
+                disabled: true,
+            }
+        }
         return (
             <div ref={(input) => this.wrapper = input} className="wrapperClass">
                 <Card className={classes.card}>
@@ -131,8 +138,8 @@ class SimpleCard extends React.Component{
                         </div>
                         <div className="message">{this.state.message}</div>
                         <div className="error-message">{errorMessage}</div>
-                        <Button  size="large" color="primary"  className="login-button"
-                                 variant="contained" type="submit" label="Login" onClick={this.onSubmit.bind(this,authSend)}>Login</Button>
+                        <Button  size="large" color="primary"  className="login-button" {...submitProps}
+                                 variant="contained" type="submit" label="Login" onClick={this.onSubmit}>Login</Button>
                     </CardContent>
                 </Card>
             </div>
@@ -149,7 +156,8 @@ SimpleCard.propTypes = {
 const mapStateToProps=state=>{
     return {
         errorMessage: state.reducer.auth.error,
-        isAuthenticating: state.reducer.auth.isAuthenticating
+        isAuthenticating: state.reducer.auth.isAuthenticating,
+        authenticated: state.reducer.auth.authenticated
     }
 };
 
