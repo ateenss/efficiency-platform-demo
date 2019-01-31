@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-// import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography';
-// import * as actions from "../../actions";
+import {authSend} from "../../actions/authAction";
 import { connect } from 'react-redux';
 import {Button} from '@material-ui/core'
 import CardContent from '@material-ui/core/CardContent';
 import InputMy from '../Input/inputMy';
+import store from '../../stores/index'
+
 
 //组件内部显示css
-const styles = theme=>({
+const styles = ()=>({
     card: {
         minWidth: 275,
         width:200,
@@ -52,20 +53,6 @@ class SimpleCard extends React.Component{
         }
     }
 
-    handleFormSubmit({email, password }) {
-        console.log("刚把命令发送出去");
-        console.log({ email, password });
-        this.props.loginUser({ email, password });
-    }
-
-    OnChange=e=>{
-        if (e.target.placeholder==="Input email") {
-            this.setState({showEmail:e.target.value});
-        }else{
-            this.setState({showPassword:e.target.value});
-        }
-        console.log(e.target.value)
-    };
 
     emailValidate = value =>
         value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
@@ -113,12 +100,13 @@ class SimpleCard extends React.Component{
         }
     };
 
-    onSubmit=()=>{
-        alert("邮箱："+this.state.showEmail+"//"+"密码："+this.state.showPassword)
+    onSubmit=(authSend)=>{
+        console.log("邮箱："+this.state.showEmail+"//"+"密码："+this.state.showPassword);
+        authSend({email:this.state.showEmail,password:this.state.showPassword})
     };
 
     render(){
-        const { classes  } = this.props;
+        const { classes ,errorMessage ,authSend} = this.props;
         return (
             <div ref={(input) => this.wrapper = input} className="wrapperClass">
                 <Card className={classes.card}>
@@ -142,8 +130,9 @@ class SimpleCard extends React.Component{
                             />
                         </div>
                         <div className="message">{this.state.message}</div>
+                        <div className="error-message">{errorMessage}</div>
                         <Button  size="large" color="primary"  className="login-button"
-                                 variant="contained" type="submit" label="Login" onClick={this.onSubmit}>Login</Button>
+                                 variant="contained" type="submit" label="Login" onClick={this.onSubmit.bind(this,authSend)}>Login</Button>
                     </CardContent>
                 </Card>
             </div>
@@ -155,6 +144,8 @@ class SimpleCard extends React.Component{
 SimpleCard.propTypes = {
     classes: PropTypes.object.isRequired,
 };
+
+// 从store里面取数据给组件
 const mapStateToProps=state=>{
     return {
         errorMessage: state.reducer.auth.error,
@@ -162,11 +153,4 @@ const mapStateToProps=state=>{
     }
 };
 
-// 动作的自动触发执行
-// const mapDispatchToProps=dispatch=>
-//     bindActionCreators(actions,dispatch);
-
-
-
-export default connect(mapStateToProps)(withStyles(styles)(SimpleCard));
-// export default withStyles(styles)(SimpleCard);
+export default connect(mapStateToProps,{authSend})(withStyles(styles)(SimpleCard));
