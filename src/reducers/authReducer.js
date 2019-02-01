@@ -2,15 +2,19 @@ import {
   AUTH_USER,
   SENT_AUTH,
   UNAUTH_USER,
-  AUTH_ERROR
+  AUTH_ERROR,
+  AUTH_VALIDATE,
+  UNAUTH_VALIDATE
 } from '../actions/types';
 
 export const INITIAL_STATE = {
   error: '',
   authenticated: false,
-  isAuthenticating: false
+  isAuthenticating: false,
+  isValidating:false
 };
 
+//专门用来登录验证的reducer
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
     case SENT_AUTH:
@@ -21,6 +25,10 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, authenticated: false, isAuthenticating: false };
     case AUTH_ERROR:
       return { ...state, error: action.payload, isAuthenticating: false };
+    case AUTH_VALIDATE:
+      return { ...state, isValidating:true};
+    case UNAUTH_VALIDATE:
+      return { ...state,isValidating:false};
     default:
       return state;
   }

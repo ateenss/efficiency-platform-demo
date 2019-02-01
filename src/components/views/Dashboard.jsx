@@ -32,9 +32,9 @@ class Dashboard extends React.Component {
             website:[],
             server:[],
             rightInfo:[],
-            bugsTaskIndexes:store.getState().reducer.bugsTaskIndexes,
-            websiteTaskIndexes:store.getState().reducer.websiteTaskIndexes,
-            serverTaskIndexes:store.getState().reducer.serverTaskIndexes
+            bugsTaskIndexes:store.getState().reducer.old.bugsTaskIndexes,
+            websiteTaskIndexes:store.getState().reducer.old.websiteTaskIndexes,
+            serverTaskIndexes:store.getState().reducer.old.serverTaskIndexes
         };
     }
 
@@ -48,25 +48,25 @@ class Dashboard extends React.Component {
   };
 
     getBugs= ()=>{
-        return store.getState().reducer.bugs;
+        return store.getState().reducer.old.bugs;
     };
     getServer= ()=>{
-        return store.getState().reducer.server;
+        return store.getState().reducer.old.server;
     };
     getWeb= ()=>{
-        return store.getState().reducer.website;
+        return store.getState().reducer.old.website;
     };
     getRightInfo = () =>{
         const newState=store.getState();
-        return newState.reducer.rightTableData;
+        return newState.reducer.old.rightTableData;
     };
     trySubScribe=()=>{
         store.subscribe(this.changeContent);
     };
     changeContent=()=>{
         this.setState({
-            bugs:store.getState().reducer.bugs,
-            rightInfo:store.getState().reducer.rightTableData
+            bugs:store.getState().reducer.old.bugs,
+            rightInfo:store.getState().reducer.old.rightTableData
         })
     };
     componentDidMount() {

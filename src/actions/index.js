@@ -9,28 +9,31 @@ import {
     FETCH_RECORDINGS,
     FETCHING_RECORDINGS,
     FETCH_ERROR,
-    TOGGLE_CONFIRM_LOGOUT
+    TOGGLE_CONFIRM_LOGOUT,
+    AUTH_VALIDATE,
+    UNAUTH_VALIDATE
 } from './types';
 
+//axios配置
+const config={
+    method: 'post'
+};
 
 
-
-
-export const LOGIN_ENDPOINT = 'http://localhost:8090/userTable/authContent';
-export const RECORDINGS_ENDPOINT = 'https://i2x-challenge.herokuapp.com/ai/recording/list/';
-
-
+export const LOGIN_ENDPOINT = 'http://172.20.182.141:8080/tiger-admin/user/login';
+const RECORDINGS_ENDPOINT='hha';
+//这里是登录验证的actions，名字需要更改
 // LOGIN ACTION
 export function loginUser({ email, password }) {
     console.log("loginuser被调用");
     console.log({ email, password });
-        console.log({ email, password });
+
     store.dispatch({ type: SENT_AUTH });
         // POST email and password to API endpoint
-        return axios.post(LOGIN_ENDPOINT, {email, password })
+        return axios.post(LOGIN_ENDPOINT, {"version":"1.0","data":{username:email, pwd:password} },config)
             .then(response => {
                 // If request is successful:
-
+                console.log("返回成功"+response.data.respCode);
                 // update state to authenticate user
                 store.dispatch({ type: AUTH_USER });
 
@@ -50,6 +53,13 @@ export function loginUser({ email, password }) {
                 });
             });
 
+}
+
+export function validate(){
+    store.dispatch({type:AUTH_VALIDATE})
+}
+export function Unvalidate(){
+    store.dispatch({type:UNAUTH_VALIDATE})
 }
 
 // LOGOUT ACTION

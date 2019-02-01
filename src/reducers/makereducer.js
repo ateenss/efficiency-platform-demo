@@ -1,6 +1,6 @@
 
 import $ from 'jquery';
-
+//这个是老reducer，dashboard用来获取数据的
 const initialState = {
     // bugs :[
     //     'Sign contract for "What are conference organizers afraid of?"',
