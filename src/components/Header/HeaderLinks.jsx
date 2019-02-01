@@ -18,6 +18,8 @@ import Search from "@material-ui/icons/Search";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 import Button from "../../components/CustomButtons/Button.jsx";
 
+import history from '../../history/history';
+
 import headerLinksStyle from "../../assets/jss/material-dashboard-react/components/headerLinksStyle.jsx";
 
 class HeaderLinks extends React.Component {
@@ -34,6 +36,10 @@ class HeaderLinks extends React.Component {
     }
 
     this.setState({ open: false });
+  };
+
+  handleLogout=()=>{
+      history.push('/logout');
   };
 
   render() {
@@ -138,7 +144,7 @@ class HeaderLinks extends React.Component {
                         Another Notification
                       </MenuItem>
                       <MenuItem
-                        onClick={this.handleClose}
+                        onClick={this.handleLogout}
                         className={classes.dropdownItem}
                       >
                         Another One
