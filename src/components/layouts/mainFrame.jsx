@@ -31,6 +31,14 @@ const switchRoutes = (
   </Switch>
 );
 
+// const switchRoutes = (
+//     <Switch>
+//       {routesChildren.map((prop, key) => {
+//         return <Route path={prop.path} component={prop.component} key={key} />;
+//       })}
+//     </Switch>
+// );
+
 class App extends React.Component {
   constructor(props) {
     super(props);

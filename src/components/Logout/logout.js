@@ -15,7 +15,7 @@ class Logout extends React.Component {
     render() {
         setTimeout(() => {
             history.push('/login');
-        }, 3000);
+        }, 1000);
         return (
             <div className="logout-wrapper">
                 <Card>

@@ -41,7 +41,9 @@ export function loginUser({ email, password }) {
                 localStorage.setItem('token', response.data.token);
 
                 // redirect to the route '/recordings'
-                history.push('/notifications');
+                history.push('/dashboard');
+                console.log("我是历史："+history);
+                console.log(history.location);
             })
             .catch(() => {
                 // If request fails
