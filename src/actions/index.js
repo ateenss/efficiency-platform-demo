@@ -37,17 +37,13 @@ export function loginUser({ email, password }) {
                 if (response.data.data.accessToken!=""&&response.data.data.accessToken!=undefined){
                     store.dispatch({ type: AUTH_USER });
                 }
-
+                console.log("调用成功");
 
                 // store JWT token
                 localStorage.setItem('token', response.data.data.accessToken);
 
                 // redirect to the route '/recordings'
                 history.push('/');
-                console.log("我是历史："+history);
-                console.log(history);
-                console.log(localStorage.getItem('token'));
-                console.log(history.location);
             })
             .catch(() => {
                 // If request fails

@@ -9,5 +9,3 @@ export const FETCH_ERROR = 'fetch_error';
 export const TOGGLE_CONFIRM_LOGOUT = 'confirm_logout';
 export const AUTH_VALIDATE = 'auth_validating';
 export const UNAUTH_VALIDATE = 'un_auth_validating';
-export const OPEN_PROTECTED = 'go_to_open';
-export const CLOSE_PROTECTED = 'go_to_close';

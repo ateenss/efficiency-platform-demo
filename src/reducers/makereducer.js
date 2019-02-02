@@ -70,7 +70,7 @@ export default function reducer(state=initialState,action) {
                     // console.log(newState.bugs);
                 },
                 error:function (qXHR, textStatus, errorThrown) {
-                    alert(qXHR.status + ' ' + qXHR.responseText+' '+textStatus+' '+errorThrown+"没能在后台拿到收据");
+                    console.log(qXHR.status + ' ' + qXHR.responseText+' '+textStatus+' '+errorThrown+"没能在后台拿到收据");
                     }
                 }
             );

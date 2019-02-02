@@ -1,9 +1,7 @@
 import React from 'react';
-import { Router, Route, Switch ,Redirect} from "react-router-dom";
-import mainFrame from "../components/layouts/mainFrame";
+import { Route,Redirect} from "react-router-dom";
 import indexRoutes from "../routes/index.jsx";
 import { connect } from 'react-redux';
-import MainFrame from "../index";
 class AuthenticatedComponent extends React.Component {
     constructor(props){
         super(props);
