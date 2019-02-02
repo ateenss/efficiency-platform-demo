@@ -31,13 +31,6 @@ const switchRoutes = (
   </Switch>
 );
 
-// const switchRoutes = (
-//     <Switch>
-//       {routesChildren.map((prop, key) => {
-//         return <Route path={prop.path} component={prop.component} key={key} />;
-//       })}
-//     </Switch>
-// );
 
 class App extends React.Component {
   constructor(props) {
@@ -51,9 +44,6 @@ class App extends React.Component {
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
-  getRoute() {
-    return this.props.location.pathname !== "/maps";
-  }
   resizeFunction() {
     if (window.innerWidth >= 960) {
       this.setState({ mobileOpen: false });

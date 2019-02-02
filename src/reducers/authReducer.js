@@ -4,14 +4,17 @@ import {
   UNAUTH_USER,
   AUTH_ERROR,
   AUTH_VALIDATE,
-  UNAUTH_VALIDATE
+  UNAUTH_VALIDATE,
+  OPEN_PROTECTED,
+  CLOSE_PROTECTED
 } from '../actions/types';
 
 export const INITIAL_STATE = {
   error: '',
   authenticated: false,
   isAuthenticating: false,
-  isValidating:false
+  isValidating:false,
+  isProtected:false
 };
 
 //专门用来登录验证的reducer
@@ -29,6 +32,10 @@ export default function(state = INITIAL_STATE, action) {
       return { ...state, isValidating:true};
     case UNAUTH_VALIDATE:
       return { ...state,isValidating:false};
+    case OPEN_PROTECTED:
+      return { ...state,isProtected:true};
+    case CLOSE_PROTECTED:
+      return { ...state,isProtected:false};
     default:
       return state;
   }
