@@ -11,6 +11,7 @@ import TaskEditor from "../Task/TaskEditor";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
+import Grid from '@material-ui/core/Grid'
 
 const styles = theme => ({
     root: {
@@ -55,7 +56,7 @@ class MyPage extends React.Component {
 
         return (
 
-            <div>
+            <Grid spacing={16} container>
                 <div className={classes.root}>
                     <AppBar position="static" color="default">
                         <Tabs value={this.state.value} onChange={this.handleChange}>
@@ -67,7 +68,7 @@ class MyPage extends React.Component {
                     {this.state.value === 1 && <div>2</div>}
                 </div>
                 <TaskEditor open={false}/>
-            </div>
+            </Grid>
         );
 
 
