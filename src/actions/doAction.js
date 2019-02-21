@@ -7,4 +7,8 @@ export const getInitial=()=>({
     type:"get_initial",
 });
 
+export const getDemandTasks=()=>({
+    type:"get_demand_tasks"
+})
+
 

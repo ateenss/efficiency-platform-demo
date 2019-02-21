@@ -1,14 +1,8 @@
 /*用来控制整个工程的全局属性*/
 
-.login-button {
-    position:relative;
-    left:25%;
-    top:30px
-}
-
 .message{
     position:relative;
-    left:10px;
+    left:0px;
     color: red;
 }
 
@@ -21,11 +15,15 @@
 .error-message{
     position:relative;
     top:10px;
-    left:10px;
+    left:0px;
     color: red;
 }
 
 .password-wrapper{
     position:relative;
     top:1px
+}
+
+body{
+    background: url("../src/assets/img/login/login.jpeg") no-repeat fixed;
 }

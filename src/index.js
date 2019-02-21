@@ -7,8 +7,8 @@ import "./assets/css/material-dashboard-react.css?v=1.5.0";
 import {Provider} from 'react-redux';
 import store from "./stores/index";
 import history from './history/history';
-import Login from './components/Login/login';
-import logout from './components/Logout/logout';
+import Login from './components/Authentication/Login';
+import logout from './components/Authentication/Logout';
 import AuthRoute from "./routes/authRoute";
 
 ReactDOM.render(

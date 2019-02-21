@@ -5,6 +5,9 @@ import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
+import 'react-quill/dist/quill.snow.css';
+
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
@@ -16,10 +19,8 @@ import routesChildren from "../../routes/routesChildren.jsx";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 
-import image from "../../assets/img/sidebar-2.jpg";
 import logo from "../../assets/img/reactlogo.png";
-import store from "../../stores/";
-import {getInitial} from "../../actions/doAction";
+import Reminder from "../common/Reminder"
 
 const switchRoutes = (
   <Switch>
@@ -32,10 +33,12 @@ const switchRoutes = (
 );
 
 
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
-    store.dispatch(getInitial());
+    // store.dispatch(getInitial());
     this.state = {
       mobileOpen: false
     };
@@ -74,10 +77,11 @@ class App extends React.Component {
           routes={routesChildren}
           logoText={"效率平台demo"}
           logo={logo}
-          image={image}
+          color="grey"
+          // image={image}
           handleDrawerToggle={this.handleDrawerToggle}
           open={this.state.mobileOpen}
-          color="blue"
+          width
           {...rest}
         />
         <div className={classes.mainPanel} ref="mainPanel">
@@ -91,8 +95,8 @@ class App extends React.Component {
               <div className={classes.container}>{switchRoutes}</div>
             </div>
           ) }
-          { <Footer /> }
         </div>
+        <Reminder/>
       </div>
     );
   }

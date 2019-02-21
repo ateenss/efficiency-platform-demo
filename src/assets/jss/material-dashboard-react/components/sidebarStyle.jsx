@@ -8,7 +8,8 @@ import {
   infoColor,
   successColor,
   warningColor,
-  dangerColor
+  dangerColor,
+  grayColor
 } from "../../../../assets/jss/material-dashboard-react.jsx";
 
 const sidebarStyle = theme => ({
@@ -19,8 +20,9 @@ const sidebarStyle = theme => ({
     bottom: "0",
     left: "0",
     zIndex: "1",
-    ...boxShadow,
+    // ...boxShadow,
     width: drawerWidth,
+    background:"#FFFFF",
     [theme.breakpoints.up("md")]: {
       width: drawerWidth,
       position: "fixed",
@@ -73,7 +75,7 @@ const sidebarStyle = theme => ({
     textDecoration: "none",
     backgroundColor: "transparent",
     "&,&:hover": {
-      color: "#FFFFFF"
+      color: "#121212"
     }
   },
   logoImage: {
@@ -148,17 +150,17 @@ const sidebarStyle = theme => ({
     marginRight: "15px",
     textAlign: "center",
     verticalAlign: "middle",
-    color: "rgba(255, 255, 255, 0.8)"
+    color: "rgba(64, 64, 64, 0.8)"
   },
   itemText: {
     ...defaultFont,
     margin: "0",
     lineHeight: "30px",
     fontSize: "14px",
-    color: "#FFFFFF"
+    color: "#121212"
   },
   whiteFont: {
-    color: "#FFFFFF"
+    color: "#121212"
   },
   purple: {
     backgroundColor: primaryColor,
@@ -208,6 +210,10 @@ const sidebarStyle = theme => ({
         "0 12px 20px -10px rgba(244,67,54,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(244,67,54,.2)"
     }
   },
+    grey: {
+        backgroundColor: "#f5f5f5",
+        boxShadow:"none"
+    },
   sidebarWrapper: {
     position: "relative",
     height: "calc(100vh - 75px)",
