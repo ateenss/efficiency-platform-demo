@@ -13,8 +13,53 @@ import Typography from "../components/views/Typography.jsx";
 import Icons from "../components/views/Icons.jsx";
 import NotificationsPage from "../components/views/Notifications.jsx";
 import MyPage from "../components/views/MyPage.jsx";
+import Project from "../components/views/Project.jsx";
+
+
 const dashboardRoutes = [
 
+  // {
+  //   path: "/user",
+  //   sidebarName: "User Profile",
+  //   navbarName: "Profile",
+  //   icon: Person,
+  //   component: UserProfile
+  // },
+  // {
+  //   path: "/dashboard",
+  //   sidebarName: "Dashboard",
+  //   navbarName: "Material Dashboard",
+  //   icon: Dashboard,
+  //   component: DashboardPage
+  // },
+  // {
+  //   path: "/table",
+  //   sidebarName: "Table List",
+  //   navbarName: "Table List",
+  //   icon: "content_paste",
+  //   component: TableList
+  // },
+  // {
+  //   path: "/typography",
+  //   sidebarName: "Typography",
+  //   navbarName: "Typography",
+  //   icon: LibraryBooks,
+  //   component: Typography
+  // },
+  // {
+  //   path: "/icons",
+  //   sidebarName: "Icons",
+  //   navbarName: "Icons",
+  //   icon: BubbleChart,
+  //   component: Icons
+  // },
+  {
+    path: "/project",
+    sidebarName: "项目",
+    navbarName: "项目",
+    icon: BubbleChart,
+    component: Project
+  },
   {
     path: "/my",
     sidebarName: "需求",
