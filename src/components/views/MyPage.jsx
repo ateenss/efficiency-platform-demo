@@ -67,7 +67,7 @@ class MyPage extends React.Component {
                     {this.state.value === 0 && <div>{demandsComponents}</div>}
                     {this.state.value === 1 && <div>2</div>}
                 </div>
-                <TaskEditor open={false}/>
+                <TaskEditor open={true}/>
             </Grid>
         );
 

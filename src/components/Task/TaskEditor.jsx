@@ -60,7 +60,7 @@ class TaskEditor extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps, nextStatus) {
+   /* componentWillReceiveProps(nextProps, nextStatus) {
         if(nextProps.action === "saveTask"){
             this.setState({
                 openTask: nextProps.openTask
@@ -83,7 +83,7 @@ class TaskEditor extends React.Component {
             });
         }
 
-    }
+    }*/
 
     handleClose = () => {
         this.setState({openTask: false})

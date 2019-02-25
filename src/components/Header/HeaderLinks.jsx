@@ -19,12 +19,14 @@ import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 import Button from "../../components/CustomButtons/Button.jsx";
 
 import history from '../../history/history';
+import taskEditor from 'src/components/Task/TaskEditor.jsx';
 
 import headerLinksStyle from "../../assets/jss/material-dashboard-react/components/headerLinksStyle.jsx";
 
 class HeaderLinks extends React.Component {
   state = {
-    open: false
+    open: false,
+      popUpOpen: false
   };
   handleToggle = () => {
     this.setState(state => ({ open: !state.open }));
@@ -41,6 +43,15 @@ class HeaderLinks extends React.Component {
   handleLogout=()=>{
       history.push('/logout');
   };
+
+  handleClickClose=()=>{
+      this.setState({popUpOpen:false});
+  };
+    handleClickOpen = () => {
+        this.setState({
+            popUpOpen: true,
+        });
+    };
 
   render() {
     const { classes } = this.props;
@@ -156,6 +167,7 @@ class HeaderLinks extends React.Component {
             )}
           </Poppers>
         </div>
+          <taskEditor openTask={this.state.popUpOpen}/>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
