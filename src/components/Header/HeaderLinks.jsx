@@ -19,7 +19,8 @@ import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 import Button from "../../components/CustomButtons/Button.jsx";
 
 import history from '../../history/history';
-import taskEditor from 'src/components/Task/TaskEditor.jsx';
+// import taskEditor from 'src/components/Task/TaskEditor.jsx';
+import ProjectSubmit from '../experiment/ProjectSubmit.jsx';
 
 import headerLinksStyle from "../../assets/jss/material-dashboard-react/components/headerLinksStyle.jsx";
 
@@ -51,6 +52,7 @@ class HeaderLinks extends React.Component {
         this.setState({
             popUpOpen: true,
         });
+        console.log("我是调用工程弹出按钮");
     };
 
   render() {
@@ -149,7 +151,7 @@ class HeaderLinks extends React.Component {
                         You&apos;re now friend with Andrew
                       </MenuItem>
                       <MenuItem
-                        onClick={this.handleClose}
+                        onClick={this.handleClickOpen}
                         className={classes.dropdownItem}
                       >
                         Another Notification
@@ -167,7 +169,10 @@ class HeaderLinks extends React.Component {
             )}
           </Poppers>
         </div>
-          <taskEditor openTask={this.state.popUpOpen}/>
+          <ProjectSubmit
+              open={this.state.popUpOpen}
+              onClose={this.handleClickClose}
+          />
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
