@@ -14,6 +14,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid'
 
 import ProjectPanel from "../project/ProjectPanel"
+import BuildProject from "../BuildProject/BuildProjectMain"
 
 const styles = theme => ({
     root: {
@@ -27,6 +28,7 @@ class Project extends React.Component {
         super(props);
         this.state = {
             expanded: false,
+            popUpOpen:false,
             value: 0
         };
     }
@@ -35,7 +37,17 @@ class Project extends React.Component {
     handleChange = (event, newValue) => {
         this.setState({value: newValue});
     }
+    handleClickClose=()=>{
+        this.setState({popUpOpen:false});
+    };
 
+    handleClickOpen = () => {
+        console.log("我是调用工程弹出按钮");
+        this.setState({
+            popUpOpen: true,
+        });
+
+    };
     componentDidMount() {
 
         getDemandTasks();
@@ -60,11 +72,15 @@ class Project extends React.Component {
                         <Grid xs={3} item><ProjectPanel name="全渠道" desc="2019年项目"/></Grid>
                         <Grid xs={3} item><ProjectPanel name="二维码" desc="2019年项目"/></Grid>
 
-                        <Grid xs={3} item><ProjectPanel name="创建新项目" desc="2019年项目"/></Grid>
+                        <Grid xs={3} item><ProjectPanel name="创建新项目" desc="2019年项目" onClick={this.handleClickOpen}/></Grid>
                     </Grid>
                     }
                     {this.state.value === 1 && <div>2</div>}
                 </div>
+                <BuildProject
+                    open={this.state.popUpOpen}
+                    onClose={this.handleClickClose}
+                />
                 <TaskEditor open={false}/>
             </Grid>
         );

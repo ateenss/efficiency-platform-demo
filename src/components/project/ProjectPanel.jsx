@@ -116,7 +116,7 @@ class ProjectPanel extends React.Component {
     }
 
     render() {
-        const {classes, name, desc} = this.props;
+        const {classes, name, desc,onClick} = this.props;
         return (
             <ButtonBase
                 focusRipple
@@ -126,7 +126,7 @@ class ProjectPanel extends React.Component {
                 style={{
                     width: image.width,
                 }}
-                onClick={this.handleClick}
+                onClick={onClick}
                 name="1"
             >
           <span
