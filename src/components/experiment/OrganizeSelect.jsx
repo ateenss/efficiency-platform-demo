@@ -181,17 +181,43 @@ const components = {
     ValueContainer,
 };
 
+const orderOptions = (values) => {
+    return values.filter((v) => v.isFixed).concat(values.filter((v) => !v.isFixed));
+};
+
 class IntegrationReactSelect extends React.Component {
+
     state = {
         single: null,
         multi: null,
+        selectData:null,
+        value: orderOptions(suggestions)
     };
 
     handleChange = name => value => {
         this.setState({
             [name]: value,
         });
+        console.log(value);
     };
+
+    onChange (value, { action, removedValue }) {
+        switch (action) {
+            case 'remove-value':
+            case 'pop-value':
+                if (removedValue.isFixed) {
+                    return;
+                }
+                break;
+            case 'clear':
+                console.log("我是清除");
+                break;
+        }
+
+        value = orderOptions(value);
+        this.setState({ value: value });
+    }
+
 
     render() {
         const { classes, theme } = this.props;
@@ -223,12 +249,14 @@ class IntegrationReactSelect extends React.Component {
                         components={components}
                         value={this.state.multi}
                         onChange={this.handleChange('multi')}
+                        // onChange={this.onChange}
                         placeholder="请选择相关组织架构"
-                        isMulti
+                        // isMulti
                     />
                 </NoSsr>
             </div>
         );
+
     }
 }
 

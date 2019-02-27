@@ -14,11 +14,24 @@ import ReactQuill from "react-quill";
 import OrganizeSelect from "./OrganizeSelect.jsx";
 import {doSave} from "../../actions/experimentAction"
 import store from '../../stores/index';
+import NativeSelect from "../../components/experiment/NativeSelect"
+import Grid from '@material-ui/core/Grid';
+import NativeQuill from '../../components/experiment/NativeQuill'
+import MultiSubmit from "../../components/experiment/MultiSelect";
+import DataPicker from "../../components/experiment/DataPicker"
+import DesciptionInput from "../../components/experiment/DescriptionInput"
+
 const styles = {
     avatar: {
         backgroundColor: blue[100],
         color: blue[600],
     },
+    buttonStyle:{
+        textAlign: 'center',
+        position: 'absolute',
+        right: 0,
+    }
+
 };
 
 class ProjectPopup extends React.Component {
@@ -27,8 +40,10 @@ class ProjectPopup extends React.Component {
         this.state = {
             openTask: false,
             name: "",
-            description: "",
-            organize: ""
+            organize: [],
+            taskContent:"",
+            quillContent:null,
+            MultiSelectContent:[]
         }
     }
     handleClose = () => {
@@ -36,54 +51,95 @@ class ProjectPopup extends React.Component {
     };
     handleSave=()=>{
         this.props.onClose(this.props.selectedValue);
-        store.dispatch(doSave(this.state.name));
+        store.dispatch(doSave({name:this.state.name,description: this.state.quillContent,organize:this.state.organize}));
     };
 
-
-
-
-    handleListItemClick = value => {
-        this.props.onClose(value);
+    reactQuillContent=e=>{
+        console.log(e.target)
     };
 
-    onBLUR=e=>{
+    getProjectName=e=>{
         console.log(e.target.value);
         this.setState({
             name:e.target.value
         })
     };
 
+    nativeSelectContent = (selectedOption) => {
+        this.setState({
+            selectedOption
+        });
+        console.log(`Option selected:`, selectedOption);
+        // if selection change, send request to server => get response as new options.
+    };
+
+    getQuillContent=content=>{
+        console.log(content);
+        this.setState({
+            quillContent:content
+        })
+    };
+
+    getMultiSelectContent=content=>{
+        console.log(content);
+        this.setState({
+            MultiSelectContent:content
+        })
+    };
+
     render() {
-        const {classes, onClose, selectedValue, ...other} = this.props;
+        const {classes, onClose, selectedValue,buttonStyle, ...other} = this.props;
 
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
+                    <Grid container spacing={24}>
+                        <Grid item xs={6}>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
                         label="项目名称"
                         type="email"
-                        onChange={this.onBLUR}
+                        onChange={this.getProjectName}
                     />
-                    <Typography className={classes.quillLabel}
-                                color="primary"
-                                variant="h3">
-                        描述
-                    </Typography>
-                    <ReactQuill value={this.state.taskContent||''} theme="snow"
-                                className={classes.quillContainer}
-                                onChange={this.handleChange}/>
-
-                    <OrganizeSelect/>
-                    <DialogContentText>
-                        To subscribe to this website.
-                    </DialogContentText>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Typography className={classes.quillLabel}>
+                                react-quill描述
+                            </Typography>
+                            <ReactQuill value={this.state.taskContent} theme="snow"
+                                        className={classes.quillContainer}
+                                        onChange={this.reactQuillContent}/>
+                            <Typography className={classes.quillLabel}>
+                                原生quill描述
+                            </Typography>
+                            <NativeQuill onChange={this.getQuillContent}/>
+                        </Grid>
+                        {/*<OrganizeSelect onChange={this.onSelectChang}/>*/}
+                        <Grid item xs={10}>
+                            <Typography className={classes.quillLabel}>
+                                原生select
+                            </Typography>
+                            <NativeSelect onChange={this.nativeSelectContent}/>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <Typography className={classes.quillLabel}>
+                                material-ui多选select
+                            </Typography>
+                            <MultiSubmit onChange={this.getMultiSelectContent}/>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <DataPicker/>
+                        </Grid>
+                        <Grid item xs={10}>
+                            <DesciptionInput/>
+                        </Grid>
+                    </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.handleClose} color="primary">
+                    <Button onClick={this.handleClose} color="primary" className={buttonStyle}>
                         重置
                     </Button>
                     <Button onClick={this.handleSave} color="primary">
