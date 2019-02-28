@@ -84,7 +84,7 @@ class Project extends React.Component {
                     <ExpansionPanelDetails>
                         <Grid spacing={40} container>
                             <Grid xs={3} item><ProjectPanel name="全渠道" desc="2019年项目"/></Grid>
-                            <Grid xs={3} item><ProjectPanel name="创建新项目" desc="2019年项目"/></Grid>
+                            <Grid xs={3} item><ProjectPanel name="创建新项目" desc="2019年项目" onClick={this.handleClickOpen}/></Grid>
                         </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>

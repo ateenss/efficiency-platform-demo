@@ -105,7 +105,7 @@ class ProjectPanel extends React.Component {
     };
 
     render() {
-        const {classes, name, desc} = this.props;
+        const {classes, name, desc,onClick} = this.props;
         return (
             <ButtonBase
                 ref={this.btnRef}
@@ -118,7 +118,7 @@ class ProjectPanel extends React.Component {
                 }}
                 // onClick={onClick}
                 name="1"
-                onClick={this.handleClick}
+                onClick={onClick}
                 projectid="1"
             >
           <span
