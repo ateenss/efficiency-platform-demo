@@ -2,23 +2,10 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-// @material-ui/icons
-import AddAlert from "@material-ui/icons/AddAlert";
-// core components
-import Grid from "@material-ui/core/Grid";
-import Collapse from '@material-ui/core/Collapse';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import IconButton from '@material-ui/core/IconButton';
-import classnames from 'classnames';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Chip from '@material-ui/core/Chip';
-import Card from '@material-ui/core/Card';
-import AddIcon from '@material-ui/icons/Add';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
+
+import {openProject} from "../../actions/ProjectPanelAction";
 
 const styles = theme => ({
     root: {
@@ -105,6 +92,7 @@ const image =
 class ProjectPanel extends React.Component {
     constructor(props) {
         super(props);
+        this.btnRef = React.createRef();
         this.state = {
             expanded: this.props.expanded
         };
@@ -112,13 +100,15 @@ class ProjectPanel extends React.Component {
 
     handleClick = (e) =>{
         // console.log(JSON.stringify(this));
-
-    }
+        console.log(this.btnRef.current.props.proejctid);
+        openProject(this.btnRef.current.props.proejctid);
+    };
 
     render() {
-        const {classes, name, desc,onClick} = this.props;
+        const {classes, name, desc} = this.props;
         return (
             <ButtonBase
+                ref={this.btnRef}
                 focusRipple
                 key={image.title}
                 className={classes.image}
@@ -126,8 +116,10 @@ class ProjectPanel extends React.Component {
                 style={{
                     width: image.width,
                 }}
-                onClick={onClick}
+                // onClick={onClick}
                 name="1"
+                onClick={this.handleClick}
+                projectid="1"
             >
           <span
               className={classes.imageSrc}

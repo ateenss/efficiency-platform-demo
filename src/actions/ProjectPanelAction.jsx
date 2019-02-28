@@ -2,8 +2,11 @@ import axios from 'axios';
 import history from '../history/history';
 import store from '../stores/index';
 import {
-    OPEN_PROJECT
+    OPEN_PROJECT,
+    SHOW_NOTIFICATION
 } from './types';
+import UrlConf from "../constants/UrlConf";
+import RequestBuilder from "../constants/RequestBuilder";
 
 //axios配置
 const config = {
@@ -14,13 +17,14 @@ const config = {
 export const LOGIN_ENDPOINT = 'http://localhost:8080/tiger-admin/user/login';
 //这里是登录验证的actions，名字需要更改
 // LOGIN ACTION
-export function openProject({username, password}) {
-    console.log("loginuser被调用");
-    console.log({username, password});
+export function openProject(id) {
+    console.log("openProject被调用");
 
-    store.dispatch({type: SENT_AUTH});
+
+    let accessToken = localStorage.getItem("accessToken");
+
     // POST username and password to API endpoint
-    return axios.post(LOGIN_ENDPOINT, {"version": "1.0", "data": {username: username, pwd: password}}, config)
+    return axios.post(UrlConf.project.openProject(), RequestBuilder.parseRequest(accessToken, {"projectId": id}), config)
         .then(response => {
 
             if (response.data.respCode !== "00") {
@@ -31,35 +35,13 @@ export function openProject({username, password}) {
                 return false;
             }
 
-            // If request is successful:
-            // update state to authenticate user
-            if (response.data.data.accessToken !== "" && response.data.data.accessToken !== undefined) {
-                store.dispatch({type: AUTH_USER});
-            }
-            console.log("调用成功");
-
-            // store JWT token
-            localStorage.setItem('token', response.data.data.accessToken);
-
             // redirect to the route '/recordings'
-            history.push('/');
+            history.push('/taskboard');
         })
         .catch(error => {
             // If request fails
             console.log("调用失败");
-            // update state to show error to user
-            store.dispatch({
-                type: AUTH_ERROR,
-                payload: 'Invalid credentials.'
-            });
+
         });
 
-}
-
-
-// LOGOUT ACTION
-export function logoutUser() {
-    localStorage.removeItem('token');
-
-    return {type: UNAUTH_USER};
 }

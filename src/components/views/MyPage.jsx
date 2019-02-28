@@ -61,11 +61,9 @@ class MyPage extends React.Component {
                     <AppBar position="static" color="default">
                         <Tabs value={this.state.value} onChange={this.handleChange}>
                             <Tab value={0} label="我的任务"/>
-                            <Tab value={1} label="需求任务"/>
                         </Tabs>
                     </AppBar>
                     {this.state.value === 0 && <div>{demandsComponents}</div>}
-                    {this.state.value === 1 && <div>2</div>}
                 </div>
                 <TaskEditor open={false}/>
             </Grid>

@@ -66,7 +66,7 @@ const options = [
 ;
 
 
-class Task extends React.Component {
+class DemandTask extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -100,4 +100,4 @@ class Task extends React.Component {
     }
 }
 
-export default withStyles(styles)(Task);
+export default withStyles(styles)(DemandTask);

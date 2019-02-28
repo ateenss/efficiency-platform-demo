@@ -16,7 +16,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
-import Task from '../Task/Task';
+import Task from '../Task/DemandTask';
 
 import Divider from "@material-ui/core/Divider"
 

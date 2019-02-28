@@ -21,6 +21,11 @@ const UrlConf = {
         saveTask:function(){
             return UrlConf.getUrl('task', 'saveTask')
         }
+    },
+    project : {
+        openProject : function(){
+            return UrlConf.getUrl('project', "openProject")
+        }
     }
 };
 

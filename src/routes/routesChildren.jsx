@@ -14,6 +14,7 @@ import Icons from "../components/views/Icons.jsx";
 import NotificationsPage from "../components/views/Notifications.jsx";
 import MyPage from "../components/views/MyPage.jsx";
 import Project from "../components/views/Project.jsx";
+import TaskBoard from "../components/views/TaskBoard.jsx";
 
 
 const dashboardRoutes = [
@@ -39,20 +40,6 @@ const dashboardRoutes = [
   //   icon: "content_paste",
   //   component: TableList
   // },
-  // {
-  //   path: "/typography",
-  //   sidebarName: "Typography",
-  //   navbarName: "Typography",
-  //   icon: LibraryBooks,
-  //   component: Typography
-  // },
-  // {
-  //   path: "/icons",
-  //   sidebarName: "Icons",
-  //   navbarName: "Icons",
-  //   icon: BubbleChart,
-  //   component: Icons
-  // },
   {
     path: "/project",
     sidebarName: "项目",
@@ -61,13 +48,28 @@ const dashboardRoutes = [
     component: Project
   },
   {
-    path: "/my",
-    sidebarName: "需求",
-    navbarName: "我的需求",
-    icon: Notifications,
-    component: MyPage
+    path: "/taskboard",
+    sidebarName: "我的任务",
+    navbarName: "我的任务",
+    icon: LibraryBooks,
+    component: TaskBoard
   },
-  { redirect: true, path: "/", to: "/my", navbarName: "Redirect" }
+  // {
+  //   path: "/icons",
+  //   sidebarName: "Icons",
+  //   navbarName: "Icons",
+  //   icon: BubbleChart,
+  //   component: Icons
+  // },
+  //
+  // {
+  //   path: "/my",
+  //   sidebarName: "需求",
+  //   navbarName: "我的需求",
+  //   icon: Notifications,
+  //   component: MyPage
+  // },
+  { redirect: true, path: "/", to: "/project", navbarName: "Redirect" }
 ];
 
 export default dashboardRoutes;
