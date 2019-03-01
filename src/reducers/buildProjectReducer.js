@@ -9,13 +9,10 @@ export const INITIAL_STATE = {
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case "edit_save":
-            // state.tableData.push(action.value);
             console.log("以下是我做的检验");
-            // console.log(state.MuitableData);
-            const tempData=state.MuitableData;
-            tempData.push(action.value);
-            console.log(tempData);
-            return {MuitableData:tempData};
+            const newState=JSON.parse(JSON.stringify(state));
+            newState.MuitableData.push(action.value);
+            return newState;
         default:
             return state;
     }
