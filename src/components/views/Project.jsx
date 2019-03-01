@@ -21,7 +21,6 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
-import NativeTable from "../../components/BuildProject/NativeTable"
 import MuiTable from "../../components/BuildProject/MuiTable"
 
 
@@ -104,7 +103,6 @@ class Project extends React.Component {
                     open={this.state.popUpOpen}
                     onClose={this.handleClickClose}
                 />
-               {/* <NativeTable/>*/}
                 <MuiTable/>
             </div>
         );

@@ -9,11 +9,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
 import {editSave} from "../../actions/BuildProjectAction"
-// import {doSave} from "../../actions/experimentAction"
 import store from '../../stores/index';
-import NativeSelect from "./NativeSelect"
 import Grid from '@material-ui/core/Grid';
 import NativeQuill from './NativeQuill'
 import MultiSubmit from "./MultiSelect";
@@ -67,13 +65,7 @@ class ProjectPopup extends React.Component {
         })
     };
 
-    /*nativeSelectContent = (selectedOption) => {
-        this.setState({
-            selectedOption
-        });
-        console.log(`Option selected:`, selectedOption);
-        // if selection change, send request to server => get response as new options.
-    };*/
+
 
     getQuillContent=content=>{
         // console.log(content);
@@ -122,22 +114,14 @@ class ProjectPopup extends React.Component {
                         </Grid>
                         <Grid item xs={10}>
                             <Typography className={classes.quillLabel}>
-                                react-quill描述
-                            </Typography>
-                            {/*<ReactQuill value={this.state.taskContent} theme="snow"
-                                        lassName={classes.quillContainer}
-                                        onChange={this.reactQuillContent}/>*/}
-                            <Typography className={classes.quillLabel}>
                                 原生quill描述
                             </Typography>
                             <NativeQuill onChange={this.getQuillContent}/>
                         </Grid>
-                        {/*<OrganizeSelect onChange={this.onSelectChang}/>*/}
                         <Grid item xs={10}>
                             <Typography className={classes.quillLabel}>
                                 原生select
                             </Typography>
-                           {/* <NativeSelect onChange={this.nativeSelectContent}/>*/}
                         </Grid>
                         <Grid item xs={10}>
                             <Typography className={classes.quillLabel}>
