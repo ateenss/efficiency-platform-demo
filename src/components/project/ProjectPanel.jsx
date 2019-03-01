@@ -116,9 +116,9 @@ class ProjectPanel extends React.Component {
                 style={{
                     width: image.width,
                 }}
-                // onClick={onClick}
-                name="1"
                 onClick={onClick}
+                name="1"
+                // onClick={this.handleClick}
                 projectid="1"
             >
           <span

@@ -20,24 +20,6 @@ const styles = theme => ({
     },
 });
 
-const currencies = [
-    {
-        value: 'USD',
-        label: '$',
-    },
-    {
-        value: 'EUR',
-        label: '€',
-    },
-    {
-        value: 'BTC',
-        label: '฿',
-    },
-    {
-        value: 'JPY',
-        label: '¥',
-    },
-];
 
 class OutlinedTextFields extends React.Component {
     state = {
@@ -54,7 +36,7 @@ class OutlinedTextFields extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes,onChange } = this.props;
 
         return (
             <form className={classes.container} noValidate autoComplete="off">
@@ -70,6 +52,7 @@ class OutlinedTextFields extends React.Component {
                     InputLabelProps={{
                         shrink: true,
                     }}
+                    onChange={onChange}
                 />
 
             </form>

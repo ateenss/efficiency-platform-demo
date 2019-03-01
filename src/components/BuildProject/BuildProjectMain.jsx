@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ReactQuill from "react-quill";
+import {editSave} from "../../actions/BuildProjectAction"
 // import {doSave} from "../../actions/experimentAction"
 import store from '../../stores/index';
 import NativeSelect from "./NativeSelect"
@@ -39,9 +40,9 @@ class ProjectPopup extends React.Component {
             openTask: false,
             name: "",
             organize: [],
-            taskContent:"",
             quillContent:null,
-            MultiSelectContent:[]
+            time:null,
+            description:null
         }
     }
     handleClose = () => {
@@ -49,7 +50,10 @@ class ProjectPopup extends React.Component {
     };
     handleSave=()=>{
         this.props.onClose(this.props.selectedValue);
-        // store.dispatch(doSave({name:this.state.name,description: this.state.quillContent,organize:this.state.organize}));
+        const dataTable=[];
+        dataTable.push(this.state.name,this.state.time,this.state.description,this.state.organize,this.state.quillContent);
+        console.log(dataTable);
+        store.dispatch(editSave(dataTable));
     };
 
     reactQuillContent=e=>{
@@ -57,31 +61,44 @@ class ProjectPopup extends React.Component {
     };
 
     getProjectName=e=>{
-        console.log(e.target.value);
+        // console.log(e.target.value);
         this.setState({
             name:e.target.value
         })
     };
 
-    nativeSelectContent = (selectedOption) => {
+    /*nativeSelectContent = (selectedOption) => {
         this.setState({
             selectedOption
         });
         console.log(`Option selected:`, selectedOption);
         // if selection change, send request to server => get response as new options.
-    };
+    };*/
 
     getQuillContent=content=>{
-        console.log(content);
+        // console.log(content);
         this.setState({
             quillContent:content
         })
     };
 
     getMultiSelectContent=content=>{
-        console.log(content);
+        // console.log(content);
         this.setState({
-            MultiSelectContent:content
+            organize:content.toString()
+        })
+    };
+
+    getTime=e=>{
+        // console.log(e);
+        this.setState({
+            time:e.toString()
+        })
+    };
+    getDescriContent=e=>{
+        // console.log(e.target.value);
+        this.setState({
+            description:e.target.value
         })
     };
 
@@ -107,9 +124,9 @@ class ProjectPopup extends React.Component {
                             <Typography className={classes.quillLabel}>
                                 react-quill描述
                             </Typography>
-                            <ReactQuill value={this.state.taskContent} theme="snow"
-                                        className={classes.quillContainer}
-                                        onChange={this.reactQuillContent}/>
+                            {/*<ReactQuill value={this.state.taskContent} theme="snow"
+                                        lassName={classes.quillContainer}
+                                        onChange={this.reactQuillContent}/>*/}
                             <Typography className={classes.quillLabel}>
                                 原生quill描述
                             </Typography>
@@ -120,7 +137,7 @@ class ProjectPopup extends React.Component {
                             <Typography className={classes.quillLabel}>
                                 原生select
                             </Typography>
-                            <NativeSelect onChange={this.nativeSelectContent}/>
+                           {/* <NativeSelect onChange={this.nativeSelectContent}/>*/}
                         </Grid>
                         <Grid item xs={10}>
                             <Typography className={classes.quillLabel}>
@@ -129,10 +146,10 @@ class ProjectPopup extends React.Component {
                             <MultiSubmit onChange={this.getMultiSelectContent}/>
                         </Grid>
                         <Grid item xs={10}>
-                            <DataPicker/>
+                            <DataPicker onChange={this.getTime}/>
                         </Grid>
                         <Grid item xs={10}>
-                            <DesciptionInput/>
+                            <DesciptionInput onChange={this.getDescriContent}/>
                         </Grid>
                     </Grid>
                 </DialogContent>
