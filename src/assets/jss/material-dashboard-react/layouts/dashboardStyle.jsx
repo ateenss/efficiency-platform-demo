@@ -20,7 +20,8 @@ const appStyle = theme => ({
     ...transition,
     maxHeight: "100%",
     width: "100%",
-    overflowScrolling: "touch"
+    overflowScrolling: "touch",
+    paddingTop:"10px"
   },
   content: {
     marginTop: "70px",
@@ -30,6 +31,9 @@ const appStyle = theme => ({
   container,
   map: {
     marginTop: "70px"
+  },
+  headerCss:{
+    backgroundColor:"#FFFFFF !important"
   }
 });
 

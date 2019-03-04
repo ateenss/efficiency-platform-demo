@@ -20,6 +20,9 @@ const UrlConf = {
         },
         saveTask:function(){
             return UrlConf.getUrl('task', 'saveTask')
+        },
+        getDemand:function(){
+            return UrlConf.getUrl('task', 'getDemand')
         }
     },
     project : {

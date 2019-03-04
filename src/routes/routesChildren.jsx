@@ -15,61 +15,63 @@ import NotificationsPage from "../components/views/Notifications.jsx";
 import MyPage from "../components/views/MyPage.jsx";
 import Project from "../components/views/Project.jsx";
 import TaskBoard from "../components/views/TaskBoard.jsx";
+import DemandBoard from "../components/views/DemandBoard";
 
 
 const dashboardRoutes = [
 
-  // {
-  //   path: "/user",
-  //   sidebarName: "User Profile",
-  //   navbarName: "Profile",
-  //   icon: Person,
-  //   component: UserProfile
-  // },
-  // {
-  //   path: "/dashboard",
-  //   sidebarName: "Dashboard",
-  //   navbarName: "Material Dashboard",
-  //   icon: Dashboard,
-  //   component: DashboardPage
-  // },
-  // {
-  //   path: "/table",
-  //   sidebarName: "Table List",
-  //   navbarName: "Table List",
-  //   icon: "content_paste",
-  //   component: TableList
-  // },
-  {
-    path: "/project",
-    sidebarName: "项目",
-    navbarName: "项目",
-    icon: BubbleChart,
-    component: Project
-  },
-  {
-    path: "/taskboard",
-    sidebarName: "我的任务",
-    navbarName: "我的任务",
-    icon: LibraryBooks,
-    component: TaskBoard
-  },
-  // {
-  //   path: "/icons",
-  //   sidebarName: "Icons",
-  //   navbarName: "Icons",
-  //   icon: BubbleChart,
-  //   component: Icons
-  // },
-  //
-  // {
-  //   path: "/my",
-  //   sidebarName: "需求",
-  //   navbarName: "我的需求",
-  //   icon: Notifications,
-  //   component: MyPage
-  // },
-  { redirect: true, path: "/", to: "/project", navbarName: "Redirect" }
+    // {
+    //   path: "/user",
+    //   sidebarName: "User Profile",
+    //   navbarName: "Profile",
+    //   icon: Person,
+    //   component: UserProfile
+    // },
+    // {
+    //   path: "/dashboard",
+    //   sidebarName: "Dashboard",
+    //   navbarName: "Material Dashboard",
+    //   icon: Dashboard,
+    //   component: DashboardPage
+    // },
+    // {
+    //   path: "/table",
+    //   sidebarName: "Table List",
+    //   navbarName: "Table List",
+    //   icon: "content_paste",
+    //   component: TableList
+    // },
+    {
+        path: "/project",
+        sidebarName: "项目",
+        navbarName: "项目",
+        icon: BubbleChart,
+        component: Project
+    },
+    {
+        path: "/taskboard",
+        sidebarName: "我的任务",
+        navbarName: "我的任务",
+        icon: LibraryBooks,
+        component: TaskBoard
+    },
+    {
+        path: "/demands",
+        sidebarName: "需求",
+        navbarName: "需求",
+        icon: BubbleChart,
+        component: DemandBoard
+    },
+
+    {
+        path: "/task/my",
+        sidebarName: "需求",
+        navbarName: "我的需求",
+        icon: Notifications,
+        component: MyPage,
+        hide: true
+    },
+    {redirect: true, path: "/", to: "/project", navbarName: "Redirect"}
 ];
 
 export default dashboardRoutes;

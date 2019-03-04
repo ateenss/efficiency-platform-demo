@@ -11,6 +11,7 @@ import classnames from 'classnames';
 import {changeTaskStatus} from "../../actions/DemandTasksAction";
 import {editTask} from "../../actions/DemandTasksAction";
 
+import {Link, NavLink, Route} from 'react-router-dom'
 
 import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
@@ -22,6 +23,8 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import ShareIcon from '@material-ui/icons/ArrowForward';
 import history from "../../history/history";
+import MyPage from "../views/MyPage.jsx";
+import {Home} from "@material-ui/icons";
 
 
 const styles = theme => ({
@@ -108,12 +111,12 @@ class Task extends React.Component {
 
 
     handleClick = () =>{
-      history.push('/demandTask?id='+this.btnRef.current.props.taskid);
-
+      console.log(333);
     };
 
     render() {
         const {classes} = this.props;
+        const MyLink = props => <Link to="/task/my" {...props}/>
 
         return (
             <Grid xs={3} item>
@@ -142,12 +145,12 @@ class Task extends React.Component {
                     <CardActions className={classes.actions} disableActionSpacing>
                         <Grid container justify="flex-end">
                             <Grid item>
-                                <IconButton aria-label="edit">
+                                <IconButton aria-label="edit" onClick={this.handleClick}>
                                     <EditIcon/>
                                 </IconButton>
                             </Grid>
                             <Grid item>
-                            <IconButton aria-label="详情" taskid="1" onClick={this.handleClick} ref={this.btnRef}>
+                            <IconButton aria-label="详情" taskid="1" component={MyLink} ref={this.btnRef}>
                                 <ShareIcon />
                             </IconButton>
                             </Grid>
@@ -155,8 +158,6 @@ class Task extends React.Component {
 
                     </CardActions>
                 </Card>
-
-
 
             </Grid>
 

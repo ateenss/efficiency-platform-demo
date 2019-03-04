@@ -99,7 +99,7 @@ class ProjectPanel extends React.Component {
     }
 
     handleClick = (e) =>{
-        // console.log(JSON.stringify(this));
+        e.preventDefault()
         console.log(this.btnRef.current.props.proejctid);
         openProject(this.btnRef.current.props.proejctid);
     };
@@ -118,7 +118,7 @@ class ProjectPanel extends React.Component {
                 }}
                 onClick={onClick}
                 name="1"
-                // onClick={this.handleClick}
+                onClick={this.handleClick}
                 projectid="1"
             >
           <span

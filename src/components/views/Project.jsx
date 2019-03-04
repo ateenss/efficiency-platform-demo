@@ -3,14 +3,8 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import Demand from '../demand/Demand';
 import {getDemandTasks} from '../../actions/DemandTasksAction';
 import {connect} from "react-redux";
-
-import TaskEditor from "../Task/TaskEditor";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid'
 
 import ProjectPanel from "../project/ProjectPanel"
@@ -21,16 +15,19 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
-import MuiTable from "../../components/BuildProject/MuiTable"
-
-
+import Button from "@material-ui/core/Button";
+import Icon from '@material-ui/core/Icon';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from '@material-ui/core/Tooltip';
+import MuiTable from '../BuildProject/MuiTable'
 
 const styles = theme => ({
     root: {
         width: '100%',
     },
     heading: {
-        fontSize: theme.typography.pxToRem(15),
+        fontSize: theme.typography.pxToRem(20),
         fontWeight: theme.typography.fontWeightMedium,
     },
     fab: {
@@ -39,6 +36,23 @@ const styles = theme => ({
     extendedIcon: {
         marginRight: theme.spacing.unit,
     },
+    margin: {
+        padding: "3px"
+    },
+    rightIcon: {
+        marginLeft: theme.spacing.unit,
+    },
+    createProject: {
+        width: "100%",
+        height: "100%",
+        borderRadius: "0",
+        boxShadow: "none",
+        background: "rgba(199, 199, 199, 0.65)",
+        color: "#FFFFFF"
+    },
+    addIcon: {
+        fontSize: "42px"
+    }
 });
 
 class Project extends React.Component {
@@ -46,7 +60,7 @@ class Project extends React.Component {
         super(props);
         this.state = {
             expanded: false,
-            popUpOpen:false,
+            popUpOpen: false,
             value: 0
         };
     }
@@ -55,17 +69,21 @@ class Project extends React.Component {
     handleChange = (event, newValue) => {
         this.setState({value: newValue});
     }
-    handleClickClose=()=>{
-        this.setState({popUpOpen:false});
+    handleClickClose = () => {
+        this.setState({popUpOpen: false});
     };
 
-    handleClickOpen = () => {
+    handleClickOpen = (e) => {
+        e.stopPropagation()
+        e.preventDefault();
         console.log("我是调用工程弹出按钮");
         this.setState({
             popUpOpen: true,
         });
+        return false;
 
     };
+
     componentDidMount() {
 
         getDemandTasks();
@@ -79,13 +97,22 @@ class Project extends React.Component {
 
             <div className={classes.root}>
                 <ExpansionPanel defaultExpanded={true}>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>我当前的项目</Typography>
+
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <Grid spacing={40} container>
                             <Grid xs={3} item><ProjectPanel name="全渠道" desc="2019年项目"/></Grid>
-                            <Grid xs={3} item><ProjectPanel name="创建新项目" desc="2019年项目" onClick={this.handleClickOpen}/></Grid>
+                            <Grid xs={3} item>
+                                <Tooltip title="创建新项目" aria-label="创建新项目" placement="right-start">
+
+                                <Button variant="fab" color="link" className={classes.createProject}
+                                        onClick={this.handleClickOpen}>
+                                    <AddIcon className={classes.addIcon}/>
+                                </Button>
+                                </Tooltip>
+                            </Grid>
                         </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
@@ -103,7 +130,7 @@ class Project extends React.Component {
                     open={this.state.popUpOpen}
                     onClose={this.handleClickClose}
                 />
-                <MuiTable/>
+               {/* <NativeTable/>*/}
             </div>
         );
 

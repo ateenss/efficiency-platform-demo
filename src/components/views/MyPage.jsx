@@ -3,7 +3,7 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import Demand from '../demand/Demand';
+import Demand from '../TaskBoard/DemandTaskDetail';
 import {getDemandTasks} from '../../actions/DemandTasksAction';
 import {connect} from "react-redux";
 

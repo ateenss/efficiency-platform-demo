@@ -1,25 +1,26 @@
 import React from 'react';
-import { Route,Redirect} from "react-router-dom";
+import {Route, Redirect} from "react-router-dom";
 import indexRoutes from "../routes/index.jsx";
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+
 class AuthenticatedComponent extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
     render() {
-        const {authenticated}=this.props;
+        const {authenticated} = this.props;
         let token = localStorage.getItem('token');
         // let link=(<Redirect to="/login" />);
-       /* if (authenticated || !!token) {
-            link=(indexRoutes.map((prop, key) => {
-                    return <Route path={prop.path} component={prop.component} key={key} />;
-                }))
-        }*/
-        let link=(indexRoutes.map((prop, key) => {
-                         return <Route path={prop.path} component={prop.component} key={key} />;
-                    }));
-        return(
+        /* if (authenticated || !!token) {
+             link=(indexRoutes.map((prop, key) => {
+                     return <Route path={prop.path} component={prop.component} key={key} />;
+                 }))
+         }*/
+        let link = (indexRoutes.map((prop, key) => {
+            return <Route path={prop.path} component={prop.component} key={key}/>;
+        }));
+        return (
             <div>
                 {link}
             </div>
@@ -27,7 +28,7 @@ class AuthenticatedComponent extends React.Component {
     }
 }
 
-const mapStateToProps=state=>{
+const mapStateToProps = state => {
     return {
         authenticated: state.reducer.auth.authenticated,
     }

@@ -4,7 +4,8 @@ import {
     GET_DEMAND_TASKS,
     CHANGE_TASK_STATUS,
     GET_TASK,
-    SAVE_TASK
+    SAVE_TASK,
+    GET_DEMAND
 } from './types';
 
 import UrlConf from '../constants/UrlConf'
@@ -153,4 +154,37 @@ console.log("saveTask:"+JSON.stringify(data));
             // });
         });
 
+}
+
+
+export function editDemand(demandId) {
+    console.log("editDemand");
+
+    let accessToken = localStorage.getItem("accessToken");
+    return axios.post(UrlConf.task.getDemand(), RequestBuilder.parseRequest(accessToken, {"demandId": demandId}), config)
+        .then(response => {
+
+
+            if (response.data.respCode !== "00") {
+
+            }
+
+            let data = response.data.data;
+
+            store.dispatch({
+                type: GET_DEMAND,
+                payload: data
+            });
+
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("调用失败");
+            // update state to show error to user
+            // store.dispatch({
+            //     type: AUTH_ERROR,
+            //     payload: 'Invalid credentials.'
+            // });
+        });
 }

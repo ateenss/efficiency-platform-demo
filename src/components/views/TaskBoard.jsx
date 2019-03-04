@@ -21,6 +21,8 @@ import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
+import Badge from "@material-ui/core/Badge";
+import Chip from "@material-ui/core/Chip";
 
 const styles = theme => ({
     root: {
@@ -37,8 +39,11 @@ const styles = theme => ({
         marginRight: theme.spacing.unit,
     },
     header: {
-        // boxShadow: "none"
-    }
+        boxShadow: "none",
+    },
+    margin: {
+        margin: theme.spacing.unit * 2,
+    },
 });
 
 const tasks = [{
@@ -128,7 +133,7 @@ class TaskBoard extends React.Component {
         const sideList = (
             <div className={classes.list}>
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    {['进行中', '已完成'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
                             <ListItemText primary={text}/>
@@ -137,7 +142,7 @@ class TaskBoard extends React.Component {
                 </List>
                 <Divider/>
                 <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                    {['需求任务', '开发任务', '个人任务'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
                             <ListItemText primary={text}/>
@@ -147,36 +152,33 @@ class TaskBoard extends React.Component {
             </div>
         );
 
-        const fullList = (
-            <div className={classes.fullList}>
-                <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={text}/>
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider/>
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={text}/>
-                        </ListItem>
-                    ))}
-                </List>
-            </div>
-        );
+
         return (
 
             <Grid container className={classes.root} spacing={16}>
 
                 <Grid item xs={12}>
                     <AppBar className={classes.header} position="static" color="default">
-                        <Toolbar variant="dense">
-                            <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>
-                        </Toolbar>
+                        <Grid container spacing={16}>
+                            <Grid item xs={1}>
+                                <Badge className={classes.margin} badgeContent={4} color="secondary">
+                                    <Chip label="进行中" className={classes.chip} variant="default"
+                                          style={{background: "#FFFFFF", color: "#121212"}}/>
+                                </Badge>
+                            </Grid>
+                            <Grid item xs={1}>
+                                <Badge className={classes.margin} badgeContent={4} color="secondary">
+                                    <Chip label="已完成" className={classes.chip} variant="default"
+                                          style={{background: "#FFFFFF", color: "#121212"}}/>
+                                </Badge>
+                            </Grid>
+                            <Grid item xs={9}></Grid>
+                            <Grid item xs={1}>
+                                <Toolbar variant="dense">
+                                    <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>
+                                </Toolbar>
+                            </Grid>
+                        </Grid>
                     </AppBar>
                 </Grid>
 
@@ -184,40 +186,7 @@ class TaskBoard extends React.Component {
                     {taskComponents}
                 </Grid>
                 <div>
-                    <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
-                        <div
-                            tabIndex={0}
-                            role="button"
-                            onClick={this.toggleDrawer('left', false)}
-                            onKeyDown={this.toggleDrawer('left', false)}
-                        >
-                            {sideList}
-                        </div>
-                    </Drawer>
-                    <Drawer anchor="top" open={this.state.top} onClose={this.toggleDrawer('top', false)}>
-                        <div
-                            tabIndex={0}
-                            role="button"
-                            onClick={this.toggleDrawer('top', false)}
-                            onKeyDown={this.toggleDrawer('top', false)}
-                        >
-                            {fullList}
-                        </div>
-                    </Drawer>
-                    <Drawer
-                        anchor="bottom"
-                        open={this.state.bottom}
-                        onClose={this.toggleDrawer('bottom', false)}
-                    >
-                        <div
-                            tabIndex={0}
-                            role="button"
-                            onClick={this.toggleDrawer('bottom', false)}
-                            onKeyDown={this.toggleDrawer('bottom', false)}
-                        >
-                            {fullList}
-                        </div>
-                    </Drawer>
+
                     <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer('right', false)}>
                         <div
                             tabIndex={0}

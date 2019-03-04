@@ -1,6 +1,5 @@
 import mainFrame from "../components/layouts/mainFrame.jsx";
-import MyPage from "../components/views/MyPage";
 
-const indexRoutes = [{ path: "/", component: mainFrame}, { path:"demandTask", component: MyPage}];
+const indexRoutes = [{ path: "/", component: mainFrame}];
 
 export default indexRoutes;

@@ -10,5 +10,6 @@ export const GET_DEMAND_TASKS="get_demand_tasks";
 export const CHANGE_TASK_STATUS="change_task_status";
 export const GET_TASK="get_task";
 export const SAVE_TASK="save_task";
+export const GET_DEMAND="get_demand";
 
 export const OPEN_PROJECT="open_project";

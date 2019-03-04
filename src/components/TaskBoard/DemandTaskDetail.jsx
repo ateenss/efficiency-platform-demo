@@ -97,7 +97,7 @@ const styles = {
 };
 
 
-class Demand extends React.Component {
+class DemandTaskDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -193,4 +193,4 @@ class Demand extends React.Component {
     }
 }
 
-export default withStyles(styles)(Demand);
+export default withStyles(styles)(DemandTaskDetail);

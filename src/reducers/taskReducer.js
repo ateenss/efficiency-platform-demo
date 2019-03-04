@@ -1,5 +1,5 @@
 import {
-    GET_DEMAND_TASKS, CHANGE_TASK_STATUS, GET_TASK, SAVE_TASK
+    GET_DEMAND_TASKS, CHANGE_TASK_STATUS, GET_TASK, SAVE_TASK, GET_DEMAND
 } from '../actions/types';
 
 export const INITIAL_STATE = {
@@ -102,7 +102,11 @@ export default function (state = INITIAL_STATE, action) {
             }()
 
 
-            return {...state, openTask: false, action: "saveTask", demands: saveRet}
+            return {...state, openTask: false, action: "saveTask", demands: saveRet};
+
+        case GET_DEMAND:
+            return {...state, openDemand: true, action: "getDemand", demand: action.payload};
+
         default:
             return state;
     }
