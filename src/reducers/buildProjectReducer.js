@@ -1,18 +1,26 @@
 
 
 export const INITIAL_STATE = {
-    MuitableData:[[ "Business Analyst", "Wed Feb 20 2019 20:37:00 GMT+0800 (中国标准时间)", "二维码团队,安全攻防团队", "$100,000","<p>fadsf</p>"],
-    ["1","2","3","4","5"]]
+    addProjects:[]
 };
 
 //专门用来创建项目的reducer
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case "edit_save":
-            console.log("以下是我做的检验");
+            console.log("第一次提交");
             const newState=JSON.parse(JSON.stringify(state));
-            newState.MuitableData.push(action.value);
+            newState.addProjects.push(action.value);
             return newState;
+        case "edit_ReSave":
+            console.log("再次编写修改");
+            const newRState=JSON.parse(JSON.stringify(state));
+            newRState.addProjects.forEach((item,index)=>{
+                if (index===action.value.keyNote){
+                    newRState.addProjects[index]=action.value.ReContent
+                }
+            });
+            return newRState;
         default:
             return state;
     }

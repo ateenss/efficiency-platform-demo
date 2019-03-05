@@ -9,14 +9,14 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {editSave} from "../../actions/BuildProjectAction"
+import {editReSave} from "../../actions/BuildProjectAction"
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
 import MultiSelect from "./MultiSelect";
 import DataPicker from "./DataPicker"
 import DesciptionInput from "./DescriptionInput"
 import RadioButton from "./RadioButton"
-
+import {connect} from "react-redux";
 
 const styles = {
     avatar: {
@@ -31,22 +31,32 @@ const styles = {
 
 };
 
-class ProjectPopup extends React.Component {
+class ProjectPopupReEdit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             openTask: false,
             projectContent:{
-
-            }
+                }
         }
     }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(nextProps.keyNote>-1){
+            this.setState({
+                projectContent:nextProps.addProjects[nextProps.keyNote]
+            })
+        }
+    }
+
+
     handleClose = () => {
         this.props.onClose(this.props.selectedValue);
     };
-    handleSave=()=>{
+    handleReSave=()=>{
         this.props.onClose(this.props.selectedValue);
-        store.dispatch(editSave(this.state.projectContent));
+        console.log("以下是再编辑测试");
+        store.dispatch(editReSave({keyNote:this.props.keyNote,ReContent:this.state.projectContent}));
     };
 
 
@@ -57,7 +67,7 @@ class ProjectPopup extends React.Component {
             const value=e.value;
             let data = Object.assign({}, this.state.projectContent, {
                 [keyNote]: value.toString()
-            })
+            });
             this.setState({
                 projectContent:data
             })
@@ -66,7 +76,7 @@ class ProjectPopup extends React.Component {
             const value=e.target.value;
             let data = Object.assign({}, this.state.projectContent, {
                 [keyNote]: value.toString()
-            })
+            });
             this.setState({
                 projectContent:data
             })
@@ -81,8 +91,8 @@ class ProjectPopup extends React.Component {
     };
 
     render() {
-        const {classes, onClose, selectedValue,buttonStyle, ...other} = this.props;
-
+        const {classes, onClose, selectedValue,keyNote,buttonStyle, addProjects,...other} = this.props;
+        const {projectContent}=this.state;
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
@@ -97,50 +107,52 @@ class ProjectPopup extends React.Component {
                                 type="email"
                                 name="name"
                                 onChange={this.getContent}
+                                defaultValue={projectContent.name}
                             />
                         </Grid>
                         <Grid item xs={10}>
-                            <DesciptionInput onChange={this.getContent} nameIn="description"/>
+                            <DesciptionInput onChange={this.getContent} nameIn="description" defaultValue={projectContent.description}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography className={classes.quillLabel}>
                                 类型
                             </Typography>
-                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type"/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" defaultValue={projectContent.type}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography className={classes.quillLabel}>
                                 成员
                             </Typography>
-                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members"/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" defaultValue={projectContent.members}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography className={classes.quillLabel}>
                                 负责人
                             </Typography>
-                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head"/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" defaultValue={projectContent.head}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography className={classes.quillLabel}>
                                 选择时间
                             </Typography>
-                            <DataPicker onStartChange={this.getContent} onEndChange={this.getContent}/>
+                            <DataPicker onStartChange={this.getContent} onEndChange={this.getContent} startValue={projectContent.startTime} endValue={projectContent.endTime}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography className={classes.quillLabel}>
                                 状态
                             </Typography>
-                            <RadioButton onChange={this.getContent}/>
+                            <RadioButton onChange={this.getContent} defaultValue={projectContent.projectState}/>
                         </Grid>
+
 
                     </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.handleClose} color="primary" className={buttonStyle}>
-                        重置
+                        取消
                     </Button>
-                    <Button onClick={this.handleSave} color="primary">
-                        提交
+                    <Button onClick={this.handleReSave} color="primary">
+                        保存修改
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -148,11 +160,16 @@ class ProjectPopup extends React.Component {
     }
 }
 
-ProjectPopup.propTypes = {
+ProjectPopupReEdit.propTypes = {
     classes: PropTypes.object.isRequired,
     onClose: PropTypes.func,
     selectedValue: PropTypes.string,
 };
 
-const ProjectPopupWrapped = withStyles(styles)(ProjectPopup);
-export default ProjectPopupWrapped
+const mapStateToProps = (state) => {
+    return {
+        addProjects:state.reducer.buildProject.addProjects
+    }
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(ProjectPopupReEdit));

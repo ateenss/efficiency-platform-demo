@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -66,14 +66,23 @@ function getStyles(name, that) {
 
 class MultipleSelect extends React.Component {
     state = {
-        name: [],
-        wuxiao:[]
+        name: []
     };
+
+    componentWillMount() {
+        if (this.props.defaultValue){
+            let array=[];
+            array=this.props.defaultValue.split(",");
+            this.setState({
+                name:array
+            })
+        }
+    }
 
     handleChange = event => {
         this.setState({ name: event.target.value });
         // console.log(event.target.value)
-        this.props.onChange(event.target.value)
+        this.props.onChange({keyNote:event.target.name,value:event.target.value})
     };
 
     handleChangeMultiple = event => {
@@ -91,14 +100,15 @@ class MultipleSelect extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes,InputLabelName,defaultValue ,nameIn} = this.props;
 
         return (
             <div className={classes.root}>
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="select-multiple-checkbox">组织架构</InputLabel>
+                    <InputLabel htmlFor="select-multiple-checkbox">{InputLabelName}</InputLabel>
                     <Select
                         multiple
+                        name={nameIn}
                         value={this.state.name}
                         onChange={this.handleChange}
                         input={<Input id="select-multiple-checkbox" />}
@@ -113,40 +123,14 @@ class MultipleSelect extends React.Component {
                         ))}
                     </Select>
                 </FormControl>
-                <FormControl className={classNames(classes.formControl, classes.noLabel)}>
-                    <Select
-                        multiple
-                        displayEmpty
-                        value={this.state.wuxiao}
-                        onChange={this.handleChange}
-                        input={<Input id="select-multiple-placeholder" />}
-                        renderValue={selected => {
-                            if (selected.length === 0) {
-                                return <em>Placeholder</em>;
-                            }
-
-                            return selected.join(', ');
-                        }}
-                        MenuProps={MenuProps}
-                    >
-                        <MenuItem disabled value="">
-                            <em>Placeholder</em>
-                        </MenuItem>
-                        {names.map(name => (
-                            <MenuItem key={name} value={name} style={getStyles(name, this)}>
-                                {name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
 
             </div>
         );
     }
 }
 
-// MultipleSelect.propTypes = {
-//     classes: PropTypes.object.isRequired,
-// };
+MultipleSelect.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles, { withTheme: true })(MultipleSelect);

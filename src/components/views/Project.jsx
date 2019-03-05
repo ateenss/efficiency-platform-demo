@@ -21,6 +21,8 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from '@material-ui/core/Tooltip';
 import MuiTable from '../BuildProject/MuiTable'
+import ShowCard from "../BuildProject/showCard"
+import Task from "../TaskBoard/Task"
 
 const styles = theme => ({
     root: {
@@ -76,7 +78,7 @@ class Project extends React.Component {
     handleClickOpen = (e) => {
         e.stopPropagation()
         e.preventDefault();
-        console.log("我是调用工程弹出按钮");
+        // console.log("我是调用工程弹出按钮");
         this.setState({
             popUpOpen: true,
         });
@@ -91,7 +93,12 @@ class Project extends React.Component {
     }
 
     render() {
-        const {classes, demands} = this.props;
+        const {classes, demands,addProjects} = this.props;
+        let showProjects = addProjects.map((content, key) => {
+            return (
+                <Grid xs={3} item><ProjectPanel name={content.name} desc={key} keyNote={key}/></Grid>
+            )
+        });
 
         return (
 
@@ -123,6 +130,7 @@ class Project extends React.Component {
                     <ExpansionPanelDetails>
                         <Grid spacing={16} container>
                             <Grid xs={3} item><ProjectPanel name="二维码" desc="2019年项目"/></Grid>
+                            {showProjects}
                         </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
@@ -141,9 +149,9 @@ class Project extends React.Component {
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
-    console.log(333333);
     return {
-        demands: state.reducer.task.demands
+        demands: state.reducer.task.demands,
+        addProjects:state.reducer.buildProject.addProjects
     }
 };
 

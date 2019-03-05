@@ -36,23 +36,25 @@ class OutlinedTextFields extends React.Component {
     };
 
     render() {
-        const { classes,onChange } = this.props;
+        const { classes,onChange ,defaultValue,nameIn} = this.props;
 
         return (
             <form className={classes.container} noValidate autoComplete="off">
                 <TextField
                     id="outlined-full-width"
-                    label="描述"
+                    label="简介"
                     style={{ margin: 8 }}
                     placeholder="请输入项目描述"
                     helperText="不要输入过多字!"
                     fullWidth
+                    name={nameIn}
                     margin="normal"
                     variant="outlined"
                     InputLabelProps={{
                         shrink: true,
                     }}
                     onChange={onChange}
+                    defaultValue={defaultValue}
                 />
 
             </form>

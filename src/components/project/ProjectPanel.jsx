@@ -4,8 +4,14 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
+import SvgIcon from '@material-ui/core/SvgIcon';
+import Button from '@material-ui/core/Button';
+import {Link, NavLink, Route} from 'react-router-dom'
+
 
 import {openProject} from "../../actions/ProjectPanelAction";
+// import BuildProject from "../BuildProject/BuildProjectMain";
+import EditProject from "../BuildProject/EditProjectMain";
 
 const styles = theme => ({
     root: {
@@ -88,13 +94,21 @@ const image =
         width: '100%',
     }
 ;
+function HomeIcon(props) {
+    return (
+        <SvgIcon {...props}>
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </SvgIcon>
+    );
+}
 
 class ProjectPanel extends React.Component {
     constructor(props) {
         super(props);
         this.btnRef = React.createRef();
         this.state = {
-            expanded: this.props.expanded
+            expanded: this.props.expanded,
+            popUpOpen: false
         };
     }
 
@@ -103,10 +117,25 @@ class ProjectPanel extends React.Component {
         console.log(this.btnRef.current.props.proejctid);
         openProject(this.btnRef.current.props.proejctid);
     };
+    handleClickClose = () => {
+        this.setState({popUpOpen: false});
+    };
+    handleClickOpen = (e) => {
+        e.stopPropagation()
+        e.preventDefault();
+        this.setState({
+            popUpOpen: true,
+        });
+        return false;
+
+    };
+
 
     render() {
-        const {classes, name, desc,onClick} = this.props;
+        const {classes, name, desc,onClick,keyNote} = this.props;
+        const MyLink = props => <Link to="/task/my" {...props}/>
         return (
+            <div className="wrapperDiv">
             <ButtonBase
                 ref={this.btnRef}
                 focusRipple
@@ -127,6 +156,7 @@ class ProjectPanel extends React.Component {
                   backgroundImage: `url(${image.url})`,
               }}
           />
+
                 <span className={classes.imageBackdrop} />
                 <span className={classes.imageButton}>
             <Typography
@@ -140,6 +170,15 @@ class ProjectPanel extends React.Component {
             </Typography>
           </span>
             </ButtonBase>
+                <Button onClick={this.handleClickOpen}>编辑</Button>
+                <Button component={MyLink}>进入</Button>
+                <EditProject
+                    open={this.state.popUpOpen}
+                    onClose={this.handleClickClose}
+                    keyNote={keyNote}
+                />
+            </div>
+
 
         );
     }

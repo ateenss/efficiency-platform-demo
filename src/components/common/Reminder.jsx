@@ -160,7 +160,7 @@ class Reminder extends React.Component {
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
-    console.log("232234242  " + JSON.stringify(state))
+    // console.log("232234242  " + JSON.stringify(state))
     return {
         open: state.reducer.common.open,
         message: !!state.reducer.common.message ? state.reducer.common.message : ""

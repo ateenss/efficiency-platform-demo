@@ -183,7 +183,7 @@ class TaskBoard extends React.Component {
                 </Grid>
 
                 <Grid container spacing={16}>
-                    {taskComponents}
+                        {taskComponents}
                 </Grid>
                 <div>
 

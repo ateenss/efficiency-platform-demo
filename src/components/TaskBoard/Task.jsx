@@ -128,7 +128,6 @@ class Task extends React.Component {
                             </Avatar>
                         }
                         className={classes.taskHeader}
-
                         action={
                             <Avatar aria-label="Recipe" className={classes.taskStatus}>
                                 {this.props.taskStatus}
