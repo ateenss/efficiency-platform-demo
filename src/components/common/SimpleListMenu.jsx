@@ -2,7 +2,6 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 
 const ITEM_HEIGHT = 48;
@@ -13,30 +12,30 @@ class SimpleListMenu extends React.Component {
     };
 
     handleClick = event => {
-        this.setState({ anchorEl: event.currentTarget });
+        this.setState({anchorEl: event.currentTarget});
     };
 
-    handleClose = (callback, e) => {
-        this.setState({ anchorEl: null });
-        if(!!e && !!e.target && !!e.target.id){
-            // console.log(e.target.id);
-            callback(e.target.id);
+    handleClose = (callback, id, e) => {
+        this.setState({anchorEl: null});
+        // console.log(e.target.id);
+        if (!!id) {
+            callback(id);
         }
     };
 
     render() {
-        const { anchorEl } = this.state;
+        const {anchorEl} = this.state;
         const open = Boolean(anchorEl);
 
         return (
-            <div group={this.props.group}>
-                <IconButton
-                    aria-label="More"
-                    aria-owns={open ? 'long-menu' : undefined}
-                    aria-haspopup="true"
-                    onClick={this.handleClick}
+            <div group={this.props.group} style={{display: this.props.display}}>
+                <IconButton className={this.props.buttonClass}
+                            aria-label="More"
+                            aria-owns={open ? 'long-menu' : undefined}
+                            aria-haspopup="true"
+                            onClick={this.handleClick}
                 >
-                    <MoreVertIcon />
+                    {this.props.icon}
                 </IconButton>
                 <Menu
                     id="long-menu"
@@ -51,7 +50,7 @@ class SimpleListMenu extends React.Component {
                     }}
                 >
                     {this.props.options.map(option => (
-                        <MenuItem id={this.props.id} key={option.name} onClick={this.handleClose.bind(this, option.func)}>
+                        <MenuItem key={option.name} onClick={this.handleClose.bind(this, option.func, this.props.id)}>
                             {option.name}
                         </MenuItem>
                     ))}

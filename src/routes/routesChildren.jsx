@@ -16,6 +16,7 @@ import MyPage from "../components/views/MyPage.jsx";
 import Project from "../components/views/Project.jsx";
 import TaskBoard from "../components/views/TaskBoard.jsx";
 import DemandBoard from "../components/views/DemandBoard";
+import IterationBoard from "../components/views/IterationBoard";
 
 
 const dashboardRoutes = [
@@ -34,13 +35,13 @@ const dashboardRoutes = [
     //   icon: Dashboard,
     //   component: DashboardPage
     // },
-    // {
-    //   path: "/table",
-    //   sidebarName: "Table List",
-    //   navbarName: "Table List",
-    //   icon: "content_paste",
-    //   component: TableList
-    // },
+    {
+      path: "/iteration",
+      sidebarName: "版本",
+      navbarName: "版本",
+      icon: "content_paste",
+      component: IterationBoard
+    },
     {
         path: "/project",
         sidebarName: "项目",

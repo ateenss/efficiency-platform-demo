@@ -56,15 +56,8 @@ class MyPage extends React.Component {
 
         return (
 
-            <Grid spacing={16} container>
-                <div className={classes.root}>
-                    <AppBar position="static" color="default">
-                        <Tabs value={this.state.value} onChange={this.handleChange}>
-                            <Tab value={0} label="我的任务"/>
-                        </Tabs>
-                    </AppBar>
-                    {this.state.value === 0 && <div>{demandsComponents}</div>}
-                </div>
+            <Grid spacing={16} container fullWidth>
+                    <Grid xs={12}>{demandsComponents}</Grid>
                 <TaskEditor open={false}/>
             </Grid>
         );
