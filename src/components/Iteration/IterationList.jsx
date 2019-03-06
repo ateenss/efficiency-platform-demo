@@ -18,6 +18,7 @@ import SingleIteration from "./SingleIteration";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
 import IconButton from "@material-ui/core/IconButton";
+import {selectIteration} from "../../actions/IterationAction";
 
 const styles = theme => ({
     root: {
@@ -65,7 +66,7 @@ class IterationList extends React.Component {
     handleSelected = (id) => {
         console.log(id);
         // dispatch一个ID过去，获取该版本下的所有需求，然后选中
-
+        selectIteration(id);
     };
 
     render() {

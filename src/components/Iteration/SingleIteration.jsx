@@ -41,15 +41,24 @@ class SingleIteration extends React.Component {
         if (this.props.defaultExpand) {
             this.setState({open: true, selected: true});
         }
+        this.props.iterationList.map((prop, key) => {
+            let ss = "selected" + key;
+            let ret = {};
+            ret[ss]=false;
+            console.log(ss);
+            this.setState(ret);
+
+        });
     }
 
     render() {
         const {classes, iterationList} = this.props;
         let iterationComponents = !iterationList ? "" : iterationList.map((prop, key) => {
                 return (
-                    <ListItem key={key} button className={classes.nested} onClick={this.props.handleSelected.bind(this, key)}>
+                    <ListItem key={key} button className={classes.nested}
+                              onClick={this.props.handleSelected.bind(this, key)} selected={this.state["selected" + key]}>
                         <ListItemText inset primary={prop + "版"} className={classes.itemText}/>
-                        <ListItemIcon style={{marginRight:"0"}} onClick={this.props.handleEdit}>
+                        <ListItemIcon style={{marginRight: "0"}} onClick={this.props.handleEdit}>
                             <EditIcon fontSize="small"/>
                         </ListItemIcon>
                     </ListItem>

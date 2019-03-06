@@ -15,6 +15,7 @@ import {Paper} from "@material-ui/core";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import Divider from "@material-ui/core/Divider";
+import {connect} from "react-redux";
 
 const drawerWidth = 240;
 
@@ -26,7 +27,7 @@ const styles = theme => ({
     },
     toolbarHead: {
         backgroundColor: "#FFFFFF",
-        boxShadow:"none"
+        boxShadow: "none"
     }
 });
 
@@ -36,15 +37,7 @@ const columns = [{name: "序号", options: {filter: false}}, {name: "需求编�
     options: {filter: false}
 }, {name: "需求负责人", options: {filter: true}}, {name: "需求状态", options: {filter: true}}];
 
-const data = [
-    ["1", "YDZF-201809-12", "快速收款码需求这个需求很厉害", "张飞", "开发中"],
-    ["2", "TYDZF-201809-13", "ApplePayOnweb需求", "韦小宝", "已完成"],
-    ["3", "YDZF-201809-15", "你说这是什么需求", "张无忌", "提测"],
-    ["4", "YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始"],
-];
-
-
-function Empty(){
+function Empty() {
     return null;
 }
 
@@ -55,7 +48,7 @@ const options = {
     // filter:false,
     // download:false,
     // sortFilterList:false,
-    viewColumns:false,
+    viewColumns: false,
     print: false,
     onRowsSelect: function (currentRowsSelected, allRowsSelected) {
         console.log(333);
@@ -102,7 +95,18 @@ class IterationBoard extends React.Component {
                 }
             }
         }
-    })
+    });
+
+    componentDidMount() {
+        this.setState({iterationOwner:this.props.iterationOwner, demandList : this.props.demandList})
+
+
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState(nextProps.iteration)
+
+    }
 
     render() {
         const {classes, theme} = this.props;
@@ -119,7 +123,7 @@ class IterationBoard extends React.Component {
                             <Grid container spacing={16}>
                                 <Grid item xs={12}>
                                     <Toolbar variant="regular" className={classes.toolbar}>
-                                        <Typography>负责人：周伯通</Typography>
+                                        <Typography>负责人：{this.state.iterationOwner}</Typography>
                                         <Typography>提测时间：2019-12-12</Typography>
                                         <Typography>发布时间：2019-12-12</Typography>
                                         <Typography>上线时间：2019-12-12</Typography>
@@ -131,7 +135,7 @@ class IterationBoard extends React.Component {
                         <MuiThemeProvider theme={this.getMuiTheme()}>
                             <MUIDataTable
                                 title={<Typography variant="h6">需求列表</Typography>}
-                                data={data}
+                                data={this.state.demandList}
                                 columns={columns}
                                 options={options}
                             />
@@ -145,9 +149,43 @@ class IterationBoard extends React.Component {
     }
 }
 
+
+IterationBoard.defaultProps = {
+
+
+    iterationOwner: "周伯通",
+    demandList: [
+        ["1", "YDZF-201809-12", "快速收款码需求这个需求很厉害", "张飞", "开发中"],
+        ["2", "TYDZF-201809-13", "ApplePayOnweb需求", "韦小宝", "已完成"],
+        ["3", "YDZF-201809-15", "你说这是什么需求", "张无忌", "提测"],
+        ["4", "YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始"],
+    ]
+}
+
+
+
 IterationBoard.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, {withTheme: true})(IterationBoard);
+
+// 从store里面取数据给组件
+const
+    mapStateToProps = (state) => {
+        console.log("!!!!!!!!" + JSON.stringify(state.reducer.iteration.iteration));
+        return {
+            iteration: state.reducer.iteration.iteration
+        }
+    };
+
+export default connect(mapStateToProps)
+
+(
+    withStyles(styles, {withTheme: true})
+
+    (
+        IterationBoard
+    ))
+;
+

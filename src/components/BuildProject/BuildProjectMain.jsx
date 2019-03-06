@@ -88,50 +88,36 @@ class ProjectPopup extends React.Component {
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
-                        <Grid item xs={6}>
+                        <Grid item xs={12}>
                             <TextField
                                 autoFocus
-                                margin="dense"
                                 id="name"
                                 label="项目名称"
                                 type="email"
                                 name="name"
                                 onChange={this.getContent}
+                                fullWidth
                             />
                         </Grid>
-                        <Grid item xs={10}>
-                            <DesciptionInput onChange={this.getContent} nameIn="description"/>
+
+                        <Grid item xs={4}>
+                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" fullWidth/>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography className={classes.quillLabel}>
-                                类型
-                            </Typography>
-                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type"/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" fullWidth/>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography className={classes.quillLabel}>
-                                成员
-                            </Typography>
-                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members"/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" fullWidth/>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Typography className={classes.quillLabel}>
-                                负责人
-                            </Typography>
-                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head"/>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography className={classes.quillLabel}>
-                                选择时间
-                            </Typography>
+                        <Grid item xs={12}>
                             <DataPicker onStartChange={this.getContent} onEndChange={this.getContent}/>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Typography className={classes.quillLabel}>
-                                状态
-                            </Typography>
-                            <RadioButton onChange={this.getContent}/>
+                        <Grid item xs={12}>
+                            <DesciptionInput onChange={this.getContent} nameIn="description"/>
                         </Grid>
+                        {/*<Grid item xs={4}>*/}
+                            {/*<RadioButton onChange={this.getContent}/>*/}
+                        {/*</Grid>*/}
 
                     </Grid>
                 </DialogContent>

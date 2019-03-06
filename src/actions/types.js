@@ -13,3 +13,6 @@ export const SAVE_TASK="save_task";
 export const GET_DEMAND="get_demand";
 
 export const OPEN_PROJECT="open_project";
+
+
+export const SELECT_ITERATION="select_iteration";

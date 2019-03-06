@@ -43,10 +43,9 @@ class OutlinedTextFields extends React.Component {
                 <TextField
                     id="outlined-full-width"
                     label="简介"
-                    style={{ margin: 8 }}
+                    style={{ margin: "20px 0 5px 0" }}
                     placeholder="请输入项目描述"
-                    helperText="不要输入过多字!"
-                    fullWidth
+                    // helperText="不要输入过多字!"
                     name={nameIn}
                     margin="normal"
                     variant="outlined"
@@ -55,6 +54,7 @@ class OutlinedTextFields extends React.Component {
                     }}
                     onChange={onChange}
                     defaultValue={defaultValue}
+                    fullWidth
                 />
 
             </form>

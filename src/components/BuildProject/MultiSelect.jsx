@@ -17,7 +17,7 @@ const styles = theme => ({
         flexWrap: 'wrap',
     },
     formControl: {
-        margin: theme.spacing.unit,
+        margin: "0",
         minWidth: 120,
         maxWidth: 300,
     },
@@ -100,11 +100,11 @@ class MultipleSelect extends React.Component {
     };
 
     render() {
-        const { classes,InputLabelName,defaultValue ,nameIn} = this.props;
+        const { classes,InputLabelName,defaultValue ,nameIn, ...props} = this.props;
 
         return (
             <div className={classes.root}>
-                <FormControl className={classes.formControl}>
+                <FormControl className={classes.formControl} fullWidth>
                     <InputLabel htmlFor="select-multiple-checkbox">{InputLabelName}</InputLabel>
                     <Select
                         multiple
@@ -114,6 +114,7 @@ class MultipleSelect extends React.Component {
                         input={<Input id="select-multiple-checkbox" />}
                         renderValue={selected => selected.join(', ')}
                         MenuProps={MenuProps}
+
                     >
                         {names.map(name => (
                             <MenuItem key={name} value={name}>

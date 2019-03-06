@@ -12,6 +12,7 @@ import {Link, NavLink, Route} from 'react-router-dom'
 import {openProject} from "../../actions/ProjectPanelAction";
 // import BuildProject from "../BuildProject/BuildProjectMain";
 import EditProject from "../BuildProject/EditProjectMain";
+import EditIcon from "@material-ui/icons/Edit"
 
 const styles = theme => ({
     root: {
@@ -85,6 +86,9 @@ const styles = theme => ({
         left: 'calc(50% - 9px)',
         transition: theme.transitions.create('opacity'),
     },
+    wrapperDiv:{
+        position:"relative"
+    }
 });
 
 const image =
@@ -94,10 +98,11 @@ const image =
         width: '100%',
     }
 ;
+
 function HomeIcon(props) {
     return (
         <SvgIcon {...props}>
-            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
         </SvgIcon>
     );
 }
@@ -112,7 +117,7 @@ class ProjectPanel extends React.Component {
         };
     }
 
-    handleClick = (e) =>{
+    handleClick = (e) => {
         e.preventDefault()
         console.log(this.btnRef.current.props.proejctid);
         openProject(this.btnRef.current.props.proejctid);
@@ -132,33 +137,33 @@ class ProjectPanel extends React.Component {
 
 
     render() {
-        const {classes, name, desc,onClick,keyNote} = this.props;
+        const {classes, name, desc, onClick, keyNote} = this.props;
         const MyLink = props => <Link to="/task/my" {...props}/>
         return (
-            <div className="wrapperDiv">
-            <ButtonBase
-                ref={this.btnRef}
-                focusRipple
-                key={image.title}
-                className={classes.image}
-                focusVisibleClassName={classes.focusVisible}
-                style={{
-                    width: image.width,
-                }}
-                onClick={onClick}
-                name="1"
-                onClick={this.handleClick}
-                projectid="1"
-            >
-          <span
-              className={classes.imageSrc}
-              style={{
-                  backgroundImage: `url(${image.url})`,
-              }}
-          />
+            <div className={classes.wrapperDiv}>
+                <ButtonBase
+                    ref={this.btnRef}
+                    focusRipple
+                    key={image.title}
+                    className={classes.image}
+                    focusVisibleClassName={classes.focusVisible}
+                    style={{
+                        width: image.width,
+                    }}
+                    onClick={onClick}
+                    name="1"
+                    onClick={this.handleClick}
+                    projectid="1"
+                >
+                  <span
+                      className={classes.imageSrc}
+                      style={{
+                          backgroundImage: `url(${image.url})`,
+                      }}
+                  />
 
-                <span className={classes.imageBackdrop} />
-                <span className={classes.imageButton}>
+                    <span className={classes.imageBackdrop}/>
+                    <span className={classes.imageButton}>
             <Typography
                 component="span"
                 variant="headline"
@@ -166,12 +171,12 @@ class ProjectPanel extends React.Component {
                 className={classes.imageTitle}
             >
               {this.props.name}
-                <span className={classes.imageMarked} />
+                <span className={classes.imageMarked}/>
             </Typography>
           </span>
-            </ButtonBase>
-                <Button onClick={this.handleClickOpen}>编辑</Button>
-                <Button component={MyLink}>进入</Button>
+                </ButtonBase>
+
+                <Button onClick={this.handleClickOpen} style={{position:"absolute",right:"0",top:"0", zIndex:"99999"}}><EditIcon style={{color:"#FFFFFF"}}/></Button>
                 <EditProject
                     open={this.state.popUpOpen}
                     onClose={this.handleClickClose}
@@ -184,4 +189,4 @@ class ProjectPanel extends React.Component {
     }
 }
 
-export default withStyles(styles, {withTheme:true})(ProjectPanel);
+export default withStyles(styles, {withTheme: true})(ProjectPanel);

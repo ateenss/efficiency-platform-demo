@@ -8,7 +8,7 @@ import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pic
 
 const styles = {
     grid: {
-        width: '60%',
+        width: '100%',
     },
 };
 
@@ -46,21 +46,27 @@ class MaterialUIPickers extends React.Component {
 
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container className={classes.grid} justify="space-around">
+                <Grid container className={classes.grid} justify="space-around" spacing={0}>
+                    <Grid item xs={6}>
                     <DatePicker
+                        fullWidth
                         name="startTime"
                         margin="normal"
                         label="开始时间"
                         value={startDate}
                         onChange={this.handleStartDateChange}
                     />
+                    </Grid>
+                    <Grid item xs={6}>
                     <DatePicker
+                        fullWidth
                         name="endTime"
                         margin="normal"
                         label="结束时间"
                         value={endDate}
                         onChange={this.handleEndDateChange}
                     />
+                    </Grid>
                 </Grid>
             </MuiPickersUtilsProvider>
         );

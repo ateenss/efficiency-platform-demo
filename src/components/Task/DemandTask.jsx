@@ -22,6 +22,7 @@ import {editTask} from "../../actions/DemandTasksAction";
 import CardHeader from "@material-ui/core/CardHeader";
 import SimpleListMenu from "../common/SimpleListMenu";
 import Grid from "@material-ui/core/Grid";
+import {connect} from "react-redux";
 
 
 const styles = {
@@ -105,4 +106,12 @@ class DemandTask extends React.Component {
     }
 }
 
-export default withStyles(styles)(DemandTask);
+// 从store里面取数据给组件
+const mapStateToProps = (state) => {
+    console.log(333333);
+    return {
+        demands: state.reducer.task.demands
+    }
+};
+
+export default connect(mapStateToProps)(withStyles(styles, {withTheme: true})(DemandTask));

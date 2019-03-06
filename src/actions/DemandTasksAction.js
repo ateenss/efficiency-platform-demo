@@ -96,8 +96,8 @@ export function editTask(taskId) {
     let accessToken = localStorage.getItem("accessToken");
     let ret = taskId.split("-");
     let id = 0;
-    if(ret.length > 1){
-      id  = ret[2];
+    if (ret.length > 1) {
+        id = ret[2];
     }
 
     return axios.post(UrlConf.task.getTask(), RequestBuilder.parseRequest(accessToken, {"taskId": id}), config)
@@ -141,7 +141,7 @@ export function saveTask(data) {
             }
 
             let data = response.data.data;
-console.log("saveTask:"+JSON.stringify(data));
+            console.log("saveTask:" + JSON.stringify(data));
             store.dispatch({
                 type: SAVE_TASK,
                 payload: data
