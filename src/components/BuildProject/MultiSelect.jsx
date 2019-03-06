@@ -100,7 +100,7 @@ class MultipleSelect extends React.Component {
     };
 
     render() {
-        const { classes,InputLabelName,defaultValue ,nameIn,nameArray} = this.props;
+        const { classes,InputLabelName,defaultValue ,nameIn,nameArray,openMulti} = this.props;
 
         return (
             <div className={classes.root}>

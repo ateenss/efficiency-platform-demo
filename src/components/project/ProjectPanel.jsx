@@ -13,6 +13,8 @@ import {openProject} from "../../actions/ProjectPanelAction";
 // import BuildProject from "../BuildProject/BuildProjectMain";
 import EditProject from "../BuildProject/EditProjectMain";
 import EditIcon from "@material-ui/icons/Edit"
+import ListIcon from "@material-ui/icons/List"
+
 
 const styles = theme => ({
     root: {
@@ -88,6 +90,20 @@ const styles = theme => ({
     },
     wrapperDiv:{
         position:"relative"
+    },
+    edit:{
+        margin:0,
+        position:"absolute",
+        right:"0",
+        top:"0",
+        zIndex:"10"
+    },
+    link:{
+        margin:0,
+        position:"absolute",
+        right:"50px",
+        top:"0",
+        zIndex:"10"
     }
 });
 
@@ -176,7 +192,8 @@ class ProjectPanel extends React.Component {
           </span>
                 </ButtonBase>
 
-                <Button onClick={this.handleClickOpen} style={{position:"absolute",right:"0",top:"0", zIndex:"10"}}><EditIcon style={{color:"#FFFFFF"}}/></Button>
+                <Button   size="small" className={classes.edit} onClick={this.handleClickOpen} ><EditIcon style={{color:"#FFFFFF"}}/></Button>
+                <Button  size="small" className={classes.link}   component={MyLink} ><ListIcon style={{color:"#FFFFFF"}} /></Button>
                 <EditProject
                     open={this.state.popUpOpen}
                     onClose={this.handleClickClose}

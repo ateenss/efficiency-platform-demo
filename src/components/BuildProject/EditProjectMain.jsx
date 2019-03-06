@@ -17,6 +17,7 @@ import DataPicker from "./DataPicker"
 import DesciptionInput from "./DescriptionInput"
 import RadioButton from "./RadioButton"
 import {connect} from "react-redux";
+import SingleSelect from "./SingleSelect"
 
 const styles = {
     avatar: {
@@ -84,11 +85,6 @@ class ProjectPopupReEdit extends React.Component {
     };
 
 
-    getState=e=>{
-        this.setState({
-            projectState:e.target.value
-        })
-    };
 
     render() {
         const {classes, onClose, selectedValue,keyNote,buttonStyle, addProjects,...other} = this.props;
@@ -121,23 +117,22 @@ class ProjectPopupReEdit extends React.Component {
 
                         <Grid item xs={4}>
                             <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" defaultValue={projectContent.type}
-                                         nameArray={commonArray}/>
+                                         nameArray={commonArray} />
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" defaultValue={projectContent.members} nameArray={commonArray}/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" defaultValue={projectContent.members}
+                                         nameArray={commonArray} />
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" defaultValue={projectContent.head} nameArray={commonArray}/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" defaultValue={projectContent.head}
+                                         nameArray={commonArray} />
                         </Grid>
                         <Grid item xs={12}>
                             <DataPicker onStartChange={this.getContent} onEndChange={this.getContent} startValue={projectContent.startTime} endValue={projectContent.endTime}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue={projectContent.projectState} nameArray={["进行中","未完成"]}/>
+                            <SingleSelect onChange={this.getContent}  nameIn="projectState" defaultValue={projectContent.projectState} />
                         </Grid>
-                        {/*<Grid item xs={4}>*/}
-                            {/*<RadioButton onChange={this.getContent} defaultValue={projectContent.projectState}/>*/}
-                        {/*</Grid>*/}
                         <Grid item xs={12}>
                             <DesciptionInput onChange={this.getContent} nameIn="description" defaultValue={projectContent.description}/>
                         </Grid>

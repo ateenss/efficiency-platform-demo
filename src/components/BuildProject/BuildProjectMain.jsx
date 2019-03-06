@@ -15,7 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import MultiSelect from "./MultiSelect";
 import DataPicker from "./DataPicker"
 import DesciptionInput from "./DescriptionInput"
-import RadioButton from "./RadioButton"
+import SingleSelect from "./SingleSelect1"
 
 
 const styles = {
@@ -46,7 +46,9 @@ class ProjectPopup extends React.Component {
     };
     handleSave=()=>{
         this.props.onClose(this.props.selectedValue);
-        store.dispatch(editSave(this.state.projectContent));
+        const temp=this.state.projectContent;
+        temp["projectState"]="正在进行";
+        store.dispatch(editSave(temp));
     };
 
 
@@ -74,11 +76,6 @@ class ProjectPopup extends React.Component {
     };
 
 
-    getState=e=>{
-        this.setState({
-            projectState:e.target.value
-        })
-    };
 
     render() {
         const {classes, onClose, selectedValue,buttonStyle, ...other} = this.props;
@@ -122,9 +119,6 @@ class ProjectPopup extends React.Component {
                         <Grid item xs={12}>
                             <DesciptionInput onChange={this.getContent} nameIn="description"/>
                         </Grid>
-                        {/*<Grid item xs={4}>*/}
-                            {/*<RadioButton onChange={this.getContent}/>*/}
-                        {/*</Grid>*/}
 
                     </Grid>
                 </DialogContent>

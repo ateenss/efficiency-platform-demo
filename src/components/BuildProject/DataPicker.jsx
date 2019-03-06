@@ -5,6 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
+import cnLocale from "date-fns/locale/zh-CN";
+import format from "date-fns/format";
+
+
 
 const styles = {
     grid: {
@@ -12,11 +16,25 @@ const styles = {
     },
 };
 
+const s = new Intl.DateTimeFormat('zh-cn');
+const timeInitial= s.format(new Date('2019-02-26'));
+
+class LocalizedUtils extends DateFnsUtils {
+    getDatePickerHeaderText(date) {
+        return format(date, "yyyy MMM d", { locale: cnLocale });
+    }
+}
+
+
 class MaterialUIPickers extends React.Component {
     state = {
         // The first commit of Material-UI
-        startDate: new Date('2019-02-26T21:11:54'),
-        endDate: new Date('2019-02-26T21:11:54')
+        // startDate: new Date('2019-02-26T21:11:54'),
+        startDate:timeInitial,
+        // endDate: new Date('2019-02-26T21:11:54'),
+        endDate: timeInitial,
+        locale:"cn",
+        setLocale:"cn"
     };
 
     handleStartDateChange = date => {
@@ -40,16 +58,23 @@ class MaterialUIPickers extends React.Component {
     }
 
 
+
     render() {
         const { classes ,startValue,endValue} = this.props;
         const { startDate,endDate } = this.state;
+        const options={
+            lang: 'zh-CN',
+            format: 'yyyy-MM-dd',
+            default: '2019-3-1',
+        };
 
         return (
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider utils={LocalizedUtils} locale={cnLocale}>
                 <Grid container className={classes.grid} justify="space-around" spacing={0}>
                     <Grid item xs={6}>
                     <DatePicker
                         fullWidth
+                        Options={options}
                         name="startTime"
                         margin="normal"
                         label="开始时间"
