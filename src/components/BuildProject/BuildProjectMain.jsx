@@ -15,7 +15,6 @@ import Grid from '@material-ui/core/Grid';
 import MultiSelect from "./MultiSelect";
 import DataPicker from "./DataPicker"
 import DesciptionInput from "./DescriptionInput"
-import SingleSelect from "./SingleSelect1"
 
 
 const styles = {

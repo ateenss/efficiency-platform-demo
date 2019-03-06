@@ -34,8 +34,9 @@ const MenuProps = {
 
 class SingleSelect extends React.Component {
     state = {
-        projectState: null,
+        projectState: '',
         labelWidth: 20,
+        name: 'hai'
     };
 
 
@@ -62,8 +63,10 @@ class SingleSelect extends React.Component {
                         value={this.state.projectState}
                         onChange={this.handleChange}
                         name={nameIn}
-                        input={<Input name="projectState" id="projectState-simple" />}
-                        MenuProps={MenuProps}
+                        inputProps={{
+                            name: 'projectState',
+                            id: 'projectState-simple',
+                        }}
                     >
                         <MenuItem value="正在进行" >正在进行</MenuItem>
                         <MenuItem value="已完成" >已完成</MenuItem>
