@@ -176,7 +176,7 @@ class ProjectPanel extends React.Component {
           </span>
                 </ButtonBase>
 
-                <Button onClick={this.handleClickOpen} style={{position:"absolute",right:"0",top:"0", zIndex:"99999"}}><EditIcon style={{color:"#FFFFFF"}}/></Button>
+                <Button onClick={this.handleClickOpen} style={{position:"absolute",right:"0",top:"0", zIndex:"10"}}><EditIcon style={{color:"#FFFFFF"}}/></Button>
                 <EditProject
                     open={this.state.popUpOpen}
                     onClose={this.handleClickClose}

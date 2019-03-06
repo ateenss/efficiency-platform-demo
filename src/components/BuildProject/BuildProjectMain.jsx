@@ -82,7 +82,14 @@ class ProjectPopup extends React.Component {
 
     render() {
         const {classes, onClose, selectedValue,buttonStyle, ...other} = this.props;
-
+        const commonArray=[ '云闪付团队',
+            '二维码团队',
+            '安全攻防团队',
+            '移动支付团队',
+            '全渠道',
+            '多渠道',
+            '云平台',
+            '信息总中心'];
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
@@ -101,13 +108,13 @@ class ProjectPopup extends React.Component {
                         </Grid>
 
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" fullWidth/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" nameArray={commonArray}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" fullWidth/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" nameArray={commonArray}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" fullWidth/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" nameArray={commonArray}/>
                         </Grid>
                         <Grid item xs={12}>
                             <DataPicker onStartChange={this.getContent} onEndChange={this.getContent}/>

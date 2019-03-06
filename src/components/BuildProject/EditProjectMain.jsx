@@ -93,55 +93,53 @@ class ProjectPopupReEdit extends React.Component {
     render() {
         const {classes, onClose, selectedValue,keyNote,buttonStyle, addProjects,...other} = this.props;
         const {projectContent}=this.state;
+        const commonArray=[ '云闪付团队',
+            '二维码团队',
+            '安全攻防团队',
+            '移动支付团队',
+            '全渠道',
+            '多渠道',
+            '云平台',
+            '信息总中心'];
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
-                        <Grid item xs={6}>
+                        <Grid item xs={12}>
                             <TextField
                                 autoFocus
-                                margin="dense"
                                 id="name"
                                 label="项目名称"
                                 type="email"
                                 name="name"
                                 onChange={this.getContent}
                                 defaultValue={projectContent.name}
+                                fullWidth
                             />
                         </Grid>
-                        <Grid item xs={10}>
-                            <DesciptionInput onChange={this.getContent} nameIn="description" defaultValue={projectContent.description}/>
+
+                        <Grid item xs={4}>
+                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" defaultValue={projectContent.type}
+                                         nameArray={commonArray}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography className={classes.quillLabel}>
-                                类型
-                            </Typography>
-                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" defaultValue={projectContent.type}/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" defaultValue={projectContent.members} nameArray={commonArray}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography className={classes.quillLabel}>
-                                成员
-                            </Typography>
-                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" defaultValue={projectContent.members}/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" defaultValue={projectContent.head} nameArray={commonArray}/>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Typography className={classes.quillLabel}>
-                                负责人
-                            </Typography>
-                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" defaultValue={projectContent.head}/>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography className={classes.quillLabel}>
-                                选择时间
-                            </Typography>
+                        <Grid item xs={12}>
                             <DataPicker onStartChange={this.getContent} onEndChange={this.getContent} startValue={projectContent.startTime} endValue={projectContent.endTime}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography className={classes.quillLabel}>
-                                状态
-                            </Typography>
-                            <RadioButton onChange={this.getContent} defaultValue={projectContent.projectState}/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue={projectContent.projectState} nameArray={["进行中","未完成"]}/>
+                        </Grid>
+                        {/*<Grid item xs={4}>*/}
+                            {/*<RadioButton onChange={this.getContent} defaultValue={projectContent.projectState}/>*/}
+                        {/*</Grid>*/}
+                        <Grid item xs={12}>
+                            <DesciptionInput onChange={this.getContent} nameIn="description" defaultValue={projectContent.description}/>
                         </Grid>
 
 

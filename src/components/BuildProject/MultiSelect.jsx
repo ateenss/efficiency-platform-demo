@@ -100,7 +100,7 @@ class MultipleSelect extends React.Component {
     };
 
     render() {
-        const { classes,InputLabelName,defaultValue ,nameIn, ...props} = this.props;
+        const { classes,InputLabelName,defaultValue ,nameIn,nameArray} = this.props;
 
         return (
             <div className={classes.root}>
@@ -116,7 +116,7 @@ class MultipleSelect extends React.Component {
                         MenuProps={MenuProps}
 
                     >
-                        {names.map(name => (
+                        {nameArray.map(name => (
                             <MenuItem key={name} value={name}>
                                 <Checkbox checked={this.state.name.indexOf(name) > -1} />
                                 <ListItemText primary={name} />
