@@ -23,10 +23,12 @@ import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
 import Badge from "@material-ui/core/Badge";
 import Chip from "@material-ui/core/Chip";
+import {editTask} from "../../actions/DemandTasksAction";
+import TaskEditor from "../Task/TaskEditor";
 
 const styles = theme => ({
     root: {
-        width: '100%',
+        width: '100%'
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -40,48 +42,65 @@ const styles = theme => ({
     },
     header: {
         boxShadow: "none",
+        background: "#FFFFFF",
+        marginBottom: "15px"
     },
     margin: {
         margin: theme.spacing.unit * 2,
     },
+    toolbar: {
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    chip:{
+        border:"1px solid #cecece"
+    }
 });
 
 const tasks = [{
+    taskId: '1',
     taskNo: '2018-23-34',
     taskName: "30天从入门到放弃",
     taskStatus: "进行中",
     taskType: "需求任务"
 }, {
+    taskId: '2',
     taskNo: '2018-23-33',
     taskName: "30天学不会react",
     taskStatus: "进行中",
     taskType: "开发任务"
 }, {
+    taskId: '3',
     taskNo: '2018-23-33',
     taskName: "到底能不能学会",
     taskStatus: "进行中",
     taskType: "开发任务"
 }, {
+    taskId: '4',
     taskNo: '2018-23-33',
     taskName: "不能啊",
     taskStatus: "进行中",
     taskType: "开发任务"
 }, {
+    taskId: '5',
     taskNo: '2018-23-33',
     taskName: "不能啊",
     taskStatus: "进行中",
     taskType: "开发任务"
 }, {
+    taskId: '6',
     taskNo: '2018-23-33',
     taskName: "到底能不能学会",
     taskStatus: "进行中",
     taskType: "开发任务"
 }, {
+    taskId: '7',
     taskNo: '2018-23-33',
     taskName: "不能啊",
     taskStatus: "进行中",
     taskType: "开发任务"
 }, {
+    taskId: '8',
     taskNo: '2018-23-33',
     taskName: "不能啊",
     taskStatus: "进行中",
@@ -114,7 +133,19 @@ class TaskBoard extends React.Component {
 
     handleChange = (event, newValue) => {
         this.setState({value: newValue});
-    }
+    };
+
+    handleEdit = (e, taskId) => {
+        console.log(taskId);
+        editTask(taskId);
+
+    };
+
+    handleDetail = (e, taskId) => {
+        console.log(taskId);
+        editTask(taskId);
+
+    };
 
     componentDidMount() {
 
@@ -126,8 +157,8 @@ class TaskBoard extends React.Component {
         const {classes} = this.props;
         let taskComponents = tasks.map((prop, key) => {
             return (
-                <Task key={key} taskNo={prop.taskNo} taskName={prop.taskName} taskStatus={prop.taskStatus}
-                      taskType={prop.taskType}/>
+                <Task key={prop.taskId} taskNo={prop.taskNo} taskName={prop.taskName} taskStatus={prop.taskStatus}
+                      taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, prop.taskId)}} detailFunc={(e) => {this.handleDetail(e, prop.taskId)}}/>
             )
         });
         const sideList = (
@@ -155,7 +186,7 @@ class TaskBoard extends React.Component {
 
         return (
 
-            <Grid container className={classes.root} spacing={16}>
+            <Grid container className={classes.root} spacing={0}>
 
                 <Grid item xs={12}>
                     <AppBar className={classes.header} position="static" color="default">
@@ -172,9 +203,10 @@ class TaskBoard extends React.Component {
                                           style={{background: "#FFFFFF", color: "#121212"}}/>
                                 </Badge>
                             </Grid>
-                            <Grid item xs={9}></Grid>
-                            <Grid item xs={1}>
-                                <Toolbar variant="dense">
+                            <Grid item xs={8}></Grid>
+                            <Grid item xs={2}>
+                                <Toolbar variant="regular" className={classes.toolbar}>
+                                    <Button onClick={this.toggleDrawer('right', true)}>新建</Button>
                                     <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>
                                 </Toolbar>
                             </Grid>
@@ -198,6 +230,7 @@ class TaskBoard extends React.Component {
                         </div>
                     </Drawer>
                 </div>
+                <TaskEditor open={false}/>
             </Grid>
         )
     }

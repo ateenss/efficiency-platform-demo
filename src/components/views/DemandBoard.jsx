@@ -28,11 +28,18 @@ import DemandEditor from "../demand/DemandEditor";
 import store from "../../stores";
 import {SHOW_NOTIFICATION} from "../../actions/types";
 import {saveTask} from "../../actions/DemandTasksAction";
+import Paper from "@material-ui/core/Paper";
 
-const styles = theme => ({});
+const styles = theme => ({
+    root: {
+        ...theme.mixins.gutters(),
+        paddingTop: theme.spacing.unit * 2,
+        paddingBottom: theme.spacing.unit * 2,
+    },
+});
 
 
-const columns = ["序号", "需求编号", "需求名称", "需求负责人", "需求状态"];
+const columns = [{name:"序号", options:{filter:false}}, {name:"需求编号", options:{filter:false}}, {name:"需求名称", options:{filter:false}}, {name:"需求负责人", options:{filter:true}}, {name:"需求状态", options:{filter:true}}];
 
 const data = [
     ["1", "YDZF-201809-12", "快速收款码需求这个需求很厉害", "张飞", "开发中"],
@@ -85,14 +92,14 @@ class TaskBoard extends React.Component {
         return (
             <Grid container spacing={0}>
                 <Grid item xs={12}>
-                    <MUIDataTable
-                        title={"需求列表"}
-                        data={data}
-                        columns={columns}
-                        options={options}
-                    />
+                        <MUIDataTable
+                            title={"需求列表"}
+                            data={data}
+                            columns={columns}
+                            options={options}
+                        />
+
                 </Grid>
-                <DemandEditor open={false}/>
             </Grid>
         )
     }

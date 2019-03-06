@@ -95,7 +95,11 @@ export function editTask(taskId) {
 
     let accessToken = localStorage.getItem("accessToken");
     let ret = taskId.split("-");
-    let id = ret[2];
+    let id = 0;
+    if(ret.length > 1){
+      id  = ret[2];
+    }
+
     return axios.post(UrlConf.task.getTask(), RequestBuilder.parseRequest(accessToken, {"taskId": id}), config)
         .then(response => {
 

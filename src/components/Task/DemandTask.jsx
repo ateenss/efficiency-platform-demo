@@ -5,6 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import Divider from "@material-ui/core/Divider"
 
@@ -20,6 +21,7 @@ import {editTask} from "../../actions/DemandTasksAction";
 
 import CardHeader from "@material-ui/core/CardHeader";
 import SimpleListMenu from "../common/SimpleListMenu";
+import Grid from "@material-ui/core/Grid";
 
 
 const styles = {
@@ -42,6 +44,9 @@ const styles = {
     taskContent:{
         padding:"0 15px 10px 15px",
         paddingBottom:"15px !important"
+    },
+    root:{
+        width:"100%"
     }
 
 
@@ -77,10 +82,10 @@ class DemandTask extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-
+            <Grid className={classes.root}>
             <Card className={classes.taskCard}>
                 <CardHeader className={classes.taskHeader} action={
-                    <SimpleListMenu options={options} id={this.props.group + "-taskId-" + this.props.taskId}/>
+                    <SimpleListMenu icon={<MoreVertIcon/>} options={options} id={this.props.group + "-taskId-" + this.props.taskId}/>
                 }
                             title={<h6 className={classes.cardTitle}>{this.props.taskName}</h6>}
                 />
@@ -95,7 +100,7 @@ class DemandTask extends React.Component {
                        onClick={e => e.preventDefault()}>周之豪</p>
                 </CardContent>
             </Card>
-
+            </Grid>
         );
     }
 }

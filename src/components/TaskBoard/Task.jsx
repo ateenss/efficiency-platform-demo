@@ -25,6 +25,7 @@ import ShareIcon from '@material-ui/icons/ArrowForward';
 import history from "../../history/history";
 import MyPage from "../views/MyPage.jsx";
 import {Home} from "@material-ui/icons";
+import {Typography} from "@material-ui/core";
 
 
 const styles = theme => ({
@@ -110,10 +111,6 @@ class Task extends React.Component {
     }
 
 
-    handleClick = () =>{
-      console.log(333);
-    };
-
     render() {
         const {classes} = this.props;
         const MyLink = props => <Link to="/task/my" {...props}/>
@@ -142,12 +139,18 @@ class Task extends React.Component {
 
                     </CardContent>
                     <CardActions className={classes.actions} disableActionSpacing>
+                        <Grid container justify="flex-start">
+
+                        <Grid item>
+                            {/*<IconButton aria-label="edit" onClick={this.props.editFunc}>*/}
+                            {/*<EditIcon/>*/}
+                            {/*</IconButton>*/}
+                            <Typography style={{marginLeft:"10px",color:"#b94947", fontSize:"12px"}}>2019/3/18  截止</Typography>
+                        </Grid>
+                        </Grid>
                         <Grid container justify="flex-end">
-                            <Grid item>
-                                <IconButton aria-label="edit" onClick={this.handleClick}>
-                                    <EditIcon/>
-                                </IconButton>
-                            </Grid>
+
+
                             <Grid item>
                             <IconButton aria-label="详情" taskid="1" component={MyLink} ref={this.btnRef}>
                                 <ShareIcon />
