@@ -9,15 +9,15 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {editReSave} from "../../actions/BuildProjectAction"
+import {editSaveDispatch} from "../../actions/BuildProjectAction"
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
 import MultiSelect from "./MultiSelect";
-import DataPicker from "./DataPicker"
+import DatePicker from "./DatePicker"
 import DesciptionInput from "./DescriptionInput"
-import RadioButton from "./RadioButton"
 import {connect} from "react-redux";
 import SingleSelect from "./SingleSelect"
+// import TimePicker from "./TimePicker"
 
 const styles = {
     avatar: {
@@ -28,11 +28,14 @@ const styles = {
         textAlign: 'center',
         position: 'absolute',
         right: 0,
+    },
+    time:{
+        top:30
     }
 
 };
 
-class ProjectPopupReEdit extends React.Component {
+class EditProjectMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -57,7 +60,7 @@ class ProjectPopupReEdit extends React.Component {
     handleReSave=()=>{
         this.props.onClose(this.props.selectedValue);
         console.log("以下是再编辑测试");
-        store.dispatch(editReSave({keyNote:this.props.keyNote,ReContent:this.state.projectContent}));
+        store.dispatch(editSaveDispatch({keyNote:this.props.keyNote,ReContent:this.state.projectContent}));
     };
 
 
@@ -127,8 +130,14 @@ class ProjectPopupReEdit extends React.Component {
                             <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" defaultValue={projectContent.head}
                                          nameArray={commonArray} />
                         </Grid>
-                        <Grid item xs={12}>
-                            <DataPicker onStartChange={this.getContent} onEndChange={this.getContent} startValue={projectContent.startTime} endValue={projectContent.endTime}/>
+                        <Grid item xs={4}>
+                            <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent} defaultValue={projectContent.startTime}/>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent} defaultValue={projectContent.endTime}/>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <DatePicker nameIn="buildTime" InputLabelName="创建时间" onDateChange={this.getContent} defaultValue={projectContent.buildTime}/>
                         </Grid>
                         <Grid item xs={4}>
                             <SingleSelect onChange={this.getContent}  nameIn="projectState" defaultValue={projectContent.projectState} />
@@ -154,7 +163,7 @@ class ProjectPopupReEdit extends React.Component {
     }
 }
 
-ProjectPopupReEdit.propTypes = {
+EditProjectMain.propTypes = {
     classes: PropTypes.object.isRequired,
     onClose: PropTypes.func,
     selectedValue: PropTypes.string,
@@ -166,4 +175,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(ProjectPopupReEdit));
+export default connect(mapStateToProps)(withStyles(styles)(EditProjectMain));

@@ -44,16 +44,6 @@ const MenuProps = {
     },
 };
 
-const names = [
-    '云闪付团队',
-    '二维码团队',
-    '安全攻防团队',
-    '移动支付团队',
-    '全渠道',
-    '多渠道',
-    '云平台',
-    '信息总中心'
-];
 
 function getStyles(name, that) {
     return {

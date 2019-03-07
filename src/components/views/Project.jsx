@@ -21,8 +21,8 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from '@material-ui/core/Tooltip';
 import MuiTable from '../BuildProject/MuiTable'
-import ShowCard from "../BuildProject/showCard"
 import Task from "../TaskBoard/Task"
+import {pullBuildProjectInitial} from "../../actions/BuildProjectAction"
 
 const styles = theme => ({
     root: {
@@ -60,6 +60,7 @@ const styles = theme => ({
 class Project extends React.Component {
     constructor(props) {
         super(props);
+        pullBuildProjectInitial();
         this.state = {
             expanded: false,
             popUpOpen: false,
@@ -91,6 +92,9 @@ class Project extends React.Component {
         getDemandTasks();
 
     }
+componentWillUpdate(nextProps, nextState, nextContext) {
+
+}
 
     render() {
         const {classes, demands,addProjects} = this.props;
