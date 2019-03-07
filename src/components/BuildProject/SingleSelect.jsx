@@ -53,12 +53,12 @@ class SingleSelect extends React.Component {
     };
 
     render() {
-        const { classes,nameIn,disabled } = this.props;
+        const { classes,nameIn,disabled ,InputLabelName} = this.props;
 
         return (
-            <form className={classes.root} autoComplete="off">
-                <FormControl className={classes.formControl} fullWidth>
-                    <InputLabel htmlFor="projectState-simple">状态</InputLabel>
+            <form className={classes.root} autoComplete="off" >
+                <FormControl className={classes.formControl} fullWidth disabled={disabled}>
+                    <InputLabel htmlFor="projectState-simple">{InputLabelName}</InputLabel>
                     <Select
                         value={this.state.projectState}
                         onChange={this.handleChange}

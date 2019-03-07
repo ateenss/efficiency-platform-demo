@@ -17,7 +17,7 @@ import DatePicker from "./DatePicker"
 import DesciptionInput from "./DescriptionInput"
 import {connect} from "react-redux";
 import SingleSelect from "./SingleSelect"
-// import TimePicker from "./TimePicker"
+import InputField from "./InputField"
 
 const styles = {
     avatar: {
@@ -90,7 +90,7 @@ class EditProjectMain extends React.Component {
 
 
     render() {
-        const {classes, onClose, selectedValue,keyNote,buttonStyle, addProjects,...other} = this.props;
+        const {classes, onClose, selectedValue,keyNote,buttonStyle, initialData,addProjects,...other} = this.props;
         const {projectContent}=this.state;
         const commonArray=[ '云闪付团队',
             '二维码团队',
@@ -105,7 +105,7 @@ class EditProjectMain extends React.Component {
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
-                        <Grid item xs={12}>
+                        <Grid item xs={8}>
                             <TextField
                                 autoFocus
                                 id="name"
@@ -117,18 +117,20 @@ class EditProjectMain extends React.Component {
                                 fullWidth
                             />
                         </Grid>
-
+                        <Grid item xs={4}>
+                            <InputField InputLabelName="项目编号" defaultValue={projectContent.number} disabled={true}/>
+                        </Grid>
                         <Grid item xs={4}>
                             <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" defaultValue={projectContent.type}
-                                         nameArray={commonArray} />
+                                         nameArray={initialData.type} />
                         </Grid>
                         <Grid item xs={4}>
                             <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" defaultValue={projectContent.members}
-                                         nameArray={commonArray} />
+                                         nameArray={initialData.members} />
                         </Grid>
                         <Grid item xs={4}>
                             <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" defaultValue={projectContent.head}
-                                         nameArray={commonArray} />
+                                         nameArray={initialData.head} />
                         </Grid>
                         <Grid item xs={4}>
                             <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent} defaultValue={projectContent.startTime}/>
@@ -140,7 +142,7 @@ class EditProjectMain extends React.Component {
                             <DatePicker nameIn="buildTime" InputLabelName="创建时间" onDateChange={this.getContent} defaultValue={projectContent.buildTime}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent}  nameIn="projectState" defaultValue={projectContent.projectState} />
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue={projectContent.projectState} disabled={false}/>
                         </Grid>
                         <Grid item xs={12}>
                             <DesciptionInput onChange={this.getContent} nameIn="description" defaultValue={projectContent.description}/>
@@ -171,7 +173,8 @@ EditProjectMain.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        addProjects:state.reducer.buildProject.addProjects
+        addProjects:state.reducer.buildProject.addProjects,
+        initialData:state.reducer.buildProject.initialData
     }
 };
 

@@ -57,6 +57,33 @@ export function editSave(value){
 }
 
 export function pullBuildProjectInitial(){
+    const send_edit_data = '需要填写后台地址';
+    const config = {
+        method: 'post'
+    };
+    //todo:正常向后台要数据的时候，才把这些数据写进去，目前这个初始化调用是放在Project里面
+    /*axios.post(send_edit_data, {"version": "1.0", "data": "BuildProjectInitial"},config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                store.dispatch({
+                    type: "save_success",
+                });
+                store.dispatch({
+                    type:"pull_initial_project",
+                    payload:InitialData
+                })
+            }else{
+                store.dispatch({
+                    type: "save_fail",
+                });
+            }
+        }).catch(error => {
+        console.log("后台提取数据出现问题"+error);
+        store.dispatch({
+            type: "save_error",
+        });
+    });*/
+    //以下是mock数据
     const rand=Math.floor(Math.random()*40)+1;
     const InitialData={
         ID:rand,

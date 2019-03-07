@@ -18,6 +18,8 @@ import DesciptionInput from "./DescriptionInput"
 import TigerInput from "../Input/TigerInput"
 import {pullBuildProjectInitial} from "../../actions/BuildProjectAction"
 import {connect} from "react-redux";
+import InputField from "./InputField"
+import SingleSelect from "./SingleSelect"
 
 
 const styles = {
@@ -33,6 +35,7 @@ const styles = {
 
 };
 
+let tempdata=null;
 class BuildProjectMain extends React.Component {
     constructor(props) {
         super(props);
@@ -48,7 +51,8 @@ class BuildProjectMain extends React.Component {
     // shouldComponentUpdate(nextProps, nextState, nextContext) {
     //     return false;
     // }
-    //todo:这里如果组织他更新的话，就会组织该页面的弹出
+    //todo:由于dialog的开关是通过props传进来的，如果在这里组织渲染的话，就不能改变dialog的弹出状态
+    //todo:目前发现，将初始化函数放入到本实例中，导致通过connect方式无法正常获取初始化数据
 
 
     handleClose = () => {
@@ -58,6 +62,7 @@ class BuildProjectMain extends React.Component {
         this.props.onClose(this.props.selectedValue);
         const temp=this.state.projectContent;
         temp["projectState"]="正在进行";
+        temp["number"]=tempdata;
         store.dispatch(buildSaveDispatch(temp));
     };
 
@@ -86,9 +91,10 @@ class BuildProjectMain extends React.Component {
     };
 
 
-
     render() {
         const {classes, onClose, selectedValue,initialData,buttonStyle, ...other} = this.props;
+        const rand=Math.floor(Math.random()*40)+1;
+        tempdata=rand;
         /*const commonArray=[ '云闪付团队',
             '二维码团队',
             '安全攻防团队',
@@ -102,7 +108,7 @@ class BuildProjectMain extends React.Component {
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
-                        <Grid item xs={12}>
+                        <Grid item xs={8}>
                             <TextField
                                 autoFocus
                                 id="name"
@@ -113,7 +119,9 @@ class BuildProjectMain extends React.Component {
                                 fullWidth
                             />
                         </Grid>
-
+                        <Grid item xs={4}>
+                            <InputField InputLabelName="项目编号" defaultValue={rand} nameIn="number"  disabled={true}/>
+                        </Grid>
                         <Grid item xs={4}>
                             <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" nameArray={initialData.type}/>
                         </Grid>
@@ -131,6 +139,9 @@ class BuildProjectMain extends React.Component {
                         </Grid>
                         <Grid item xs={4}>
                             <DatePicker nameIn="buildTime" InputLabelName="创建时间" onDateChange={this.getContent}/>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue="正在进行" disabled={true}/>
                         </Grid>
                         <Grid item xs={12}>
                             <DesciptionInput onChange={this.getContent} nameIn="description"/>
