@@ -107,7 +107,7 @@ class BuildProjectMain extends React.Component {
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={8}>
+                    <Grid container spacing={8} >
                         <Grid item xs={8}>
                             <TextField
                                 autoFocus
@@ -143,6 +143,9 @@ class BuildProjectMain extends React.Component {
                         <Grid item xs={4}>
                             <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue="正在进行" disabled={true}/>
                         </Grid>
+                        {/*<Grid item xs={4}>
+                            <TigerInput name="TigerInput"/>
+                        </Grid>*/}
                         <Grid item xs={12}>
                             <DesciptionInput onChange={this.getContent} nameIn="description"/>
                         </Grid>
