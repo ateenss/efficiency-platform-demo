@@ -17,7 +17,7 @@ const styles = {
 };
 
 const s = new Intl.DateTimeFormat('zh-cn');
-const timeInitial= s.format(new Date('2019-02-26'));
+const timeInitial= s.format(new Date());
 
 class LocalizedUtils extends DateFnsUtils {
     getDatePickerHeaderText(date) {
@@ -54,7 +54,7 @@ class MaterialUIPickers extends React.Component {
     render() {
         const { classes ,nameIn,InputLabelName} = this.props;
         const { data } = this.state;
-
+        const dateFormat = "yyyy/MM/dd";
         return (
             <MuiPickersUtilsProvider utils={LocalizedUtils} locale={cnLocale}>
                 <Grid container className={classes.grid}  spacing={0}>
@@ -66,6 +66,8 @@ class MaterialUIPickers extends React.Component {
                         label={InputLabelName}
                         value={data}
                         onChange={this.handleDateChange}
+                        format={dateFormat}
+                        views={["year", "month", "day"]}
                     />
                     </Grid>
                 </Grid>
