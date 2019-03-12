@@ -17,6 +17,10 @@ const GlobalValidateRegex = {
     taskContent:{
         ok : value => !value || !/^[a-zA-Z0-9]{4,10}$/.test(value) ? false : true,
         message : "6-10 letters of numbers"
+    },
+    name:{
+        ok : value => !value || !/^[a-zA-Z0-9]{4,10}$/.test(value) ? false : true,
+        message : "6-10 letters of numbers"
     }
 };
 

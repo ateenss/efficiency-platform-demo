@@ -92,6 +92,12 @@ const styles = theme => ({
         position:"relative"
     },
     edit:{
+        marginLeft:0,
+        paddingLeft:0,
+        borderLeft:0,
+        marginRight:0,
+        paddingRight:0,
+        borderRight:0,
         margin:0,
         position:"absolute",
         right:"0",
@@ -99,11 +105,32 @@ const styles = theme => ({
         zIndex:"10"
     },
     link:{
-        margin:0,
+        marginRight:0,
+        paddingRight:0,
+        borderRight:0,
         position:"absolute",
         right:"50px",
         top:"0",
-        zIndex:"10"
+        zIndex:"10",
+        width:0
+    },
+    buttonRoot:{
+        position:"absolute",
+        zIndex:"10",
+        top:"0",
+        right:"50px",
+        width:5,
+        border:0,
+        margin:0,
+        padding:0,
+        minWidth: 30
+    },
+    buttonLabel:{
+        height:30,
+        border:0,
+        margin:0,
+        padding:0,
+        width:20
     }
 });
 
@@ -193,7 +220,7 @@ class ProjectPanel extends React.Component {
                 </ButtonBase>
 
                 <Button   size="small" className={classes.edit} onClick={this.handleClickOpen} ><EditIcon style={{color:"#FFFFFF"}}/></Button>
-                <Button  size="small" className={classes.link}   component={MyLink} ><ListIcon style={{color:"#FFFFFF"}} /></Button>
+                <Button   classes={{label:classes.buttonLabel,root:classes.buttonRoot}}   component={MyLink} ><ListIcon style={{color:"#FFFFFF"}} /></Button>
                 <EditProject
                     open={this.state.popUpOpen}
                     onClose={this.handleClickClose}

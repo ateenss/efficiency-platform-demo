@@ -20,7 +20,7 @@ import Icon from '@material-ui/core/Icon';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from '@material-ui/core/Tooltip';
-import MuiTable from '../BuildProject/MuiTable'
+import MuiTable from '../SelfComponent/MuiTable'
 import Task from "../TaskBoard/Task"
 import {pullBuildProjectInitial} from "../../actions/BuildProjectAction"
 
@@ -64,7 +64,8 @@ class Project extends React.Component {
         this.state = {
             expanded: false,
             popUpOpen: false,
-            value: 0
+            value: 0,
+            randomNum:0
         };
     }
 
@@ -79,9 +80,10 @@ class Project extends React.Component {
     handleClickOpen = (e) => {
         e.stopPropagation()
         e.preventDefault();
-        // console.log("我是调用工程弹出按钮");
+        //todo:下面可以有多种形式的生成项目编号的方法
         this.setState({
             popUpOpen: true,
+            randomNum:Math.floor(Math.random()*400)+1
         });
         return false;
 
@@ -141,6 +143,7 @@ componentWillUpdate(nextProps, nextState, nextContext) {
                 <BuildProject
                     open={this.state.popUpOpen}
                     onClose={this.handleClickClose}
+                    randomNum={this.state.randomNum}
                 />
                {/* <NativeTable/>*/}
             </div>

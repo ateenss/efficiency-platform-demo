@@ -61,6 +61,6 @@ class TigerInput extends React.Component {
     }
 }
 
-
+//todo:这里自定义的输入框，缺少相关设计和动画，并且显示信息位置不太好，建议包装一个mui的原创组件，并且编写独立验证工具，并且注意在全局提示错误信息
 
 export default withStyles(styles)(TigerInput);

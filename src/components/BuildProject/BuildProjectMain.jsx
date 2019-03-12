@@ -4,22 +4,19 @@ import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import blue from '@material-ui/core/colors/blue';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {buildSaveDispatch} from "../../actions/BuildProjectAction"
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
-import MultiSelect from "./MultiSelect";
-import DatePicker from "./DatePicker"
-import DesciptionInput from "./DescriptionInput"
-import TigerInput from "../Input/TigerInput"
-import {pullBuildProjectInitial} from "../../actions/BuildProjectAction"
+import MultiSelect from "../SelfComponent/MultiSelect";
+import DatePicker from "../SelfComponent/DatePicker"
+import DesciptionInput from "../SelfComponent/DescriptionInput"
+import {pullBuildProjectInitial,hintDelete,buildSaveDispatch} from "../../actions/BuildProjectAction"
 import {connect} from "react-redux";
-import InputField from "./InputField"
-import SingleSelect from "./SingleSelect"
+import SingleSelect from "../SelfComponent/SingleSelect"
+import InputField from "../SelfComponent/InputField"
 
 
 const styles = {
@@ -35,11 +32,9 @@ const styles = {
 
 };
 
-let tempdata=null;
 class BuildProjectMain extends React.Component {
     constructor(props) {
         super(props);
-        // pullBuildProjectInitial();
         this.state = {
             openTask: false,
             projectContent:{
@@ -56,13 +51,15 @@ class BuildProjectMain extends React.Component {
 
 
     handleClose = () => {
+        store.dispatch(hintDelete(''));
         this.props.onClose(this.props.selectedValue);
     };
     handleSave=()=>{
+        store.dispatch(hintDelete(''));
         this.props.onClose(this.props.selectedValue);
         const temp=this.state.projectContent;
         temp["projectState"]="正在进行";
-        temp["number"]=tempdata;
+        temp["number"]=this.props.randomNum;
         store.dispatch(buildSaveDispatch(temp));
     };
 
@@ -92,23 +89,34 @@ class BuildProjectMain extends React.Component {
 
 
     render() {
-        const {classes, onClose, selectedValue,initialData,buttonStyle, ...other} = this.props;
-        const rand=Math.floor(Math.random()*40)+1;
-        tempdata=rand;
-        /*const commonArray=[ '云闪付团队',
-            '二维码团队',
-            '安全攻防团队',
-            '移动支付团队',
-            '全渠道',
-            '多渠道',
-            '云平台',
-            '信息总中心'];*/
+        const {classes, onClose, selectedValue,initialData,buttonStyle,hintMessage,randomNum, ...other} = this.props;
+        //todo:这里无法有效解决error公用问题，只能采用直接根据页面罗列写死的方法，毕竟一个界面的输入框不是很多
+        let error2=false;
+        let hintLabel2="任务名称";
+        let error1=false;
+        let hintLabel1="项目名称";
+        if (hintMessage.name) {
+            error1 = true;
+            hintLabel1 = hintMessage.name
+        } else {
+            error1 = false;
+            hintLabel1 = "项目名称"
+        }
+
+        if (hintMessage.username) {
+            error2 = true;
+            hintLabel2 = hintMessage.username
+        } else {
+            error2 = false;
+            hintLabel2 = "任务名称"
+        }
+
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
-                        <Grid item xs={8}>
+                        {/*<Grid item xs={8}>
                             <TextField
                                 autoFocus
                                 id="name"
@@ -118,9 +126,17 @@ class BuildProjectMain extends React.Component {
                                 onChange={this.getContent}
                                 fullWidth
                             />
+                        </Grid>*/}
+                        <Grid item xs={8}>
+                            <InputField
+                                nameIn="name"
+                                onChange={this.getContent}
+                                error={error1}
+                                InputLabelName={hintLabel1}
+                                />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputField InputLabelName="项目编号" defaultValue={rand} nameIn="number"  disabled={true}/>
+                            <InputField InputLabelName="项目编号" defaultValue={randomNum} nameIn="number"  disabled={true}/>
                         </Grid>
                         <Grid item xs={4}>
                             <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" nameArray={initialData.type}/>
@@ -143,15 +159,17 @@ class BuildProjectMain extends React.Component {
                         <Grid item xs={4}>
                             <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue="正在进行" disabled={true}/>
                         </Grid>
-                        {/*<Grid item xs={4}>
-                            <TigerInput name="TigerInput"/>
-                        </Grid>*/}
+                        <Grid item xs={4}>
+                            <InputField nameIn="username" InputLabelName={hintLabel2} onChange={this.getContent} error={error2}/>
+                        </Grid>
+
                         <Grid item xs={12}>
                             <DesciptionInput onChange={this.getContent} nameIn="description"/>
                         </Grid>
                         {/*<Grid item xs={4}>*/}
-                            {/*<TigerInput/>*/}
+                            {/*<Typography color="error">{hintMessage}</Typography>*/}
                         {/*</Grid>*/}
+
 
 
                     </Grid>
@@ -179,7 +197,8 @@ BuildProjectMain.propTypes = {
 const mapStateToProps = (state) => {
     // console.log("map数据:"+state.reducer.buildProject.addProjects);
     return {
-        initialData:state.reducer.buildProject.initialData
+        initialData:state.reducer.buildProject.initialData,
+        hintMessage:state.reducer.buildProject.hintMessage
     }
 };
 

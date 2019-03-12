@@ -59,16 +59,16 @@ class MaterialUIPickers extends React.Component {
             <MuiPickersUtilsProvider utils={LocalizedUtils} locale={cnLocale}>
                 <Grid container className={classes.grid}  spacing={0}>
                     <Grid item xs={12}>
-                    <DatePicker
-                        fullWidth
-                        name={nameIn}
-                        margin="normal"
-                        label={InputLabelName}
-                        value={data}
-                        onChange={this.handleDateChange}
-                        format={dateFormat}
-                        views={["year", "month", "day"]}
-                    />
+                        <DatePicker
+                            fullWidth
+                            name={nameIn}
+                            margin="normal"
+                            label={InputLabelName}
+                            value={data}
+                            onChange={this.handleDateChange}
+                            format={dateFormat}
+                            views={["year", "month", "day"]}
+                        />
                     </Grid>
                 </Grid>
             </MuiPickersUtilsProvider>

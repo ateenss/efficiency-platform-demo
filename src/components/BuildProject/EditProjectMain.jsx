@@ -12,12 +12,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {editSaveDispatch} from "../../actions/BuildProjectAction"
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
-import MultiSelect from "./MultiSelect";
-import DatePicker from "./DatePicker"
-import DesciptionInput from "./DescriptionInput"
+import MultiSelect from "../SelfComponent/MultiSelect";
+import DatePicker from "../SelfComponent/DatePicker"
+import DesciptionInput from "../SelfComponent/DescriptionInput"
 import {connect} from "react-redux";
-import SingleSelect from "./SingleSelect"
-import InputField from "./InputField"
+import SingleSelect from "../SelfComponent/SingleSelect"
+import InputField from "../SelfComponent/InputField"
 
 const styles = {
     avatar: {
@@ -92,14 +92,7 @@ class EditProjectMain extends React.Component {
     render() {
         const {classes, onClose, selectedValue,keyNote,buttonStyle, initialData,addProjects,...other} = this.props;
         const {projectContent}=this.state;
-        const commonArray=[ '云闪付团队',
-            '二维码团队',
-            '安全攻防团队',
-            '移动支付团队',
-            '全渠道',
-            '多渠道',
-            '云平台',
-            '信息总中心'];
+        //todo:错误提示还没有和BuildProjectMain里面进行统一
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
@@ -117,6 +110,14 @@ class EditProjectMain extends React.Component {
                                 fullWidth
                             />
                         </Grid>
+                        {/*<Grid item xs={8}>
+                            <InputField
+                                nameIn="name"
+                                onChange={this.getContent}
+                                error={error1}
+                                InputLabelName={hintLabel1}
+                            />
+                        </Grid>*/}
                         <Grid item xs={4}>
                             <InputField InputLabelName="项目编号" defaultValue={projectContent.number} disabled={true}/>
                         </Grid>

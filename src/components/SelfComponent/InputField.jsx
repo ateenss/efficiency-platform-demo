@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import GlobalValidateRegex from "../../constants/GlobalValidateRegex";
+import store from '../../stores/index';
+import {hintPopUp} from "../../actions/BuildProjectAction"
 
 const styles = theme => ({
     container: {
@@ -13,7 +14,7 @@ const styles = theme => ({
     textField: {
         marginLeft: 0,
         marginRight: 0,
-        width: 200,
+        width: "100%",
         marginTop:0
     },
     dense: {
@@ -29,7 +30,8 @@ const styles = theme => ({
 class TextFields extends React.Component {
     state = {
         name: 'Cat in the Hat',
-        age: ''
+        age: '',
+        message: ""
     };
 
     handleChange = event => {
@@ -37,42 +39,40 @@ class TextFields extends React.Component {
         this.props.onChange({keyNote:event.target.name,value:event.target.value})
     };
 
+    onBLUR = e => {
+        const regex = GlobalValidateRegex[e.target.name];
+        if (!regex.ok(e.target.value)) {
+            this.setState({message : regex.message});
+            store.dispatch(hintPopUp({[e.target.name]:regex.message}));
+        }else{
+            // this.setState({message:""})
+            store.dispatch(hintPopUp({[e.target.name]:""}));
+        }
+
+
+    };
+
     render() {
-        const { classes ,InputLabelName,defaultValue,nameIn,disabled,onChange} = this.props;
+        const { classes ,InputLabelName,defaultValue,nameIn,disabled,error} = this.props;
 
         return (
             <form className={classes.container} noValidate autoComplete="off">
-                {/*如果是标准件可以使用如下信息*/}
-                {/*<TextField
-                    id="standard-name"
-                    label="Name"
-                    className={classes.textField}
-                    value={this.state.name}
-                    onChange={this.handleChange('name')}
-                    margin="normal"
-                />*/}
-                {/*如果是错误提示信息可以参考以下信息填写*/}
-                {/*<TextField
-                    error
-                    id="standard-error"
-                    label="Error"
-                    defaultValue="Hello World"
-                    className={classes.textField}
-                    margin="normal"
-                />*/}
                 <TextField
                     disabled={disabled}
-                    id="standard-disabled"
+                    id="standard-name"
                     label={InputLabelName}
                     defaultValue={defaultValue}
                     className={classes.textField}
                     margin="normal"
                     onChange={this.handleChange}
                     name={nameIn}
+                    inputProps={{
+                        onBlur: this.onBLUR
+                    }}
                     fullWidth
+                    type="email"
+                    error={error}
                 />
-
-
             </form>
         );
     }

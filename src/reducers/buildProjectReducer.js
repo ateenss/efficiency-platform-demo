@@ -3,7 +3,8 @@
 export const INITIAL_STATE = {
     addProjects:[],
     noticeMessage:null,
-    initialData:null
+    initialData:null,
+    hintMessage:{}
 };
 
 //专门用来创建项目的reducer
@@ -43,6 +44,14 @@ export default function (state = INITIAL_STATE, action) {
             const initialState=JSON.parse(JSON.stringify(state));
             initialState.initialData=action.payload;
             return initialState;
+        case "hint_pop":
+            const hintState=JSON.parse(JSON.stringify(state));
+            hintState.hintMessage=action.value;
+            return hintState;
+        case "hint_delete":
+            const hintDeleteState=JSON.parse(JSON.stringify(state));
+            hintDeleteState.hintMessage=action.value;
+            return hintDeleteState;
         default:
             return state;
     }
