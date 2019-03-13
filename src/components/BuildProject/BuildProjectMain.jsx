@@ -157,10 +157,10 @@ class BuildProjectMain extends React.Component {
                             <DatePicker nameIn="buildTime" InputLabelName="创建时间" onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue="正在进行" disabled={true}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue="正在进行"  disabled={true} nameArray={initialData.projectState}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <InputField nameIn="username" InputLabelName={hintLabel2} onChange={this.getContent} error={error2}/>
+                            <InputField nameIn="username" InputLabelName="任务名称" onChange={this.getContent} />
                         </Grid>
 
                         <Grid item xs={12}>
@@ -195,7 +195,7 @@ BuildProjectMain.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    // console.log("map数据:"+state.reducer.buildProject.addProjects);
+    // console.log("map数据:"+state.reducer.buildProject.initialData.head);
     return {
         initialData:state.reducer.buildProject.initialData,
         hintMessage:state.reducer.buildProject.hintMessage

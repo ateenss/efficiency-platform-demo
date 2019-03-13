@@ -90,6 +90,7 @@ export function pullBuildProjectInitial(){
         type:["业务需求项目","系统架构优化"],
         members:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
         head:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
+        projectState:["正在进行","已经完成"]
     };
     store.dispatch({
         type:"pull_initial_project",
@@ -98,12 +99,22 @@ export function pullBuildProjectInitial(){
 }
 
 
-//注意正常使用的时候，把方法切换成上面的真正发送请求的action
+//todo:注意正常使用的时候，把方法切换成上面的真正发送请求的action
 export  const editSaveDispatch=(value)=>({
     type:"edit_save",
     value
 });
 export  const buildSaveDispatch=(value)=>({
     type:"build_save",
+    value
+});
+
+export const hintPopUp=(value)=>({
+    type:"hint_pop",
+    value
+});
+
+export const hintDelete=(value)=>({
+    type:"hint_delete",
     value
 });

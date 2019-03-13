@@ -11,6 +11,8 @@
 |SingleSelect|单项选择
 |DatePicker|本土化的日期选择器
 |DescriptionInput|描述类文本输入框
+|CheckBoxDouble|双选复选框
+|RadioButton|双选单选按钮
 ***
 #### 3`. 三大界面情况表`
 
@@ -27,10 +29,43 @@
 
 `相关数据字典`
 
-| 名称  | 功能 |
-| --- | --- | 
-|BuildProjectMain|新建工程
-|EditProjectMain|编辑工程
+`BuildProjectMain`
+
+ 名称  | 功能 | 备注 |
+| --- | --- |  --- |
+|ProjectID|项目编号|系统自动生成
+|ProjectName|项目名称|
+|ProjectType|项目类型|业务需求项目，系统架构优化
+|ProjectMembers|项目成员|从团队成员中选择
+|ProjectHead|项目负责人|从团队成员中选择
+|ProjectStartTime|项目开始时间|
+|ProjectEndTime|项目结束时间|
+|ProjectBuildTime|项目创建时间|
+|ProjectStatus|项目状态|未开始，进行中，已开始
+
+`EditProjectMain`
+
+ 名称  | 功能 | 备注 |
+| --- | --- |  --- |
+|ProjectID|项目编号|系统自动生成
+|ProjectName|项目名称|
+|ProjectType|项目类型|业务需求项目，系统架构优化
+|ProjectMembers|项目成员|从团队成员中选择
+|ProjectHead|项目负责人|从团队成员中选择
+|ProjectStartTime|项目开始时间|
+|ProjectEndTime|项目结束时间|
+|ProjectBuildTime|项目创建时间|
+|ProjectStatus|项目状态|未开始，进行中，已开始
+
+`项目概览`
+
+ 名称  | 功能 | 备注 |
+| --- | --- |  --- |
+|ProjectID|查看项目负责人|
+|ProjectID|查看包含的需求|按照不同阶段分别显示
+|ProjectID|包含的版本数|
+|ProjectID|任务数|
+|ProjectID|项目成员|
 ---
 
 #### `二.需求管理`

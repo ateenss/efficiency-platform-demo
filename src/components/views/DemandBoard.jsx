@@ -25,17 +25,23 @@ import Badge from "@material-ui/core/Badge";
 import Chip from "@material-ui/core/Chip";
 import MUIDataTable from "mui-datatables";
 import DemandEditor from "../demand/DemandEditor";
-import store from "../../stores";
+// import store from "../../stores";
 import {SHOW_NOTIFICATION} from "../../actions/types";
 import {saveTask} from "../../actions/DemandTasksAction";
 import Paper from "@material-ui/core/Paper";
+import red from '@material-ui/core/colors/red';
+import store from '../../stores/index';
+import {closeBuildDemand, openBuildDemand,pullBuildDemandInitial} from "../../actions/BuildDemandAction"
+import BuildDemandMain from "../BuildDemand/BuildDemandMain"
 
 const styles = theme => ({
     root: {
-        ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
+        flexGrow: 1,
     },
+    newBuildButton:{
+        color:red[500]
+    }
+
 });
 
 
@@ -82,15 +88,51 @@ const options = {
 class TaskBoard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        pullBuildDemandInitial();
+        this.state = {
+            randomNum:0
+        };
     }
 
+    openDemand=e=>{
+        store.dispatch(openBuildDemand());
+        e.stopPropagation();
+        e.preventDefault();
+        //todo:这里代表打开的时候生成一个随机数，代表各种工程编号，真正用的时候需要修改一下
+        this.setState({
+            randomNum:Math.floor(Math.random()*400)+1
+        });
+        return false;
+
+    };
+    handleClickClose = () => {
+        store.dispatch(closeBuildDemand());
+    };
+
     render() {
-        const {classes} = this.props;
+        const {classes,isOrNotShow} = this.props;
 
 
         return (
-            <Grid container spacing={0}>
+            <Grid container spacing={16}>
+                <Grid item xs={12}>
+                    <div className={classes.root}>
+                        <AppBar position="static" color="default">
+                            <Toolbar>
+                                <Grid container spacing={4}>
+                                    <Grid item xs={2}>
+                                        <Typography variant="h6" color="inherit">
+                                            需求工具栏
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openDemand}>新建需求</Button>
+                                    </Grid>
+                                </Grid>
+                            </Toolbar>
+                        </AppBar>
+                    </div>
+                </Grid>
                 <Grid item xs={12}>
                         <MUIDataTable
                             title={"需求列表"}
@@ -100,7 +142,13 @@ class TaskBoard extends React.Component {
                         />
 
                 </Grid>
+                <BuildDemandMain
+                    open={isOrNotShow}
+                    onClose={this.handleClickClose}
+                    randomNum={this.state.randomNum}
+                />
             </Grid>
+
         )
     }
 }
@@ -109,9 +157,10 @@ class TaskBoard extends React.Component {
 // 从store里面取数据给组件
 const
     mapStateToProps = (state) => {
-        console.log("!!!!!!!!" + JSON.stringify(state.reducer.task.demand));
+        // console.log("!!!!!!!!" + JSON.stringify(state.reducer.task.demand));
         return {
-            demand: state.reducer.task.demand
+            demand: state.reducer.task.demand,
+            isOrNotShow:state.reducer.buildDemand.isOrNotShow,
         }
     };
 

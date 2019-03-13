@@ -20,45 +20,51 @@ const styles = theme => ({
     },
 });
 
-
 class SingleSelect extends React.Component {
     state = {
-        projectState: '',
-        labelWidth: 20,
-        name: 'hai'
+        value: '',
+        name: 'hai',
+        labelWidth: 0,
     };
-
 
     componentDidMount() {
         if (this.props.defaultValue) {
             this.setState({
-                projectState: this.props.defaultValue
+                value: this.props.defaultValue
             })
         }
     }
+
+
     handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+        // console.log(event.target.name);
+        this.setState({ value: event.target.value });
         this.props.onChange({keyNote:event.target.name,value:event.target.value})
     };
 
     render() {
-        const { classes,nameIn,disabled ,InputLabelName} = this.props;
+        const { classes,InputLabelName,nameArray,nameIn,disabled } = this.props;
 
         return (
-            <form className={classes.root} autoComplete="off" >
+            <form className={classes.root} autoComplete="off">
                 <FormControl className={classes.formControl} fullWidth disabled={disabled}>
-                    <InputLabel htmlFor="projectState-simple">{InputLabelName}</InputLabel>
+                    <InputLabel htmlFor="age-simple">{InputLabelName}</InputLabel>
                     <Select
-                        value={this.state.projectState}
+                        value={this.state.value}
                         onChange={this.handleChange}
                         name={nameIn}
                         inputProps={{
-                            name: 'projectState',
-                            id: 'projectState-simple',
+                            /*name: {nameIn},*/
+                            id: 'age-simple',
                         }}
                     >
-                        <MenuItem value="正在进行" >正在进行</MenuItem>
-                        <MenuItem value="已完成" >已完成</MenuItem>
+                        {
+                            nameArray.map((value,index)=>{
+                                return(
+                                    <MenuItem value={value} key={index} >{value}</MenuItem>
+                                )
+                            })
+                        }
                     </Select>
                 </FormControl>
             </form>
@@ -69,5 +75,6 @@ class SingleSelect extends React.Component {
 SingleSelect.propTypes = {
     classes: PropTypes.object.isRequired,
 };
+
 
 export default withStyles(styles)(SingleSelect);

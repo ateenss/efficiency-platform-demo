@@ -14,6 +14,13 @@ const styles = {
     grid: {
         width: '100%',
     },
+    provider:{
+        marginTop:0
+    },
+    body:{
+        marginTop:0
+    }
+
 };
 
 const s = new Intl.DateTimeFormat('zh-cn');
@@ -34,10 +41,12 @@ class MaterialUIPickers extends React.Component {
     };
 
     handleDateChange = date => {
-        this.setState({ data: date });
+        // this.setState({ data: date });
+        console.log(s.format(date));
+        this.setState({ data: s.format(date) });
         // this.props.onStartChange(date);
         // console.log(this.props.nameIn);
-        this.props.onDateChange({keyNote:this.props.nameIn,value:date})
+        this.props.onDateChange({keyNote:this.props.nameIn,value:s.format(date)})
     };
 
     componentWillMount() {
@@ -56,9 +65,7 @@ class MaterialUIPickers extends React.Component {
         const { data } = this.state;
         const dateFormat = "yyyy/MM/dd";
         return (
-            <MuiPickersUtilsProvider utils={LocalizedUtils} locale={cnLocale}>
-                <Grid container className={classes.grid}  spacing={0}>
-                    <Grid item xs={12}>
+            <MuiPickersUtilsProvider utils={LocalizedUtils} locale={cnLocale} className={classes.provider}>
                         <DatePicker
                             fullWidth
                             name={nameIn}
@@ -68,9 +75,8 @@ class MaterialUIPickers extends React.Component {
                             onChange={this.handleDateChange}
                             format={dateFormat}
                             views={["year", "month", "day"]}
+                            className={classes.body}
                         />
-                    </Grid>
-                </Grid>
             </MuiPickersUtilsProvider>
         );
     }

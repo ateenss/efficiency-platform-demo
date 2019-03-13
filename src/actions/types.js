@@ -11,8 +11,10 @@ export const CHANGE_TASK_STATUS="change_task_status";
 export const GET_TASK="get_task";
 export const SAVE_TASK="save_task";
 export const GET_DEMAND="get_demand";
-
 export const OPEN_PROJECT="open_project";
-
-
 export const SELECT_ITERATION="select_iteration";
+export const OPEN_BUILD_DEMAND="open_build_demand";
+export const CLOSE_BUILD_DEMAND="close_build_demand";
+export const PULL_INITIAL_DEMAND="pull_initial_demand";
+export const SINGLE_SELECT_VALUE="single_select_value";
+export const BUILD_SAVE="build_save";

@@ -143,7 +143,7 @@ class EditProjectMain extends React.Component {
                             <DatePicker nameIn="buildTime" InputLabelName="创建时间" onDateChange={this.getContent} defaultValue={projectContent.buildTime}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue={projectContent.projectState} disabled={false}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue={projectContent.projectState} disabled={false} nameArray={initialData.projectState}/>
                         </Grid>
                         <Grid item xs={12}>
                             <DesciptionInput onChange={this.getContent} nameIn="description" defaultValue={projectContent.description}/>

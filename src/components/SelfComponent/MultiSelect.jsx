@@ -8,11 +8,13 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
+        height:50
     },
     formControl: {
         margin: "0",
@@ -102,17 +104,15 @@ class MultipleSelect extends React.Component {
                         input={<Input id="select-multiple-checkbox" />}
                         renderValue={selected => selected.join(', ')}
                         MenuProps={MenuProps}
-
                     >
                         {nameArray.map(name => (
-                            <MenuItem key={name} value={name}>
+                            <MenuItem key={name} value={name} >
                                 <Checkbox checked={this.state.name.indexOf(name) > -1} />
                                 <ListItemText primary={name} />
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
-
             </div>
         );
     }

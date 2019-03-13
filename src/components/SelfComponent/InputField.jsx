@@ -66,9 +66,9 @@ class TextFields extends React.Component {
                     margin="normal"
                     onChange={this.handleChange}
                     name={nameIn}
-                    inputProps={{
+                    /*inputProps={{
                         onBlur: this.onBLUR
-                    }}
+                    }}*/
                     fullWidth
                     type="email"
                     error={error}

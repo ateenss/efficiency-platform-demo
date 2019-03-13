@@ -1,64 +1,74 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import green from '@material-ui/core/colors/green';
 import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
+import Typography from '@material-ui/core/Typography';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Checkbox from '@material-ui/core/Checkbox';
 
-const styles = theme => ({
+
+const styles = {
     root: {
-        display: 'flex',
+        color: green[600],
+        '&$checked': {
+            color: green[500],
+        },
     },
-    formControl: {
-        margin: theme.spacing.unit * 3,
+    checked: {},
+    letter:{
+        fontSize:"0.6",
+        color:"#9e9e9e",
+        position:"relative",
+        bottom:0,
+        width:"100%"
     },
-    group: {
-        margin: `${theme.spacing.unit}px 0`,
+    labelA:{
+        position:"absolute",
+        top:"10px",
+        left:"0",
+        marginRight:"20px"
     },
-});
+    labelB:{
+        position:"absolute",
+        top:"10px",
+        right:"0",
+        left:"80px",
+        marginRight:"0"
+    }
+};
 
-class RadioButtonsGroup extends React.Component {
+class RadioButtons extends React.Component {
     state = {
-        value: 'femal',
+        value: '是',
     };
 
     handleChange = event => {
+        console.log({keyNote:event.target.name,value:event.target.value});
         this.setState({ value: event.target.value });
-        // this.props.onChange(event)
         this.props.onChange({keyNote:event.target.name,value:event.target.value})
     };
 
-    componentWillMount() {
-        if(this.props.defaultValue){
-            this.setState({
-                value:this.props.defaultValue
-            })
-        }
-    }
-
     render() {
-        const { classes} = this.props;
+        const { classes,InputLabelName,labelArray,nameIn } = this.props;
 
         return (
-            <div className={classes.root}>
+            <div>
                 <FormControl component="fieldset" className={classes.formControl}>
-                    {/*<FormLabel component="legend">状态</FormLabel>*/}
+                    <FormLabel component="legend" className={classes.letter}>{InputLabelName}</FormLabel>
                     <RadioGroup
                         aria-label="Gender"
+                        name={nameIn}
                         className={classes.group}
                         value={this.state.value}
                         onChange={this.handleChange}
-                        name="projectState"
                     >
-                        <FormControlLabel value="doing" control={<Radio />} label="进行中" />
-                        <FormControlLabel
-                            value="finish"
-                            control={<Radio color="primary" />}
-                            label="已完成"
-                        />
+                        <FormControlLabel value={labelArray[0]}   control={<Checkbox />} label={labelArray[0]} className={classes.labelA}/>
+                        <FormControlLabel value={labelArray[1]} control={<Checkbox />} label={labelArray[1]} className={classes.labelB}/>
                     </RadioGroup>
                 </FormControl>
             </div>
@@ -66,8 +76,8 @@ class RadioButtonsGroup extends React.Component {
     }
 }
 
-RadioButtonsGroup.propTypes = {
+RadioButtons.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(RadioButtonsGroup);
+export default withStyles(styles)(RadioButtons);
