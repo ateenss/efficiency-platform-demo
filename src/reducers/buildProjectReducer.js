@@ -16,27 +16,27 @@ export const INITIAL_STATE = {
 //专门用来创建项目的reducer
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
-        case "build_save":
+        case BUILD_SAVE_PROJECT:
             console.log("创建提交store");
             const newState=JSON.parse(JSON.stringify(state));
             newState.addProjects.push(action.value);
             return newState;
-        case "save_success":
+        case PROJECT_SAVE_SUCCESS:
             console.log("提交后台成功");
             const successState=JSON.parse(JSON.stringify(state));
             successState.noticeMessage="提交成功";
             return successState;
-        case "save_fail":
+        case PROJECT_SAVE_FAIL:
             console.log("提交后台失败");
             const failState=JSON.parse(JSON.stringify(state));
             successState.noticeMessage="提交成功";
             return failState;
-        case "error_fail":
+        case PROJECT_SAVE_ERROR:
             console.log("提交后台出现异常");
             const errorState=JSON.parse(JSON.stringify(state));
             successState.noticeMessage="提交过程出现异常";
             return errorState;
-        case "edit_save":
+        case EDIT_SAVE_PROJECT:
             console.log("编辑修改store");
             const newRState=JSON.parse(JSON.stringify(state));
             newRState.addProjects.forEach((item,index)=>{
@@ -45,7 +45,7 @@ export default function (state = INITIAL_STATE, action) {
                 }
             });
             return newRState;
-        case "pull_initial_project":
+        case PULL_INITIAL_PROJECT:
             console.log("获取初始化程序成功");
             const initialState=JSON.parse(JSON.stringify(state));
             initialState.initialData=action.payload;
