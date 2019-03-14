@@ -9,6 +9,8 @@ import {changeTaskStatus, editDemand, editTask} from "../../actions/DemandTasksA
 import DemandGuihuaIcon from "@material-ui/icons/Receipt"
 import ChooseDemandBox from "./ChooseDemandBox";
 import SimpleListMenu from "../common/SimpleListMenu";
+import store from '../../stores/index';
+import {openEditDemand} from "../../actions/BuildDemandAction"
 
 const defaultToolbarSelectStyles = {
     iconButton: {
@@ -79,6 +81,7 @@ class CustomToolbarSelect extends React.Component {
 
     handleEdit = () => {
         editDemand(this.props.displayData[this.props.selectedRows.data[0].dataIndex]);
+        store.dispatch(openEditDemand());
     };
 
     handleClickBlockSelected = () => {

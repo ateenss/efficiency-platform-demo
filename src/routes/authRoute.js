@@ -2,12 +2,14 @@ import React from 'react';
 import {Route, Redirect} from "react-router-dom";
 import indexRoutes from "../routes/index.jsx";
 import {connect} from 'react-redux';
-
+import {pullBuildDemandInitial} from "../actions/BuildDemandAction"
 class AuthenticatedComponent extends React.Component {
     constructor(props) {
         super(props);
+        pullBuildDemandInitial()
     }
 
+    //todo:需求初始化数据放在这里了
     render() {
         const {authenticated} = this.props;
         let token = localStorage.getItem('token');

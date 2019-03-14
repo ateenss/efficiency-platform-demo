@@ -1,6 +1,13 @@
 import axios from 'axios';
 import history from '../history/history';
 import store from '../stores/index';
+import {PULL_INITIAL_PROJECT,
+        BUILD_SAVE_PROJECT,
+        EDIT_SAVE_PROJECT,
+        PROJECT_SAVE_SUCCESS,
+        PROJECT_SAVE_FAIL,
+        PROJECT_SAVE_ERROR
+        }from "./types"
 
 
 
@@ -8,7 +15,7 @@ import store from '../stores/index';
 //提交保存填写的项目内容
 export function buildSave(value){
     const send_save_data = '需要填写后台地址';
-    store.dispatch(buildSaveDispatch(value));
+    store.dispatch(buildSaveProjectDispatch(value));
     const config = {
         method: 'post'
     };
@@ -16,17 +23,17 @@ export function buildSave(value){
         .then(response => {
             if (response.data.respCode === "00") {
                 store.dispatch({
-                    type: "save_success",
+                    type: PROJECT_SAVE_SUCCESS,
                 });
             }else{
                 store.dispatch({
-                    type: "save_fail",
+                    type: PROJECT_SAVE_FAIL,
                 });
             }
         }).catch(error => {
             console.log("发送数据到后台出现问题"+error);
             store.dispatch({
-                type: "save_error",
+                type: PROJECT_SAVE_ERROR,
             });
         });
 }
@@ -41,17 +48,17 @@ export function editSave(value){
         .then(response => {
             if (response.data.respCode === "00") {
                 store.dispatch({
-                    type: "save_success",
+                    type: PROJECT_SAVE_SUCCESS,
                 });
             }else{
                 store.dispatch({
-                    type: "save_fail",
+                    type: PROJECT_SAVE_FAIL,
                 });
             }
         }).catch(error => {
             console.log("发送数据到后台出现问题"+error);
             store.dispatch({
-                type: "save_error",
+                type: PROJECT_SAVE_ERROR,
             });
         });
 }
@@ -93,7 +100,7 @@ export function pullBuildProjectInitial(){
         projectState:["正在进行","已经完成"]
     };
     store.dispatch({
-        type:"pull_initial_project",
+        type:PULL_INITIAL_PROJECT,
         payload:InitialData
     })
 }
@@ -101,14 +108,16 @@ export function pullBuildProjectInitial(){
 
 //todo:注意正常使用的时候，把方法切换成上面的真正发送请求的action
 export  const editSaveDispatch=(value)=>({
-    type:"edit_save",
+    type:EDIT_SAVE_PROJECT,
     value
 });
-export  const buildSaveDispatch=(value)=>({
-    type:"build_save",
+export  const buildSaveProjectDispatch=(value)=>({
+    type:BUILD_SAVE_PROJECT,
     value
 });
 
+
+//todo:这里面需要修改，有点问题，现在弃用
 export const hintPopUp=(value)=>({
     type:"hint_pop",
     value

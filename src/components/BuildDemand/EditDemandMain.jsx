@@ -13,9 +13,10 @@ import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
 import DesciptionInput from "../SelfComponent/DescriptionInput"
-import {pullBuildDemandInitial,buildSaveDemandDispatch,closeBuildDemand} from "../../actions/BuildDemandAction"
+import {closeEditDemand,editDemandDispatch} from "../../actions/BuildDemandAction"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
+import CheckBox from "../SelfComponent/CheckBoxDouble"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import RadioButton from "../SelfComponent/RadioButton"
 
@@ -38,37 +39,31 @@ class BuildDemandMain extends React.Component {
         super(props);
         this.state = {
             openTask: false,
-            projectContent:{
+            defaultContent:{
+            },
 
-            }
         }
+    }
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.addDemand) {
+            this.setState({
+                defaultContent:nextProps.addDemand
+            })
+        }
+
     }
 
 
 
-
     handleClose = () => {
-        // store.dispatch(hintDelete(''));
-        /*this.props.onClose(this.props.selectedValue);*/
-        store.dispatch(closeBuildDemand());
+        store.dispatch(closeEditDemand());
     };
     handleSave=()=>{
-        // store.dispatch(hintDelete(''));
-        // this.props.onClose(this.props.selectedValue);
-        store.dispatch(closeBuildDemand());
-        const s = new Intl.DateTimeFormat('zh-cn');
-        const timeInitial= s.format(new Date());
-        const temp=this.state.projectContent;
-        const keyArray=["DemandScale","DemandPriority","BusinessTrack","WithBM","WithUAT","DemandAcceptTime","DemandPassTime"];
-        const valueArray=["小型","p3","是","是","是",timeInitial,timeInitial];
-        keyArray.map((value,key)=>{
-            if(Object.keys(temp).indexOf(value)===-1){
-                temp[value]=valueArray[key]
-            }
-        });
-
+        store.dispatch(closeEditDemand());
+        const temp=this.state.defaultContent;
         temp["DemandID"]=this.props.randomNum;
-        store.dispatch(buildSaveDemandDispatch(temp));
+        temp["findNote"]=this.props.findNote;
+        store.dispatch(editDemandDispatch(temp));
     };
 
 
@@ -77,20 +72,20 @@ class BuildDemandMain extends React.Component {
         if (e.keyNote){
             const keyNote=e.keyNote;
             const value=e.value;
-            let data = Object.assign({}, this.state.projectContent, {
+            let data = Object.assign({}, this.state.defaultContent, {
                 [keyNote]: value.toString()
             });
             this.setState({
-                projectContent:data
+                defaultContent:data
             })
         }else{
             const keyNote=e.target.name;
             const value=e.target.value;
-            let data = Object.assign({}, this.state.projectContent, {
+            let data = Object.assign({}, this.state.defaultContent, {
                 [keyNote]: value.toString()
             });
             this.setState({
-                projectContent:data
+                defaultContent:data
             })
         }
     };
@@ -98,7 +93,6 @@ class BuildDemandMain extends React.Component {
 
     render() {
         const {classes, onClose, selectedValue,initialData,buttonStyle,randomNum,hintMessage, ...other} = this.props;
-
         const labelArray=["是","否"];
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
@@ -110,37 +104,87 @@ class BuildDemandMain extends React.Component {
                                 nameIn="DemandName"
                                 onChange={this.getContent}
                                 InputLabelName="需求名称"
+                                defaultValue={this.state.defaultContent["DemandName"]}
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputField InputLabelName="需求ID" defaultValue={randomNum} nameIn="DemandID"  disabled={true}/>
+                            <InputField
+                                InputLabelName="需求ID"
+                                nameIn="DemandID"
+                                disabled={true}
+                                defaultValue={this.state.defaultContent["DemandID"]}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="需求分派开发负责人" nameIn="DemandDevHead" nameArray={initialData.DemandDevHead}/>
+                            <MultiSelect
+                                defaultValue={this.state.defaultContent["DemandDevHead"]}
+                                onChange={this.getContent}
+                                InputLabelName="需求分派开发负责人"
+                                nameIn="DemandDevHead"
+                                nameArray={initialData.DemandDevHead}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="需求类型" nameIn="DemandType" nameArray={initialData.DemandType}/>
+                            <SingleSelect
+                                defaultValue={this.state.defaultContent["DemandType"]}
+                                onChange={this.getContent}
+                                InputLabelName="需求类型"
+                                nameIn="DemandType"
+                                nameArray={initialData.DemandType}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="需求状态" nameIn="DemandStatus" nameArray={initialData.DemandStatus}/>
+                            <SingleSelect
+                                defaultValue={this.state.defaultContent["DemandStatus"]}
+                                onChange={this.getContent}
+                                InputLabelName="需求状态"
+                                nameIn="DemandStatus"
+                                nameArray={initialData.DemandStatus}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="需求人员" nameIn="DemandMember" nameArray={initialData.DemandMember}/>
+                            <MultiSelect
+                                defaultValue={this.state.defaultContent["DemandMember"]}
+                                onChange={this.getContent}
+                                InputLabelName="需求人员"
+                                nameIn="DemandMember"
+                                nameArray={initialData.DemandMember}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="需求规模" nameIn="DemandScale" nameArray={initialData.DemandScale} defaultValue="小型"/>
+                            <SingleSelect
+                                defaultValue={this.state.defaultContent["DemandScale"]}
+                                onChange={this.getContent}
+                                InputLabelName="需求规模"
+                                nameIn="DemandScale"
+                                nameArray={initialData.DemandScale}
+                                />
                         </Grid>
                         <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="需求优先级" nameIn="DemandPriority" nameArray={initialData.DemandPriority} defaultValue="p3"/>
+                            <SingleSelect
+                                defaultValue={this.state.defaultContent["DemandPriority"]}
+                                onChange={this.getContent}
+                                InputLabelName="需求优先级"
+                                nameIn="DemandPriority"
+                                nameArray={initialData.DemandPriority}
+                                />
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="关联版本" nameIn="AssociatedVersion" nameArray={initialData.AssociatedVersion}/>
+                            <MultiSelect
+                                defaultValue={this.state.defaultContent["AssociatedVersion"]}
+                                onChange={this.getContent}
+                                InputLabelName="关联版本"
+                                nameIn="AssociatedVersion"
+                                nameArray={initialData.AssociatedVersion}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <DatePicker nameIn="DemandAcceptTime" InputLabelName="需求受理时间" onDateChange={this.getContent}/>
+                            <DatePicker
+                                defaultValue={this.state.defaultContent["DemandAcceptTime"]}
+                                nameIn="DemandAcceptTime"
+                                InputLabelName="需求受理时间"
+                                onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <DatePicker nameIn="DemandPassTime" InputLabelName="需求评审通过时间" onDateChange={this.getContent}/>
+                            <DatePicker
+                                defaultValue={this.state.defaultContent["DemandPassTime"]}
+                                nameIn="DemandPassTime"
+                                InputLabelName="需求评审通过时间"
+                                onDateChange={this.getContent}/>
                         </Grid>
 
                         <Grid item xs={4}>
@@ -148,6 +192,7 @@ class BuildDemandMain extends React.Component {
                                 nameIn="DemandFromDepart"
                                 onChange={this.getContent}
                                 InputLabelName="需求来源部门"
+                                defaultValue={this.state.defaultContent["DemandFromDepart"]}
                             />
                         </Grid>
 
@@ -157,6 +202,7 @@ class BuildDemandMain extends React.Component {
                                 nameIn="TrafficStatic"
                                 onChange={this.getContent}
                                 InputLabelName="业务量统计方式"
+                                defaultValue={this.state.defaultContent["TrafficStatic"]}
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -164,6 +210,7 @@ class BuildDemandMain extends React.Component {
                                 nameIn="BusinessNum"
                                 onChange={this.getContent}
                                 InputLabelName="业务编号"
+                                defaultValue={this.state.defaultContent["BusinessNum"]}
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -171,6 +218,7 @@ class BuildDemandMain extends React.Component {
                                 nameIn="BusinessTrack"
                                 InputLabelName="是否业务量跟踪"
                                 onChange={this.getContent}
+                                defaultValue={this.state.defaultContent["BusinessTrack"]}
                                 labelArray={labelArray}/>
                         </Grid>
                         <Grid item xs={4}>
@@ -178,6 +226,7 @@ class BuildDemandMain extends React.Component {
                                 nameIn="WithBM"
                                 InputLabelName="是否涉及BM控制台"
                                 onChange={this.getContent}
+                                defaultValue={this.state.defaultContent["WithBM"]}
                                 labelArray={labelArray}/>
                         </Grid>
                         <Grid item xs={4}>
@@ -185,10 +234,11 @@ class BuildDemandMain extends React.Component {
                                 nameIn="WithUAT"
                                 InputLabelName="是否需要UAT"
                                 onChange={this.getContent}
+                                defaultValue={this.state.defaultContent["WithUAT"]}
                                 labelArray={labelArray}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <DesciptionInput onChange={this.getContent} InputLabelName="需求备注" nameIn="DemandNote"/>
+                            <DesciptionInput defaultValue={this.state.defaultContent["DemandNote"]} onChange={this.getContent} InputLabelName="需求备注" nameIn="DemandNote"/>
                         </Grid>
                         {/*<Grid item xs={4}>*/}
                         {/*<Typography color="error">{hintMessage}</Typography>*/}

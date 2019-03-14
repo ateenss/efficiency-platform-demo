@@ -3,7 +3,10 @@ import {
     OPEN_BUILD_DEMAND,
     CLOSE_BUILD_DEMAND,
     PULL_INITIAL_DEMAND,
-    BUILD_SAVE
+    BUILD_SAVE_DEMAND,
+    OPEN_EDIT_DEMAND,
+    CLOSE_EDIT_DEMAND,
+    EDIT_SAVE_DEMAND
 } from './types';
 
 export const openBuildDemand=()=>({
@@ -13,10 +16,22 @@ export const closeBuildDemand=()=>({
     type:CLOSE_BUILD_DEMAND
 });
 
-export  const buildSaveDispatch=(value)=>({
-    type:BUILD_SAVE,
+export  const buildSaveDemandDispatch=(value)=>({
+    type:BUILD_SAVE_DEMAND,
     value
 });
+export  const editDemandDispatch=(value)=>({
+    type:EDIT_SAVE_DEMAND,
+    value
+});
+
+export  const openEditDemand=()=>({
+    type:OPEN_EDIT_DEMAND,
+});
+export const closeEditDemand=()=>({
+    type:CLOSE_EDIT_DEMAND
+});
+
 
 export function pullBuildDemandInitial(){
     const send_edit_data = '需要填写后台地址';
@@ -55,7 +70,13 @@ export function pullBuildDemandInitial(){
         DemandScale:["小型","中型","大型"],
         DemandPriority:["p1","p2","p3"],
         AssociatedVersion:["49.1","49.2","49.3","49.4"],
-        DemandDevHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"]
+        DemandDevHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
+        dataMuiTable:[
+            {listID:"1",BusinessNum:"YDZF-201809-12",DemandName:"快速收款码需求这个需求很厉害",DemandDevHead:"张飞",DemandStatus:"开发中"},
+            {listID:"2",BusinessNum:"TYDZF-201809-13",DemandName:"ApplePayOnweb需求",DemandDevHead:"韦小宝",DemandStatus:"已完成"},
+            {listID:"3",BusinessNum:"YDZF-201809-15",DemandName:"你说这是什么需求",DemandDevHead:"张无忌",DemandStatus:"提测"},
+            {listID:"4",BusinessNum:"YDZF-201809-16",DemandName:"楼上，你在问我吗？",DemandDevHead:"周芷若",DemandStatus:"未开始"},
+        ]
     };
     store.dispatch({
         type:PULL_INITIAL_DEMAND,

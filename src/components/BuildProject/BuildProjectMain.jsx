@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
 import DesciptionInput from "../SelfComponent/DescriptionInput"
-import {pullBuildProjectInitial,hintDelete,buildSaveDispatch} from "../../actions/BuildProjectAction"
+import {pullBuildProjectInitial,hintDelete,buildSaveProjectDispatch} from "../../actions/BuildProjectAction"
 import {connect} from "react-redux";
 import SingleSelect from "../SelfComponent/SingleSelect"
 import InputField from "../SelfComponent/InputField"
@@ -60,7 +60,7 @@ class BuildProjectMain extends React.Component {
         const temp=this.state.projectContent;
         temp["projectState"]="正在进行";
         temp["number"]=this.props.randomNum;
-        store.dispatch(buildSaveDispatch(temp));
+        store.dispatch(buildSaveProjectDispatch(temp));
     };
 
 

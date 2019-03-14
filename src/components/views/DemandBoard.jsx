@@ -33,6 +33,7 @@ import red from '@material-ui/core/colors/red';
 import store from '../../stores/index';
 import {closeBuildDemand, openBuildDemand,pullBuildDemandInitial} from "../../actions/BuildDemandAction"
 import BuildDemandMain from "../BuildDemand/BuildDemandMain"
+import EditDemandMain from "../BuildDemand/EditDemandMain"
 
 const styles = theme => ({
     root: {
@@ -47,22 +48,22 @@ const styles = theme => ({
 
 const columns = [{name:"序号", options:{filter:false}}, {name:"需求编号", options:{filter:false}}, {name:"需求名称", options:{filter:false}}, {name:"需求负责人", options:{filter:true}}, {name:"需求状态", options:{filter:true}}];
 
-const data = [
-    ["1", "YDZF-201809-12", "快速收款码需求这个需求很厉害", "张飞", "开发中"],
-    ["2", "TYDZF-201809-13", "ApplePayOnweb需求", "韦小宝", "已完成"],
-    ["3", "YDZF-201809-15", "你说这是什么需求", "张无忌", "提测"],
-    ["4", "YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始"],
-];
 
+let selectedValue=0;
 const options = {
     filterType: 'checkbox',
     print: false,
     onRowsSelect: function (currentRowsSelected, allRowsSelected) {
         console.log(333);
     },
-    customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
-        <CustomToolbarSelect selectedRows={selectedRows} displayData={displayData} setSelectedRows={setSelectedRows}/>
-    ),
+    customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
+        console.log("这是被选中的行");
+        console.log(selectedRows.data[0].index);
+        selectedValue=selectedRows.data[0].index;
+        return(
+            <CustomToolbarSelect selectedRows={selectedRows} displayData={displayData} setSelectedRows={setSelectedRows}/>)
+
+    },
     textLabels: {
         selectedRows: {
             text: "行 已选定",
@@ -84,14 +85,23 @@ const options = {
         }
     }
 };
-
+let dynamicAddReuslt=[];
+let initialTableLength=0;
+let editInitialData=null;
 class TaskBoard extends React.Component {
     constructor(props) {
         super(props);
-        pullBuildDemandInitial();
+        // pullBuildDemandInitial();
         this.state = {
-            randomNum:0
+            randomNum:0,
+            assembleTable:props.tableData
         };
+        //todo:这里用来给表格数据增加序号用的
+        initialTableLength=props.initialTable.length
+    }
+
+    componentDidMount() {
+        console.log(this.state.initialTable)
     }
 
     openDemand=e=>{
@@ -109,10 +119,42 @@ class TaskBoard extends React.Component {
         store.dispatch(closeBuildDemand());
     };
 
+    mapObjectToArray=(pointer)=>{
+        let inArray=[];
+        let outArray=[];
+        pointer.tableData.map((value,key)=>{
+            inArray.push((key+initialTableLength+1).toString());
+            inArray.push(value["BusinessNum"]);
+            inArray.push(value["DemandName"]);
+            inArray.push(value["DemandDevHead"]);
+            inArray.push(value["DemandStatus"]);
+            outArray.push(inArray);
+            inArray=[]
+        });
+        dynamicAddReuslt=outArray;
+    };
+
+    componentWillReceiveProps(nextProps, nextContext) {
+       this.mapObjectToArray(nextProps);
+        this.setState({
+            assembleTable:nextProps.tableData
+        })
+    }
+
+
+    handleLinkData=()=>{
+        this.state.assembleTable.map((value,key)=>{
+            if (key===selectedValue) {
+                editInitialData=this.state.assembleTable[key]
+            }
+        });
+    };
+
     render() {
-        const {classes,isOrNotShow} = this.props;
-
-
+        const {classes,buildDemandShow,editDemandShow,tableData} = this.props;
+        this.mapObjectToArray(this.props);
+        this.handleLinkData();
+        //todo:结果都在这个result里面，选取值去定位这个result里面的数组（被选取的索引值和result里面是保持一致的）
         return (
             <Grid container spacing={16}>
                 <Grid item xs={12}>
@@ -136,16 +178,23 @@ class TaskBoard extends React.Component {
                 <Grid item xs={12}>
                         <MUIDataTable
                             title={"需求列表"}
-                            data={data}
+                            data={dynamicAddReuslt}
                             columns={columns}
                             options={options}
                         />
 
                 </Grid>
                 <BuildDemandMain
-                    open={isOrNotShow}
+                    open={buildDemandShow}
                     onClose={this.handleClickClose}
                     randomNum={this.state.randomNum}
+                />
+
+                <EditDemandMain
+                    open={editDemandShow}
+                    randomNum={this.state.randomNum}
+                    addDemand={editInitialData}
+                    findNote={selectedValue}
                 />
             </Grid>
 
@@ -153,14 +202,15 @@ class TaskBoard extends React.Component {
     }
 }
 
-
-// 从store里面取数据给组件
 const
     mapStateToProps = (state) => {
         // console.log("!!!!!!!!" + JSON.stringify(state.reducer.task.demand));
         return {
             demand: state.reducer.task.demand,
-            isOrNotShow:state.reducer.buildDemand.isOrNotShow,
+            buildDemandShow:state.reducer.buildDemand.buildDemandShow,
+            editDemandShow:state.reducer.buildDemand.editDemandShow,
+            tableData:state.reducer.buildDemand.addDemand,
+            initialTable:state.reducer.buildDemand.initialData.dataMuiTable,
         }
     };
 

@@ -47,6 +47,14 @@ class RadioButtons extends React.Component {
         value: '是',
     };
 
+    componentWillMount() {
+        if (this.props.defaultValue){
+            this.setState({
+                value:this.props.defaultValue
+            })
+        }
+    }
+
     handleChange = event => {
         console.log({keyNote:event.target.name,value:event.target.value});
         this.setState({ value: event.target.value });
@@ -54,7 +62,7 @@ class RadioButtons extends React.Component {
     };
 
     render() {
-        const { classes,InputLabelName,labelArray,nameIn } = this.props;
+        const { classes,InputLabelName,labelArray,nameIn ,defaultValue} = this.props;
 
         return (
             <div>
