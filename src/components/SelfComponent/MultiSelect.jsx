@@ -19,7 +19,7 @@ const styles = theme => ({
     formControl: {
         margin: "0",
         minWidth: 120,
-        maxWidth: 300,
+        maxWidth: 500,
     },
     chips: {
         display: 'flex',

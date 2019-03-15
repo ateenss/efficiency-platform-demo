@@ -1,13 +1,18 @@
 import axios from 'axios';
 import history from '../history/history';
 import store from '../stores/index';
-import {PULL_INITIAL_PROJECT,
-        BUILD_SAVE_PROJECT,
-        EDIT_SAVE_PROJECT,
-        PROJECT_SAVE_SUCCESS,
-        PROJECT_SAVE_FAIL,
-        PROJECT_SAVE_ERROR
-        }from "./types"
+import {
+    PULL_INITIAL_PROJECT,
+    BUILD_SAVE_PROJECT,
+    EDIT_SAVE_PROJECT,
+    PROJECT_SAVE_SUCCESS,
+    PROJECT_SAVE_FAIL,
+    PROJECT_SAVE_ERROR,
+    OPEN_BUILD_PROJECT,
+    OPEN_EDIT_PROJECT,
+    CLOSE_BUILD_PROJECT,
+    CLOSE_EDIT_PROJECT,
+} from "./types"
 
 
 
@@ -93,11 +98,11 @@ export function pullBuildProjectInitial(){
     //以下是mock数据
     const rand=Math.floor(Math.random()*40)+1;
     const InitialData={
-        ID:rand,
-        type:["业务需求项目","系统架构优化"],
-        members:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
-        head:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
-        projectState:["正在进行","已经完成"]
+        ProjectID:rand,
+        ProjectType:["业务需求项目","系统架构优化"],
+        ProjectMembers:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
+        ProjectHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
+        ProjectStatus:["正在进行","已经完成"]
     };
     store.dispatch({
         type:PULL_INITIAL_PROJECT,
@@ -116,6 +121,20 @@ export  const buildSaveProjectDispatch=(value)=>({
     value
 });
 
+export  const openBuildProject=()=>({
+    type:OPEN_BUILD_PROJECT,
+});
+
+export const closeBuildProject=()=>({
+    type:CLOSE_BUILD_PROJECT,
+});
+
+export  const openEditProject=()=>({
+    type:OPEN_EDIT_PROJECT,
+});
+export const closeEditProject=()=>({
+    type:CLOSE_EDIT_PROJECT
+});
 
 //todo:这里面需要修改，有点问题，现在弃用
 export const hintPopUp=(value)=>({

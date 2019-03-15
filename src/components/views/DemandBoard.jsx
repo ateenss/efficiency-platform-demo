@@ -2,38 +2,25 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-
 import {connect} from "react-redux";
-
 import Grid from '@material-ui/core/Grid'
 import CustomToolbarSelect from '../demand/CustomToolBarSelect';
-
-import Drawer from '@material-ui/core/Drawer';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import AppBar from "@material-ui/core/AppBar";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
-import Badge from "@material-ui/core/Badge";
-import Chip from "@material-ui/core/Chip";
 import MUIDataTable from "mui-datatables";
-import DemandEditor from "../demand/DemandEditor";
 // import store from "../../stores";
-import {SHOW_NOTIFICATION} from "../../actions/types";
-import {saveTask} from "../../actions/DemandTasksAction";
-import Paper from "@material-ui/core/Paper";
 import red from '@material-ui/core/colors/red';
 import store from '../../stores/index';
-import {closeBuildDemand, openBuildDemand,pullBuildDemandInitial} from "../../actions/BuildDemandAction"
+import {closeBuildDemand, openBuildDemand,openFilterManagerDemand,openFilterDeveloperDemand} from "../../actions/BuildDemandAction"
 import BuildDemandMain from "../BuildDemand/BuildDemandMain"
 import EditDemandMain from "../BuildDemand/EditDemandMain"
+import FilterDemandManager from "../BuildDemand/FilterDemandManager"
+import FilterDemandDeveloper from "../BuildDemand/FilterDemandDeveloper"
+import deepOrange from '@material-ui/core/colors/deepOrange';
+import deepPurple from '@material-ui/core/colors/deepPurple';
 
 const styles = theme => ({
     root: {
@@ -41,7 +28,23 @@ const styles = theme => ({
     },
     newBuildButton:{
         color:red[500]
-    }
+    },
+    head:{
+        background: "#FFFFFF",
+    },
+    avatar: {
+        margin: 10,
+    },
+    orangeAvatar: {
+        margin: 10,
+        color: '#fff',
+        backgroundColor: deepOrange[500],
+    },
+    purpleAvatar: {
+        margin: 10,
+        color: '#fff',
+        backgroundColor: deepPurple[500],
+    },
 
 });
 
@@ -115,9 +118,17 @@ class TaskBoard extends React.Component {
         return false;
 
     };
+
+    openFilterManager=()=>{
+        store.dispatch(openFilterManagerDemand());
+    };
     handleClickClose = () => {
         store.dispatch(closeBuildDemand());
     };
+    openFilterDeveloper=()=>{
+        store.dispatch(openFilterDeveloperDemand());
+    };
+
 
     mapObjectToArray=(pointer)=>{
         let inArray=[];
@@ -150,6 +161,8 @@ class TaskBoard extends React.Component {
         });
     };
 
+
+
     render() {
         const {classes,buildDemandShow,editDemandShow,tableData} = this.props;
         this.mapObjectToArray(this.props);
@@ -159,18 +172,14 @@ class TaskBoard extends React.Component {
             <Grid container spacing={16}>
                 <Grid item xs={12}>
                     <div className={classes.root}>
-                        <AppBar position="static" color="default">
+                        <AppBar position="static" color="default" className={classes.head}>
                             <Toolbar>
-                                <Grid container spacing={4}>
-                                    <Grid item xs={2}>
                                         <Typography variant="h6" color="inherit">
                                             需求工具栏
                                         </Typography>
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openDemand}>新建需求</Button>
-                                    </Grid>
-                                </Grid>
+                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openDemand}><Avatar className={classes.avatar}>新建</Avatar></Button>
+                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openFilterManager}><Avatar className={classes.orangeAvatar}>筛选</Avatar></Button>
+                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openFilterDeveloper}><Avatar className={classes.purpleAvatar}>筛选</Avatar></Button>
                             </Toolbar>
                         </AppBar>
                     </div>
@@ -196,6 +205,8 @@ class TaskBoard extends React.Component {
                     addDemand={editInitialData}
                     findNote={selectedValue}
                 />
+                <FilterDemandManager/>
+                <FilterDemandDeveloper/>
             </Grid>
 
         )
@@ -209,6 +220,7 @@ const
             demand: state.reducer.task.demand,
             buildDemandShow:state.reducer.buildDemand.buildDemandShow,
             editDemandShow:state.reducer.buildDemand.editDemandShow,
+            filterManagerDemandShow:state.reducer.buildDemand.filterManagerDemandShow,
             tableData:state.reducer.buildDemand.addDemand,
             initialTable:state.reducer.buildDemand.initialData.dataMuiTable,
         }

@@ -2,7 +2,7 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-
+import store from '../../stores/index';
 import {getDemandTasks} from '../../actions/DemandTasksAction';
 import {connect} from "react-redux";
 import Grid from '@material-ui/core/Grid'
@@ -22,7 +22,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from '@material-ui/core/Tooltip';
 import MuiTable from '../SelfComponent/MuiTable'
 import Task from "../TaskBoard/Task"
-import {pullBuildProjectInitial} from "../../actions/BuildProjectAction"
+import {pullBuildProjectInitial,openBuildProject} from "../../actions/BuildProjectAction"
 
 const styles = theme => ({
     root: {
@@ -63,7 +63,6 @@ class Project extends React.Component {
         pullBuildProjectInitial();
         this.state = {
             expanded: false,
-            popUpOpen: false,
             value: 0,
             randomNum:0
         };
@@ -82,9 +81,9 @@ class Project extends React.Component {
         e.preventDefault();
         //todo:下面可以有多种形式的生成项目编号的方法
         this.setState({
-            popUpOpen: true,
             randomNum:Math.floor(Math.random()*400)+1
         });
+        store.dispatch(openBuildProject());
         return false;
 
     };
@@ -99,10 +98,10 @@ componentWillUpdate(nextProps, nextState, nextContext) {
 }
 
     render() {
-        const {classes, demands,addProjects} = this.props;
+        const {classes, demands,addProjects,buildProjectShow} = this.props;
         let showProjects = addProjects.map((content, key) => {
             return (
-                <Grid xs={3} item><ProjectPanel name={content.name} desc={key} keyNote={key}/></Grid>
+                <Grid xs={3} item><ProjectPanel name={content.ProjectName} desc={key} keyNote={key}/></Grid>
             )
         });
 
@@ -141,7 +140,7 @@ componentWillUpdate(nextProps, nextState, nextContext) {
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <BuildProject
-                    open={this.state.popUpOpen}
+                    open={buildProjectShow}
                     onClose={this.handleClickClose}
                     randomNum={this.state.randomNum}
                 />
@@ -158,7 +157,8 @@ componentWillUpdate(nextProps, nextState, nextContext) {
 const mapStateToProps = (state) => {
     return {
         demands: state.reducer.task.demands,
-        addProjects:state.reducer.buildProject.addProjects
+        addProjects:state.reducer.buildProject.addProjects,
+        buildProjectShow:state.reducer.buildProject.buildProjectShow,
     }
 };
 

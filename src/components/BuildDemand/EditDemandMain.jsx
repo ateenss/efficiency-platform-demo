@@ -30,7 +30,10 @@ const styles = {
         textAlign: 'center',
         position: 'absolute',
         right: 0,
-    }
+    },
+    gridStyle:{
+        marginTop:"15px"
+    },
 
 };
 
@@ -114,7 +117,7 @@ class BuildDemandMain extends React.Component {
                                 disabled={true}
                                 defaultValue={this.state.defaultContent["DemandID"]}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect
                                 defaultValue={this.state.defaultContent["DemandDevHead"]}
                                 onChange={this.getContent}
@@ -122,7 +125,7 @@ class BuildDemandMain extends React.Component {
                                 nameIn="DemandDevHead"
                                 nameArray={initialData.DemandDevHead}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
                                 defaultValue={this.state.defaultContent["DemandType"]}
                                 onChange={this.getContent}
@@ -130,7 +133,7 @@ class BuildDemandMain extends React.Component {
                                 nameIn="DemandType"
                                 nameArray={initialData.DemandType}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
                                 defaultValue={this.state.defaultContent["DemandStatus"]}
                                 onChange={this.getContent}
@@ -138,7 +141,7 @@ class BuildDemandMain extends React.Component {
                                 nameIn="DemandStatus"
                                 nameArray={initialData.DemandStatus}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect
                                 defaultValue={this.state.defaultContent["DemandMember"]}
                                 onChange={this.getContent}
@@ -146,7 +149,7 @@ class BuildDemandMain extends React.Component {
                                 nameIn="DemandMember"
                                 nameArray={initialData.DemandMember}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
                                 defaultValue={this.state.defaultContent["DemandScale"]}
                                 onChange={this.getContent}
@@ -155,7 +158,7 @@ class BuildDemandMain extends React.Component {
                                 nameArray={initialData.DemandScale}
                                 />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
                                 defaultValue={this.state.defaultContent["DemandPriority"]}
                                 onChange={this.getContent}
@@ -164,7 +167,7 @@ class BuildDemandMain extends React.Component {
                                 nameArray={initialData.DemandPriority}
                                 />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect
                                 defaultValue={this.state.defaultContent["AssociatedVersion"]}
                                 onChange={this.getContent}
@@ -172,14 +175,14 @@ class BuildDemandMain extends React.Component {
                                 nameIn="AssociatedVersion"
                                 nameArray={initialData.AssociatedVersion}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker
                                 defaultValue={this.state.defaultContent["DemandAcceptTime"]}
                                 nameIn="DemandAcceptTime"
                                 InputLabelName="需求受理时间"
                                 onDateChange={this.getContent}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker
                                 defaultValue={this.state.defaultContent["DemandPassTime"]}
                                 nameIn="DemandPassTime"
@@ -187,7 +190,7 @@ class BuildDemandMain extends React.Component {
                                 onDateChange={this.getContent}/>
                         </Grid>
 
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
                                 nameIn="DemandFromDepart"
                                 onChange={this.getContent}
@@ -197,7 +200,7 @@ class BuildDemandMain extends React.Component {
                         </Grid>
 
 
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
                                 nameIn="TrafficStatic"
                                 onChange={this.getContent}
@@ -205,7 +208,7 @@ class BuildDemandMain extends React.Component {
                                 defaultValue={this.state.defaultContent["TrafficStatic"]}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
                                 nameIn="BusinessNum"
                                 onChange={this.getContent}
@@ -213,7 +216,7 @@ class BuildDemandMain extends React.Component {
                                 defaultValue={this.state.defaultContent["BusinessNum"]}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <RadioButton
                                 nameIn="BusinessTrack"
                                 InputLabelName="是否业务量跟踪"
@@ -221,7 +224,7 @@ class BuildDemandMain extends React.Component {
                                 defaultValue={this.state.defaultContent["BusinessTrack"]}
                                 labelArray={labelArray}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <RadioButton
                                 nameIn="WithBM"
                                 InputLabelName="是否涉及BM控制台"
@@ -229,7 +232,7 @@ class BuildDemandMain extends React.Component {
                                 defaultValue={this.state.defaultContent["WithBM"]}
                                 labelArray={labelArray}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <RadioButton
                                 nameIn="WithUAT"
                                 InputLabelName="是否需要UAT"
@@ -237,7 +240,7 @@ class BuildDemandMain extends React.Component {
                                 defaultValue={this.state.defaultContent["WithUAT"]}
                                 labelArray={labelArray}/>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.gridStyle}>
                             <DesciptionInput defaultValue={this.state.defaultContent["DemandNote"]} onChange={this.getContent} InputLabelName="需求备注" nameIn="DemandNote"/>
                         </Grid>
                         {/*<Grid item xs={4}>*/}

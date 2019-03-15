@@ -29,7 +29,13 @@ const styles = {
         textAlign: 'center',
         position: 'absolute',
         right: 0,
-    }
+    },
+    gridStyle:{
+        marginTop:"15px"
+    },
+    item:{
+        paddingTop:"60px"
+    },
 
 };
 
@@ -48,13 +54,9 @@ class BuildDemandMain extends React.Component {
 
 
     handleClose = () => {
-        // store.dispatch(hintDelete(''));
-        /*this.props.onClose(this.props.selectedValue);*/
         store.dispatch(closeBuildDemand());
     };
     handleSave=()=>{
-        // store.dispatch(hintDelete(''));
-        // this.props.onClose(this.props.selectedValue);
         store.dispatch(closeBuildDemand());
         const s = new Intl.DateTimeFormat('zh-cn');
         const timeInitial= s.format(new Date());
@@ -105,45 +107,45 @@ class BuildDemandMain extends React.Component {
                 <DialogTitle id="simple-dialog-title">创建新需求</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
-                        <Grid item xs={8}>
+                        <Grid item xs={8} >
                             <InputField
                                 nameIn="DemandName"
                                 onChange={this.getContent}
                                 InputLabelName="需求名称"
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} >
                             <InputField InputLabelName="需求ID" defaultValue={randomNum} nameIn="DemandID"  disabled={true}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect onChange={this.getContent} InputLabelName="需求分派开发负责人" nameIn="DemandDevHead" nameArray={initialData.DemandDevHead}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="需求类型" nameIn="DemandType" nameArray={initialData.DemandType}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="需求状态" nameIn="DemandStatus" nameArray={initialData.DemandStatus}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect onChange={this.getContent} InputLabelName="需求人员" nameIn="DemandMember" nameArray={initialData.DemandMember}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="需求规模" nameIn="DemandScale" nameArray={initialData.DemandScale} defaultValue="小型"/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="需求优先级" nameIn="DemandPriority" nameArray={initialData.DemandPriority} defaultValue="p3"/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect onChange={this.getContent} InputLabelName="关联版本" nameIn="AssociatedVersion" nameArray={initialData.AssociatedVersion}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="DemandAcceptTime" InputLabelName="需求受理时间" onDateChange={this.getContent}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="DemandPassTime" InputLabelName="需求评审通过时间" onDateChange={this.getContent}/>
                         </Grid>
 
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
                                 nameIn="DemandFromDepart"
                                 onChange={this.getContent}
@@ -152,42 +154,45 @@ class BuildDemandMain extends React.Component {
                         </Grid>
 
 
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
                                 nameIn="TrafficStatic"
                                 onChange={this.getContent}
                                 InputLabelName="业务量统计方式"
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
                                 nameIn="BusinessNum"
                                 onChange={this.getContent}
                                 InputLabelName="业务编号"
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <RadioButton
                                 nameIn="BusinessTrack"
                                 InputLabelName="是否业务量跟踪"
                                 onChange={this.getContent}
-                                labelArray={labelArray}/>
+                                labelArray={labelArray}
+                            />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <RadioButton
                                 nameIn="WithBM"
                                 InputLabelName="是否涉及BM控制台"
                                 onChange={this.getContent}
-                                labelArray={labelArray}/>
+                                labelArray={labelArray}
+                            />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <RadioButton
                                 nameIn="WithUAT"
                                 InputLabelName="是否需要UAT"
                                 onChange={this.getContent}
-                                labelArray={labelArray}/>
+                                labelArray={labelArray}
+                            />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.gridStyle}>
                             <DesciptionInput onChange={this.getContent} InputLabelName="需求备注" nameIn="DemandNote"/>
                         </Grid>
                         {/*<Grid item xs={4}>*/}

@@ -9,7 +9,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {editSaveDispatch} from "../../actions/BuildProjectAction"
+import {editSaveDispatch,closeEditProject} from "../../actions/BuildProjectAction"
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect";
@@ -55,12 +55,11 @@ class EditProjectMain extends React.Component {
 
 
     handleClose = () => {
-        this.props.onClose(this.props.selectedValue);
+        store.dispatch(closeEditProject());
     };
-    handleReSave=()=>{
-        this.props.onClose(this.props.selectedValue);
-        console.log("以下是再编辑测试");
+    handleEditSave=()=>{
         store.dispatch(editSaveDispatch({keyNote:this.props.keyNote,ReContent:this.state.projectContent}));
+        store.dispatch(closeEditProject());
     };
 
 
@@ -92,61 +91,48 @@ class EditProjectMain extends React.Component {
     render() {
         const {classes, onClose, selectedValue,keyNote,buttonStyle, initialData,addProjects,...other} = this.props;
         const {projectContent}=this.state;
-        //todo:错误提示还没有和BuildProjectMain里面进行统一
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
                         <Grid item xs={8}>
-                            <TextField
-                                autoFocus
-                                id="name"
-                                label="项目名称"
-                                type="email"
-                                name="name"
-                                onChange={this.getContent}
-                                defaultValue={projectContent.name}
-                                fullWidth
-                            />
-                        </Grid>
-                        {/*<Grid item xs={8}>
                             <InputField
-                                nameIn="name"
+                                nameIn="ProjectName"
                                 onChange={this.getContent}
-                                error={error1}
-                                InputLabelName={hintLabel1}
+                                InputLabelName="项目名称"
+                                defaultValue={projectContent.ProjectName}
                             />
-                        </Grid>*/}
-                        <Grid item xs={4}>
-                            <InputField InputLabelName="项目编号" defaultValue={projectContent.number} disabled={true}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" defaultValue={projectContent.type}
-                                         nameArray={initialData.type} />
+                            <InputField InputLabelName="项目编号" nameIn="ProjectID" defaultValue={projectContent.ProjectID} disabled={true}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" defaultValue={projectContent.members}
-                                         nameArray={initialData.members} />
+                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="ProjectType" defaultValue={projectContent.ProjectType}
+                                         nameArray={initialData.ProjectType} />
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" defaultValue={projectContent.head}
-                                         nameArray={initialData.head} />
+                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="ProjectMembers" defaultValue={projectContent.ProjectMembers}
+                                         nameArray={initialData.ProjectMembers} />
                         </Grid>
                         <Grid item xs={4}>
-                            <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent} defaultValue={projectContent.startTime}/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="ProjectHead" defaultValue={projectContent.ProjectHead}
+                                         nameArray={initialData.ProjectHead} />
                         </Grid>
                         <Grid item xs={4}>
-                            <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent} defaultValue={projectContent.endTime}/>
+                            <DatePicker nameIn="ProjectStartTime" InputLabelName="开始时间" onDateChange={this.getContent} defaultValue={projectContent.ProjectStartTime}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <DatePicker nameIn="buildTime" InputLabelName="创建时间" onDateChange={this.getContent} defaultValue={projectContent.buildTime}/>
+                            <DatePicker nameIn="ProjectEndTime" InputLabelName="结束时间" onDateChange={this.getContent} defaultValue={projectContent.ProjectEndTime}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue={projectContent.projectState} disabled={false} nameArray={initialData.projectState}/>
+                            <DatePicker nameIn="ProjectBuildTime" InputLabelName="创建时间" onDateChange={this.getContent} defaultValue={projectContent.ProjectBuildTime}/>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="ProjectStatus" defaultValue={projectContent.ProjectStatus} disabled={false} nameArray={initialData.ProjectStatus}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <DesciptionInput onChange={this.getContent} nameIn="description" defaultValue={projectContent.description}/>
+                            <DesciptionInput onChange={this.getContent} nameIn="ProjectDescription" defaultValue={projectContent.ProjectDescription}/>
                         </Grid>
 
 
@@ -157,7 +143,7 @@ class EditProjectMain extends React.Component {
                     <Button onClick={this.handleClose} color="primary" className={buttonStyle}>
                         取消
                     </Button>
-                    <Button onClick={this.handleReSave} color="primary">
+                    <Button onClick={this.handleEditSave} color="primary">
                         保存修改
                     </Button>
                 </DialogActions>

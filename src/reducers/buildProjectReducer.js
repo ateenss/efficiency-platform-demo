@@ -1,21 +1,44 @@
-import {PULL_INITIAL_PROJECT,
+import {
+    PULL_INITIAL_PROJECT,
     BUILD_SAVE_PROJECT,
     EDIT_SAVE_PROJECT,
     PROJECT_SAVE_SUCCESS,
     PROJECT_SAVE_FAIL,
-    PROJECT_SAVE_ERROR
-}from "../actions/types"
+    PROJECT_SAVE_ERROR,
+    OPEN_BUILD_PROJECT,
+    OPEN_EDIT_PROJECT,
+    CLOSE_BUILD_PROJECT,
+    CLOSE_EDIT_PROJECT,
+} from "../actions/types"
 
 export const INITIAL_STATE = {
     addProjects:[],
     noticeMessage:null,
     initialData:null,
-    hintMessage:{}
+    hintMessage:{},
+    buildProjectShow:false,
+    editProjectShow:false,
 };
 
 //专门用来创建项目的reducer
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
+        case OPEN_BUILD_PROJECT:
+            const showOpenBuildState = JSON.parse(JSON.stringify(state));
+            showOpenBuildState.buildProjectShow=true;
+            return showOpenBuildState;
+        case OPEN_EDIT_PROJECT:
+            const showOpenEditState = JSON.parse(JSON.stringify(state));
+            showOpenEditState.editProjectShow=true;
+            return showOpenEditState;
+        case CLOSE_BUILD_PROJECT:
+            const showCloseBuildState = JSON.parse(JSON.stringify(state));
+            showCloseBuildState.buildProjectShow=false;
+            return showCloseBuildState;
+        case CLOSE_EDIT_PROJECT:
+            const showCloseEditState = JSON.parse(JSON.stringify(state));
+            showCloseEditState.editProjectShow=false;
+            return showCloseEditState;
         case BUILD_SAVE_PROJECT:
             console.log("创建提交store");
             const newState=JSON.parse(JSON.stringify(state));
@@ -29,7 +52,7 @@ export default function (state = INITIAL_STATE, action) {
         case PROJECT_SAVE_FAIL:
             console.log("提交后台失败");
             const failState=JSON.parse(JSON.stringify(state));
-            successState.noticeMessage="提交成功";
+            successState.noticeMessage="提交失败";
             return failState;
         case PROJECT_SAVE_ERROR:
             console.log("提交后台出现异常");

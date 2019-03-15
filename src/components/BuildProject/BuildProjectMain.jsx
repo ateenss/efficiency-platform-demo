@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
 import DesciptionInput from "../SelfComponent/DescriptionInput"
-import {pullBuildProjectInitial,hintDelete,buildSaveProjectDispatch} from "../../actions/BuildProjectAction"
+import {pullBuildProjectInitial,hintDelete,buildSaveProjectDispatch,closeBuildProject} from "../../actions/BuildProjectAction"
 import {connect} from "react-redux";
 import SingleSelect from "../SelfComponent/SingleSelect"
 import InputField from "../SelfComponent/InputField"
@@ -52,15 +52,15 @@ class BuildProjectMain extends React.Component {
 
     handleClose = () => {
         store.dispatch(hintDelete(''));
-        this.props.onClose(this.props.selectedValue);
+        store.dispatch(closeBuildProject());
     };
     handleSave=()=>{
         store.dispatch(hintDelete(''));
-        this.props.onClose(this.props.selectedValue);
         const temp=this.state.projectContent;
-        temp["projectState"]="正在进行";
-        temp["number"]=this.props.randomNum;
+        temp["ProjectStatus"]="正在进行";
+        temp["ProjectID"]=this.props.randomNum;
         store.dispatch(buildSaveProjectDispatch(temp));
+        store.dispatch(closeBuildProject());
     };
 
 
@@ -91,11 +91,11 @@ class BuildProjectMain extends React.Component {
     render() {
         const {classes, onClose, selectedValue,initialData,buttonStyle,hintMessage,randomNum, ...other} = this.props;
         //todo:这里无法有效解决error公用问题，只能采用直接根据页面罗列写死的方法，毕竟一个界面的输入框不是很多
-        let error2=false;
+        /*let error2=false;
         let hintLabel2="任务名称";
         let error1=false;
-        let hintLabel1="项目名称";
-        if (hintMessage.name) {
+        let hintLabel1="项目名称";*/
+       /* if (hintMessage.name) {
             error1 = true;
             hintLabel1 = hintMessage.name
         } else {
@@ -109,62 +109,50 @@ class BuildProjectMain extends React.Component {
         } else {
             error2 = false;
             hintLabel2 = "任务名称"
-        }
+        }*/
 
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
-                        {/*<Grid item xs={8}>
-                            <TextField
-                                autoFocus
-                                id="name"
-                                label="项目名称"
-                                type="email"
-                                name="name"
-                                onChange={this.getContent}
-                                fullWidth
-                            />
-                        </Grid>*/}
                         <Grid item xs={8}>
                             <InputField
-                                nameIn="name"
+                                nameIn="ProjectName"
                                 onChange={this.getContent}
-                                error={error1}
-                                InputLabelName={hintLabel1}
+                                InputLabelName="项目名称"
                                 />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputField InputLabelName="项目编号" defaultValue={randomNum} nameIn="number"  disabled={true}/>
+                            <InputField InputLabelName="项目编号" defaultValue={randomNum} nameIn="ProjectID"  disabled={true}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="type" nameArray={initialData.type}/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="ProjectType" nameArray={initialData.ProjectType}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="members" nameArray={initialData.members}/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="ProjectMembers" nameArray={initialData.ProjectMembers}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="head" nameArray={initialData.head}/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="ProjectHead" nameArray={initialData.ProjectHead}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent}/>
+                            <DatePicker nameIn="ProjectStartTime" InputLabelName="开始时间" onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent}/>
+                            <DatePicker nameIn="ProjectEndTime" InputLabelName="结束时间" onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <DatePicker nameIn="buildTime" InputLabelName="创建时间" onDateChange={this.getContent}/>
+                            <DatePicker nameIn="ProjectBuildTime" InputLabelName="创建时间" onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="projectState" defaultValue="正在进行"  disabled={true} nameArray={initialData.projectState}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="ProjectStatus" defaultValue="正在进行"  disabled={true} nameArray={initialData.ProjectStatus}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        {/*<Grid item xs={4}>
                             <InputField nameIn="username" InputLabelName="任务名称" onChange={this.getContent} />
-                        </Grid>
+                        </Grid>*/}
 
                         <Grid item xs={12}>
-                            <DesciptionInput onChange={this.getContent} nameIn="description"/>
+                            <DesciptionInput onChange={this.getContent} nameIn="ProjectDescription"/>
                         </Grid>
                         {/*<Grid item xs={4}>*/}
                             {/*<Typography color="error">{hintMessage}</Typography>*/}

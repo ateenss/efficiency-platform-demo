@@ -42,6 +42,7 @@
 |ProjectEndTime|项目结束时间|
 |ProjectBuildTime|项目创建时间|
 |ProjectStatus|项目状态|未开始，进行中，已开始
+|ProjectDescription|项目描述|
 
 `EditProjectMain`
 
@@ -148,6 +149,30 @@
 
 `备注：可查看需求关联的任务状态   `
 
+`相关数据字典`
+
+| 名称  | 功能 | 备注 |
+| --- | --- |  --- |
+|BusinessNum|业务编号|
+|DemandName|需求名称|
+|DemandType|需求类型|
+|DemandAcceptStartTime|需求受理查询起始时间|
+|DemandAcceptEndTime|需求受理查询结束时间|
+|DemandStatus|需求状态|
+|DemandScale|需求规模|
+|DemandPriority|需求优先级|
+|AssociatedVersion|关联版本|
+|DemandPassStartTime|需求评审通过查询起始时间|
+|DemandPassEndTime|需求评审通过查询结束时间|
+|DemandDemHead|需求负责人|
+|DemandDevHead|开发负责人|
+|WithBM|是否涉及BM控制台|
+|WithUAT|是否需要UAT|
+|WithCheck|是否已走查|
+|WithProductChildTask|是否生成子任务|
+|WithChildDemand|是否子需求|
+|WithPlanReview|是否完成方案评审|
+
 ---
 #### `需求筛选2`
 
@@ -165,6 +190,20 @@
 1. ######开发负责人
 1. ######是否涉及BM控制台
 1. ######是否UAT
+
+`相关数据字典`
+
+| 名称  | 功能 | 备注 |
+| --- | --- |  --- |
+|BusinessNum|业务编号|
+|DemandName|需求名称|
+|DemandType|需求类型|
+|DemandStatus|需求状态|
+|DemandPriority|需求优先级|
+|AssociatedVersion|关联版本|
+|DemandDevHead|开发负责人|
+|WithBM|是否涉及BM控制台|
+|WithUAT|是否UAT|
 *****
 #### 单条需求数据查看
 *****

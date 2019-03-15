@@ -6,8 +6,31 @@ import {
     BUILD_SAVE_DEMAND,
     OPEN_EDIT_DEMAND,
     CLOSE_EDIT_DEMAND,
-    EDIT_SAVE_DEMAND
+    EDIT_SAVE_DEMAND,
+    FILTER_DEMAND_OPEN_MANAGER,
+    FILTER_DEMAND_CLOSE_MANAGER,
+    FILTER_DEMAND_OPEN_DEVELOPER,
+    FILTER_DEMAND_CLOSE_DEVELOPER,
+    FILTER_DEMAND_MANAGER_SAVE,
+    FILTER_DEMAND_DEVELOPER_SAVE
 } from './types';
+
+export const openFilterManagerDemand=()=>({
+    type:  FILTER_DEMAND_OPEN_MANAGER
+});
+
+export const closeFilterManagerDemand=()=>({
+    type:FILTER_DEMAND_CLOSE_MANAGER
+});
+
+export const openFilterDeveloperDemand=()=>({
+    type:FILTER_DEMAND_OPEN_DEVELOPER
+});
+
+export const closeFilterDeveloperDemand=()=>({
+    type:FILTER_DEMAND_CLOSE_DEVELOPER
+});
+
 
 export const openBuildDemand=()=>({
     type:OPEN_BUILD_DEMAND
@@ -22,6 +45,16 @@ export  const buildSaveDemandDispatch=(value)=>({
 });
 export  const editDemandDispatch=(value)=>({
     type:EDIT_SAVE_DEMAND,
+    value
+});
+
+export const filterSaveManagerDemand=(value)=>({
+    type:FILTER_DEMAND_MANAGER_SAVE,
+    value
+});
+
+export const filterSaveDeveloperDemand=value=>({
+    type:FILTER_DEMAND_DEVELOPER_SAVE,
     value
 });
 

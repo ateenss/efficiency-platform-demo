@@ -7,13 +7,15 @@ import Typography from '@material-ui/core/Typography';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import Button from '@material-ui/core/Button';
 import {Link, NavLink, Route} from 'react-router-dom'
-
-
+import store from '../../stores/index';
+import {connect} from "react-redux";
 import {openProject} from "../../actions/ProjectPanelAction";
 // import BuildProject from "../BuildProject/BuildProjectMain";
 import EditProject from "../BuildProject/EditProjectMain";
 import EditIcon from "@material-ui/icons/Edit"
 import ListIcon from "@material-ui/icons/List"
+import {closeEditProject,openEditProject} from "../../actions/BuildProjectAction"
+
 
 
 const styles = theme => ({
@@ -161,26 +163,19 @@ class ProjectPanel extends React.Component {
     }
 
     handleClick = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         console.log(this.btnRef.current.props.proejctid);
         openProject(this.btnRef.current.props.proejctid);
     };
-    handleClickClose = () => {
-        this.setState({popUpOpen: false});
-    };
     handleClickOpen = (e) => {
-        e.stopPropagation()
+        e.stopPropagation();
         e.preventDefault();
-        this.setState({
-            popUpOpen: true,
-        });
-        return false;
-
+        store.dispatch(openEditProject());
     };
 
 
     render() {
-        const {classes, name, desc, onClick, keyNote} = this.props;
+        const {classes, name, desc, onClick, keyNote,editProjectShow} = this.props;
         const MyLink = props => <Link to="/task/my" {...props}/>
         return (
             <div className={classes.wrapperDiv}>
@@ -195,7 +190,7 @@ class ProjectPanel extends React.Component {
                     }}
                     onClick={onClick}
                     name="1"
-                    onClick={this.handleClick}
+                    /*onClick={this.handleClick}*/
                     projectid="1"
                 >
                   <span
@@ -222,8 +217,7 @@ class ProjectPanel extends React.Component {
                 <Button   size="small" className={classes.edit} onClick={this.handleClickOpen} ><EditIcon style={{color:"#FFFFFF"}}/></Button>
                 <Button   classes={{label:classes.buttonLabel,root:classes.buttonRoot}}   component={MyLink} ><ListIcon style={{color:"#FFFFFF"}} /></Button>
                 <EditProject
-                    open={this.state.popUpOpen}
-                    onClose={this.handleClickClose}
+                    open={editProjectShow}
                     keyNote={keyNote}
                 />
             </div>
@@ -233,4 +227,14 @@ class ProjectPanel extends React.Component {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(ProjectPanel);
+// export default withStyles(styles, {withTheme: true})(ProjectPanel);
+const mapStateToProps = (state) => {
+    return {
+        demands: state.reducer.task.demands,
+        addProjects:state.reducer.buildProject.addProjects,
+        buildProjectShow:state.reducer.buildProject.buildProjectShow,
+        editProjectShow:state.reducer.buildProject.editProjectShow,
+    }
+};
+
+export default connect(mapStateToProps)(withStyles(styles, {withTheme: true})(ProjectPanel));
