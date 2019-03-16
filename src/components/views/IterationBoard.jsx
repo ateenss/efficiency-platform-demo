@@ -209,7 +209,6 @@ class IterationBoard extends React.Component {
                 }
             }
         }
-        console.log(JSON.stringify(iterationState));
         this.setState({iterationState: iterationState});
 
     }
