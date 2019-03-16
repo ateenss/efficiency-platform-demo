@@ -33,64 +33,40 @@ const styles = theme => ({
 
 });
 
-const iterations = [
-    {
-        iteration: "48.0",
-        children: [
-            "48.1", "48.2", "48.3"
-        ]
-    },
-    {
-        iteration: "47.0",
-        children: [
-            "47.1", "47.2", "47.3"
-        ]
-    },
-
-
-];
 
 class IterationList extends React.Component {
     state = {
         open: true,
     };
 
-    handleAdd = () => {
-        console.log("add iteration")
-    };
-    handleEdit = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("edit iteration");
-    };
-    handleSelected = (id) => {
-        console.log(id);
-        // dispatch一个ID过去，获取该版本下的所有需求，然后选中
-        selectIteration(id);
-    };
+    handleAdd = () =>{
+        this.props.handleAdd();
+    }
+
+    componentDidMount() {
+    }
 
     render() {
         const {classes} = this.props;
         let idx = 1;
-        let iterationLists = !iterations ? "" : iterations.map((prop, key) => {
+        let iterationLists = !this.props.iterations ? "" : this.props.iterations.map((prop, key) => {
                 return (
-                    <SingleIteration key={key} handleSelected={this.handleSelected} handleEdit={this.handleEdit}
-                                     iterationList={prop.children} iteration={prop.iteration}
-                                     defaultExpand={idx++ == 1 ? true : false}/>
+                    <SingleIteration key={key} handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit}
+                                     iterationList={prop.children} iteration={prop.iteration.name}
+                                     defaultExpand={idx++ == 1 ? true : prop.iteration.selected}/>
                 )
             }
         );
         return (
             <List
                 component="nav"
-                subheader={<ListSubheader component="div">版本列表<IconButton onClick={this.handleAdd} style={{
+                subheader={<ListSubheader component="div">版本列表<IconButton onClick={this.props.handleAdd} style={{
                     float: "right",
                     marginRight: "-12px"
                 }}><AddIcon/></IconButton></ListSubheader>}
                 className={classes.root}
             >
                 {iterationLists}
-
 
             </List>
         );

@@ -54,14 +54,13 @@ class TextFields extends React.Component {
 
     render() {
         const { classes ,InputLabelName,defaultValue,nameIn,disabled,error} = this.props;
-
         return (
             <form className={classes.container} noValidate autoComplete="off">
                 <TextField
                     disabled={disabled}
                     id="standard-name"
                     label={InputLabelName}
-                    defaultValue={defaultValue}
+                    defaultValue={!!defaultValue ? defaultValue : ""}
                     className={classes.textField}
                     margin="normal"
                     onChange={this.handleChange}
