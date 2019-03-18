@@ -4,7 +4,7 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import {connect} from "react-redux";
-
+import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid'
 import Task from '../TaskBoard/Task';
 
@@ -25,6 +25,8 @@ import Badge from "@material-ui/core/Badge";
 import Chip from "@material-ui/core/Chip";
 import {editTask} from "../../actions/DemandTasksAction";
 import TaskEditor from "../Task/TaskEditor";
+import {openBuildMission,closeBuildMission,pullBuildMissionInitial} from "../../actions/BuildMissionAction"
+import BuildMissionMain from "../BuildMission/BuildMissionMain"
 
 const styles = theme => ({
     root: {
@@ -147,20 +149,36 @@ class TaskBoard extends React.Component {
 
     };
 
-    componentDidMount() {
-
+    componentWillMount() {
+        pullBuildMissionInitial();
         // getDemandTasks();
 
     }
 
+    openMissionPanel=()=>{
+        store.dispatch(openBuildMission());
+    };
+
+    handleClickClose=()=>{
+        store.dispatch(closeBuildMission())
+    };
+
     render() {
-        const {classes} = this.props;
+        const {classes,buildMissionShow,addMission} = this.props;
         let taskComponents = tasks.map((prop, key) => {
             return (
                 <Task key={prop.taskId} taskNo={prop.taskNo} taskName={prop.taskName} taskStatus={prop.taskStatus}
                       taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, prop.taskId)}} detailFunc={(e) => {this.handleDetail(e, prop.taskId)}}/>
             )
         });
+        let newTaskComponents=addMission.map((prop,key)=>{
+            return (
+                <Task key={key} taskNo={prop.MissionDeadLine} taskName={prop.MissionName} taskStatus="进行中"
+                      taskType={prop.MissionType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>
+
+            )
+        });
+
         const sideList = (
             <div className={classes.list}>
                 <List>
@@ -206,7 +224,8 @@ class TaskBoard extends React.Component {
                             <Grid item xs={8}></Grid>
                             <Grid item xs={2}>
                                 <Toolbar variant="regular" className={classes.toolbar}>
-                                    <Button onClick={this.toggleDrawer('right', true)}>新建</Button>
+                                    {/*<Button onClick={this.toggleDrawer('right', true)}>新建</Button>*/}
+                                    <Button onClick={this.openMissionPanel}>新建</Button>
                                     <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>
                                 </Toolbar>
                             </Grid>
@@ -216,6 +235,7 @@ class TaskBoard extends React.Component {
 
                 <Grid container spacing={16}>
                         {taskComponents}
+                        {newTaskComponents}
                 </Grid>
                 <div>
 
@@ -231,6 +251,10 @@ class TaskBoard extends React.Component {
                     </Drawer>
                 </div>
                 <TaskEditor open={false}/>
+                <BuildMissionMain
+                    open={buildMissionShow}
+                    onClose={this.handleClickClose}
+                />
             </Grid>
         )
     }
@@ -242,7 +266,9 @@ const
     mapStateToProps = (state) => {
         console.log(333333);
         return {
-            demands: state.reducer.task.demands
+            demands: state.reducer.task.demands,
+            buildMissionShow: state.reducer.buildMission.buildMissionShow,
+            addMission: state.reducer.buildMission.addMission
         }
     };
 

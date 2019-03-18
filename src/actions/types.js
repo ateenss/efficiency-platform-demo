@@ -39,4 +39,15 @@ export const FILTER_DEMAND_CLOSE_MANAGER="filter_demand_close_manager";
 export const FILTER_DEMAND_OPEN_DEVELOPER="filter_demand_open_developer";
 export const FILTER_DEMAND_CLOSE_DEVELOPER="filter_demand_close_developer";
 export const FILTER_DEMAND_MANAGER_SAVE="filter_demand_manager_save";
-export const FILTER_DEMAND_DEVELOPER_SAVE="filter_demand_developer_save"
+export const FILTER_DEMAND_DEVELOPER_SAVE="filter_demand_developer_save";
+
+
+//任务管理
+export const OPEN_BUILD_MISSION="open_build_mission";
+export const CLOSE_BUILD_MISSION="close_build_mission";
+export const BUILD_SAVE_MISSION="build_save_mission";
+export const PULL_INITIAL_MISSION="pull_initial_mission";
+
+export const OPEN_EDIT_MISSION="open_edit_mission";
+export const CLOSE_EDIT_MISSION="close_edit_mission";
+export const EDIT_SAVE_MISSION="edit_save_mission";
