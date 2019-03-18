@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import {connect} from "react-redux";
 import store from '../../stores/index';
-import {closeFilterManagerDemand,filterSaveManagerDemand} from "../../actions/BuildDemandAction"
+import {closeFilterManagerDemand, filterSaveManagerDemand} from "../../actions/BuildDemandAction"
 import InputField from "../SelfComponent/InputField";
 import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect";
@@ -22,116 +22,80 @@ import pink from '@material-ui/core/colors/pink';
 
 
 const styles = {
-    list: {
-        width: "100%",
-        left:"5px",
-        right:"0",
-        paddingLeft:"0px",
-        paddingRight:"0px",
-        marginRight:"0px",
-        marginLeft:"0px",
-        borderRight:"0px"
+
+    root: {
+        marginTop:"10px",
+        overflowY:"hidden"
     },
-    root:{
-        paddingLeft: 0,
+
+    searchButton: {
+        height: "50px",
     },
-    InDiv:{
-        width: "98%",
-        left:"10px",
-        paddingLeft:"18px",
-        paddingBottom:"10px"
-    },
-    headDiv:{
-        width: "100%",
-        left:"0px",
-        paddingLeft:"0px",
-        paddingRight:"0px",
-        paddingBottom:"10px",
-        height:"80px"
+    searchContent:{
+        padding:"0 10px 10px 10px"
     },
     headLetter:{
-        marginLeft: "15px"
-    },
-    fullList: {
-        width: 'auto',
-    },
-    titleContent:{
-        paddingLeft: 0
-    },
-    pinkAvatar: {
-        margin: 10,
-        color: '#fff',
-        backgroundColor: pink[500],
-    },
+        marginLeft:"10px"
+    }
 };
 
 class FilterDemandManager extends React.Component {
     state = {
-        filterContent:{}
+        filterContent: {}
     };
 
-    closeFilter=()=>{
+    closeFilter = () => {
         store.dispatch(closeFilterManagerDemand());
     };
-    saveFilter=()=>{
+    saveFilter = () => {
         console.log("是否发出数据了呢？");
         console.log(this.state.filterContent);
         store.dispatch(filterSaveManagerDemand(this.state.filterContent));
         store.dispatch(closeFilterManagerDemand());
     };
 
-    getContent=e=>{
-        if (e.keyNote){
-            const keyNote=e.keyNote;
-            const value=e.value;
+    getContent = e => {
+        if (e.keyNote) {
+            const keyNote = e.keyNote;
+            const value = e.value;
             let data = Object.assign({}, this.state.filterContent, {
                 [keyNote]: value.toString()
             });
             this.setState({
-                filterContent:data
+                filterContent: data
             })
-        }else{
-            const keyNote=e.target.name;
-            const value=e.target.value;
+        } else {
+            const keyNote = e.target.name;
+            const value = e.target.value;
             let data = Object.assign({}, this.state.filterContent, {
                 [keyNote]: value.toString()
             });
             this.setState({
-                filterContent:data
+                filterContent: data
             })
         }
     };
 
     render() {
-        const { classes,filterManagerDemandShow,initialData } = this.props;
-        const labelArray=["是","否"];
+        const {classes, filterManagerDemandShow, initialData} = this.props;
+        const labelArray = ["是", "否"];
 
         const sideList = (
-            <div className={classes.list}>
-                <div className={classes.headDiv}>
-                    <Grid item xs={12} >
-                        <Grid item xs={12}>
-                            <div className={classes.root}>
-                                <AppBar position="static" color="default" className={classes.head}>
-                                    <Toolbar disableGutters={true}>
-                                        <Typography variant="h6" color="inherit" className={classes.headLetter}>
-                                            需求筛选
-                                        </Typography>
-                                        <Button color="inherit" className={classes.newBuildButton}
-                                                onClick={this.saveFilter}>
-                                            <Avatar className={classes.pinkAvatar}>
-                                                <PageviewIcon/>
-                                            </Avatar>
-                                        </Button>
-                                    </Toolbar>
-                                </AppBar>
-                            </div>
-                        </Grid>
-                    </Grid>
-                </div>
-                <div className={classes.InDiv}>
-                <Grid container spacing={16} >
-                        <Grid item xs={2} >
+            <div>
+                {/*<Grid container spacing={16}>*/}
+                    {/*<Grid item xs={12}>*/}
+                        {/*<AppBar position="static" color="default" className={classes.head}>*/}
+                            {/*<Toolbar disableGutters={true}>*/}
+                                {/*<Typography variant="subheading" color="inherit" className={classes.headLetter}>*/}
+                                    {/*需求筛选*/}
+                                {/*</Typography>*/}
+                            {/*</Toolbar>*/}
+                        {/*</AppBar>*/}
+                    {/*</Grid>*/}
+                {/*</Grid>*/}
+                <div className={classes.root}>
+                <Grid container spacing={16} className={classes.searchContent}>
+                    <Grid item xs={2}>
                         <InputField
                             nameIn="DemandName"
                             onChange={this.getContent}
@@ -139,37 +103,48 @@ class FilterDemandManager extends React.Component {
                         />
                     </Grid>
                     <Grid item xs={2}>
-                        <MultiSelect onChange={this.getContent} InputLabelName="开发负责人" nameIn="DemandDevHead" nameArray={initialData.DemandDevHead}/>
+                        <MultiSelect onChange={this.getContent} InputLabelName="开发负责人" nameIn="DemandDevHead"
+                                     nameArray={initialData.DemandDevHead}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <MultiSelect onChange={this.getContent} InputLabelName="需求负责人" nameIn="DemandDemHead" nameArray={initialData.DemandDevHead}/>
+                        <MultiSelect onChange={this.getContent} InputLabelName="需求负责人" nameIn="DemandDemHead"
+                                     nameArray={initialData.DemandDevHead}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <SingleSelect onChange={this.getContent} InputLabelName="需求类型" nameIn="DemandType" nameArray={initialData.DemandType}/>
+                        <SingleSelect onChange={this.getContent} InputLabelName="需求类型" nameIn="DemandType"
+                                      nameArray={initialData.DemandType}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <SingleSelect onChange={this.getContent} InputLabelName="需求状态" nameIn="DemandStatus" nameArray={initialData.DemandStatus}/>
+                        <SingleSelect onChange={this.getContent} InputLabelName="需求状态" nameIn="DemandStatus"
+                                      nameArray={initialData.DemandStatus}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <SingleSelect onChange={this.getContent} InputLabelName="需求规模" nameIn="DemandScale" nameArray={initialData.DemandScale} defaultValue="小型"/>
+                        <SingleSelect onChange={this.getContent} InputLabelName="需求规模" nameIn="DemandScale"
+                                      nameArray={initialData.DemandScale} defaultValue="小型"/>
                     </Grid>
                     <Grid item xs={2}>
-                        <SingleSelect onChange={this.getContent} InputLabelName="需求优先级" nameIn="DemandPriority" nameArray={initialData.DemandPriority} defaultValue="p3"/>
+                        <SingleSelect onChange={this.getContent} InputLabelName="需求优先级" nameIn="DemandPriority"
+                                      nameArray={initialData.DemandPriority} defaultValue="p3"/>
                     </Grid>
                     <Grid item xs={2}>
-                        <MultiSelect onChange={this.getContent} InputLabelName="关联版本" nameIn="AssociatedVersion" nameArray={initialData.AssociatedVersion}/>
+                        <MultiSelect onChange={this.getContent} InputLabelName="关联版本" nameIn="AssociatedVersion"
+                                     nameArray={initialData.AssociatedVersion}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <DatePicker nameIn="DemandAcceptStartTime" InputLabelName="需求受理查询起始时间" onDateChange={this.getContent}/>
+                        <DatePicker nameIn="DemandAcceptStartTime" InputLabelName="需求受理查询起始时间"
+                                    onDateChange={this.getContent}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <DatePicker nameIn="DemandAcceptEndTime" InputLabelName="需求受理查询结束时间" onDateChange={this.getContent}/>
+                        <DatePicker nameIn="DemandAcceptEndTime" InputLabelName="需求受理查询结束时间"
+                                    onDateChange={this.getContent}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <DatePicker nameIn="DemandPassStartTime" InputLabelName="需求评审通过查询起始时间" onDateChange={this.getContent}/>
+                        <DatePicker nameIn="DemandPassStartTime" InputLabelName="需求评审通过查询起始时间"
+                                    onDateChange={this.getContent}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <DatePicker nameIn="DemandPassEndTime" InputLabelName="需求评审通过查询结束时间" onDateChange={this.getContent}/>
+                        <DatePicker nameIn="DemandPassEndTime" InputLabelName="需求评审通过查询结束时间"
+                                    onDateChange={this.getContent}/>
                     </Grid>
                     <Grid item xs={2}>
                         <InputField
@@ -201,31 +176,40 @@ class FilterDemandManager extends React.Component {
                             onChange={this.getContent}
                             labelArray={labelArray}
                         />
-                    </Grid><Grid item xs={2}>
-                    <RadioButton
-                        nameIn="WithProductChildTask"
-                        InputLabelName="是否生成子任务"
-                        onChange={this.getContent}
-                        labelArray={labelArray}
-                    />
-                </Grid><Grid item xs={2}>
-                    <RadioButton
-                        nameIn="WithChildDemand"
-                        InputLabelName="是否子需求"
-                        onChange={this.getContent}
-                        labelArray={labelArray}
-                    />
-                </Grid><Grid item xs={2}>
-                    <RadioButton
-                        nameIn="WithPlanReview"
-                        InputLabelName="是否完成方案评审"
-                        onChange={this.getContent}
-                        labelArray={labelArray}
-                    />
-                </Grid>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <RadioButton
+                            nameIn="WithProductChildTask"
+                            InputLabelName="是否生成子任务"
+                            onChange={this.getContent}
+                            labelArray={labelArray}
+                        />
+                    </Grid>
+                    <Grid item xs={2}>
+                        <RadioButton
+                            nameIn="WithChildDemand"
+                            InputLabelName="是否子需求"
+                            onChange={this.getContent}
+                            labelArray={labelArray}
+                        />
+                    </Grid>
+                    <Grid item xs={2}>
+                        <RadioButton
+                            nameIn="WithPlanReview"
+                            InputLabelName="是否完成方案评审"
+                            onChange={this.getContent}
+                            labelArray={labelArray}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+
+                        <Button fullWidth variant="outlined" color="secondary" onClick={this.saveFilter}
+                                className={classes.searchButton}>
+                            筛选
+                        </Button>
+                    </Grid>
                 </Grid>
                 </div>
-
             </div>
         );
 
@@ -252,8 +236,8 @@ FilterDemandManager.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        filterManagerDemandShow:state.reducer.buildDemand.filterManagerDemandShow,
-        initialData:state.reducer.buildDemand.initialData,
+        filterManagerDemandShow: state.reducer.buildDemand.filterManagerDemandShow,
+        initialData: state.reducer.buildDemand.initialData,
     }
 };
 

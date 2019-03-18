@@ -1,3 +1,4 @@
+
 //所有的action公用名字在这里拾取
 
 export const AUTH_USER = 'auth_user';
@@ -13,6 +14,11 @@ export const SAVE_TASK="save_task";
 export const GET_DEMAND="get_demand";
 export const OPEN_PROJECT="open_project";
 export const SELECT_ITERATION="select_iteration";
+export const ADD_ITERATION="add_iteration";
+export const SAVE_ADD_ITERATION="save_add_iteration";
+export const SAVE_EDIT_ITERATION="save_edit_iteration";
+export const EDIT_ITERATION="edit_iteration";
+export const CLOSE_ADD_ITERATION="close_add_iteration"
 export const OPEN_BUILD_DEMAND="open_build_demand";
 export const OPEN_BUILD_PROJECT="open_build_project";
 export const OPEN_EDIT_DEMAND="open_edit_demand";

@@ -21,6 +21,8 @@ import FilterDemandManager from "../BuildDemand/FilterDemandManager"
 import FilterDemandDeveloper from "../BuildDemand/FilterDemandDeveloper"
 import deepOrange from '@material-ui/core/colors/deepOrange';
 import deepPurple from '@material-ui/core/colors/deepPurple';
+import SearchIcon from '@material-ui/icons/Search';
+import AddIcon from '@material-ui/icons/Add';
 
 const styles = theme => ({
     root: {
@@ -30,18 +32,15 @@ const styles = theme => ({
         color:red[500]
     },
     head:{
-        background: "#FFFFFF",
+        background: "#FFFFFF"
     },
     avatar: {
-        margin: 10,
     },
     orangeAvatar: {
-        margin: 10,
         color: '#fff',
         backgroundColor: deepOrange[500],
     },
     purpleAvatar: {
-        margin: 10,
         color: '#fff',
         backgroundColor: deepPurple[500],
     },
@@ -172,14 +171,14 @@ class TaskBoard extends React.Component {
             <Grid container spacing={16}>
                 <Grid item xs={12}>
                     <div className={classes.root}>
-                        <AppBar position="static" color="default" className={classes.head}>
+                        <AppBar position="static" color="default" className={classes.head} style={{boxShadow:"none"}}>
                             <Toolbar>
                                         <Typography variant="h6" color="inherit">
-                                            需求工具栏
+                                            筛选
                                         </Typography>
-                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openDemand}><Avatar className={classes.avatar}>新建</Avatar></Button>
-                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openFilterManager}><Avatar className={classes.orangeAvatar}>筛选</Avatar></Button>
-                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openFilterDeveloper}><Avatar className={classes.purpleAvatar}>筛选</Avatar></Button>
+                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openDemand}><Avatar className={classes.avatar}><AddIcon/></Avatar></Button>
+                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openFilterManager}><Avatar className={classes.orangeAvatar}><SearchIcon/></Avatar></Button>
+                                        <Button color="inherit" className={classes.newBuildButton} onClick={this.openFilterDeveloper}><Avatar className={classes.purpleAvatar}><SearchIcon/></Avatar></Button>
                             </Toolbar>
                         </AppBar>
                     </div>
