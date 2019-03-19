@@ -107,7 +107,7 @@ const iterations = [
 
 class IterationBoard extends React.Component {
     state = {
-        open: false,
+        open: false
     };
     getMuiTheme = () => createMuiTheme({
         overrides: {
@@ -118,6 +118,12 @@ class IterationBoard extends React.Component {
             }
         }
     });
+
+    handleSearch = (val) => {
+        console.log("search iteration"+val);
+        selectIteration(val);
+        this.deSelect();
+    };
 
     handleAdd = () => {
         console.log("add iteration");
@@ -137,6 +143,15 @@ class IterationBoard extends React.Component {
         selectIteration(id);
     };
 
+    deSelect = () => {
+        let iterationState = this.state.iterationState;
+        for (let i in iterationState) {
+            let iter = iterationState[i];
+            for (let j in iter.children) {
+                iter.children[j].selected = false;
+            }
+        }
+    };
 
     componentWillMount() {
 
@@ -220,7 +235,7 @@ class IterationBoard extends React.Component {
             <Grid container spacing={8}>
                 <Grid item xs={2}>
                     <IterationList iterations={this.state.iterationState} handleAdd={this.handleAdd}
-                                   handleEdit={this.handleEdit} handleSelected={this.handleSelected}/>
+                                   handleEdit={this.handleEdit} handleSelected={this.handleSelected} handleSearch={this.handleSearch}/>
                 </Grid>
                 <Grid item xs={10}>
                     <Paper style={{padding: "10px"}}>
