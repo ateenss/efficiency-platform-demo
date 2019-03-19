@@ -5,12 +5,16 @@ import {
     OPEN_EDIT_MISSION,
     CLOSE_EDIT_MISSION,
     EDIT_SAVE_MISSION,
-    PULL_INITIAL_MISSION
+    PULL_INITIAL_MISSION,
+    OPEN_DETAIL_MISSION,
+    CLOSE_DETAIL_MISSION,
+    SAVE_DETAIL_MISSION
 } from "../actions/types"
 
 export const INITIAL_STATE = {
     buildMissionShow:false,
     editMissionShow:false,
+    detailMissionShow:false,
     filterManagerMissionShow:false,
     filterDeveloperMissionShow:false,
     initialData:null,
@@ -23,6 +27,14 @@ export default function (state = INITIAL_STATE, action) {
             const openBuildMissionState=JSON.parse(JSON.stringify(state));
             openBuildMissionState.buildMissionShow=true;
             return openBuildMissionState;
+        case OPEN_DETAIL_MISSION:
+            const openDetailMissionState=JSON.parse(JSON.stringify(state));
+            openDetailMissionState.detailMissionShow=true;
+            return openDetailMissionState;
+        case CLOSE_DETAIL_MISSION:
+            const closeDetailMissionState=JSON.parse(JSON.stringify(state));
+            closeDetailMissionState.detailMissionShow=false;
+            return closeDetailMissionState;
         case CLOSE_BUILD_MISSION:
             const closeBuildMissionState=JSON.parse(JSON.stringify(state));
             closeBuildMissionState.buildMissionShow=false;

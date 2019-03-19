@@ -15,7 +15,10 @@ import ReactQuill from "react-quill";
 import {saveTask} from "../../actions/DemandTasksAction";
 import TigerInput from "../Input/TigerInput"
 import store from "../../stores";
+import MyPage from "../views/MyPage"
+import {closeDetailMission} from "../../actions/BuildMissionAction"
 import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
+
 
 
 const styles = {
@@ -86,7 +89,7 @@ class TaskEditor extends React.Component {
     }
 
     handleClose = () => {
-        this.setState({openTask: false})
+        store.dispatch(closeDetailMission());
     };
 
     handleInput = (e) =>{
@@ -96,23 +99,24 @@ class TaskEditor extends React.Component {
     };
 
     onSubmit = () => {
-        saveTask(this.state.data);
+        // saveTask(this.state.data);
+        store.dispatch(closeDetailMission());
     };
 
     render() {
-        const {classes} = this.props;
+        const {classes,detailMissionShow} = this.props;
 
         return (
 
             <div>
-                <Dialog  fullScreen open={this.state.openTask} onClose={this.handleClose} TransitionComponent={Transition}>
+                <Dialog  fullScreen open={detailMissionShow} onClose={this.handleClose} TransitionComponent={Transition}>
                     <AppBar className={classes.appBar} color="default">
                         <Toolbar variant="dense">
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
                                 <CloseIcon/>
                             </IconButton>
                             <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
-                                编辑任务
+                                需求任务详情
                             </Typography>
                             <Button color="inherit" onClick={this.onSubmit}>
                                 保存
@@ -120,56 +124,7 @@ class TaskEditor extends React.Component {
                         </Toolbar>
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>
-                        <Grid container spacing={16}>
-                            <Grid xs={9} item>
-                                <TigerInput
-                                    id="outlined-name"
-                                    label="任务名称"
-                                    value={this.state.data.taskName}
-                                    margin="normal"
-                                    fullWidth
-                                    InputProps={{
-                                        classes: {
-                                            input: classes.taskInput,
-                                        },
-                                        name:"taskName"
-                                    }
-                                    }
-                                    InputLabelProps={{
-                                        classes: {
-                                            root: classes.taskLabel,
-                                        }
-                                    }}
-                                    onChange={this.handleInput}
-                                />
-                            </Grid>
-                            <Grid xs={3} item>
-                                <TigerInput
-                                    id="outlined-name"
-                                    label="负责人"
-                                    value={this.state.data.taskName}
-                                    margin="normal"
-                                    fullWidth
-                                    InputProps={{
-                                        classes: {
-                                            input: classes.taskInput,
-                                        },
-                                        name:"taskOwner"
-                                    }
-                                    }
-                                    InputLabelProps={{
-                                        classes: {
-                                            root: classes.taskLabel,
-                                        }
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Typography className={classes.quillLabel}>开发方案</Typography>
-                        <ReactQuill value={this.state.data.taskContent} theme="snow"
-                                    className={classes.quillContainer}
-                                    onChange={this.handleChange}/>
-
+                        <MyPage/>
                     </DialogContent>
                 </Dialog>
             </div>

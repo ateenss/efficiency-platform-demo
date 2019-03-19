@@ -62,7 +62,7 @@ class BuildDemandMain extends React.Component {
         const temp=this.state.missionContent;
         /*temp["DemandID"]=this.props.randomNum;
         temp["findNote"]=this.props.findNote;*/
-        store.dispatch(editSaveMissionDispatch(temp));
+        // store.dispatch(editSaveMissionDispatch(temp));
         store.dispatch(closeEditMission());
     };
 
@@ -93,11 +93,11 @@ class BuildDemandMain extends React.Component {
 
 
     render() {
-        const {classes, onClose, selectedValue,initialData,buttonStyle,buildMissionShow,randomNum,hintMessage, ...other} = this.props;
+        const {classes, onClose, selectedValue,initialData,buttonStyle,editMissionShow,randomNum,hintMessage, ...other} = this.props;
         const {missionContent}=this.state;
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
-                <DialogTitle id="simple-dialog-title">创建新任务</DialogTitle>
+                <DialogTitle id="simple-dialog-title">编辑需求任务</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
                         <Grid item xs={8}>
@@ -262,7 +262,7 @@ const mapStateToProps = (state) => {
     // console.log("map数据:"+state.reducer.buildProject.addProjects);
     return {
         initialData:state.reducer.buildMission.initialData,
-        buildMissionShow:state.reducer.buildMission.buildMissionShow,
+        editMissionShow:state.reducer.buildMission.editMissionShow,
         addMission:state.reducer.buildMission.addMission,
     }
 };

@@ -6,8 +6,25 @@ import {
     OPEN_EDIT_MISSION,
     CLOSE_EDIT_MISSION,
     EDIT_SAVE_MISSION,
-    PULL_INITIAL_MISSION
+    PULL_INITIAL_MISSION,
+    OPEN_DETAIL_MISSION,
+    CLOSE_DETAIL_MISSION,
+    SAVE_DETAIL_MISSION
 } from './types';
+
+export const openDetailMission=()=>({
+    type: OPEN_DETAIL_MISSION
+});
+
+export const closeDetailMission=()=>({
+    type: CLOSE_DETAIL_MISSION
+});
+
+export const saveDetailMission=(value)=>({
+    type: SAVE_DETAIL_MISSION,
+    value
+});
+
 
 export const openBuildMission=()=>({
     type:  OPEN_BUILD_MISSION

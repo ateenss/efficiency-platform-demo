@@ -4,6 +4,37 @@ import {
 
 export const INITIAL_STATE = {
     error: '',
+   /* demands:{
+    "demandName": "hahaha",
+        "tasks": {
+        "develop": [{
+            "taskContent": "hahaha",
+            "taskName": "11111",
+            "taskId": "1"
+        }],
+            "plan": [{
+            "taskContent": "hahaha",
+            "taskName": "11111",
+            "taskId": "2"
+        }]
+    },
+    "demandOwner": "zhouzhihao"
+}*/
+    demands:[
+        {
+            tasks:{"develop":[{
+                    "taskContent": "hahaha",
+                    "taskName": "11111",
+                    "taskId": "1"
+                }],"plan": [{
+                    "taskContent": "hahaha",
+                    "taskName": "11111",
+                    "taskId": "2"
+                }]},
+            demandName:"需求任务1",
+            demandOwner:"需求任务拥有者1"
+        }
+    ]
 };
 
 const taskStatus = {

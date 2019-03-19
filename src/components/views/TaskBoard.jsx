@@ -27,6 +27,8 @@ import {editTask} from "../../actions/DemandTasksAction";
 import TaskEditor from "../Task/TaskEditor";
 import {openBuildMission,closeBuildMission,pullBuildMissionInitial} from "../../actions/BuildMissionAction"
 import BuildMissionMain from "../BuildMission/BuildMissionMain"
+import MissionDetailMain from "../BuildMission/MissionDetailMain"
+
 
 const styles = theme => ({
     root: {
@@ -159,6 +161,7 @@ class TaskBoard extends React.Component {
         store.dispatch(openBuildMission());
     };
 
+
     handleClickClose=()=>{
         store.dispatch(closeBuildMission())
     };
@@ -255,6 +258,7 @@ class TaskBoard extends React.Component {
                     open={buildMissionShow}
                     onClose={this.handleClickClose}
                 />
+                <MissionDetailMain/>
             </Grid>
         )
     }
@@ -268,6 +272,7 @@ const
         return {
             demands: state.reducer.task.demands,
             buildMissionShow: state.reducer.buildMission.buildMissionShow,
+            editMissionShow: state.reducer.buildMission.editMissionShow,
             addMission: state.reducer.buildMission.addMission
         }
     };
