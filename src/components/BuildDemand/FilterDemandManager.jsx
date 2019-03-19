@@ -25,11 +25,15 @@ const styles = {
 
     root: {
         marginTop:"10px",
-        overflowY:"hidden"
+        overflowY:"hidden",
+        overflowX:"hidden"
     },
-
+    head:{
+        boxShadow:"none"
+    },
     searchButton: {
         height: "50px",
+        background:"#2196f3"
     },
     searchContent:{
         padding:"0 10px 10px 10px"
@@ -82,17 +86,17 @@ class FilterDemandManager extends React.Component {
 
         const sideList = (
             <div>
-                {/*<Grid container spacing={16}>*/}
-                    {/*<Grid item xs={12}>*/}
-                        {/*<AppBar position="static" color="default" className={classes.head}>*/}
-                            {/*<Toolbar disableGutters={true}>*/}
-                                {/*<Typography variant="subheading" color="inherit" className={classes.headLetter}>*/}
-                                    {/*需求筛选*/}
-                                {/*</Typography>*/}
-                            {/*</Toolbar>*/}
-                        {/*</AppBar>*/}
-                    {/*</Grid>*/}
-                {/*</Grid>*/}
+                <Grid container spacing={16}>
+                    <Grid item xs={12}>
+                        <AppBar position="static" color="default" className={classes.head}>
+                            <Toolbar disableGutters={true}>
+                                <Typography variant="subheading" color="inherit" className={classes.headLetter}>
+                                    需求筛选
+                                </Typography>
+                            </Toolbar>
+                        </AppBar>
+                    </Grid>
+                </Grid>
                 <div className={classes.root}>
                 <Grid container spacing={16} className={classes.searchContent}>
                     <Grid item xs={2}>
@@ -203,7 +207,7 @@ class FilterDemandManager extends React.Component {
                     </Grid>
                     <Grid item xs={12}>
 
-                        <Button fullWidth variant="outlined" color="secondary" onClick={this.saveFilter}
+                        <Button fullWidth variant="contained" color="primary" onClick={this.saveFilter}
                                 className={classes.searchButton}>
                             筛选
                         </Button>

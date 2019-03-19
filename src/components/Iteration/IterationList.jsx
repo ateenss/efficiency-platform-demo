@@ -17,9 +17,12 @@ import Demand from "../views/MyPage";
 import SingleIteration from "./SingleIteration";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
+import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
 import {selectIteration} from "../../actions/IterationAction";
-
+import {TextField} from "@material-ui/core";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import SearchTextField from "./SearchTextField"
 const styles = theme => ({
     root: {
         width: '100%',
@@ -29,19 +32,23 @@ const styles = theme => ({
     },
     nested: {
         paddingLeft: theme.spacing.unit,
-    },
+    }
+
 
 });
 
 
 class IterationList extends React.Component {
     state = {
-        open: true,
+        clearInput : false
     };
 
-    handleAdd = () =>{
-        this.props.handleAdd();
+    handleSelected = () => {
+        this.props.handleSelected();
+        this.setState({clearInput : true})
     }
+
+
 
     componentDidMount() {
     }
@@ -51,7 +58,7 @@ class IterationList extends React.Component {
         let idx = 1;
         let iterationLists = !this.props.iterations ? "" : this.props.iterations.map((prop, key) => {
                 return (
-                    <SingleIteration key={key} handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit}
+                    <SingleIteration key={key} handleSelected={this.handleSelected} handleEdit={this.props.handleEdit}
                                      iterationList={prop.children} iteration={prop.iteration.name}
                                      defaultExpand={idx++ == 1 ? true : prop.iteration.selected}/>
                 )
@@ -66,6 +73,7 @@ class IterationList extends React.Component {
                 }}><AddIcon/></IconButton></ListSubheader>}
                 className={classes.root}
             >
+                <SearchTextField handleSearch={this.props.handleSearch} clearInput={this.state.clearInput}/>
                 {iterationLists}
 
             </List>

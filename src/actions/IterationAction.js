@@ -50,7 +50,7 @@ export function selectIteration(id) {
 export function addIteration(id) {
 
 
-    const data = ["员工A", "员工B", "员工C", "员工D", "员工E", "员工F", "员工G", "员工H"];
+    const data = ["周伯通", "员工B", "员工C", "员工D", "员工E", "员工F", "员工G", "员工H"];
 
     let ret = {
         initData: data,
@@ -62,7 +62,7 @@ export function addIteration(id) {
         // TODO post here use iterationData in saveIteration
         ret.editData = {
             iterationName: "48.1",
-            iterationOwner: "周日",
+            iterationOwner: "周伯通",
             testDate: "2019/03/01",
             publishDate: "2019/03/01",
             deliveryDate: "2019/03/01",
