@@ -9,11 +9,28 @@ import {
     PULL_INITIAL_MISSION,
     OPEN_DETAIL_MISSION,
     CLOSE_DETAIL_MISSION,
-    SAVE_DETAIL_MISSION
+    SAVE_DETAIL_MISSION,
+    OPEN_BUILD_PLAN,
+    CLOSE_BUILD_PLAN,
+    SAVE_BUILD_PLAN
 } from './types';
 
-export const openDetailMission=()=>({
-    type: OPEN_DETAIL_MISSION
+export const openBuildPlan=()=>({
+   type: OPEN_BUILD_PLAN
+});
+
+export const closeBuildPlan=()=>({
+    type: CLOSE_BUILD_PLAN
+});
+
+export const saveBuildPlan=()=>({
+    type: SAVE_BUILD_PLAN
+});
+
+
+export const openDetailMission=value=>({
+    type: OPEN_DETAIL_MISSION,
+    value
 });
 
 export const closeDetailMission=()=>({
@@ -92,10 +109,60 @@ export function pullBuildMissionInitial(){
         AssociatedDemand:["需求1","需求2","需求3","需求4"],
         AssociatedMission:["任务1","任务2","任务3","任务4"],
         ModulePushHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
-
+        tasks:[{
+            taskId: '1',
+            MissionDeadLine: '2018-23-34',
+            MissionName: "30天从入门到放弃",
+            taskStatus: "进行中",
+            MissionType: "需求任务"
+        }, {
+            taskId: '2',
+            MissionDeadLine: '2018-13-31',
+            MissionName: "30天学不会react",
+            taskStatus: "进行中",
+            MissionType: "开发任务"
+        }, {
+            taskId: '3',
+            MissionDeadLine: '2018-23-32',
+            MissionName: "到底能不能学会",
+            taskStatus: "进行中",
+            MissionType: "开发任务"
+        }, {
+            taskId: '4',
+            MissionDeadLine: '2018-33-33',
+            MissionName: "不能啊",
+            taskStatus: "进行中",
+            MissionType: "开发任务"
+        }, {
+            taskId: '5',
+            MissionDeadLine: '2018-43-34',
+            MissionName: "不能啊",
+            taskStatus: "进行中",
+            MissionType: "开发任务"
+        }, {
+            taskId: '6',
+            MissionDeadLine: '2018-53-35',
+            MissionName: "到底能不能学会",
+            taskStatus: "进行中",
+            MissionType: "开发任务"
+        }, {
+            taskId: '7',
+            MissionDeadLine: '2018-63-36',
+            MissionName: "不能啊",
+            taskStatus: "进行中",
+            MissionType: "开发任务"
+        }, {
+            taskId: '8',
+            MissionDeadLine: '2018-73-37',
+            MissionName: "不能啊",
+            taskStatus: "进行中",
+            MissionType: "开发任务"
+        }
+        ]
     };
     store.dispatch({
         type:PULL_INITIAL_MISSION,
         payload:InitialData
     })
 }
+

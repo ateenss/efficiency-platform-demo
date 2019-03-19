@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
 import DesciptionInput from "../SelfComponent/DescriptionInput"
-import {openBuildMission,buildSaveMissionDispatch,closeBuildMission} from "../../actions/BuildMissionAction"
+import {closeBuildPlan,saveBuildPlan} from "../../actions/BuildMissionAction"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import CheckBox from "../SelfComponent/CheckBoxDouble"
@@ -37,7 +37,7 @@ const styles = {
 
 };
 
-class BuildMissionMain extends React.Component {
+class BuildPlanMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -49,14 +49,15 @@ class BuildMissionMain extends React.Component {
     }
 
     handleClose = () => {
-        store.dispatch(closeBuildMission());
+        store.dispatch(closeBuildPlan());
     };
     handleSave=()=>{
-        store.dispatch(closeBuildMission());
+
         const temp=this.state.missionContent;
         /*temp["DemandID"]=this.props.randomNum;
         temp["findNote"]=this.props.findNote;*/
-        store.dispatch(buildSaveMissionDispatch(temp));
+        // store.dispatch(saveBuildPlan(temp));
+        store.dispatch(closeBuildPlan());
     };
 
 
@@ -88,7 +89,7 @@ class BuildMissionMain extends React.Component {
         const {classes, onClose, selectedValue,initialData,buttonStyle,buildMissionShow,randomNum,hintMessage, ...other} = this.props;
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
-                <DialogTitle id="simple-dialog-title">创建新任务</DialogTitle>
+                <DialogTitle id="simple-dialog-title">创建新方案</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
                         <Grid item xs={8}>
@@ -221,7 +222,7 @@ class BuildMissionMain extends React.Component {
     }
 }
 
-BuildMissionMain.propTypes = {
+BuildPlanMain.propTypes = {
     classes: PropTypes.object.isRequired,
     onClose: PropTypes.func,
     selectedValue: PropTypes.string,
@@ -236,4 +237,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(BuildMissionMain));
+export default connect(mapStateToProps)(withStyles(styles)(BuildPlanMain));

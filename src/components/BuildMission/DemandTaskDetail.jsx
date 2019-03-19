@@ -18,11 +18,12 @@ import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
 import Task from '../Task/DemandTask';
 import Button from '@material-ui/core/Button';
-import {openEditMission} from "../../actions/BuildMissionAction"
+import {openEditMission,openBuildPlan} from "../../actions/BuildMissionAction"
 import Divider from "@material-ui/core/Divider"
 import {connect} from "react-redux";
-import EditMissionMain from "../BuildMission/EditMissionMain"
-import store from '../../stores/index';
+import EditMissionMain from "./EditMissionMain"
+import BuildPlanShow from "./BuildPlanMain"
+import store from '../../stores';
 
 
 import {
@@ -118,11 +119,11 @@ class DemandTaskDetail extends React.Component {
     };
 
     openPlan=()=>{
-
+        store.dispatch(openBuildPlan())
     };
 
     render() {
-        const {classes, develop, plan, test, finish,editMissionShow} = this.props;
+        const {classes, develop, plan, test, finish,editMissionShow,buildPlanShow,tempBoardToDetail} = this.props;
         return (
             <Card className={classes.demand}>
                 <CardHeader className={classes.demandHeader}
@@ -132,13 +133,13 @@ class DemandTaskDetail extends React.Component {
                                 </IconButton>
                             }
                             title={
-                                <div className={classes.cardHeaderTitle}><span>{this.props.demandName}</span>
+                                <div className={classes.cardHeaderTitle}><span>{tempBoardToDetail.MissionName}</span>
                                     <Chip label="已评审" className={classes.chip}/>
                                     <Button onClick={this.openPlan}>新建方案</Button>
                                     <Button onClick={this.openEditMission}>编辑需求任务</Button>
                                 </div>
                             }
-                            subheader={this.props.demandOwner}
+                            subheader={tempBoardToDetail.MissionDeadLine}
                 >
                 </CardHeader>
                 <CardActions className={classes.actions} disableActionSpacing>
@@ -203,7 +204,10 @@ class DemandTaskDetail extends React.Component {
                 </Collapse>
                 <EditMissionMain
                     open={editMissionShow}
+                    tempBoardToDetail={tempBoardToDetail}
                 />
+                <BuildPlanShow
+                    open={buildPlanShow}/>
             </Card>
 
         );
@@ -216,6 +220,7 @@ const mapStateToProps = (state) => {
     return {
         initialData:state.reducer.buildMission.initialData,
         editMissionShow:state.reducer.buildMission.editMissionShow,
+        buildPlanShow:state.reducer.buildMission.buildPlanShow,
         addMission:state.reducer.buildMission.addMission,
     }
 };

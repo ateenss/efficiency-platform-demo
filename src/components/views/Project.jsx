@@ -21,7 +21,7 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from '@material-ui/core/Tooltip';
 import MuiTable from '../SelfComponent/MuiTable'
-import Task from "../TaskBoard/Task"
+import Task from "../BuildMission/Task"
 import {pullBuildProjectInitial,openBuildProject} from "../../actions/BuildProjectAction"
 
 const styles = theme => ({

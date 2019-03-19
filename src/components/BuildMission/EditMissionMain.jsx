@@ -36,7 +36,7 @@ const styles = {
 
 };
 
-class BuildDemandMain extends React.Component {
+class EditMissionMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -47,12 +47,9 @@ class BuildDemandMain extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        //todo:此处需要修改编号判断，以便建立正常映射
-        if(nextProps.keyNote>-1){
             this.setState({
-                projectContent:nextProps.addMission[nextProps.keyNote]
+                missionContent:nextProps.tempBoardToDetail
             })
-        }
     }
 
     handleClose = () => {
@@ -62,7 +59,8 @@ class BuildDemandMain extends React.Component {
         const temp=this.state.missionContent;
         /*temp["DemandID"]=this.props.randomNum;
         temp["findNote"]=this.props.findNote;*/
-        // store.dispatch(editSaveMissionDispatch(temp));
+        temp["keyNote"]=this.props.tempBoardToDetail;
+        store.dispatch(editSaveMissionDispatch(temp));
         store.dispatch(closeEditMission());
     };
 
@@ -251,7 +249,7 @@ class BuildDemandMain extends React.Component {
     }
 }
 
-BuildDemandMain.propTypes = {
+EditMissionMain.propTypes = {
     classes: PropTypes.object.isRequired,
     onClose: PropTypes.func,
     selectedValue: PropTypes.string,
@@ -267,4 +265,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(BuildDemandMain));
+export default connect(mapStateToProps)(withStyles(styles)(EditMissionMain));

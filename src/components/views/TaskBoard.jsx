@@ -6,7 +6,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import {connect} from "react-redux";
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid'
-import Task from '../TaskBoard/Task';
+import Task from '../BuildMission/Task';
 
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
@@ -151,11 +151,13 @@ class TaskBoard extends React.Component {
 
     };
 
-    componentWillMount() {
+   /* componentWillMount() {
         pullBuildMissionInitial();
         // getDemandTasks();
 
-    }
+    }*/
+
+
 
     openMissionPanel=()=>{
         store.dispatch(openBuildMission());
@@ -167,16 +169,17 @@ class TaskBoard extends React.Component {
     };
 
     render() {
-        const {classes,buildMissionShow,addMission} = this.props;
-        let taskComponents = tasks.map((prop, key) => {
+        const {classes,buildMissionShow,addMission,initialData} = this.props;
+        /*let taskComponents = addMission.map((prop, key) => {
             return (
                 <Task key={prop.taskId} taskNo={prop.taskNo} taskName={prop.taskName} taskStatus={prop.taskStatus}
                       taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, prop.taskId)}} detailFunc={(e) => {this.handleDetail(e, prop.taskId)}}/>
             )
-        });
+        });*/
+
         let newTaskComponents=addMission.map((prop,key)=>{
             return (
-                <Task key={key} taskNo={prop.MissionDeadLine} taskName={prop.MissionName} taskStatus="进行中"
+                <Task key={key} keyNote={key} taskNo={prop.MissionDeadLine} taskName={prop.MissionName} taskStatus={prop.taskStatus}
                       taskType={prop.MissionType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>
 
             )
@@ -237,7 +240,7 @@ class TaskBoard extends React.Component {
                 </Grid>
 
                 <Grid container spacing={16}>
-                        {taskComponents}
+                        {/*{taskComponents}*/}
                         {newTaskComponents}
                 </Grid>
                 <div>
@@ -273,7 +276,8 @@ const
             demands: state.reducer.task.demands,
             buildMissionShow: state.reducer.buildMission.buildMissionShow,
             editMissionShow: state.reducer.buildMission.editMissionShow,
-            addMission: state.reducer.buildMission.addMission
+            addMission: state.reducer.buildMission.addMission,
+            initialData: state.reducer.buildMission.initialData
         }
     };
 

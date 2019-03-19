@@ -3,7 +3,7 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from '@material-ui/core/Button';
-import Demand from '../TaskBoard/DemandTaskDetail';
+import Demand from './DemandTaskDetail';
 import {getDemandTasks} from '../../actions/DemandTasksAction';
 import {connect} from "react-redux";
 
@@ -43,13 +43,15 @@ class MyPage extends React.Component {
     }
 
     render() {
-        const {classes, demands} = this.props;
+        const {classes, demands,tempBoardToDetail} = this.props;
         let demandsComponents = !demands ? "" : demands.map((prop, key) => {
                 let taskGroup = prop.tasks ? prop.tasks : "";
                 return (
                     <Demand key={key} demandName={prop.demandName} demandOwner={prop.demandOwner} expanded={true}
                             develop={taskGroup.develop ? taskGroup.develop : ""}
-                            plan={taskGroup.plan ? taskGroup.plan : ""}/>
+                            plan={taskGroup.plan ? taskGroup.plan : ""}
+                            tempBoardToDetail={tempBoardToDetail}
+                    />
                 )
             }
         );

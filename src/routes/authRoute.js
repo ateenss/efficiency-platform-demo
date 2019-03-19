@@ -3,10 +3,12 @@ import {Route, Redirect} from "react-router-dom";
 import indexRoutes from "../routes/index.jsx";
 import {connect} from 'react-redux';
 import {pullBuildDemandInitial} from "../actions/BuildDemandAction"
+import {pullBuildMissionInitial} from "../actions/BuildMissionAction"
 class AuthenticatedComponent extends React.Component {
     constructor(props) {
         super(props);
-        pullBuildDemandInitial()
+        pullBuildDemandInitial();
+        pullBuildMissionInitial()
     }
 
     //todo:需求初始化数据放在这里了

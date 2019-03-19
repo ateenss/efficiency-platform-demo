@@ -23,11 +23,12 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import ShareIcon from '@material-ui/icons/ArrowForward';
 import history from "../../history/history";
-import MyPage from "../views/MyPage.jsx";
+import MyPage from "./MyPage.jsx";
 import {Home} from "@material-ui/icons";
 import {Typography} from "@material-ui/core";
 import {openBuildMission,closeBuildMission,pullBuildMissionInitial,openDetailMission,closeDetailMission} from "../../actions/BuildMissionAction"
 import store from "../../stores";
+import MissionDetailMain from "./MissionDetailMain"
 
 
 
@@ -113,14 +114,14 @@ class Task extends React.Component {
         };
     }
 
-    openDetailPanel=()=>{
-        store.dispatch(openDetailMission())
+    openDetailPanel=keyNote=>{
+        store.dispatch(openDetailMission(keyNote))
     };
 
     render() {
-        const {classes} = this.props;
-        const MyLink = props => <Link to="/task/my" {...props}/>
 
+        const {classes,taskNo,keyNote} = this.props;
+        const MyLink = props => <Link to="/task/my" {...props}/>
         return (
             <Grid xs={3} item>
                 <Card className={classes.taskCard}>
@@ -161,7 +162,7 @@ class Task extends React.Component {
                                 {/* <IconButton aria-label="详情" taskid="1" component={MyLink} ref={this.btnRef}>
                                 <ShareIcon />
                             </IconButton>*/}
-                                <IconButton aria-label="详情" taskid="1" onClick={this.openDetailPanel}>
+                                <IconButton aria-label="详情" taskid="1" onClick={this.openDetailPanel.bind(this,keyNote)}>
                                     <ShareIcon/>
                                 </IconButton>
                             </Grid>
@@ -169,7 +170,7 @@ class Task extends React.Component {
 
                     </CardActions>
                 </Card>
-
+                {/*<MissionDetailMain/>*/}
             </Grid>
 
         );

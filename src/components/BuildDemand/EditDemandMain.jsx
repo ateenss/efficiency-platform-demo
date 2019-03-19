@@ -37,7 +37,7 @@ const styles = {
 
 };
 
-class BuildDemandMain extends React.Component {
+class EditDemandMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -262,7 +262,7 @@ class BuildDemandMain extends React.Component {
     }
 }
 
-BuildDemandMain.propTypes = {
+EditDemandMain.propTypes = {
     classes: PropTypes.object.isRequired,
     onClose: PropTypes.func,
     selectedValue: PropTypes.string,
@@ -278,4 +278,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(BuildDemandMain));
+export default connect(mapStateToProps)(withStyles(styles)(EditDemandMain));

@@ -13,7 +13,7 @@ import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
-import Demand from "../views/MyPage";
+import Demand from "../BuildMission/MyPage";
 import SingleIteration from "./SingleIteration";
 import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";

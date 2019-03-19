@@ -12,7 +12,7 @@ import TableList from "../components/views/TableList.jsx";
 import Typography from "../components/views/Typography.jsx";
 import Icons from "../components/views/Icons.jsx";
 import NotificationsPage from "../components/views/Notifications.jsx";
-import MyPage from "../components/views/MyPage.jsx";
+import MyPage from "../components/BuildMission/MyPage.jsx";
 import Project from "../components/views/Project.jsx";
 import TaskBoard from "../components/views/TaskBoard.jsx";
 import DemandBoard from "../components/views/DemandBoard";

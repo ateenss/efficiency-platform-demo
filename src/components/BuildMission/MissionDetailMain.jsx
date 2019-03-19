@@ -15,7 +15,7 @@ import ReactQuill from "react-quill";
 import {saveTask} from "../../actions/DemandTasksAction";
 import TigerInput from "../Input/TigerInput"
 import store from "../../stores";
-import MyPage from "../views/MyPage"
+import MyPage from "./MyPage"
 import {closeDetailMission} from "../../actions/BuildMissionAction"
 import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
 
@@ -53,7 +53,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-class TaskEditor extends React.Component {
+class MissionDetailMain extends React.Component {
 
     constructor(props) {
         super(props);
@@ -64,7 +64,7 @@ class TaskEditor extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextStatus) {
-        if(nextProps.action === "saveTask"){
+        /*if(nextProps.action === "saveTask"){
             this.setState({
                 openTask: nextProps.openTask
             });
@@ -78,12 +78,17 @@ class TaskEditor extends React.Component {
             }, 500);
 
             return false;
-        }
-        if (!!nextProps.task) {
+        }*/
+        /*if (!!nextProps.task) {
             this.setState({
                 openTask: nextProps.openTask,
                 data: {taskName: nextProps.task.taskName, taskContent: nextProps.task.taskContent}
             });
+        }*/
+        if(nextProps.keyNote>-1){
+            this.setState({
+                projectContent:nextProps.addProjects[nextProps.keyNote]
+            })
         }
 
     }
@@ -104,7 +109,7 @@ class TaskEditor extends React.Component {
     };
 
     render() {
-        const {classes,detailMissionShow} = this.props;
+        const {classes,detailMissionShow,tempBoardToDetail} = this.props;
 
         return (
 
@@ -124,7 +129,7 @@ class TaskEditor extends React.Component {
                         </Toolbar>
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>
-                        <MyPage/>
+                        <MyPage tempBoardToDetail={tempBoardToDetail}/>
                     </DialogContent>
                 </Dialog>
             </div>
@@ -138,8 +143,9 @@ const mapStateToProps = (state) => {
         action : state.reducer.task.action,
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
-        detailMissionShow:state.reducer.buildMission.detailMissionShow
+        detailMissionShow:state.reducer.buildMission.detailMissionShow,
+        tempBoardToDetail:state.reducer.buildMission.tempBoardToDetail
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(TaskEditor));
+export default connect(mapStateToProps)(withStyles(styles)(MissionDetailMain));

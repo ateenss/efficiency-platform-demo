@@ -18,7 +18,7 @@ export const ADD_ITERATION="add_iteration";
 export const SAVE_ADD_ITERATION="save_add_iteration";
 export const SAVE_EDIT_ITERATION="save_edit_iteration";
 export const EDIT_ITERATION="edit_iteration";
-export const CLOSE_ADD_ITERATION="close_add_iteration"
+export const CLOSE_ADD_ITERATION="close_add_iteration";
 export const OPEN_BUILD_DEMAND="open_build_demand";
 export const OPEN_BUILD_PROJECT="open_build_project";
 export const OPEN_EDIT_DEMAND="open_edit_demand";
@@ -62,3 +62,7 @@ export const EDIT_SAVE_MISSION="edit_save_mission";
 export const OPEN_DETAIL_MISSION="open_detail_mission";
 export const CLOSE_DETAIL_MISSION="close_detail_mission";
 export const SAVE_DETAIL_MISSION="save_detail_mission";
+//新建方案
+export const OPEN_BUILD_PLAN="open_build_plan";
+export const CLOSE_BUILD_PLAN="close_build_plan";
+export const SAVE_BUILD_PLAN="save_build_plan";
