@@ -5,6 +5,7 @@ import commonReducer from './commonReducer';
 import buildProjectReducer from "./buildProjectReducer"
 import iterationReducer from "./interationReducer"
 import buildDemandReducer from "./buildDemandReducer";
+import buildMissionReducer from "./buildMissionReducer"
 // import {routerReducer} from 'react-router-redux'
 
 //执行不同功能的reducer拼装
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     common:commonReducer,
     buildProject:buildProjectReducer,
     buildDemand:buildDemandReducer,
-    iteration:iterationReducer
+    iteration:iterationReducer,
+    buildMission:buildMissionReducer
 });
 
 export default rootReducer;

@@ -31,7 +31,10 @@ const styles = {
     },
     time:{
         top:30
-    }
+    },
+    gridStyle:{
+        marginTop:"15px"
+    },
 
 };
 
@@ -96,7 +99,7 @@ class EditProjectMain extends React.Component {
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
-                        <Grid item xs={8}>
+                        <Grid item xs={8} className={classes.gridStyle}>
                             <InputField
                                 nameIn="ProjectName"
                                 onChange={this.getContent}
@@ -104,34 +107,34 @@ class EditProjectMain extends React.Component {
                                 defaultValue={projectContent.ProjectName}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField InputLabelName="项目编号" nameIn="ProjectID" defaultValue={projectContent.ProjectID} disabled={true}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="ProjectType" defaultValue={projectContent.ProjectType}
                                          nameArray={initialData.ProjectType} />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="ProjectMembers" defaultValue={projectContent.ProjectMembers}
                                          nameArray={initialData.ProjectMembers} />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="ProjectHead" defaultValue={projectContent.ProjectHead}
                                          nameArray={initialData.ProjectHead} />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="ProjectStartTime" InputLabelName="开始时间" onDateChange={this.getContent} defaultValue={projectContent.ProjectStartTime}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="ProjectEndTime" InputLabelName="结束时间" onDateChange={this.getContent} defaultValue={projectContent.ProjectEndTime}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="ProjectBuildTime" InputLabelName="创建时间" onDateChange={this.getContent} defaultValue={projectContent.ProjectBuildTime}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="ProjectStatus" defaultValue={projectContent.ProjectStatus} disabled={false} nameArray={initialData.ProjectStatus}/>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.gridStyle}>
                             <DesciptionInput onChange={this.getContent} nameIn="ProjectDescription" defaultValue={projectContent.ProjectDescription}/>
                         </Grid>
 

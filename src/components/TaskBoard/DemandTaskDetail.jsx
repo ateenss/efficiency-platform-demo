@@ -17,8 +17,12 @@ import CardActions from '@material-ui/core/CardActions';
 import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
 import Task from '../Task/DemandTask';
-
+import Button from '@material-ui/core/Button';
+import {openEditMission} from "../../actions/BuildMissionAction"
 import Divider from "@material-ui/core/Divider"
+import {connect} from "react-redux";
+import EditMissionMain from "../BuildMission/EditMissionMain"
+import store from '../../stores/index';
 
 
 import {
@@ -109,8 +113,16 @@ class DemandTaskDetail extends React.Component {
         this.setState(state => ({expanded: !state.expanded}));
     };
 
+    openEditMission=()=>{
+        store.dispatch(openEditMission())
+    };
+
+    openPlan=()=>{
+
+    };
+
     render() {
-        const {classes, develop, plan, test, finish} = this.props;
+        const {classes, develop, plan, test, finish,editMissionShow} = this.props;
         return (
             <Card className={classes.demand}>
                 <CardHeader className={classes.demandHeader}
@@ -120,8 +132,10 @@ class DemandTaskDetail extends React.Component {
                                 </IconButton>
                             }
                             title={
-                                <div className={classes.cardHeaderTitle}><span>{this.props.demandName}</span> <Chip label="已评审"
-                                                                                               className={classes.chip}/>
+                                <div className={classes.cardHeaderTitle}><span>{this.props.demandName}</span>
+                                    <Chip label="已评审" className={classes.chip}/>
+                                    <Button onClick={this.openPlan}>新建方案</Button>
+                                    <Button onClick={this.openEditMission}>编辑需求任务</Button>
                                 </div>
                             }
                             subheader={this.props.demandOwner}
@@ -187,10 +201,23 @@ class DemandTaskDetail extends React.Component {
                         </Grid>
                     </Grid>
                 </Collapse>
+                <EditMissionMain
+                    open={editMissionShow}
+                />
             </Card>
 
         );
     }
 }
 
-export default withStyles(styles)(DemandTaskDetail);
+// export default withStyles(styles)(DemandTaskDetail);
+const mapStateToProps = (state) => {
+    // console.log("map数据:"+state.reducer.buildProject.addProjects);
+    return {
+        initialData:state.reducer.buildMission.initialData,
+        editMissionShow:state.reducer.buildMission.editMissionShow,
+        addMission:state.reducer.buildMission.addMission,
+    }
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(DemandTaskDetail));

@@ -213,8 +213,45 @@
 
 *****
 #### 需求状态机
+*****
 
 
+#### `三.任务管理`
+
+`主要文件名`
+
+| 名称  | 功能 |
+| --- | --- | 
+|BuildMissionMain|新建任务
+|EditMissionMain|编辑任务
+
+`所在文件位置：components/BuildMission`
+
+---
+`相关数据字典`
+
+| 名称  | 功能 | 备注 |
+| --- | --- |  --- |
+|MissionID|任务ID|
+|MissionName|任务名称|
+|BelongProject|所属项目|已有项目选择
+|MissionType|任务类型|下拉框：需求评审任务，需求开发任务，上线任务，个人其他任务
+|MissionLevel|任务级别|总任务，子任务
+|MissionHead|任务负责人|
+|MissionPriority|优先级|高、普通、默认、低
+|MissionDescription|任务描述|
+|MissionDeadLine|截止时间|默认填写提测时间，日历框
+|InvolveModule|涉及模块|
+|AssociatedVersion|关联版本|
+|AssociatedDemand|关联需求|
+|AssociatedMission|关联任务|
+|EstimateWorkHours|预估投入工时|
+|ModulePushHead|模块提交负责人|
+|BranchTag|模块branchtag号|
+
+`备注：新建任务类型只能是个人任务`
+
+---
 
 
 

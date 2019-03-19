@@ -26,6 +26,9 @@ import history from "../../history/history";
 import MyPage from "../views/MyPage.jsx";
 import {Home} from "@material-ui/icons";
 import {Typography} from "@material-ui/core";
+import {openBuildMission,closeBuildMission,pullBuildMissionInitial,openDetailMission,closeDetailMission} from "../../actions/BuildMissionAction"
+import store from "../../stores";
+
 
 
 const styles = theme => ({
@@ -110,7 +113,9 @@ class Task extends React.Component {
         };
     }
 
-
+    openDetailPanel=()=>{
+        store.dispatch(openDetailMission())
+    };
 
     render() {
         const {classes} = this.props;
@@ -153,9 +158,12 @@ class Task extends React.Component {
 
 
                             <Grid item>
-                            <IconButton aria-label="详情" taskid="1" component={MyLink} ref={this.btnRef}>
+                                {/* <IconButton aria-label="详情" taskid="1" component={MyLink} ref={this.btnRef}>
                                 <ShareIcon />
-                            </IconButton>
+                            </IconButton>*/}
+                                <IconButton aria-label="详情" taskid="1" onClick={this.openDetailPanel}>
+                                    <ShareIcon/>
+                                </IconButton>
                             </Grid>
                         </Grid>
 
