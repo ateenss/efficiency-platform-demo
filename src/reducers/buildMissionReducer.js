@@ -48,9 +48,10 @@ export default function (state = INITIAL_STATE, action) {
         case OPEN_DETAIL_MISSION:
             const openDetailMissionState=JSON.parse(JSON.stringify(state));
             openDetailMissionState.detailMissionShow=true;
-            console.log("這是後臺"+action.value);
+            // console.log("這是後臺"+action.value);
             openDetailMissionState.addMission.map((value,key)=>{
                 if (key===action.value){
+                    value["keyNote"]=action.value;
                     openDetailMissionState.tempBoardToDetail=value
                 }
             });
@@ -83,12 +84,14 @@ export default function (state = INITIAL_STATE, action) {
         case EDIT_SAVE_MISSION:
             //todo:这里缺少对于edit的判断，注意修改
             const saveEditMissionState=JSON.parse(JSON.stringify(state));
+            console.log("試探：");
+            console.log(action.value.keyNote);
             saveEditMissionState.addMission.map((content,key)=>{
                 if (action.value.keyNote===key){
-                    saveEditMissionState.addMission[key]=action.value
+                    saveEditMissionState.addMission[key]=action.value;
+                    saveEditMissionState.tempBoardToDetail=action.value
                 }
             });
-            saveEditMissionState.addMission.push(action.value);
             return saveEditMissionState;
         default:
             return state;

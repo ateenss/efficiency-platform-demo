@@ -124,6 +124,7 @@ class DemandTaskDetail extends React.Component {
 
     render() {
         const {classes, develop, plan, test, finish,editMissionShow,buildPlanShow,tempBoardToDetail} = this.props;
+
         return (
             <Card className={classes.demand}>
                 <CardHeader className={classes.demandHeader}

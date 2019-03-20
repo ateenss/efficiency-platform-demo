@@ -54,8 +54,9 @@ class BuildMissionMain extends React.Component {
     handleSave=()=>{
         store.dispatch(closeBuildMission());
         const temp=this.state.missionContent;
-        /*temp["DemandID"]=this.props.randomNum;
-        temp["findNote"]=this.props.findNote;*/
+        let tempNum=parseInt((Math.random()*(500000)+10),10);
+        temp["missionID"]=tempNum;
+        temp["MissionStatus"]="进行中";
         store.dispatch(buildSaveMissionDispatch(temp));
     };
 

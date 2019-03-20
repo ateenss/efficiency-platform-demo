@@ -64,7 +64,7 @@ class MissionDetailMain extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextStatus) {
-        /*if(nextProps.action === "saveTask"){
+        if(nextProps.action === "saveTask"){
             this.setState({
                 openTask: nextProps.openTask
             });
@@ -78,18 +78,18 @@ class MissionDetailMain extends React.Component {
             }, 500);
 
             return false;
-        }*/
-        /*if (!!nextProps.task) {
+        }
+        if (!!nextProps.task) {
             this.setState({
                 openTask: nextProps.openTask,
                 data: {taskName: nextProps.task.taskName, taskContent: nextProps.task.taskContent}
             });
-        }*/
-        if(nextProps.keyNote>-1){
+        }
+       /* if(nextProps.keyNote>-1){
             this.setState({
                 projectContent:nextProps.addProjects[nextProps.keyNote]
             })
-        }
+        }*/
 
     }
 
@@ -144,7 +144,8 @@ const mapStateToProps = (state) => {
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
         detailMissionShow:state.reducer.buildMission.detailMissionShow,
-        tempBoardToDetail:state.reducer.buildMission.tempBoardToDetail
+        tempBoardToDetail:state.reducer.buildMission.tempBoardToDetail,
+        addMission:state.reducer.buildMission.addMission,
     }
 };
 

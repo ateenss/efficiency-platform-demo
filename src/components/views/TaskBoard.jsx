@@ -179,8 +179,8 @@ class TaskBoard extends React.Component {
 
         let newTaskComponents=addMission.map((prop,key)=>{
             return (
-                <Task key={key} keyNote={key} taskNo={prop.MissionDeadLine} taskName={prop.MissionName} taskStatus={prop.taskStatus}
-                      taskType={prop.MissionType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>
+                <Task key={key} keyNote={key} taskNo={prop.MissionDeadLine} taskName={prop.MissionName} taskStatus={prop.MissionStatus}
+                        taskType={prop.MissionType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>
 
             )
         });
@@ -188,12 +188,18 @@ class TaskBoard extends React.Component {
         const sideList = (
             <div className={classes.list}>
                 <List>
-                    {['进行中', '已完成'].map((text, index) => (
+                    {/*{['进行中', '已完成'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={text}/>
+                            <ListItemText primary={text} />
                         </ListItem>
-                    ))}
+                    ))}*/}
+                    {<ListItem button >
+                        <ListItemIcon><InboxIcon/></ListItemIcon>
+                        <ListItemText primary="进行中" />
+                        <ListItemIcon><MailIcon/></ListItemIcon>
+                        <ListItemText primary="已完成" />
+                    </ListItem>}
                 </List>
                 <Divider/>
                 <List>

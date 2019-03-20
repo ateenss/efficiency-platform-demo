@@ -120,7 +120,7 @@ class Task extends React.Component {
 
     render() {
 
-        const {classes,taskNo,keyNote} = this.props;
+        const {classes,taskNo,keyNote,missionItem} = this.props;
         const MyLink = props => <Link to="/task/my" {...props}/>
         return (
             <Grid xs={3} item>

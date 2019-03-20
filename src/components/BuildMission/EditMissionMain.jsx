@@ -47,9 +47,17 @@ class EditMissionMain extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-            this.setState({
+        //todo:这里面应该放入addMission，是数值放置错误，必须找到指定addMission
+        nextProps.addMission.map((content,key)=>{
+            if (key===this.props.tempBoardToDetail.keyNote) {
+                this.setState({
+                    missionContent:content
+                })
+            }
+        });
+      /*  this.setState({
                 missionContent:nextProps.tempBoardToDetail
-            })
+            })*/
     }
 
     handleClose = () => {
@@ -57,9 +65,7 @@ class EditMissionMain extends React.Component {
     };
     handleSave=()=>{
         const temp=this.state.missionContent;
-        /*temp["DemandID"]=this.props.randomNum;
-        temp["findNote"]=this.props.findNote;*/
-        temp["keyNote"]=this.props.tempBoardToDetail;
+        temp["keyNote"]=this.props.tempBoardToDetail.keyNote;
         store.dispatch(editSaveMissionDispatch(temp));
         store.dispatch(closeEditMission());
     };
@@ -121,6 +127,15 @@ class EditMissionMain extends React.Component {
                                 nameIn="BelongProject"
                                 nameArray={initialData.BelongProject}
                                 defaultValue={missionContent.BelongProject}/>
+
+                        </Grid>
+                        <Grid item xs={4} className={classes.gridStyle}>
+                            <SingleSelect
+                                onChange={this.getContent}
+                                InputLabelName="任务状态"
+                                nameIn="MissionStatus"
+                                nameArray={initialData.MissionStatus}
+                                defaultValue={missionContent.MissionStatus}/>
 
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
