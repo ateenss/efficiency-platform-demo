@@ -34,6 +34,8 @@ class MultiLineInput extends React.Component {
         this.props.onChange({keyNote:event.target.name,value:event.target.value})
     };
 
+    judgeDefaultValue=(name,value)=>!!value?(!!value[name] ? value[name] : ""):"";
+
     render() {
         const { classes ,InputLabelName,content,nameIn, ...others} = this.props;
 
@@ -50,7 +52,7 @@ class MultiLineInput extends React.Component {
                     margin="normal"
                     variant="outlined"
                     name={nameIn}
-                    defaultValue={!!content[nameIn] ? content[nameIn] : ""}
+                    defaultValue={this.judgeDefaultValue(nameIn,content)}
                     onChange={this.handleChange}
                     {...others}
                 />
