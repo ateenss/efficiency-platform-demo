@@ -70,3 +70,15 @@ export const SAVE_DETAIL_MISSION="save_detail_mission";
 export const OPEN_BUILD_PLAN="open_build_plan";
 export const CLOSE_BUILD_PLAN="close_build_plan";
 export const SAVE_BUILD_PLAN="save_build_plan";
+//需求任务筛选
+export const FILTER_UNDERWAY="filter_underway";
+export const FILTER_FINISH="filter_finish";
+export const FILTER_DEMAND_MISSION="filter_demand_mission";
+export const FILTER_DEV_MISSION="filter_dev_mission";
+export const FILTER_OWN_MISSION="filter_own_mission";
+export const FILTER_RESET="filter_reset";
+//模块（子任务）
+export const OPEN_BUILD_MODULE="open_build_module";
+export const CLOSE_BUILD_MODULE="close_build_module";
+export const OPEN_TASK_EDITOR="open_task_editor";
+export const CLOSE_TASK_EDITOR="close_task_editor";

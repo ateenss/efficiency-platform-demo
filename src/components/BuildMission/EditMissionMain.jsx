@@ -123,15 +123,6 @@ class EditMissionMain extends React.Component {
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
                                 onChange={this.getContent}
-                                InputLabelName="所属项目"
-                                nameIn="BelongProject"
-                                nameArray={initialData.BelongProject}
-                                defaultValue={missionContent.BelongProject}/>
-
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect
-                                onChange={this.getContent}
                                 InputLabelName="任务状态"
                                 nameIn="MissionStatus"
                                 nameArray={initialData.MissionStatus}
@@ -181,38 +172,6 @@ class EditMissionMain extends React.Component {
                                 defaultValue={missionContent.AssociatedVersion}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <MultiSelect
-                                onChange={this.getContent}
-                                InputLabelName="涉及模块"
-                                nameIn="InvolveModule"
-                                nameArray={initialData.InvolveModule}
-                                defaultValue={missionContent.InvolveModule}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <MultiSelect
-                                onChange={this.getContent}
-                                InputLabelName="关联需求"
-                                nameIn="AssociatedDemand"
-                                nameArray={initialData.AssociatedDemand}
-                                defaultValue={missionContent.AssociatedDemand}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <MultiSelect
-                                onChange={this.getContent}
-                                InputLabelName="关联任务"
-                                nameIn="AssociatedMission"
-                                nameArray={initialData.AssociatedMission}
-                                defaultValue={missionContent.AssociatedMission}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <MultiSelect
-                                onChange={this.getContent}
-                                InputLabelName="模块提交负责人"
-                                nameIn="ModulePushHead"
-                                nameArray={initialData.ModulePushHead}
-                                defaultValue={missionContent.ModulePushHead}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker
                                 nameIn="MissionDeadLine"
                                 InputLabelName="截止时间"
@@ -226,14 +185,6 @@ class EditMissionMain extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="预估投入工时"
                                 defaultValue={missionContent.EstimateWorkHours}
-                            />
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <InputField
-                                nameIn="BranchTag"
-                                onChange={this.getContent}
-                                InputLabelName="模块branchtag号"
-                                defaultValue={missionContent.BranchTag}
                             />
                         </Grid>
 

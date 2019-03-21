@@ -19,7 +19,11 @@ class SimpleListMenu extends React.Component {
         this.setState({anchorEl: null});
         // console.log(e.target.id);
         if (!!id) {
-            callback(id);
+            if (typeof callback === "function")
+                callback.call(this, id)
+        }else{
+            if (typeof callback === "function")
+                callback.call()
         }
     };
 

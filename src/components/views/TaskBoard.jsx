@@ -24,8 +24,17 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Badge from "@material-ui/core/Badge";
 import Chip from "@material-ui/core/Chip";
 import {editTask} from "../../actions/DemandTasksAction";
-import TaskEditor from "../Task/TaskEditor";
-import {openBuildMission,closeBuildMission,pullBuildMissionInitial} from "../../actions/BuildMissionAction"
+import {
+    openBuildMission,
+    closeBuildMission,
+    filterDoUnderWay,
+    filterDoFinish,
+    filterDoDemandMission,
+    filterDoDevMission,
+    filterDoOwnMission,
+    filterReset,
+    pullBuildMissionInitial
+} from "../../actions/BuildMissionAction"
 import BuildMissionMain from "../BuildMission/BuildMissionMain"
 import MissionDetailMain from "../BuildMission/MissionDetailMain"
 
@@ -168,16 +177,50 @@ class TaskBoard extends React.Component {
         store.dispatch(closeBuildMission())
     };
 
+    filterUnderWay=()=>{
+        store.dispatch(filterDoUnderWay())
+    };
+
+    filterFinish=()=>{
+        store.dispatch(filterDoFinish())
+    };
+
+    filterDemandMission=()=>{
+        store.dispatch(filterDoDemandMission())
+    };
+
+    filterDevMission=()=>{
+        store.dispatch(filterDoDevMission());
+    };
+
+    filterOwnMission=()=>{
+        store.dispatch(filterDoOwnMission())
+    };
+
+    goBack=()=>{
+        store.dispatch(filterReset());
+    };
+
     render() {
-        const {classes,buildMissionShow,addMission,initialData} = this.props;
+        const {classes,buildMissionShow,addMission,initialData,filterJudge} = this.props;
         /*let taskComponents = addMission.map((prop, key) => {
             return (
                 <Task key={prop.taskId} taskNo={prop.taskNo} taskName={prop.taskName} taskStatus={prop.taskStatus}
                       taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, prop.taskId)}} detailFunc={(e) => {this.handleDetail(e, prop.taskId)}}/>
             )
         });*/
+        let tempContent=[];
+        if (filterJudge.switch==="1"){
+            addMission.map((content,key)=>{
+                if(filterJudge.keyArray.indexOf(key)>=0){
+                    tempContent.push(content)
+                }
+            })
+        }else{
+            tempContent=addMission
+        }
 
-        let newTaskComponents=addMission.map((prop,key)=>{
+        let newTaskComponents=tempContent.map((prop,key)=>{
             return (
                 <Task key={key} keyNote={key} taskNo={prop.MissionDeadLine} taskName={prop.MissionName} taskStatus={prop.MissionStatus}
                         taskType={prop.MissionType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>
@@ -188,27 +231,28 @@ class TaskBoard extends React.Component {
         const sideList = (
             <div className={classes.list}>
                 <List>
-                    {/*{['进行中', '已完成'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={text} />
+                    {[{text:'进行中',func:this.filterUnderWay}, {text:'已完成',func:this.filterFinish}].map((contennt, index) => (
+                        <ListItem button key={index} onClick={contennt.func}>
+                            <ListItemIcon >{index % 2 === 0 ? <InboxIcon/> : <MailIcon />}</ListItemIcon>
+                            <ListItemText primary={contennt.text}  />
                         </ListItem>
-                    ))}*/}
-                    {<ListItem button >
-                        <ListItemIcon><InboxIcon/></ListItemIcon>
-                        <ListItemText primary="进行中" />
-                        <ListItemIcon><MailIcon/></ListItemIcon>
-                        <ListItemText primary="已完成" />
-                    </ListItem>}
+                    ))}
                 </List>
                 <Divider/>
                 <List>
-                    {['需求任务', '开发任务', '个人任务'].map((text, index) => (
-                        <ListItem button key={text}>
+                    {[{text:'需求任务',func:this.filterDemandMission}, {text:'开发任务',func:this.filterDevMission},{ text:'个人任务',func:this.filterOwnMission}].map((content, index) => (
+                        <ListItem button key={index} onClick={content.func}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={text}/>
+                            <ListItemText primary={content.text} />
                         </ListItem>
                     ))}
+                </List>
+                <Divider/>
+                <List>
+                    <ListItem button onClick={this.goBack}>
+                        <ListItemIcon> <MailIcon/></ListItemIcon>
+                        <ListItemText primary="重置" />
+                    </ListItem>
                 </List>
             </div>
         );
@@ -237,7 +281,7 @@ class TaskBoard extends React.Component {
                             <Grid item xs={2}>
                                 <Toolbar variant="regular" className={classes.toolbar}>
                                     {/*<Button onClick={this.toggleDrawer('right', true)}>新建</Button>*/}
-                                    <Button onClick={this.openMissionPanel}>新建</Button>
+                                    {/*<Button onClick={this.openMissionPanel}>新建</Button>*/}
                                     <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>
                                 </Toolbar>
                             </Grid>
@@ -262,7 +306,6 @@ class TaskBoard extends React.Component {
                         </div>
                     </Drawer>
                 </div>
-                <TaskEditor open={false}/>
                 <BuildMissionMain
                     open={buildMissionShow}
                     onClose={this.handleClickClose}
@@ -283,7 +326,8 @@ const
             buildMissionShow: state.reducer.buildMission.buildMissionShow,
             editMissionShow: state.reducer.buildMission.editMissionShow,
             addMission: state.reducer.buildMission.addMission,
-            initialData: state.reducer.buildMission.initialData
+            initialData: state.reducer.buildMission.initialData,
+            filterJudge: state.reducer.buildMission.filterJudge
         }
     };
 

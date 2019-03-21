@@ -7,7 +7,6 @@ import Demand from './DemandTaskDetail';
 import {getDemandTasks} from '../../actions/DemandTasksAction';
 import {connect} from "react-redux";
 
-import TaskEditor from "../Task/TaskEditor";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
@@ -60,7 +59,6 @@ class MyPage extends React.Component {
 
             <Grid spacing={16} container fullWidth>
                     <Grid xs={12}>{demandsComponents}</Grid>
-                <TaskEditor open={false}/>
             </Grid>
         );
 

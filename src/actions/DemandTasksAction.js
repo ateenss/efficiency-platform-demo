@@ -60,6 +60,10 @@ export function changeTaskStatus(taskId) {
     console.log("changeTaskStatus被调用");
 
     let accessToken = localStorage.getItem("accessToken");
+    store.dispatch({
+        type: CHANGE_TASK_STATUS,
+        payload: taskId
+    });
 
     return axios.post(UrlConf.task.getDemandTasks(), RequestBuilder.parseRequest(accessToken), config)
         .then(response => {
@@ -92,6 +96,11 @@ export function changeTaskStatus(taskId) {
 
 export function editTask(taskId) {
     console.log("editTask");
+    let data = {"hah":"ll"};
+    store.dispatch({
+        type: GET_TASK,
+        payload: data
+    });
 
     let accessToken = localStorage.getItem("accessToken");
     let ret = taskId.split("-");

@@ -16,6 +16,11 @@ import {saveTask} from "../../actions/DemandTasksAction";
 import TigerInput from "../Input/TigerInput"
 import store from "../../stores";
 import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
+import EditQuill from "../SelfComponent/EditQuill"
+import {closeTaskEdit} from "../../actions/BuildMissionAction"
+import InputField from "../SelfComponent/InputField"
+import DatePicker from "../SelfComponent/DatePicker"
+import SingleSelect from "../SelfComponent/SingleSelect"
 
 
 const styles = {
@@ -36,13 +41,17 @@ const styles = {
         fontSize: 22
     },
     quillContainer: {
-        marginTop: "10px"
+        marginTop: "10px",
+        height:"300px"
     },
     quillLabel: {
         fontSize: "16px",
         color: "rgba(0, 0, 0, 0.54)",
         marginTop: "15px"
-    }
+    },
+    quillIn:{
+        height:"300px"
+    },
 
 };
 
@@ -86,7 +95,9 @@ class TaskEditor extends React.Component {
     }
 
     handleClose = () => {
-        this.setState({openTask: false})
+        /*this.setState({openTask: false})*/
+        store.dispatch(closeTaskEdit())
+
     };
 
     handleInput = (e) =>{
@@ -95,17 +106,40 @@ class TaskEditor extends React.Component {
         this.setState(this.state.data);
     };
 
+    getContent=e=>{
+        if (e.keyNote){
+            const keyNote=e.keyNote;
+            const value=e.value;
+            let data = Object.assign({}, this.state.moduleContent, {
+                [keyNote]: value.toString()
+            });
+            this.setState({
+                moduleContent:data
+            })
+        }else{
+            const keyNote=e.target.name;
+            const value=e.target.value;
+            let data = Object.assign({}, this.state.moduleContent, {
+                [keyNote]: value.toString()
+            });
+            this.setState({
+                moduleContent:data
+            })
+        }
+    };
+
     onSubmit = () => {
-        saveTask(this.state.data);
+        /*saveTask(this.state.data);*/
+        store.dispatch(closeTaskEdit())
     };
 
     render() {
-        const {classes} = this.props;
-
+        const {classes,taskEditorShow} = this.props;
+        const statusArray=["方案","开发","联调","提测"];
         return (
 
             <div>
-                <Dialog  fullScreen open={this.state.openTask} onClose={this.handleClose} TransitionComponent={Transition}>
+                <Dialog   open={taskEditorShow}  TransitionComponent={Transition}>
                     <AppBar className={classes.appBar} color="default">
                         <Toolbar variant="dense">
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
@@ -121,8 +155,8 @@ class TaskEditor extends React.Component {
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>
                         <Grid container spacing={16}>
-                            <Grid xs={9} item>
-                                <TigerInput
+                            <Grid xs={8} item>
+                                {/*<TigerInput
                                     id="outlined-name"
                                     label="任务名称"
                                     value={this.state.data.taskName}
@@ -141,10 +175,15 @@ class TaskEditor extends React.Component {
                                         }
                                     }}
                                     onChange={this.handleInput}
+                                />*/}
+                                <InputField
+                                    InputLabelName="任务名称"
+                                    onChange={this.getContent}
+                                    nameIn="taskName"
                                 />
                             </Grid>
-                            <Grid xs={3} item>
-                                <TigerInput
+                            <Grid xs={4} item>
+                                {/*<TigerInput
                                     id="outlined-name"
                                     label="负责人"
                                     value={this.state.data.taskName}
@@ -162,13 +201,34 @@ class TaskEditor extends React.Component {
                                             root: classes.taskLabel,
                                         }
                                     }}
+                                />*/}
+                                <InputField
+                                    InputLabelName="负责人"
+                                    onChange={this.getContent}
+                                    nameIn="taskOwner"
                                 />
+                            </Grid>
+                            <Grid xs={4} item>
+                                <DatePicker nameIn="DemandAcceptTime" InputLabelName="任务开始时间" onDateChange={this.getContent}/>
+                            </Grid>
+                            <Grid xs={4} item>
+                                <DatePicker nameIn="DemandAcceptTime" InputLabelName="任务结束时间" onDateChange={this.getContent}/>
+                            </Grid>
+                            <Grid xs={4} item>
+                                <SingleSelect
+                                    onChange={this.getContent}
+                                    InputLabelName="任务状态"
+                                    nameIn="ModuleStatus"
+                                    nameArray={statusArray}/>
                             </Grid>
                         </Grid>
                         <Typography className={classes.quillLabel}>开发方案</Typography>
-                        <ReactQuill value={this.state.data.taskContent} theme="snow"
+                        {/*<ReactQuill value={this.state.data.taskContent} theme="snow"
                                     className={classes.quillContainer}
-                                    onChange={this.handleChange}/>
+                                    onChange={this.handleChange}/>*/}
+                                    <EditQuill
+                                        classStyle={classes.quillContainer}
+                                        onChange={this.getContent}/>
 
                     </DialogContent>
                 </Dialog>
@@ -183,7 +243,8 @@ const mapStateToProps = (state) => {
         action : state.reducer.task.action,
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
-        detailMissionShow:state.reducer.buildMission.detailMissionShow
+        detailMissionShow:state.reducer.buildMission.detailMissionShow,
+        taskEditorShow: state.reducer.buildMission.taskEditorShow
     }
 };
 

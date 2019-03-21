@@ -18,12 +18,15 @@ import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
 import Task from '../Task/DemandTask';
 import Button from '@material-ui/core/Button';
-import {openEditMission,openBuildPlan} from "../../actions/BuildMissionAction"
+import {openEditMission,openBuildPlan,openBuildModule,closeBuildModule} from "../../actions/BuildMissionAction"
 import Divider from "@material-ui/core/Divider"
 import {connect} from "react-redux";
 import EditMissionMain from "./EditMissionMain"
 import BuildPlanShow from "./BuildPlanMain"
 import store from '../../stores';
+import SimpleListMenu from "../common/SimpleListMenu";
+import BuildModuleMain from "../BuildMission/BuildModuleMain"
+import TaskEditor from "../Task/TaskEditor";
 
 
 import {
@@ -32,6 +35,7 @@ import {
     cardLink
 } from "../../assets/jss/material-dashboard-react.jsx";
 import TableCell from "../Table/Table";
+import {changeTaskStatus, editTask} from "../../actions/DemandTasksAction";
 
 
 const styles = {
@@ -101,6 +105,28 @@ const styles = {
 
 };
 
+const options = [
+        {
+            name: "新建方案",
+            func: function (id) {
+                store.dispatch(openBuildPlan())
+            }
+        },
+        {
+            name: "编辑需求",
+            func: function (id) {
+                store.dispatch(openEditMission())
+            }
+        },
+        {
+            name: "新建模块",
+            func: function (id) {
+                store.dispatch(openBuildModule())
+            }
+        }
+
+    ]
+;
 
 class DemandTaskDetail extends React.Component {
     constructor(props) {
@@ -114,30 +140,29 @@ class DemandTaskDetail extends React.Component {
         this.setState(state => ({expanded: !state.expanded}));
     };
 
-    openEditMission=()=>{
+   /* openEditMission=()=>{
         store.dispatch(openEditMission())
     };
 
     openPlan=()=>{
         store.dispatch(openBuildPlan())
-    };
+    };*/
 
     render() {
-        const {classes, develop, plan, test, finish,editMissionShow,buildPlanShow,tempBoardToDetail} = this.props;
+        const {classes, develop, plan, test, finish,editMissionShow,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
 
         return (
             <Card className={classes.demand}>
                 <CardHeader className={classes.demandHeader}
                             action={
-                                <IconButton>
-                                    <MoreVertIcon/>
-                                </IconButton>
+                                <SimpleListMenu icon={<MoreVertIcon/>} options={options}/>
                             }
+
                             title={
                                 <div className={classes.cardHeaderTitle}><span>{tempBoardToDetail.MissionName}</span>
                                     <Chip label="已评审" className={classes.chip}/>
-                                    <Button onClick={this.openPlan}>新建方案</Button>
-                                    <Button onClick={this.openEditMission}>编辑需求任务</Button>
+                                    {/*<Button onClick={this.openPlan}>新建方案</Button>
+                                    <Button onClick={this.openEditMission}>编辑需求任务</Button>*/}
                                 </div>
                             }
                             subheader={tempBoardToDetail.MissionDeadLine}
@@ -209,6 +234,10 @@ class DemandTaskDetail extends React.Component {
                 />
                 <BuildPlanShow
                     open={buildPlanShow}/>
+                <BuildModuleMain
+                    open={buildModuleShow}
+                />
+                <TaskEditor open={false}/>
             </Card>
 
         );
@@ -223,6 +252,7 @@ const mapStateToProps = (state) => {
         editMissionShow:state.reducer.buildMission.editMissionShow,
         buildPlanShow:state.reducer.buildMission.buildPlanShow,
         addMission:state.reducer.buildMission.addMission,
+        buildModuleShow:state.reducer.buildMission.buildModuleShow,
     }
 };
 
