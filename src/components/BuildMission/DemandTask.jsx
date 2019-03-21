@@ -4,7 +4,7 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
-import store from '../../stores/index';
+import store from '../../stores';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import Divider from "@material-ui/core/Divider"
@@ -24,6 +24,7 @@ import SimpleListMenu from "../common/SimpleListMenu";
 import Grid from "@material-ui/core/Grid";
 import {connect} from "react-redux";
 import {openTaskEdit} from "../../actions/BuildMissionAction"
+import TaskEditor from "./TaskEditor";
 
 
 const styles = {
@@ -60,6 +61,7 @@ const options = [
             name: "编辑",
             func: function (id) {
                 /*editTask(id)*/
+                //todo:在这里将task和taskEditor进行关联
                 store.dispatch(openTaskEdit(id))
             }
         },

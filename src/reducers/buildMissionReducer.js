@@ -21,8 +21,13 @@ import {
     OPEN_BUILD_MODULE,
     CLOSE_BUILD_MODULE,
     OPEN_TASK_EDITOR,
-    CLOSE_TASK_EDITOR
+    CLOSE_TASK_EDITOR,
+    CHANGE_STATUS_TO_PLAN,
+    CHANGE_STATUS_TO_DEV,
+    CHANGE_STATUS_TO_JOINTTRIAL,
+    CHANGE_STATUS_TO_TEST
 } from "../actions/types"
+/*import {taskStatusChange} from "../actions/TaskStatusChangeFunc"*/
 
 export const INITIAL_STATE = {
     buildMissionShow:false,
@@ -37,15 +42,71 @@ export const INITIAL_STATE = {
     addMission:[],
     addPlan:[],
     tempBoardToDetail:null,
-    filterJudge:{switch:"0",keyArray:[]}
+    filterJudge:{switch:"0",keyArray:[]},
+    demands:null,
+    tempTask:{content:null,taskID:null}
+};
+const taskStatusChange = (newDemands, action,statusTo) => {
+    let ret = action.value.split("-");
+    let curGroup = ret[0];
+    let taskId = ret[2];
+    for (let idx in newDemands) {
+        let tasksGroup = newDemands[idx].tasks;
+        if (!tasksGroup) {
+            continue;
+        }
+        let nextGroup =statusTo;
+        let thisTask = 0;
+
+        let curGroupTask = tasksGroup[curGroup];
+        for (let i in curGroupTask) {
+            if (taskId === curGroupTask[i].taskId) {
+                thisTask = i;
+            }
+        }
+        tasksGroup[nextGroup].push(curGroupTask[thisTask]);
+        curGroupTask.splice(thisTask,1);
+        return newDemands;
+    }
 };
 
 export default function (state = INITIAL_STATE, action) {
     let counter=[];
     switch (action.type) {
+        case CHANGE_STATUS_TO_PLAN:
+            let toPlanState=JSON.parse(JSON.stringify(state));
+            toPlanState.demands=taskStatusChange(toPlanState.demands,action,"plan");
+            return toPlanState;
+        case CHANGE_STATUS_TO_DEV:
+            let toDevState=JSON.parse(JSON.stringify(state));
+            toDevState.demands=taskStatusChange(toDevState.demands,action,"develop");
+            return toDevState;
+        case CHANGE_STATUS_TO_JOINTTRIAL:
+            let toJointTrialState=JSON.parse(JSON.stringify(state));
+            toJointTrialState.demands=taskStatusChange(toJointTrialState.demands,action,"jointTrial");
+            return toJointTrialState;
+        case CHANGE_STATUS_TO_TEST:
+            let toTestState=JSON.parse(JSON.stringify(state));
+            toTestState.demands=taskStatusChange(toTestState.demands,action,"test");
+            return toTestState;
         case OPEN_TASK_EDITOR:
             const openTaskEditorState=JSON.parse(JSON.stringify(state));
             openTaskEditorState.taskEditorShow=true;
+            let ret =action.value.split("-");
+            let curGroup = ret[0];
+            let taskId = ret[2];
+            let tempTaskContent=null;
+            let keyTaskName=Object.keys(openTaskEditorState.demands[0]["tasks"]);
+            //todo:这里的需求编号需要重新做，目前是假值
+            openTaskEditorState.demands.map((content,key)=>{
+                content.demandName==="需求任务1"&&keyTaskName.map((v1,k1)=>{
+                    v1===curGroup&&openTaskEditorState.demands[key].tasks[v1].map((v2,k2)=>{
+                        taskId===v2["taskId"]&&(tempTaskContent=v2)
+                    })
+                })
+            });
+            openTaskEditorState.tempTask["content"]=tempTaskContent;
+            openTaskEditorState.tempTask["taskID"]=action.value;
             return openTaskEditorState;
         case CLOSE_TASK_EDITOR:
             const closeTaskEditorState=JSON.parse(JSON.stringify(state));
@@ -151,6 +212,7 @@ export default function (state = INITIAL_STATE, action) {
             const initialMissionState = JSON.parse(JSON.stringify(state));
             initialMissionState.initialData=action.payload;
             initialMissionState.addMission=action.payload.tasks;
+            initialMissionState.demands=action.payload.demands;
             return initialMissionState;
         case OPEN_EDIT_MISSION:
             const openEditMissionState=JSON.parse(JSON.stringify(state));

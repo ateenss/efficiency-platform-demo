@@ -82,3 +82,8 @@ export const OPEN_BUILD_MODULE="open_build_module";
 export const CLOSE_BUILD_MODULE="close_build_module";
 export const OPEN_TASK_EDITOR="open_task_editor";
 export const CLOSE_TASK_EDITOR="close_task_editor";
+//模块（子任务）状态跃迁
+export const CHANGE_STATUS_TO_PLAN="change_status_to_plan";
+export const CHANGE_STATUS_TO_DEV="change_status_to_dev";
+export const CHANGE_STATUS_TO_JOINTTRIAL="change_status_to_jointTrial";
+export const CHANGE_STATUS_TO_TEST="change_status_to_test";

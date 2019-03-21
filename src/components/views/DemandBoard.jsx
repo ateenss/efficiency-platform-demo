@@ -48,7 +48,16 @@ const styles = theme => ({
 });
 
 
-const columns = [{name:"序号", options:{filter:false}}, {name:"需求编号", options:{filter:false}}, {name:"需求名称", options:{filter:false}}, {name:"需求负责人", options:{filter:true}}, {name:"需求状态", options:{filter:true}}];
+const columns = [{name:"序号", options:{filter:true}},
+    {name:"需求编号", options:{filter:false}},
+    {name:"需求名称", options:{filter:false}},
+    {name:"需求负责人", options:{filter:true}},
+    {name:"需求状态", options:{filter:true}},
+    {name:"开发负责人"},
+    {name:"关联版本"},
+    {name:"需求来源部门"},
+    {name:"需求评审通过起止时间"},
+    {name:"是否需UAT"}];
 
 
 let selectedValue=0;
@@ -136,8 +145,13 @@ class TaskBoard extends React.Component {
             inArray.push((key+initialTableLength+1).toString());
             inArray.push(value["BusinessNum"]);
             inArray.push(value["DemandName"]);
-            inArray.push(value["DemandDevHead"]);
+            inArray.push(value["DemandDemHead"]);
             inArray.push(value["DemandStatus"]);
+            inArray.push(value["DemandDevHead"]);
+            inArray.push(value["AssociatedVersion"]);
+            inArray.push(value["DemandFromDepart"]);
+            inArray.push(value["DemandPassStartTime"]);
+            inArray.push(value["WithUAT"]);
             outArray.push(inArray);
             inArray=[]
         });

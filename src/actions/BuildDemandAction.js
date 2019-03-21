@@ -105,10 +105,10 @@ export function pullBuildDemandInitial(){
         AssociatedVersion:["49.1","49.2","49.3","49.4"],
         DemandDevHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
         dataMuiTable:[
-            {listID:"1",BusinessNum:"YDZF-201809-12",DemandName:"快速收款码需求这个需求很厉害",DemandDevHead:"张飞",DemandStatus:"开发中"},
-            {listID:"2",BusinessNum:"TYDZF-201809-13",DemandName:"ApplePayOnweb需求",DemandDevHead:"韦小宝",DemandStatus:"已完成"},
-            {listID:"3",BusinessNum:"YDZF-201809-15",DemandName:"你说这是什么需求",DemandDevHead:"张无忌",DemandStatus:"提测"},
-            {listID:"4",BusinessNum:"YDZF-201809-16",DemandName:"楼上，你在问我吗？",DemandDevHead:"周芷若",DemandStatus:"未开始"},
+            {listID:"1",BusinessNum:"YDZF-201809-12",DemandName:"快速收款码需求这个需求很厉害",DemandDemHead:"张飞",DemandStatus:"开发中",DemandDevHead:"安倍晴明",AssociatedVersion:"49.1",DemandFromDepart:"大唐降妖司",DemandPassStartTime:"2018-03-16/2018-03-19",WithUAT:"是"},
+            {listID:"2",BusinessNum:"TYDZF-201809-13",DemandName:"ApplePayOnweb需求",DemandDemHead:"韦小宝",DemandStatus:"已完成",DemandDevHead:"酒吞童子",AssociatedVersion:"49.2",DemandFromDepart:"青丘",DemandPassStartTime:"2018-03-16/2018-03-19",WithUAT:"否"},
+            {listID:"3",BusinessNum:"YDZF-201809-15",DemandName:"你说这是什么需求",DemandDemHead:"张无忌",DemandStatus:"提测",DemandDevHead:"玉藻前",AssociatedVersion:"49.3",DemandFromDepart:"妖市",DemandPassStartTime:"2018-03-16/2018-03-19",WithUAT:"否"},
+            {listID:"4",BusinessNum:"YDZF-201809-16",DemandName:"楼上，你在问我吗？",DemandDemHead:"周芷若",DemandStatus:"未开始",DemandDevHead:"二口女",AssociatedVersion:"49.4",DemandFromDepart:"定西镇",DemandPassStartTime:"2018-03-16/2018-03-19",WithUAT:"是"},
         ]
     };
     store.dispatch({

@@ -22,8 +22,32 @@ import {
     OPEN_BUILD_MODULE,
     CLOSE_BUILD_MODULE,
     OPEN_TASK_EDITOR,
-    CLOSE_TASK_EDITOR
+    CLOSE_TASK_EDITOR,
+    CHANGE_STATUS_TO_PLAN,
+    CHANGE_STATUS_TO_DEV,
+    CHANGE_STATUS_TO_JOINTTRIAL,
+    CHANGE_STATUS_TO_TEST
 } from './types';
+
+export const changeStatusToPlan=value=>({
+    type:CHANGE_STATUS_TO_PLAN,
+    value
+});
+
+export const changeStatusToDev=value=>({
+    type:CHANGE_STATUS_TO_DEV,
+    value
+});
+
+export const changeStatusToJointTrial=value=>({
+    type:CHANGE_STATUS_TO_JOINTTRIAL,
+    value
+});
+
+export const changeStatusToJointTest=value=>({
+    type:CHANGE_STATUS_TO_TEST,
+    value
+});
 
 export const openTaskEdit=value=>({
     type: OPEN_TASK_EDITOR,
@@ -211,6 +235,51 @@ export function pullBuildMissionInitial(){
             MissionStatus: "进行中",
             MissionType: "需求任务"
         }
+        ],
+        demands:[
+            {
+                tasks:{"develop":[{
+                        "taskContent": "我是开发1",
+                        "taskName": "凤凰战车的任务",
+                        "taskId": "1"
+                    },{
+                        "taskContent": "我是开发2",
+                        "taskName": "枪兵的任务",
+                        "taskId": "2"
+                    }],
+                    "plan": [{
+                        "taskContent": "我是方案",
+                        "taskName": "赤木晴子的任务",
+                        "taskId": "3"
+                    },
+                        {
+                            "taskContent": "我是方案",
+                            "taskName": "雷蛇的任务",
+                            "taskId": "4"
+                        }],
+                    "jointTrial": [{
+                        "taskContent": "我是联调",
+                        "taskName": "曹志的任务",
+                        "taskId": "5"
+                    },
+                        {
+                            "taskContent": "我是联调",
+                            "taskName": "阿拉蕾的任务",
+                            "taskId": "6"
+                        }],
+                    "test": [{
+                        "taskContent": "我是测试",
+                        "taskName": "李淳风的任务",
+                        "taskId": "7"
+                    },{
+                        "taskContent": "我是测试",
+                        "taskName": "巫妖王的任务",
+                        "taskId": "8"
+                    }],
+                },
+                demandName:"需求任务1",
+                demandOwner:"需求任务拥有者1"
+            }
         ]
     };
     store.dispatch({

@@ -16,7 +16,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
-import Task from '../Task/DemandTask';
+import Task from './DemandTask';
 import Button from '@material-ui/core/Button';
 import {openEditMission,openBuildPlan,openBuildModule,closeBuildModule} from "../../actions/BuildMissionAction"
 import Divider from "@material-ui/core/Divider"
@@ -26,7 +26,7 @@ import BuildPlanShow from "./BuildPlanMain"
 import store from '../../stores';
 import SimpleListMenu from "../common/SimpleListMenu";
 import BuildModuleMain from "../BuildMission/BuildModuleMain"
-import TaskEditor from "../Task/TaskEditor";
+import TaskEditor from "./TaskEditor";
 
 
 import {
@@ -149,7 +149,7 @@ class DemandTaskDetail extends React.Component {
     };*/
 
     render() {
-        const {classes, develop, plan, test, finish,editMissionShow,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
+        const {classes, develop, plan, test,jointTrial, finish,editMissionShow,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
 
         return (
             <Card className={classes.demand}>
@@ -210,17 +210,22 @@ class DemandTaskDetail extends React.Component {
 
                             </Grid>
                             <Grid xs={3} sm={12} md={3} item>
-                                {!test ? "" : test.map((prop, key) => {
+                                {!jointTrial ? "" : jointTrial.map((prop, key) => {
                                     return (
-                                        <Task key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
+                                        <Task group="jointTrial" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
                                     );
                                 })}
 
                             </Grid>
                             <Grid xs={3} sm={12} md={3} item>
-                                {!finish ? "" : finish.map((prop, key) => {
+                                {console.log("紫檀上面")}
+                                {console.log(test)}
+                                {!test ? "" : test.map((prop, key) => {
+                                    console.log("這是紫檀想");
+                                    console.log(prop);
+                                    console.log(key);
                                     return (
-                                        <Task key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
+                                        <Task  group="test" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
                                     );
                                 })}
 
@@ -237,7 +242,7 @@ class DemandTaskDetail extends React.Component {
                 <BuildModuleMain
                     open={buildModuleShow}
                 />
-                <TaskEditor open={false}/>
+                <TaskEditor />
             </Card>
 
         );

@@ -49,6 +49,8 @@ class MyPage extends React.Component {
                     <Demand key={key} demandName={prop.demandName} demandOwner={prop.demandOwner} expanded={true}
                             develop={taskGroup.develop ? taskGroup.develop : ""}
                             plan={taskGroup.plan ? taskGroup.plan : ""}
+                            jointTrial={taskGroup.jointTrial ? taskGroup.jointTrial : ""}
+                            test={taskGroup.test ? taskGroup.test : ""}
                             tempBoardToDetail={tempBoardToDetail}
                     />
                 )
@@ -71,7 +73,7 @@ class MyPage extends React.Component {
 const mapStateToProps = (state) => {
     console.log(333333);
     return {
-        demands: state.reducer.task.demands
+        demands: state.reducer.buildMission.demands
     }
 };
 

@@ -47,6 +47,14 @@ const taskStatus = {
         {
             name: "开发",
             value: "develop"
+        },
+        {
+            name: "联调",
+            value: "jointTrial"
+        },
+        {
+            name: "测试",
+            value: "test"
         }
     ],
     next: function (curStatus) {

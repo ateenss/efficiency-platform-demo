@@ -17,7 +17,11 @@ import TigerInput from "../Input/TigerInput"
 import store from "../../stores";
 import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
 import EditQuill from "../SelfComponent/EditQuill"
-import {closeTaskEdit} from "../../actions/BuildMissionAction"
+import {closeTaskEdit,
+    changeStatusToPlan,
+    changeStatusToDev,
+    changeStatusToJointTrial,
+    changeStatusToJointTest} from "../../actions/BuildMissionAction"
 import InputField from "../SelfComponent/InputField"
 import DatePicker from "../SelfComponent/DatePicker"
 import SingleSelect from "../SelfComponent/SingleSelect"
@@ -68,11 +72,22 @@ class TaskEditor extends React.Component {
         super(props);
         this.state = {
             openTask: false,
-            data: {}
+            data: {},
+            taskName:null,
+            taskID:null
         }
     }
 
     componentWillReceiveProps(nextProps, nextStatus) {
+        if(nextProps.tempTask.content.taskName){
+            this.setState({
+                taskName:nextProps.tempTask.content.taskName
+            })
+        }
+        !!nextProps.tempTask.taskID&&this.setState({
+            taskID:nextProps.tempTask.taskID
+        })
+
         if(nextProps.action === "saveTask"){
             this.setState({
                 openTask: nextProps.openTask
@@ -137,7 +152,8 @@ class TaskEditor extends React.Component {
     };
 
     render() {
-        const {classes,taskEditorShow} = this.props;
+        //todo:拿到tempTask，既可以组装修改任务也可以进行移动
+        const {classes,taskEditorShow,tempTask} = this.props;
         const statusArray=["方案","开发","联调","提测"];
         return (
 
@@ -183,6 +199,8 @@ class TaskEditor extends React.Component {
                                     InputLabelName="任务名称"
                                     onChange={this.getContent}
                                     nameIn="taskName"
+                                    defaultValue={this.state.taskName}
+
                                 />
                             </Grid>
                             <Grid xs={4} item>
@@ -222,7 +240,11 @@ class TaskEditor extends React.Component {
                                     onChange={this.getContent}
                                     InputLabelName="任务状态"
                                     nameIn="ModuleStatus"
-                                    nameArray={statusArray}/>
+                                    nameArray={statusArray}
+                                    funcArray={[{name:"方案",func:changeStatusToPlan},{name:"开发",func:changeStatusToDev},
+                                        {name:"联调",func:changeStatusToJointTrial},{name:"提测",func:changeStatusToJointTest}]}
+                                    giveContent={this.state.taskID}
+                                />
                             </Grid>
                         </Grid>
                         <Typography className={classes.quillLabel}>开发方案</Typography>
@@ -247,7 +269,8 @@ const mapStateToProps = (state) => {
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
         detailMissionShow:state.reducer.buildMission.detailMissionShow,
-        taskEditorShow: state.reducer.buildMission.taskEditorShow
+        taskEditorShow: state.reducer.buildMission.taskEditorShow,
+        tempTask: state.reducer.buildMission.tempTask,
     }
 };
 

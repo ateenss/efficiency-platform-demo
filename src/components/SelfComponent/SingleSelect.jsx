@@ -5,6 +5,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import store from '../../stores/index';
 
 const styles = theme => ({
     root: {
@@ -40,6 +41,9 @@ class SingleSelect extends React.Component {
     handleChange = event => {
         // console.log(event.target.name);
         this.setState({ value: event.target.value });
+        !!this.props.funcArray&&this.props.funcArray.map((value,key)=>{
+            value.name===event.target.value&&store.dispatch(value.func(this.props.giveContent))
+        });
         this.props.onChange({keyNote:event.target.name,value:event.target.value})
     };
 
