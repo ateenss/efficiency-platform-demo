@@ -24,6 +24,9 @@ import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
 const styles = {
     appBar: {
         position: 'relative',
+        boxShadow:"none",
+        color:"#292929",
+        background:"#f5f5f5"
     },
     flex: {
         flex: 1,

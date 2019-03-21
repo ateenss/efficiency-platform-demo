@@ -26,6 +26,9 @@ import SingleSelect from "../SelfComponent/SingleSelect"
 const styles = {
     appBar: {
         position: 'relative',
+        boxShadow:"none",
+        color:"#292929",
+        background:"#f5f5f5"
     },
     flex: {
         flex: 1,

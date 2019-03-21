@@ -26,20 +26,23 @@ function Empty() {
 const options = {
     filterType: 'checkbox',
     sort:false,
-    // search:false,
-    // filter:false,
-    // download:false,
-    // sortFilterList:false,
+    search:false,
+    filter:false,
+    download:false,
+    sortFilterList:false,
 
     viewColumns: false,
     rowsPerPage: 10,
+    isRowSelectable:function(dataIndex){
+        return false;
+    },
     print: false,
     onRowsSelect: function (currentRowsSelected, allRowsSelected) {
         console.log(333);
     },
-    customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
-        <CustomToolBar4DemandList selectedRows={selectedRows} displayData={displayData} setSelectedRows={setSelectedRows}/>
-    ),
+    // customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
+    //     <CustomToolBar4DemandList selectedRows={selectedRows} displayData={displayData} setSelectedRows={setSelectedRows}/>
+    // ),
     customToolbar: () => {
         return (
             <Empty/>

@@ -21,6 +21,10 @@ import MultiLineInput from "../SelfComponent/MultiLineInput"
 const styles = theme => ({
     appBar: {
         position: 'relative',
+        boxShadow:"none",
+        color:"#292929",
+        background:"#f5f5f5",
+        textAlign:"center"
     },
     flex: {
         flex: 1,
