@@ -5,7 +5,7 @@ import {
     ADD_ITERATION,
     CLOSE_ADD_ITERATION,
     SAVE_ADD_ITERATION,
-    EDIT_ITERATION, SAVE_EDIT_ITERATION
+    EDIT_ITERATION, SAVE_EDIT_ITERATION, GET_DEVELOP_PLAN, CLOSE_DEVELOP_PLAN
 } from './types';
 
 import UrlConf from '../constants/UrlConf'
@@ -98,17 +98,13 @@ export function closeAddIteration() {
 export function saveIteration(action, iterationData) {
 
     // TODO post here, use iterationData to post
-    let data = {
-        iterationName: iterationData.iterationName
-    };
+    let data = iterationData;
+    console.log("inSaveIteration" + JSON.stringify(data));
     let type = "";
     if (action == ADD_ITERATION) {
-        data.iterationList = {
-            iterationOwner: iterationData.iterationOwner,
-            demandList: []
-        };
+        data.demandList = [];
         type = SAVE_ADD_ITERATION
-    }else if(action == EDIT_ITERATION){
+    } else if (action == EDIT_ITERATION) {
         type = SAVE_EDIT_ITERATION
     }
 
@@ -116,4 +112,88 @@ export function saveIteration(action, iterationData) {
         type: type,
         payload: data
     })
+}
+
+export function getDevelopPlan() {
+
+    let data = {};
+
+    const columns = [
+        {name: "案例描述", options: {filter: false}},
+        {name: "前置条件", options: {filter: false}},
+        {name: "测试环境描述", options: {filter: true}},
+        {name: "涉及子系统", options: {filter: true}},
+        {name: "输入", options: {filter: false}},
+        {name: "测试步骤", options: {filter: false}},
+        {name: "预期结果", options: {filter: false}},
+        {name: "实际结果", options: {filter: false}},];
+
+
+    data.developPlan = {
+        DatabaseModifyPoint: "2443",
+        DeploymentRequireAdjust: "4",
+        DisasterImpactAssessment: "43",
+        ExternalSystemPortAdjust: "234",
+        ExternalSystemSetTransform: "342",
+        FiveHighImpact: "234",
+        InternalSubSystemPortAdjust: "34",
+        IsOrNotSupportGrayScale: "34",
+        MaintenanceInfoChange: "3",
+        ModuleOnLineSequenceRequire: "4324",
+        OverallSchemeDescription: "<p>324322234324</p>",
+        ParamConfigRequire: "24",
+        PortSpecificationChange: "24",
+        ProductImpactAssessment: "4",
+        SafetyRelated: "4"
+    };
+
+    data.testCase = [
+        ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"],
+        ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"],
+        ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"],
+        ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"]
+    ]
+    // data.testCase=[{
+    //     caseDesc : "你的大可爱",
+    //     preCondition : "无",
+    //     envDesc : "测试环境",
+    //     modules : "前台",
+    //     inputData : "AAAA",
+    //     steps : "打开浏览器，测试",
+    //     expectedResult:"成功",
+    //     actualResult : "成功"
+    // },{
+    //     caseDesc : "你的大可爱",
+    //     preCondition : "无",
+    //     envDesc : "测试环境",
+    //     modules : "前台",
+    //     inputData : "AAAA",
+    //     steps : "打开浏览器，测试",
+    //     expectedResult:"成功",
+    //     actualResult : "成功"
+    // },{
+    //     caseDesc : "你的大可爱",
+    //     preCondition : "无",
+    //     envDesc : "测试环境",
+    //     modules : "前台",
+    //     inputData : "AAAA",
+    //     steps : "打开浏览器，测试",
+    //     expectedResult:"成功",
+    //     actualResult : "成功"
+    // }]
+
+    store.dispatch({
+        type: GET_DEVELOP_PLAN,
+        payload: data
+    })
+
+}
+
+
+export function closeDevelopPlan() {
+
+    store.dispatch({
+        type: CLOSE_DEVELOP_PLAN,
+    })
+
 }

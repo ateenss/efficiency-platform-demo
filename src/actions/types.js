@@ -14,6 +14,10 @@ export const SAVE_TASK="save_task";
 export const GET_DEMAND="get_demand";
 export const OPEN_PROJECT="open_project";
 export const SELECT_ITERATION="select_iteration";
+
+
+export const CLOSE_DEVELOP_PLAN="close_develop_plan";
+export const GET_DEVELOP_PLAN="get_develop_plan";
 export const ADD_ITERATION="add_iteration";
 export const SAVE_ADD_ITERATION="save_add_iteration";
 export const SAVE_EDIT_ITERATION="save_edit_iteration";

@@ -75,7 +75,7 @@ class App extends React.Component {
       <div className={classes.wrapper}>
         <Sidebar
           routes={routesChildren}
-          logoText={"效率平台demo"}
+          logoText={"效率平台"}
           logo={logo}
           color="grey"
           // image={image}

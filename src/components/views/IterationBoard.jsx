@@ -1,25 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
 import IterationList from "../Iteration/IterationList";
-import MUIDataTable from "mui-datatables";
-import CustomToolbarSelect from '../demand/CustomToolBarSelect';
-import Badge from "./TaskBoard";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import {Paper} from "@material-ui/core";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import Divider from "@material-ui/core/Divider";
 import {connect} from "react-redux";
 import {selectIteration, addIteration} from "../../actions/IterationAction";
-import BuildDemandMain from "./DemandBoard";
 import AddIteration from "../Iteration/AddIteration";
 import {SAVE_ADD_ITERATION} from "../../actions/types";
+import DemandsList from "../Iteration/DemandsList";
+import ShowDevelopPlan from "../Iteration/ShowDevDocuments";
 
 const drawerWidth = 240;
 
@@ -35,58 +29,6 @@ const styles = theme => ({
     }
 });
 
-
-const columns = [{name: "序号", options: {filter: false}}, {name: "需求编号", options: {filter: false}}, {
-    name: "需求名称",
-    options: {filter: false}
-}, {name: "需求负责人", options: {filter: true}}, {name: "需求状态", options: {filter: true}}];
-
-function Empty() {
-    return null;
-}
-
-const options = {
-    filterType: 'checkbox',
-    // sort:false,
-    // search:false,
-    // filter:false,
-    // download:false,
-    // sortFilterList:false,
-    viewColumns: false,
-    rowsPerPage:10,
-    print: false,
-    onRowsSelect: function (currentRowsSelected, allRowsSelected) {
-        console.log(333);
-    },
-    customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
-        <CustomToolbarSelect selectedRows={selectedRows} displayData={displayData} setSelectedRows={setSelectedRows}/>
-    ),
-    customToolbar: () => {
-        return (
-            <Empty/>
-        );
-    },
-    textLabels: {
-        selectedRows: {
-            text: "行 已选定",
-            delete: "删除",
-            deleteAria: "删除指定行"
-        },
-        toolbar: {
-            search: "搜索",
-            downloadCsv: "下载 CSV",
-            print: "打印",
-            viewColumns: "过滤列",
-            filterTable: "筛选",
-        },
-        pagination: {
-            next: "下一页",
-            previous: "上一页",
-            rowsPerPage: "每页行数:",
-            displayRows: "展示行数",
-        }
-    }
-};
 
 const iterations = [
     {
@@ -109,15 +51,6 @@ class IterationBoard extends React.Component {
     state = {
         open: false
     };
-    getMuiTheme = () => createMuiTheme({
-        overrides: {
-            MuiPaper: {
-                root: {
-                    boxShadow: "none !important"
-                }
-            }
-        }
-    });
 
     handleSearch = (val) => {
         console.log("search iteration"+val);
@@ -134,7 +67,7 @@ class IterationBoard extends React.Component {
         e.preventDefault();
         e.stopPropagation();
         addIteration(id);
-        console.log("edit iteration");
+        console.log("edit iteration" + id);
 
     };
     handleSelected = (id) => {
@@ -181,6 +114,7 @@ class IterationBoard extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
+        console.log("************"+JSON.stringify(nextProps.iteration));
         this.setState(nextProps.iteration);
 
         let iterationState = JSON.parse(JSON.stringify(this.state.iterationState));
@@ -253,14 +187,7 @@ class IterationBoard extends React.Component {
                             </Grid>
                         </AppBar>
                         <Divider/>
-                        <MuiThemeProvider theme={this.getMuiTheme()}>
-                            <MUIDataTable
-                                title={<Typography variant="title">需求列表</Typography>}
-                                data={this.state.demandList}
-                                columns={columns}
-                                options={options}
-                            />
-                        </MuiThemeProvider>
+                        <DemandsList data={this.state.demandList}/>
                     </Paper>
 
                 </Grid>
@@ -269,6 +196,7 @@ class IterationBoard extends React.Component {
                     onClose={this.handleClickClose}
                     randomNum={this.state.randomNum}
                 />
+                <ShowDevelopPlan showDevelopPlan={false}/>
             </Grid>
 
         );
@@ -283,19 +211,20 @@ IterationBoard.defaultProps = {
     testDate : "2019/03/15",
     publishDate:"2019/04/15",
     deliveryDate:"2019/05/15",
+
     demandList: [
-        ["1", "YDZF-201809-12", "快速收款码需求这个需求很厉害", "张飞", "开发中"],
-        ["2", "TYDZF-201809-13", "ApplePayOnweb需求", "韦小宝", "已完成"],
-        ["3", "YDZF-201809-15", "你说这是什么需求", "张无忌", "提测"],
-        ["4", "YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始"],
-        ["4", "YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始"],
+        ["YDZF-201809-12", "快速收款码需求这个需求很厉害", "张飞", "开发中", "Jack", "云闪付","2019-03-13", "是"],
+        ["TYDZF-201809-13", "ApplePayOnweb需求", "韦小宝", "已完成", "Jack", "云闪付","2019-03-13", "是"],
+        ["YDZF-201809-15", "你说这是什么需求", "张无忌", "提测", "Jack", "云闪付","2019-03-13", "是"],
+        ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付","2019-03-13", "是"],
+        ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付","2019-03-13", "是"],
 
-        ["4", "YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始"],
-        ["4", "YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始"],
+        ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付","2019-03-13", "是"],
+        ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付","2019-03-13", "是"],
 
-        ["4", "YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始"],
+        ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付","2019-03-13", "是"],
 
-        ["4", "YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始"],
+        ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付","2019-03-13", "是"],
 
 
     ]
@@ -325,8 +254,7 @@ const
             };
         }
         return {
-            cmd: state.reducer.iteration.iteration.cmd,
-            iteration: state.reducer.iteration.iteration.iterationList,
+            iteration: state.reducer.iteration.iteration,
             iterationName: state.reducer.iteration.iteration.iterationName,
             openAddIteration: state.reducer.iteration.openAddIteration,
             action: state.reducer.iteration.action

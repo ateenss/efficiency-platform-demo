@@ -17,9 +17,9 @@ const styles = theme => ({
     dense: {
         marginTop: 16,
     },
-    menu: {
-        width: 200,
-    },
+    // menu: {
+    //     width: 200,
+    // },
 });
 
 
@@ -35,7 +35,7 @@ class MultiLineInput extends React.Component {
     };
 
     render() {
-        const { classes ,InputLabelName,defaultValue,nameIn} = this.props;
+        const { classes ,InputLabelName,content,nameIn, ...others} = this.props;
 
         return (
             <form className={classes.container} noValidate autoComplete="off">
@@ -46,12 +46,13 @@ class MultiLineInput extends React.Component {
                     label={InputLabelName}
                     multiline
                     rows="4"
-                    defaultValue={defaultValue}
                     className={classes.textField}
                     margin="normal"
                     variant="outlined"
                     name={nameIn}
+                    defaultValue={!!content[nameIn] ? content[nameIn] : ""}
                     onChange={this.handleChange}
+                    {...others}
                 />
 
 

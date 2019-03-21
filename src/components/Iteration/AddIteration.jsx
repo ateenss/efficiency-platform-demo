@@ -10,14 +10,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
-import MultiSelect from "../SelfComponent/MultiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
-import DesciptionInput from "../SelfComponent/DescriptionInput"
-import {pullBuildDemandInitial, buildSaveDemandDispatch, closeBuildDemand} from "../../actions/BuildDemandAction"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
-import RadioButton from "../SelfComponent/RadioButton"
 import {closeAddIteration, saveIteration} from "../../actions/IterationAction";
 
 
@@ -49,13 +45,9 @@ class AddIteration extends React.Component {
     }
 
     handleClose = () => {
-        // store.dispatch(hintDelete(''));
-        /*this.props.onClose(this.props.selectedValue);*/
         closeAddIteration();
     };
     handleSave = () => {
-        // store.dispatch(hintDelete(''));
-        // this.props.onClose(this.props.selectedValue);
         saveIteration(this.state.action, this.state.iterationContent);
     };
 

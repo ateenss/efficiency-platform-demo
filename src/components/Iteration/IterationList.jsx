@@ -43,13 +43,6 @@ class IterationList extends React.Component {
         clearInput : false
     };
 
-    handleSelected = () => {
-        this.props.handleSelected();
-        this.setState({clearInput : true})
-    }
-
-
-
     componentDidMount() {
     }
 
@@ -58,7 +51,7 @@ class IterationList extends React.Component {
         let idx = 1;
         let iterationLists = !this.props.iterations ? "" : this.props.iterations.map((prop, key) => {
                 return (
-                    <SingleIteration key={key} handleSelected={this.handleSelected} handleEdit={this.props.handleEdit}
+                    <SingleIteration key={key} handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit}
                                      iterationList={prop.children} iteration={prop.iteration.name}
                                      defaultExpand={idx++ == 1 ? true : prop.iteration.selected}/>
                 )
