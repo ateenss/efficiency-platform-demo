@@ -3,7 +3,7 @@ import {
     SELECT_ITERATION,
     CLOSE_ADD_ITERATION,
     SAVE_ADD_ITERATION,
-    EDIT_ITERATION, SAVE_EDIT_ITERATION, GET_DEVELOP_PLAN, CLOSE_DEVELOP_PLAN
+    EDIT_ITERATION, SAVE_EDIT_ITERATION, GET_DEVELOP_PLAN, CLOSE_DEVELOP_PLAN, GET_PUBLISH_TEST_CASE, ITERATION_INIT
 } from '../actions/types';
 
 export const INITIAL_STATE = {
@@ -36,6 +36,8 @@ export default function (state = INITIAL_STATE, action) {
             return {action:GET_DEVELOP_PLAN, openDevelopPlan:true, developPlan:action.payload.developPlan, testCase : action.payload.testCase};
         case CLOSE_DEVELOP_PLAN:
             return {action:CLOSE_DEVELOP_PLAN, openDevelopPlan:false};
+        case GET_PUBLISH_TEST_CASE:
+            return {action:GET_PUBLISH_TEST_CASE, openPublishTestCase:true, publishTestCase:action.payload.publishTestCase};
         default:
             return state;
     }

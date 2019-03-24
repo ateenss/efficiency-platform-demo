@@ -5,16 +5,92 @@ import {
     ADD_ITERATION,
     CLOSE_ADD_ITERATION,
     SAVE_ADD_ITERATION,
-    EDIT_ITERATION, SAVE_EDIT_ITERATION, GET_DEVELOP_PLAN, CLOSE_DEVELOP_PLAN
+    EDIT_ITERATION,
+    SAVE_EDIT_ITERATION,
+    GET_DEVELOP_PLAN,
+    CLOSE_DEVELOP_PLAN,
+    GET_PUBLISH_TEST_CASE,
+    SHOW_NOTIFICATION,
+    AUTH_USER, AUTH_ERROR,
+    ITERATION_INIT
 } from './types';
 
 import UrlConf from '../constants/UrlConf'
 import RequestBuilder from '../constants/RequestBuilder'
+import history from "../history/history";
 
 //axios配置
 const config = {
     method: 'post'
 };
+export const LOGIN_ENDPOINT = 'http://localhost:8080/tiger-admin/iteration/getRecentIterations';
+
+
+export function init(doAfterInit) {
+    console.log("init");
+
+    let accessToken = localStorage.getItem("accessToken");
+
+
+    return axios.post(LOGIN_ENDPOINT, {"version": "1.0"}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                store.dispatch({
+                    type: SHOW_NOTIFICATION,
+                    payload: response.data.msg
+                });
+                return false;
+            }
+
+
+            const iterations = [
+                {
+                    iteration: "48",
+                    children: [
+                        "48.1", "48.2", "48.3"
+                    ]
+                },
+                {
+                    iteration: "47",
+                    children: [
+                        "47.1", "47.2"
+                    ]
+                }
+
+
+            ];
+
+            let ret = [];
+
+            for(let i in response.data.data){
+                let unit = response.data.data[i];
+                let iteration = {
+                    iteration : unit.iterationCode.split(".")[0],
+                    children : []
+                }
+                ret.push(iteration);
+
+                for(let j in response.data.data){
+                    if(iteration.iteration === response.data.data[j].iterationCode.split(".")[0]){
+                        iteration.children.push(response.data.data[j].iterationCode);
+
+                    }
+                }
+            }
+
+            console.log(JSON.stringify(ret))
+
+            doAfterInit(ret);
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败"+JSON.stringify(error));
+            // update state to show error to user
+
+        });
+}
 
 //这里是登录验证的actions，名字需要更改
 // LOGIN ACTION
@@ -162,24 +238,6 @@ export function getDevelopPlan() {
     //     steps : "打开浏览器，测试",
     //     expectedResult:"成功",
     //     actualResult : "成功"
-    // },{
-    //     caseDesc : "你的大可爱",
-    //     preCondition : "无",
-    //     envDesc : "测试环境",
-    //     modules : "前台",
-    //     inputData : "AAAA",
-    //     steps : "打开浏览器，测试",
-    //     expectedResult:"成功",
-    //     actualResult : "成功"
-    // },{
-    //     caseDesc : "你的大可爱",
-    //     preCondition : "无",
-    //     envDesc : "测试环境",
-    //     modules : "前台",
-    //     inputData : "AAAA",
-    //     steps : "打开浏览器，测试",
-    //     expectedResult:"成功",
-    //     actualResult : "成功"
     // }]
 
     store.dispatch({
@@ -194,6 +252,48 @@ export function closeDevelopPlan() {
 
     store.dispatch({
         type: CLOSE_DEVELOP_PLAN,
+    })
+
+}
+
+
+export function getPublishDocuments() {
+
+    let data = {};
+
+    const columns = [
+        {name: "需求ID", options: {filter: false}},
+        {name: "需求名称", options: {filter: false}},
+        {name: "开发负责人", options: {filter: true}},
+        {name: "检查方", options: {filter: true}},
+        {name: "检查时间", options: {filter: false}},
+        {name: "检查项", options: {filter: false}},
+        {name: "步骤或命令", options: {filter: false}},
+        {name: "预期结果", options: {filter: false}},
+        {name: "实际检查结果", options: {filter: false}},
+        {name: "执行状态", options: {filter: false}},];
+
+    data.publishTestCase = [
+        ["2019-03-13", "你的大可爱", "长泽雅美", "信总", "2019-03-13", "前台", "openBrowser, test", "success", "success", "ok"],
+        ["2019-03-13", "你的大可爱", "长泽雅美", "信总", "2019-03-13", "前台", "openBrowser, test", "success", "success", "ok"],
+        ["2019-03-13", "你的大可爱", "长泽雅美", "信总", "2019-03-13", "前台", "openBrowser, test", "success", "success", "ok"],
+        ["2019-03-13", "你的大可爱", "长泽雅美", "信总", "2019-03-13", "前台", "openBrowser, test", "success", "success", "ok"],
+        ["2019-03-13", "你的大可爱", "长泽雅美", "信总", "2019-03-13", "前台", "openBrowser, test", "success", "success", "ok"]
+    ]
+    // data.testCase=[{
+    //     caseDesc : "你的大可爱",
+    //     preCondition : "无",
+    //     envDesc : "测试环境",
+    //     modules : "前台",
+    //     inputData : "AAAA",
+    //     steps : "打开浏览器，测试",
+    //     expectedResult:"成功",
+    //     actualResult : "成功"
+    // }]
+
+    store.dispatch({
+        type: GET_PUBLISH_TEST_CASE,
+        payload: data
     })
 
 }

@@ -11,7 +11,7 @@ import DemandGuihuaIcon from "@material-ui/icons/Receipt"
 import SimpleListMenu from "../common/SimpleListMenu";
 import store from '../../stores/index';
 import {openEditDemand} from "../../actions/BuildDemandAction"
-import {getDevelopPlan} from "../../actions/IterationAction";
+import {getDevelopPlan, getPublishDocuments} from "../../actions/IterationAction";
 
 const defaultToolbarSelectStyles = {
     iconButton: {
@@ -81,6 +81,23 @@ class CustomToolBar4DemandList extends React.Component {
 }
      */
     handlePlan = () => {
+        let key = this.getDemand();
+
+        // post data to fetch
+        getDevelopPlan(key.demandId);
+
+        console.log(JSON.stringify(this.props.selectedRows.data[0].dataIndex));
+    };
+
+    handlePublishDocuments = () => {
+        let key = this.getDemand();
+        // post data to fetch
+        getPublishDocuments(key.demandId);
+
+        console.log(JSON.stringify(this.props.selectedRows.data[0].dataIndex));
+    };
+
+    getDemand = () =>{
         let idx = this.props.selectedRows.data[0].dataIndex;
         let tableData = this.props.selectedRows.displayData;
         let key = "";
@@ -91,11 +108,8 @@ class CustomToolBar4DemandList extends React.Component {
                 break;
             }
         }
-        // post data to fetch
-        getDevelopPlan(key.demandId);
-
-        console.log(JSON.stringify(this.props.selectedRows.data[0].dataIndex));
-    };
+        return key;
+    }
 
     handleClickBlockSelected = () => {
         console.log(`block users with dataIndexes: ${this.props.selectedRows.data.map(row => row.dataIndex)}`);
@@ -120,7 +134,7 @@ class CustomToolBar4DemandList extends React.Component {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"上线评审"}>
-                    <IconButton className={classes.iconButton} onClick={this.handleEdit}>
+                    <IconButton className={classes.iconButton} onClick={this.handlePublishDocuments}>
                         <PageIcon className={classes.icon}/>
                     </IconButton>
                 </Tooltip>

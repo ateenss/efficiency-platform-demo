@@ -149,13 +149,11 @@ class TaskBoard extends React.Component {
     };
 
     handleEdit = (e, taskId) => {
-        console.log(taskId);
         editTask(taskId);
 
     };
 
     handleDetail = (e, taskId) => {
-        console.log(taskId);
         editTask(taskId);
 
     };
@@ -320,7 +318,6 @@ class TaskBoard extends React.Component {
 // 从store里面取数据给组件
 const
     mapStateToProps = (state) => {
-        console.log(333333);
         return {
             demands: state.reducer.task.demands,
             buildMissionShow: state.reducer.buildMission.buildMissionShow,
