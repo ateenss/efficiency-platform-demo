@@ -25,7 +25,8 @@ import {
     CHANGE_STATUS_TO_PLAN,
     CHANGE_STATUS_TO_DEV,
     CHANGE_STATUS_TO_JOINTTRIAL,
-    CHANGE_STATUS_TO_TEST
+    CHANGE_STATUS_TO_TEST,
+    SAVE_TASK_EDITOR
 } from "../actions/types"
 /*import {taskStatusChange} from "../actions/TaskStatusChangeFunc"*/
 
@@ -73,6 +74,9 @@ const taskStatusChange = (newDemands, action,statusTo) => {
 export default function (state = INITIAL_STATE, action) {
     let counter=[];
     switch (action.type) {
+        case SAVE_TASK_EDITOR:
+            let saveTaskEditorState=JSON.parse(JSON.stringify(state));
+            return saveTaskEditorState;
         case CHANGE_STATUS_TO_PLAN:
             let toPlanState=JSON.parse(JSON.stringify(state));
             toPlanState.demands=taskStatusChange(toPlanState.demands,action,"plan");
@@ -97,6 +101,8 @@ export default function (state = INITIAL_STATE, action) {
             let taskId = ret[2];
             let tempTaskContent=null;
             let keyTaskName=Object.keys(openTaskEditorState.demands[0]["tasks"]);
+            console.log("我已经执行了");
+            console.log(keyTaskName);
             //todo:这里的需求编号需要重新做，目前是假值
             openTaskEditorState.demands.map((content,key)=>{
                 content.demandName==="需求任务1"&&keyTaskName.map((v1,k1)=>{

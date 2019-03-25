@@ -89,7 +89,7 @@ class BuildProjectMain extends React.Component {
             })
         }
     };
-
+    
 
     render() {
         const {classes, onClose, selectedValue,initialData,buttonStyle,hintMessage,randomNum, ...other} = this.props;

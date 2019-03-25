@@ -26,8 +26,30 @@ import {
     CHANGE_STATUS_TO_PLAN,
     CHANGE_STATUS_TO_DEV,
     CHANGE_STATUS_TO_JOINTTRIAL,
-    CHANGE_STATUS_TO_TEST
+    CHANGE_STATUS_TO_TEST,
+    SAVE_TASK_EDITOR
 } from './types';
+
+/*!!this.props.funcArray&&this.props.funcArray.map((value,key)=>{
+    value.name===event.target.value&&store.dispatch(value.func(this.props.giveContent))
+});*/
+
+export const saveTaskEditor=content=>{
+    /*console.log("testahhahahahahhah");*/
+    content.funcArray.map((value,key)=>{
+        /*console.log("开始");
+        console.log("结束");
+        console.log(value.name);
+        console.log(value.func);*/
+        value.name===content.status&&store.dispatch(value.func(content.id))
+    });
+    store.dispatch(saveEditorSelf());
+};
+
+const saveEditorSelf=()=>({
+    type: SAVE_TASK_EDITOR
+});
+
 
 export const changeStatusToPlan=value=>({
     type:CHANGE_STATUS_TO_PLAN,

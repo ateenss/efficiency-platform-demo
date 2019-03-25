@@ -65,12 +65,12 @@ const options = [
                 store.dispatch(openTaskEdit(id))
             }
         },
-        {
+       /* {
             name: "完成",
             func: function (id) {
                 changeTaskStatus(id);
             }
-        }
+        }*/
 
     ]
 ;

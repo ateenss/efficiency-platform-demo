@@ -39,6 +39,11 @@ const styles = {
     quillIn:{
         height:"300px"
     },
+    quillLabel: {
+        fontSize: "16px",
+        color: "rgba(0, 0, 0, 0.54)",
+        marginTop: "15px"
+    },
 
 };
 
@@ -126,6 +131,7 @@ class BuildModuleMain extends React.Component {
                                 nameArray={statusArray}/>
                         </Grid>
                         <Grid item xs={12} className={classes.gridStyle}>
+                            <Typography className={classes.quillLabel}>开发方案</Typography>
                             <EditQuill
                                 onChange={this.getContent}
                                 InputLabelName="任务描述"

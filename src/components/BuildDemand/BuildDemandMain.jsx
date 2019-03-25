@@ -70,6 +70,9 @@ class BuildDemandMain extends React.Component {
         });
 
         temp["DemandID"]=this.props.randomNum;
+        //todo:这是数据不一致的临时措施，这两个数据不知道如何定
+        temp["DemandDemHead"]="稻草人";
+        temp["DemandPassStartTime"]="2018-03-16/2018-03-19";
         store.dispatch(buildSaveDemandDispatch(temp));
     };
 

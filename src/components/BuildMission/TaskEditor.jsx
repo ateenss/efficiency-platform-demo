@@ -21,7 +21,8 @@ import {closeTaskEdit,
     changeStatusToPlan,
     changeStatusToDev,
     changeStatusToJointTrial,
-    changeStatusToJointTest} from "../../actions/BuildMissionAction"
+    changeStatusToJointTest,
+    saveTaskEditor} from "../../actions/BuildMissionAction"
 import InputField from "../SelfComponent/InputField"
 import DatePicker from "../SelfComponent/DatePicker"
 import SingleSelect from "../SelfComponent/SingleSelect"
@@ -79,11 +80,13 @@ class TaskEditor extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextStatus) {
-        if(nextProps.tempTask.content.taskName){
+        if (nextProps.tempTask.content) {
+            if(nextProps.tempTask.content.taskName){
             this.setState({
                 taskName:nextProps.tempTask.content.taskName
             })
-        }
+        }}
+
         !!nextProps.tempTask.taskID&&this.setState({
             taskID:nextProps.tempTask.taskID
         })
@@ -148,6 +151,9 @@ class TaskEditor extends React.Component {
 
     onSubmit = () => {
         /*saveTask(this.state.data);*/
+        const funcArray=[{name:"方案",func:changeStatusToPlan},{name:"开发",func:changeStatusToDev},
+            {name:"联调",func:changeStatusToJointTrial},{name:"提测",func:changeStatusToJointTest}];
+        saveTaskEditor({status:this.state.moduleContent.ModuleStatus,id:this.state.taskID,funcArray:funcArray});
         store.dispatch(closeTaskEdit())
     };
 
@@ -241,9 +247,6 @@ class TaskEditor extends React.Component {
                                     InputLabelName="任务状态"
                                     nameIn="ModuleStatus"
                                     nameArray={statusArray}
-                                    funcArray={[{name:"方案",func:changeStatusToPlan},{name:"开发",func:changeStatusToDev},
-                                        {name:"联调",func:changeStatusToJointTrial},{name:"提测",func:changeStatusToJointTest}]}
-                                    giveContent={this.state.taskID}
                                 />
                             </Grid>
                         </Grid>

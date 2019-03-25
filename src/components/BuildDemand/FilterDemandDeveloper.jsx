@@ -63,6 +63,10 @@ const styles = {
         color: '#fff',
         backgroundColor: pink[500],
     },
+    newBuildButton:{
+        right:0,
+        position:"absolute"
+    }
 };
 
 class FilterDemandManager extends React.Component {

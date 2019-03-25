@@ -142,7 +142,9 @@ class TaskBoard extends React.Component {
         let inArray=[];
         let outArray=[];
         pointer.tableData.map((value,key)=>{
+
             inArray.push((key+initialTableLength+1).toString());
+            /*inArray.push((2).toString());*/
             inArray.push(value["BusinessNum"]);
             inArray.push(value["DemandName"]);
             inArray.push(value["DemandDemHead"]);
@@ -160,6 +162,8 @@ class TaskBoard extends React.Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
        this.mapObjectToArray(nextProps);
+       console.log("34443434");
+       console.log(dynamicAddReuslt);
         this.setState({
             assembleTable:nextProps.tableData
         })

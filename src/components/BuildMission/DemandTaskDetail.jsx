@@ -218,12 +218,8 @@ class DemandTaskDetail extends React.Component {
 
                             </Grid>
                             <Grid xs={3} sm={12} md={3} item>
-                                {console.log("紫檀上面")}
                                 {console.log(test)}
                                 {!test ? "" : test.map((prop, key) => {
-                                    console.log("這是紫檀想");
-                                    console.log(prop);
-                                    console.log(key);
                                     return (
                                         <Task  group="test" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
                                     );
