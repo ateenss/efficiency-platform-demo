@@ -51,7 +51,7 @@ export const FILTER_DEMAND_OPEN_DEVELOPER="filter_demand_open_developer";
 export const FILTER_DEMAND_CLOSE_DEVELOPER="filter_demand_close_developer";
 export const FILTER_DEMAND_MANAGER_SAVE="filter_demand_manager_save";
 export const FILTER_DEMAND_DEVELOPER_SAVE="filter_demand_developer_save";
-
+export const INIT_PROJECT_MEMBERS="init_project_members";
 
 //任务管理
 //任务新建

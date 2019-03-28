@@ -24,26 +24,15 @@ export const INITIAL_STATE = {
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case OPEN_BUILD_PROJECT:
-            const showOpenBuildState = JSON.parse(JSON.stringify(state));
-            showOpenBuildState.buildProjectShow=true;
-            return showOpenBuildState;
+            return {...state, buildProjectShow:true,action:OPEN_BUILD_PROJECT};
         case OPEN_EDIT_PROJECT:
-            const showOpenEditState = JSON.parse(JSON.stringify(state));
-            showOpenEditState.editProjectShow=true;
-            return showOpenEditState;
+            return {...state, editProjectShow:true, project:action.payload,action:OPEN_EDIT_PROJECT};
         case CLOSE_BUILD_PROJECT:
-            const showCloseBuildState = JSON.parse(JSON.stringify(state));
-            showCloseBuildState.buildProjectShow=false;
-            return showCloseBuildState;
+            return {...state, buildProjectShow:false,action:CLOSE_BUILD_PROJECT};
         case CLOSE_EDIT_PROJECT:
-            const showCloseEditState = JSON.parse(JSON.stringify(state));
-            showCloseEditState.editProjectShow=false;
-            return showCloseEditState;
+            return {...state, editProjectShow:false,action:CLOSE_EDIT_PROJECT};
         case BUILD_SAVE_PROJECT:
-            console.log("创建提交store");
-            const newState=JSON.parse(JSON.stringify(state));
-            newState.addProjects.push(action.value);
-            return newState;
+            return {...state, newProject : action.payload, buildProjectShow:false,editProjectShow:false, action:BUILD_SAVE_PROJECT};
         case PROJECT_SAVE_SUCCESS:
             console.log("提交后台成功");
             const successState=JSON.parse(JSON.stringify(state));
@@ -78,9 +67,7 @@ export default function (state = INITIAL_STATE, action) {
             hintState.hintMessage=action.value;
             return hintState;
         case "hint_delete":
-            const hintDeleteState=JSON.parse(JSON.stringify(state));
-            hintDeleteState.hintMessage=action.value;
-            return hintDeleteState;
+            return {...state, hintMessage:action.value};
         default:
             return state;
     }

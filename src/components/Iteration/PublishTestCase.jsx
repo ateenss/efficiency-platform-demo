@@ -96,7 +96,7 @@ class PublishTestCase extends React.Component {
         return (
             <MuiThemeProvider theme={this.getMuiTheme()}>
                 <MUIDataTable
-                    title={<Typography variant="title"></Typography>}
+                    title=""
                     data={content}
                     columns={columns}
                     options={options}

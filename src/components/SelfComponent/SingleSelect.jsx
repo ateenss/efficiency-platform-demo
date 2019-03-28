@@ -66,7 +66,7 @@ class SingleSelect extends React.Component {
                         {
                             nameArray.map((value,index)=>{
                                 return(
-                                    <MenuItem value={value} key={index} >{value}</MenuItem>
+                                    <MenuItem value={value.id} key={index} >{value.name}</MenuItem>
                                 )
                             })
                         }

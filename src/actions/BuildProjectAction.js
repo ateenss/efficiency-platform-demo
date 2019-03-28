@@ -12,63 +12,194 @@ import {
     OPEN_EDIT_PROJECT,
     CLOSE_BUILD_PROJECT,
     CLOSE_EDIT_PROJECT,
+    SHOW_NOTIFICATION,
 } from "./types"
+//axios配置
+const config = {
+    method: 'post',
+    headers: {'Content-Type': 'application/json;charset=utf-8'},
+    inCharset: "utf-8",
+    outCharset: "utf-8"
+};
+
+export const GET_MY_PROJECTS = 'http://localhost:8080/tiger-admin/project/getMyProjects';
+export const GET_BY_ID = 'http://localhost:8080/tiger-admin/project/get';
+export const SAVE = 'http://localhost:8080/tiger-admin/project/save';
 
 
+export function init(doAfterInit) {
+
+    console.log("init");
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(GET_MY_PROJECTS, {"version": "1.0", "accessToken": accessToken}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                store.dispatch({
+                    type: SHOW_NOTIFICATION,
+                    payload: response.data.msg
+                });
+                return false;
+            }
+
+            doAfterInit(response.data.data);
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+
+
+}
+
+export function openEditProject(id) {
+    console.log("selectIteration被调用");
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(GET_BY_ID, {"version": "1.0","accessToken": accessToken, "data": id}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                store.dispatch({
+                    type: SHOW_NOTIFICATION,
+                    payload: response.data.msg
+                });
+                return false;
+            }
+
+            let data = response.data.data;
+
+            console.log("!!!!!" + JSON.stringify(data));
+
+            store.dispatch({
+                type: OPEN_EDIT_PROJECT,
+                payload: data
+            });
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+
+}
+
+export function addProject() {
+
+    store.dispatch({
+        type: OPEN_BUILD_PROJECT
+    })
+
+}
+
+
+/**
+ * 这里要区分到底是新增还是编辑
+ * @param iterationData
+ */
+export function saveProject(data) {
+
+    // TODO post here, use iterationData to post
+    console.log("inSaveProject" + JSON.stringify(data));
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(SAVE, {"version": "1.0", "accessToken": accessToken, "data": data}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                store.dispatch({
+                    type: SHOW_NOTIFICATION,
+                    payload: response.data.msg
+                });
+                return false;
+            }
+
+            store.dispatch({
+                type: BUILD_SAVE_PROJECT,
+                payload: data
+            })
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+
+}
 
 
 //提交保存填写的项目内容
-export function buildSave(value){
+export function buildSave(value) {
     const send_save_data = '需要填写后台地址';
     store.dispatch(buildSaveProjectDispatch(value));
     const config = {
         method: 'post'
     };
-    return axios.post(send_save_data, {"version": "1.0", "data": {actionName: "buildProject", data: value}},config)
+
+    let accessToken = localStorage.getItem("token");
+
+
+    return axios.post(send_save_data, {"version": "1.0", "accessToken": accessToken, "data": {actionName: "buildProject", data: value}}, config)
         .then(response => {
             if (response.data.respCode === "00") {
                 store.dispatch({
                     type: PROJECT_SAVE_SUCCESS,
                 });
-            }else{
+            } else {
                 store.dispatch({
                     type: PROJECT_SAVE_FAIL,
                 });
             }
         }).catch(error => {
-            console.log("发送数据到后台出现问题"+error);
-            store.dispatch({
-                type: PROJECT_SAVE_ERROR,
-            });
-        });
-}
-//提交再次编辑修改的内容
-export function editSave(value){
-    const send_edit_data = '需要填写后台地址';
-    store.dispatch(editSaveDispatch(value));
-    const config = {
-        method: 'post'
-    };
-    return axios.post(send_edit_data, {"version": "1.0", "data": {actionName: "editProject", data: value}},config)
-        .then(response => {
-            if (response.data.respCode === "00") {
-                store.dispatch({
-                    type: PROJECT_SAVE_SUCCESS,
-                });
-            }else{
-                store.dispatch({
-                    type: PROJECT_SAVE_FAIL,
-                });
-            }
-        }).catch(error => {
-            console.log("发送数据到后台出现问题"+error);
+            console.log("发送数据到后台出现问题" + error);
             store.dispatch({
                 type: PROJECT_SAVE_ERROR,
             });
         });
 }
 
-export function pullBuildProjectInitial(){
+//提交再次编辑修改的内容
+export function editSave(value) {
+    const send_edit_data = '需要填写后台地址';
+    store.dispatch(editSaveDispatch(value));
+    const config = {
+        method: 'post'
+    };
+
+    let accessToken = localStorage.getItem("token");
+
+
+    return axios.post(send_edit_data, {"version": "1.0", "accessToken": accessToken, "data": {actionName: "editProject", data: value}}, config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                store.dispatch({
+                    type: PROJECT_SAVE_SUCCESS,
+                });
+            } else {
+                store.dispatch({
+                    type: PROJECT_SAVE_FAIL,
+                });
+            }
+        }).catch(error => {
+            console.log("发送数据到后台出现问题" + error);
+            store.dispatch({
+                type: PROJECT_SAVE_ERROR,
+            });
+        });
+}
+
+
+export function pullBuildProjectInitial() {
     const send_edit_data = '需要填写后台地址';
     const config = {
         method: 'post'
@@ -96,53 +227,49 @@ export function pullBuildProjectInitial(){
         });
     });*/
     //以下是mock数据
-    const rand=Math.floor(Math.random()*40)+1;
-    const InitialData={
-        ProjectID:rand,
-        ProjectType:["业务需求项目","系统架构优化"],
-        ProjectMembers:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
-        ProjectHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
-        ProjectStatus:["正在进行","已经完成"]
+    const rand = Math.floor(Math.random() * 40) + 1;
+    const InitialData = {
+        ProjectID: rand,
+        projectType: [{name: "业务需求项目", id: 1}, {name: "系统架构优化", id: 2}],
+        projectMembers: [{name: "周之豪", id: 1}, {name: "长泽雅美", id: 2}],
+        projectStatus: [{name: "进行中", id: 1}, {name: "已完成", id: 2}]
     };
     store.dispatch({
-        type:PULL_INITIAL_PROJECT,
-        payload:InitialData
+        type: PULL_INITIAL_PROJECT,
+        payload: InitialData
     })
 }
 
 
 //todo:注意正常使用的时候，把方法切换成上面的真正发送请求的action
-export  const editSaveDispatch=(value)=>({
-    type:EDIT_SAVE_PROJECT,
+export const editSaveDispatch = (value) => ({
+    type: EDIT_SAVE_PROJECT,
     value
 });
-export  const buildSaveProjectDispatch=(value)=>({
-    type:BUILD_SAVE_PROJECT,
+export const buildSaveProjectDispatch = (value) => ({
+    type: BUILD_SAVE_PROJECT,
     value
 });
 
-export  const openBuildProject=()=>({
-    type:OPEN_BUILD_PROJECT,
+export const openBuildProject = () => ({
+    type: OPEN_BUILD_PROJECT,
 });
 
-export const closeBuildProject=()=>({
-    type:CLOSE_BUILD_PROJECT,
+export const closeBuildProject = () => ({
+    type: CLOSE_BUILD_PROJECT,
 });
 
-export  const openEditProject=()=>({
-    type:OPEN_EDIT_PROJECT,
-});
-export const closeEditProject=()=>({
-    type:CLOSE_EDIT_PROJECT
+export const closeEditProject = () => ({
+    type: CLOSE_EDIT_PROJECT
 });
 
 //todo:这里面需要修改，有点问题，现在弃用
-export const hintPopUp=(value)=>({
-    type:"hint_pop",
+export const hintPopUp = (value) => ({
+    type: "hint_pop",
     value
 });
 
-export const hintDelete=(value)=>({
-    type:"hint_delete",
+export const hintDelete = (value) => ({
+    type: "hint_delete",
     value
 });

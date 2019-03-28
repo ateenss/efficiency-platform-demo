@@ -19,10 +19,25 @@ import IterationStepper from "../Iteration/IterationStepper";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import Avatar from "@material-ui/core/Avatar";
+import CardContent from "@material-ui/core/CardContent";
+import red from '@material-ui/core/colors/red';
+import CircularProgress from "@material-ui/core/CircularProgress";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import {getProjectMembers} from "../../actions/CommonAction";
+import {pullBuildProjectInitial} from "../../actions/BuildProjectAction";
+
 
 const drawerWidth = 240;
 
 const styles = theme => ({
+    root: {
+        width: '100%'
+    },
     toolbar: {
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -31,16 +46,48 @@ const styles = theme => ({
     toolbarHead: {
         backgroundColor: "#FFFFFF",
         boxShadow: "none"
+    },
+    textInfo: {
+        margin: theme.spacing.unit * 2
+
+    },
+    avatar: {
+        backgroundColor: red[500],
+        width: "32px",
+        height: "32px"
+    },
+    cardHeader: {
+        padding: theme.spacing.unit
+    },
+    cardContent: {
+        padding: theme.spacing.unit,
+
+    },
+    card: {
+        boxShadow: "0px 0px 1px 0px #e0e0e0, 0px 0px 1px 0px #e0e0e0, 0px 0px 1px 0px #e0e0e0",
+        margin: theme.spacing.unit
+    },
+    hide: {
+        display: "none"
+    },
+    editIcon: {
+        marginRight: "15px"
     }
 });
 
 
-
 class IterationBoard extends React.Component {
-    state = {
-        open: false,
-        tabValue: 0
-    };
+
+    constructor(props) {
+        super(props);
+        getProjectMembers();
+        this.state = {
+            open: false,
+            iterationInfo: {},
+            tabValue: 0,
+            hide: true
+        };
+    }
 
 
     handleChange = (event, value) => {
@@ -80,12 +127,20 @@ class IterationBoard extends React.Component {
             }
         }
     };
+    //
+    // handleEditPerson = () =>{
+    //
+    //     //this.state.iterationName;
+    //
+    //     addIterationPerson(this.state.iterationName);
+    //
+    // };
 
 
     componentDidMount() {
 
         let self = this;
-        init(function(ret){
+        init(function (ret) {
 
             let iterationState = [];
             for (let i in ret) {
@@ -99,6 +154,10 @@ class IterationBoard extends React.Component {
                         selected = true;
                     }
                     iterationChildren.push({iter: iter.children[j], selected: true});
+
+                    if (i == 0 && j == 0) {
+                        selectIteration(iter.children[j]);
+                    }
                 }
 
                 parent.children = iterationChildren;
@@ -115,6 +174,9 @@ class IterationBoard extends React.Component {
 
 
     componentWillReceiveProps(nextProps, nextContext) {
+
+        this.setState(nextProps.iteration);
+
 
         let iterationState = JSON.parse(JSON.stringify(this.state.iterationState));
         // 这里会返回新建后的版本号，这个版本号需要有一定的归类
@@ -159,49 +221,137 @@ class IterationBoard extends React.Component {
         }
         this.setState({iterationState: iterationState});
 
+        // let self = this;
+        // setTimeout(function(){
+        //
+        //     self.setState({hide : false})
+        // },1000)
+
+
     }
 
     render() {
-        const {classes, theme, openAddIteration, initialData} = this.props;
+        const {classes, theme, initialData} = this.props;
         const {tabValue} = this.state;
-
         return (
-            <Grid container spacing={8}>
-                <Grid item xs={2}>
-                    <IterationList iterations={this.state.iterationState} handleAdd={this.handleAdd}
-                                   handleEdit={this.handleEdit} handleSelected={this.handleSelected}
-                                   handleSearch={this.handleSearch}/>
-                </Grid>
-                <Grid item xs={10}>
-                    <Paper style={{padding: "10px"}}>
-                        <Tabs value={tabValue} onChange={this.handleChange}>
-                            <Tab label="版本总览"/>
-                            <Tab label="需求列表"/>
-                        </Tabs>
+            <div>
+                <Grid container spacing={8}>
 
-                        {tabValue === 0 &&
+                    <Grid item xs={2}>
+                        <IterationList iterations={this.state.iterationState} handleAdd={this.handleAdd}
+                                       handleEdit={this.handleEdit} handleSelected={this.handleSelected}
+                                       handleSearch={this.handleSearch}/>
+                    </Grid>
+                    <Grid item xs={10}>
+                        <Paper style={{padding: "10px"}}>
+                            <Tabs value={tabValue} onChange={this.handleChange}>
+                                <Tab label="版本总览"/>
+                                <Tab label="需求列表"/>
+                            </Tabs>
 
-                            <IterationStepper steppers={!!this.state.iterationInfo ? this.state.iterationInfo : {}}/>
+                            {tabValue === 0 &&
 
-                        }
-                        {tabValue === 1 &&
+                            <Grid container spacing={8}>
+
+                                <Grid xs={12} style={{marginTop: "16px"}} item>
+
+                                    <Card className={classes.card}>
+                                        <CardHeader avatar={
+                                            <Avatar aria-label="Recipe" className={classes.avatar}>
+                                                T
+                                            </Avatar>
+                                        } title="版本时间轴" className={classes.cardHeader}/>
+
+                                        <CardContent className={classes.cardContent}>
+                                            <IterationStepper
+                                                steppers={!!this.state.iterationInfo ? this.state.iterationInfo : {}}/>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                                <Grid xs={6} item>
+                                    <Card className={classes.card}>
+                                        <CardHeader avatar={
+                                            <Avatar aria-label="Recipe" className={classes.avatar}>
+                                                P
+                                            </Avatar>
+                                        } title="版本人员信息" className={classes.cardHeader}/>
+
+                                        <CardContent className={classes.cardContent}>
+                                            <Grid container spacing={8}>
+                                                <Grid xs={6} item>
+                                                    <Typography
+                                                        className={classes.textInfo}>版本负责人：{this.state.iterationInfo.iterationOwner}</Typography>
+                                                </Grid>
+                                                <Grid xs={6} item>
+                                                    <Typography
+                                                        className={classes.textInfo}>上线负责人：{this.state.iterationInfo.deliveryPersonInCharge}</Typography>
+                                                </Grid>
+                                                <Grid xs={6} item>
+                                                    <Typography
+                                                        className={classes.textInfo}>上线人员：{this.state.iterationInfo.deliveryPersonInCharge}</Typography>
+                                                </Grid>
+                                                <Grid xs={6} item>
+                                                    <Typography
+                                                        className={classes.textInfo}>检查人员：{this.state.iterationInfo.deliveryPersonInCharge}</Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </CardContent>
+
+                                    </Card>
+                                </Grid>
+                                <Grid xs={6} item>
+                                    <Card className={classes.card}>
+                                        <CardHeader avatar={
+                                            <Avatar aria-label="Recipe" className={classes.avatar}>
+                                                R
+                                            </Avatar>
+                                        } title="版本数据" className={classes.cardHeader}/>
+
+
+                                        <CardContent className={classes.cardContent}>
+                                            <Grid container spacing={8}>
+                                                <Grid xs={6} item>
+                                                    <Typography
+                                                        className={classes.textInfo}>未提交方案：{this.state.iterationInfo.unPlanningCnt}</Typography>
+                                                </Grid>
+                                                <Grid xs={6} item>
+                                                    <Typography
+                                                        className={classes.textInfo}>待走查方案：{this.state.iterationInfo.unCodeReviewCnt}</Typography>
+                                                </Grid>
+                                                <Grid xs={6} item>
+                                                    <Typography
+                                                        className={classes.textInfo}>待持续集成：{this.state.iterationInfo.unCi}</Typography>
+                                                </Grid>
+                                                <Grid xs={6} item>
+                                                    <Typography
+                                                        className={classes.textInfo}>已完成：{this.state.iterationInfo.finished}</Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </CardContent>
+
+                                    </Card>
+                                </Grid>
+
+                            </Grid>
+                            }
+                            {tabValue === 1 &&
                             <DemandsList data={this.state.demandList}/>
 
-                        }
-                    </Paper>
+                            }
+                        </Paper>
 
 
+                    </Grid>
+                    <AddIteration
+                        open={!!this.props.openAddIteration ? this.props.openAddIteration : false}
+                        onClose={this.handleClickClose}
+                        projectMembers={this.props.projectMembers}
+                    />
+                    <ShowDevelopPlan/>
+
+                    <ShowPublishDocument/>
                 </Grid>
-                <AddIteration
-                    open={this.props.openAddIteration}
-                    onClose={this.handleClickClose}
-                    randomNum={this.state.randomNum}
-                />
-                <ShowDevelopPlan/>
-
-                <ShowPublishDocument/>
-            </Grid>
-
+            </div>
         );
     }
 }
@@ -211,15 +361,7 @@ IterationBoard.defaultProps = {
 
 
     iteration: {
-        iterationInfo: {
-            iterationOwner: "周伯通",
-            testDate: "2019/03/01",
-            publishDate: "2019/03/01",
-            deliveryDate: "2019/03/01",
-            developPlanSubmitDate: "2019/03/01",
-            codeReviewDate: "2019/03/01",
-            ciDate: "2019/03/01",
-        },
+
         demandList: [
             ["YDZF-201809-12", "快速收款码需求这个需求很厉害", "张飞", "开发中", "Jack", "云闪付", "2019-03-13", "是"],
             ["TYDZF-201809-13", "ApplePayOnweb需求", "韦小宝", "已完成", "Jack", "云闪付", "2019-03-13", "是"],
@@ -254,13 +396,14 @@ IterationBoard.propTypes = {
  */
 const
     mapStateToProps = (state) => {
-        console.log("!!!!!!!!" + JSON.stringify(state.reducer.iteration));
         if (!state.reducer.iteration.iteration) {
             return {
                 openAddIteration: state.reducer.iteration.openAddIteration,
                 iterationName: state.reducer.iteration.iterationName,
                 action: state.reducer.iteration.action,
-                initIterationList : state.reducer.iteration.initIterationList
+                initIterationList: state.reducer.iteration.initIterationList,
+                projectMembers : state.reducer.common.projectMembers
+
             };
         }
         return {
@@ -268,7 +411,8 @@ const
             iterationName: state.reducer.iteration.iteration.iterationName,
             openAddIteration: state.reducer.iteration.openAddIteration,
             action: state.reducer.iteration.action,
-            initIterationList : state.reducer.iteration.initIterationList
+            initIterationList: state.reducer.iteration.initIterationList,
+            projectMembers : state.reducer.common.projectMembers
 
 
         }

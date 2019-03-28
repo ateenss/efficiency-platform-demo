@@ -136,7 +136,7 @@ class ShowPublishDocument extends React.Component {
             <div>
                 <Dialog
                     fullScreen
-                    open={openPublishTestCase}
+                    open={!!openPublishTestCase ? openPublishTestCase : false}
                     onClose={this.handleClose}
                     TransitionComponent={Transition}
                 >

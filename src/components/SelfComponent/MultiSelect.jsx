@@ -8,7 +8,6 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
     root: {
@@ -44,22 +43,13 @@ const MenuProps = {
     },
 };
 
-
-function getStyles(name, that) {
-    return {
-        fontWeight:
-            that.state.name.indexOf(name) === -1
-                ? that.props.theme.typography.fontWeightRegular
-                : that.props.theme.typography.fontWeightMedium,
-    };
-}
-
 class MultipleSelect extends React.Component {
     state = {
         name: []
     };
 
     componentWillMount() {
+
         if (this.props.defaultValue){
             let array=[];
             array=this.props.defaultValue.split(",");

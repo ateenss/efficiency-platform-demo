@@ -10,7 +10,8 @@ import {
 
 //axios配置
 const config = {
-    method: 'post'
+    method: 'post',
+    changeOrigin: true
 };
 
 
@@ -43,7 +44,6 @@ export function loginUser({username, password}) {
 
             // store JWT token
             localStorage.setItem('token', response.data.data.accessToken);
-
             // redirect to the route '/recordings'
             history.push('/');
         })

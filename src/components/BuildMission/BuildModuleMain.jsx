@@ -12,7 +12,6 @@ import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
-import DesciptionInput from "../SelfComponent/DescriptionInput"
 import {closeBuildModule} from "../../actions/BuildMissionAction"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
@@ -98,7 +97,6 @@ class BuildModuleMain extends React.Component {
     render() {
         const {classes, onClose, selectedValue,initialData,buttonStyle,randomNum,hintMessage, ...other} = this.props;
         const statusArray=["方案","开发","联调","提测"];
-        const labelArray=["是","否"];
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
                 <DialogTitle id="simple-dialog-title">创建新任务</DialogTitle>

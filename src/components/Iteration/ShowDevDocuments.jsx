@@ -22,13 +22,15 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import DevelopPlan from "./DevelopPlan";
 import TestCase from "./TestCase";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DevelopPlanMenuList from "./DevelopPlanMenuList";
 
 const styles = theme => ({
     appBar: {
         position: 'relative',
-        boxShadow:"none",
-        color:"#292929",
-        background:"#f5f5f5"
+        boxShadow: "none",
+        color: "#292929",
+        background: "#f5f5f5"
     },
     flex: {
         flex: 1,
@@ -90,6 +92,10 @@ class ShowDevDocuments extends React.Component {
         closeDevelopPlan()
     };
 
+    handleProvePlan = (id, e) => {
+        console.log("developPlanProved" + id);
+    };
+
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return true;
     }
@@ -101,7 +107,11 @@ class ShowDevDocuments extends React.Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.action === GET_DEVELOP_PLAN) {
-            this.setState({planContent: nextProps.developPlan, testCase: nextProps.testCase});
+            this.setState({
+                planContent: nextProps.developPlan,
+                testCase: nextProps.testCase,
+                demandId: nextProps.demandId
+            });
         }
     }
 
@@ -135,18 +145,24 @@ class ShowDevDocuments extends React.Component {
             <div>
                 <Dialog
                     fullScreen
-                    open={openDevelopPlan}
+                    open={!!openDevelopPlan ? openDevelopPlan : false}
                     onClose={this.handleClose}
                     TransitionComponent={Transition}
                 >
+
                     <AppBar className={classes.appBar}>
-                        <IconButton color="inherit" onClick={this.handleClose} aria-label="Close"
-                                    style={{position: "absolute", right: "0", top: "0", "zIndex": "9999"}}>
-                            <CloseIcon/>
-                        </IconButton>
+                        {/*<IconButton color="inherit" onClick={this.handleClose} aria-label="Close"*/}
+                        {/*style={{position: "absolute", right: "0", top: "0", "zIndex": "9999"}}>*/}
+                        {/*<MoreVertIcon/>*/}
+                        {/*</IconButton>*/}
+                        <DevelopPlanMenuList icon={<MoreVertIcon/>}
+                                             handleProvePlan={this.handleProvePlan.bind(this, this.state.demandId)}
+                                             handleClosePlan={this.handleClose}/>
+
                         <Tabs value={tabValue} onChange={this.handleChange}>
                             <Tab label="开发方案"/>
                             <Tab label="内部联调测试案例"/>
+                            <Tab label="问题记录"/>
                         </Tabs>
                     </AppBar>
                     {tabValue === 0 &&
@@ -154,6 +170,23 @@ class ShowDevDocuments extends React.Component {
                     }
                     {tabValue === 1 &&
                     <TestCase content={this.state.testCase}/>
+                    }
+                    {tabValue === 2 &&
+                    <Grid container spacing={24}>
+                        <Grid item xs={12}>
+                            <MultiLineInput fullWidth
+                                            InputLabelName="问题记录"
+                                            nameIn="suggestion"
+                                            onChange={this.getContent}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant="outlined" fullWidth>
+                                保存
+                            </Button>
+                        </Grid>
+                    </Grid>
+
                     }
 
                 </Dialog>
@@ -168,10 +201,10 @@ ShowDevDocuments.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    console.log("map数据111:" + JSON.stringify(state.reducer.iteration.testCase));
     return {
         developPlan: state.reducer.iteration.developPlan,
         testCase: state.reducer.iteration.testCase,
+        demandId: state.reducer.iteration.demandId,
         action: state.reducer.iteration.action,
         openDevelopPlan: state.reducer.iteration.openDevelopPlan
     }

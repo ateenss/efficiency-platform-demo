@@ -15,6 +15,7 @@ import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import {closeAddIteration, saveIteration} from "../../actions/IterationAction";
+import MultiSelect from "../SelfComponent/MultiSelect"
 
 
 const styles = {
@@ -76,11 +77,10 @@ class AddIteration extends React.Component {
 
 
     render() {
-        const {classes, onClose, selectedValue, initialData, buttonStyle, randomNum, hintMessage, ...other} = this.props;
+        const {initialData, buttonStyle} = this.props;
 
-        const labelArray = ["是", "否"];
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} >
                 <DialogTitle id="simple-dialog-title">新增版本</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
@@ -94,7 +94,7 @@ class AddIteration extends React.Component {
                         </Grid>
                         <Grid item xs={4}>
                             <SingleSelect onChange={this.getContent} InputLabelName="版本负责人" nameIn="iterationOwner"
-                                          nameArray={initialData}
+                                          nameArray={this.props.projectMembers}
                                           defaultValue={this.state.iterationContent.iterationOwner}
 
                             />
@@ -125,6 +125,37 @@ class AddIteration extends React.Component {
                         <Grid item xs={4}>
                             <DatePicker nameIn="ciDate" InputLabelName="持续集成执行时间" onDateChange={this.getContent}
                                         defaultValue={this.state.iterationContent.ciDate}/>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <InputField onChange={this.getContent} InputLabelName="Bugzilla" nameIn="bugzillaId"
+                                        nameArray={initialData}
+                                        defaultValue={this.state.iterationContent.bugzillaId}
+
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <SingleSelect onChange={this.getContent} InputLabelName="上线负责人" nameIn="deliveryPersonInCharge"
+                                          nameArray={this.props.projectMembers}
+                                          defaultValue={this.state.iterationContent.deliveryPersonInCharge}
+
+                            />
+
+                        </Grid>
+                        <Grid item xs={4}>
+                            <MultiSelect onChange={this.getContent} InputLabelName="上线检查人" nameIn="deliveryCheckers"
+                                         nameArray={this.props.projectMembers}
+                                            defaultValue={this.state.iterationContent.deliveryCheckers}
+
+                            />
+
+                        </Grid>
+                        <Grid item xs={4}>
+                            <MultiSelect onChange={this.getContent} InputLabelName="上线人" nameIn="deliveryPersons"
+                                         nameArray={this.props.projectMembers}
+                                            defaultValue={this.state.iterationContent.deliveryPersons}
+
+                            />
+
                         </Grid>
 
 

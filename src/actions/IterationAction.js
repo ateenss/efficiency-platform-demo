@@ -10,20 +10,21 @@ import {
     GET_DEVELOP_PLAN,
     CLOSE_DEVELOP_PLAN,
     GET_PUBLISH_TEST_CASE,
-    SHOW_NOTIFICATION,
-    AUTH_USER, AUTH_ERROR,
-    ITERATION_INIT
+    SHOW_NOTIFICATION
 } from './types';
 
-import UrlConf from '../constants/UrlConf'
-import RequestBuilder from '../constants/RequestBuilder'
-import history from "../history/history";
+import React from "react";
 
 //axios配置
 const config = {
-    method: 'post'
+    method: 'post',
+    headers: {'Content-Type': 'application/json;charset=utf-8'},
+    inCharset: "utf-8",
+    outCharset: "utf-8"
 };
-export const LOGIN_ENDPOINT = 'http://localhost:8080/tiger-admin/iteration/getRecentIterations';
+export const GET_RECENT = 'http://localhost:8080/tiger-admin/iteration/getRecentIterations';
+export const GET_BY_CODE = 'http://localhost:8080/tiger-admin/iteration/get';
+export const SAVE = 'http://localhost:8080/tiger-admin/iteration/save';
 
 
 export function init(doAfterInit) {
@@ -32,7 +33,7 @@ export function init(doAfterInit) {
     let accessToken = localStorage.getItem("accessToken");
 
 
-    return axios.post(LOGIN_ENDPOINT, {"version": "1.0"}, config)
+    return axios.post(GET_RECENT, {"version": "1.0"}, config)
         .then(response => {
 
             if (response.data.respCode !== "00") {
@@ -63,30 +64,52 @@ export function init(doAfterInit) {
 
             let ret = [];
 
-            for(let i in response.data.data){
+            for (let i in response.data.data) {
                 let unit = response.data.data[i];
-                let iteration = {
-                    iteration : unit.iterationCode.split(".")[0],
-                    children : []
-                }
-                ret.push(iteration);
 
-                for(let j in response.data.data){
-                    if(iteration.iteration === response.data.data[j].iterationCode.split(".")[0]){
-                        iteration.children.push(response.data.data[j].iterationCode);
+                let iteration = {
+                    iteration: unit.iterationCode.split(".")[0],
+                    children: []
+                }
+
+                let inRet = false;
+                for (let idx in ret) {
+                    if (unit.iterationCode.split(".")[0] === ret[idx].iteration) {
+                        inRet = true;
+                        iteration = ret[idx];
+                    }
+                }
+
+                if (!inRet) {
+                    ret.push(iteration);
+                }
+
+                for (let j in response.data.data) {
+                    if (iteration.iteration === response.data.data[j].iterationCode.split(".")[0]) {
+
+                        let inChildren = false;
+                        for (let c in iteration.children) {
+                            if (iteration.children[c] === response.data.data[j].iterationCode) {
+                                inChildren = true;
+                            }
+                        }
+                        if (!inChildren) {
+
+                            iteration.children.push(response.data.data[j].iterationCode);
+                        }
 
                     }
                 }
             }
 
-            console.log(JSON.stringify(ret))
+            console.log(JSON.stringify(ret));
 
             doAfterInit(ret);
 
         })
         .catch(error => {
             // If request fails
-            console.log("!!!!!!!调用失败"+JSON.stringify(error));
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
             // update state to show error to user
 
         });
@@ -99,25 +122,65 @@ export function selectIteration(id) {
 
     let accessToken = localStorage.getItem("accessToken");
 
-    const data = {
-            iterationList: {
-                iterationOwner: "张无忌",
-                demandList: [
-                    ["1", "YDZF-201809-12", "快速收款码需求这个需求很厉害", "张飞1", "开发中"],
-                    ["2", "TYDZF-201809-13", "ApplePayOnweb需求", "韦小宝1", "已完成"],
-                    ["3", "YDZF-201809-15", "你说这是什么需求", "张无忌1", "提测"],
-                    ["4", "YDZF-201809-16", "楼上，你在问我吗？", "周芷若1", "未开始"],
-                ]
-            },
-            iterationName: id
+    return axios.post(GET_BY_CODE, {"version": "1.0", "data": id}, config)
+        .then(response => {
 
-        }
-    ;
+            if (response.data.respCode !== "00") {
+                store.dispatch({
+                    type: SHOW_NOTIFICATION,
+                    payload: response.data.msg
+                });
+                return false;
+            }
 
-    store.dispatch({
-        type: SELECT_ITERATION,
-        payload: data
-    });
+
+
+
+
+            let demandList = response.data.data.demandList;
+
+
+            let parsedDemandList = [];
+            for(let idx in demandList){
+
+                let unit = demandList[idx];
+
+                let demand = [];
+
+                for(let i in unit){
+                    demand.push(unit[i]);
+                }
+
+                parsedDemandList.push(demand);
+            }
+
+            const data = {
+                iterationInfo: response.data.data.iteration,
+                demandList: parsedDemandList,
+                iterationName: id
+
+            };
+
+            data.iterationInfo.unPlanningCnt = response.data.data.unPlanningCnt;
+            data.iterationInfo.unCodeReviewCnt = response.data.data.unCodeReviewCnt;
+            data.iterationInfo.unCi = response.data.data.unCi;
+            data.iterationInfo.finished = response.data.data.finished;
+
+            console.log("!!!!!"+JSON.stringify(data));
+
+            store.dispatch({
+                type: SELECT_ITERATION,
+                payload: data
+            });
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+
 }
 
 /**
@@ -126,7 +189,7 @@ export function selectIteration(id) {
 export function addIteration(id) {
 
 
-    const data = ["周伯通", "员工B", "员工C", "员工D", "员工E", "员工F", "员工G", "员工H"];
+    const data = ["员工B", "周泊仰", "员工D", "员工E", "员工F", "员工G", "员工H"];
 
     let ret = {
         initData: data,
@@ -136,20 +199,32 @@ export function addIteration(id) {
 
     if (!!id) {
         // TODO post here use iterationData in saveIteration
-        ret.editData = {
-            iterationName: "48.1",
-            iterationOwner: "周伯通",
-            testDate: "2019/03/01",
-            publishDate: "2019/03/01",
-            deliveryDate: "2019/03/01",
-            developPlanSubmitDate: "2019/03/01",
-            codeReviewDate: "2019/03/01",
-            ciDate: "2019/03/01"
-        }
-        store.dispatch({
-            type: EDIT_ITERATION,
-            payload: ret
-        })
+        return axios.post(GET_BY_CODE, {"version": "1.0", "data": id}, config)
+            .then(response => {
+
+                if (response.data.respCode !== "00") {
+                    store.dispatch({
+                        type: SHOW_NOTIFICATION,
+                        payload: response.data.msg
+                    });
+                    return false;
+                }
+
+
+                ret.editData = response.data.data.iteration;
+                store.dispatch({
+                    type: EDIT_ITERATION,
+                    payload: ret
+                })
+
+            })
+            .catch(error => {
+                // If request fails
+                console.log("!!!!!!!调用失败" + JSON.stringify(error));
+                // update state to show error to user
+
+            });
+
     } else {
         store.dispatch({
             type: ADD_ITERATION,
@@ -178,19 +253,40 @@ export function saveIteration(action, iterationData) {
     console.log("inSaveIteration" + JSON.stringify(data));
     let type = "";
     if (action == ADD_ITERATION) {
-        data.demandList = [];
         type = SAVE_ADD_ITERATION
     } else if (action == EDIT_ITERATION) {
         type = SAVE_EDIT_ITERATION
     }
 
-    store.dispatch({
-        type: type,
-        payload: data
-    })
+    return axios.post(SAVE, {"version": "1.0", "data": iterationData}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                store.dispatch({
+                    type: SHOW_NOTIFICATION,
+                    payload: response.data.msg
+                });
+                return false;
+            }
+
+            if(action === ADD_ITERATION){
+                data.demandList = [];
+            }
+            store.dispatch({
+                type: type,
+                payload: data
+            })
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+
 }
 
-export function getDevelopPlan() {
+export function getDevelopPlan(id) {
 
     let data = {};
 
@@ -228,7 +324,9 @@ export function getDevelopPlan() {
         ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"],
         ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"],
         ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"]
-    ]
+    ];
+
+    data.demandId = id;
     // data.testCase=[{
     //     caseDesc : "你的大可爱",
     //     preCondition : "无",
@@ -295,5 +393,10 @@ export function getPublishDocuments() {
         type: GET_PUBLISH_TEST_CASE,
         payload: data
     })
+
+}
+
+export function addIterationPerson(id) {
+
 
 }

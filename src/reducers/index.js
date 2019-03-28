@@ -3,7 +3,7 @@ import authReducer from './authReducer';
 import taskReducer from './taskReducer';
 import commonReducer from './commonReducer';
 import buildProjectReducer from "./buildProjectReducer"
-import iterationReducer from "./interationReducer"
+import iterationReducer from "./iterationReducer"
 import buildDemandReducer from "./buildDemandReducer";
 import buildMissionReducer from "./buildMissionReducer"
 // import {routerReducer} from 'react-router-redux'

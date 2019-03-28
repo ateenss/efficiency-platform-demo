@@ -33,11 +33,11 @@ export default function (state = INITIAL_STATE, action) {
                 initialData: action.payload.initData
             };
         case GET_DEVELOP_PLAN:
-            return {action:GET_DEVELOP_PLAN, openDevelopPlan:true, developPlan:action.payload.developPlan, testCase : action.payload.testCase};
+            return {...state, action:GET_DEVELOP_PLAN, openDevelopPlan:true, developPlan:action.payload.developPlan, testCase : action.payload.testCase, demandId : action.payload.demandId};
         case CLOSE_DEVELOP_PLAN:
-            return {action:CLOSE_DEVELOP_PLAN, openDevelopPlan:false};
+            return {...state, action:CLOSE_DEVELOP_PLAN, openDevelopPlan:false};
         case GET_PUBLISH_TEST_CASE:
-            return {action:GET_PUBLISH_TEST_CASE, openPublishTestCase:true, publishTestCase:action.payload.publishTestCase};
+            return {...state, action:GET_PUBLISH_TEST_CASE, openPublishTestCase:true, publishTestCase:action.payload.publishTestCase};
         default:
             return state;
     }

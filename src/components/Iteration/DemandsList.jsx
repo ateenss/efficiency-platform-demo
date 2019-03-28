@@ -18,7 +18,11 @@ const columns = [
     {name: "需求编号", options: {filter: false}},
     {name: "需求名称", options: {filter: false}},
     {name: "需求负责人", options: {filter: true}},
-    {name: "需求状态", options: {filter: true}},
+    {name: "需求状态", options: {filter: true,customBodyRender:(value,tableMeta, updateValue) => {
+                return (
+                    <Typography>{value}</Typography>
+
+                )}}},
     {name: "开发负责人", options: {filter: false}},
     {name: "需求来源", options: {filter: false}},
     {name: "评审时间", options: {filter: false}},
@@ -96,7 +100,7 @@ class DemandsList extends React.Component {
         return (
             <MuiThemeProvider theme={this.getMuiTheme()}>
                 <MUIDataTable
-                    title={<Typography variant="title">需求列表</Typography>}
+                    title="需求列表"
                     data={data}
                     columns={columns}
                     options={options}

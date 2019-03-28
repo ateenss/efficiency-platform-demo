@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import blue from '@material-ui/core/colors/blue';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,10 +9,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
-import MultiSelect from "../SelfComponent/MultiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
-import DesciptionInput from "../SelfComponent/DescriptionInput"
-import {pullBuildProjectInitial,hintDelete,buildSaveProjectDispatch,closeBuildProject} from "../../actions/BuildProjectAction"
+import {hintDelete, buildSaveProjectDispatch, closeBuildProject, saveProject} from "../../actions/BuildProjectAction"
 import {connect} from "react-redux";
 import SingleSelect from "../SelfComponent/SingleSelect"
 import InputField from "../SelfComponent/InputField"
@@ -54,16 +51,10 @@ class BuildProjectMain extends React.Component {
 
 
     handleClose = () => {
-        store.dispatch(hintDelete(''));
         store.dispatch(closeBuildProject());
     };
     handleSave=()=>{
-        store.dispatch(hintDelete(''));
-        const temp=this.state.projectContent;
-        temp["ProjectStatus"]="正在进行";
-        temp["ProjectID"]=this.props.randomNum;
-        store.dispatch(buildSaveProjectDispatch(temp));
-        store.dispatch(closeBuildProject());
+        saveProject(this.state.projectContent)
     };
 
 
@@ -92,7 +83,7 @@ class BuildProjectMain extends React.Component {
     
 
     render() {
-        const {classes, onClose, selectedValue,initialData,buttonStyle,hintMessage,randomNum, ...other} = this.props;
+        const {classes, onClose, selectedValue,initialData,buttonStyle,hintMessage,randomNum} = this.props;
         //todo:这里无法有效解决error公用问题，只能采用直接根据页面罗列写死的方法，毕竟一个界面的输入框不是很多
         /*let error2=false;
         let hintLabel2="任务名称";
@@ -115,48 +106,48 @@ class BuildProjectMain extends React.Component {
         }*/
 
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
                         <Grid item xs={8} className={classes.gridStyle}>
                             <InputField
-                                nameIn="ProjectName"
+                                nameIn="projectName"
                                 onChange={this.getContent}
                                 InputLabelName="项目名称"
                                 />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <InputField InputLabelName="项目编号" defaultValue={randomNum} nameIn="ProjectID"  disabled={true}/>
+                            <InputField InputLabelName="项目编号" nameIn="projectCode"  disabled={true}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="类型" nameIn="ProjectType" nameArray={initialData.ProjectType}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="类型" nameIn="projectType" defaultValue={1} nameArray={initialData.projectType}/>
+                        </Grid>
+                        {/*<Grid item xs={4} className={classes.gridStyle}>*/}
+                            {/*<MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="ProjectMembers" nameArray={initialData.ProjectMembers}/>*/}
+                        {/*</Grid>*/}
+                        <Grid item xs={4} className={classes.gridStyle}>
+                            <SingleSelect onChange={this.getContent} InputLabelName="负责人" nameIn="projectOwnerId" defaultValue={1} nameArray={this.props.projectMembers}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="ProjectMembers" nameArray={initialData.ProjectMembers}/>
+                            <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="负责人" nameIn="ProjectHead" nameArray={initialData.ProjectHead}/>
+                            <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="ProjectStartTime" InputLabelName="开始时间" onDateChange={this.getContent}/>
+                            <DatePicker nameIn="createTime" InputLabelName="创建时间" disable={true} onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="ProjectEndTime" InputLabelName="结束时间" onDateChange={this.getContent}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status" defaultValue={1} nameArray={initialData.projectStatus}/>
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="ProjectBuildTime" InputLabelName="创建时间" onDateChange={this.getContent}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="ProjectStatus" defaultValue="正在进行"  disabled={true} nameArray={initialData.ProjectStatus}/>
-                        </Grid>
-                        {/*<Grid item xs={4}>
-                            <InputField nameIn="username" InputLabelName="任务名称" onChange={this.getContent} />
-                        </Grid>*/}
+                        {/*/!*<Grid item xs={4}>*/}
+                            {/*<InputField nameIn="username" InputLabelName="任务名称" onChange={this.getContent} />*/}
+                        {/*</Grid>*!/*/}
 
-                        <Grid item xs={12} className={classes.gridStyle}>
-                            <DesciptionInput onChange={this.getContent} nameIn="ProjectDescription"/>
-                        </Grid>
+                        {/*<Grid item xs={12} className={classes.gridStyle}>*/}
+                            {/*<DesciptionInput onChange={this.getContent} nameIn="ProjectDescription"/>*/}
+                        {/*</Grid>*/}
                         {/*<Grid item xs={4}>*/}
                             {/*<Typography color="error">{hintMessage}</Typography>*/}
                         {/*</Grid>*/}
@@ -189,7 +180,7 @@ const mapStateToProps = (state) => {
     // console.log("map数据:"+state.reducer.buildProject.initialData.head);
     return {
         initialData:state.reducer.buildProject.initialData,
-        hintMessage:state.reducer.buildProject.hintMessage
+        action : state.reducer.buildProject.action
     }
 };
 

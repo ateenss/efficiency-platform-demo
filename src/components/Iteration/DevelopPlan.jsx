@@ -86,7 +86,6 @@ class DevelopPlan extends React.Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.action === GET_DEVELOP_PLAN) {
-            console.log("!!!!!!!!!!"+JSON.stringify(nextProps.developPlan))
             this.setState({planContent: nextProps.developPlan});
         }
     }

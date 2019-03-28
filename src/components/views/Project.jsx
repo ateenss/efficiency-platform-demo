@@ -9,20 +9,24 @@ import Grid from '@material-ui/core/Grid'
 
 import ProjectPanel from "../project/ProjectPanel"
 import BuildProject from "../BuildProject/BuildProjectMain"
-
+import EditProject from "../BuildProject/EditProjectMain"
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
-import Icon from '@material-ui/core/Icon';
 import AddIcon from '@material-ui/icons/Add';
-import IconButton from "@material-ui/core/IconButton";
 import Tooltip from '@material-ui/core/Tooltip';
-import MuiTable from '../SelfComponent/MuiTable'
-import Task from "../BuildMission/Task"
-import {pullBuildProjectInitial,openBuildProject} from "../../actions/BuildProjectAction"
+import {
+    pullBuildProjectInitial,
+    openBuildProject,
+    init,
+    openEditProject,
+    addProject
+} from "../../actions/BuildProjectAction"
+import {BUILD_SAVE_PROJECT} from "../../actions/types";
+import {getProjectMembers} from "../../actions/CommonAction";
 
 const styles = theme => ({
     root: {
@@ -61,10 +65,11 @@ class Project extends React.Component {
     constructor(props) {
         super(props);
         pullBuildProjectInitial();
+        getProjectMembers();
         this.state = {
             expanded: false,
             value: 0,
-            randomNum:0
+
         };
     }
 
@@ -79,72 +84,99 @@ class Project extends React.Component {
     handleClickOpen = (e) => {
         e.stopPropagation()
         e.preventDefault();
-        //todo:下面可以有多种形式的生成项目编号的方法
-        this.setState({
-            randomNum:Math.floor(Math.random()*400)+1
-        });
-        store.dispatch(openBuildProject());
-        return false;
+        addProject();
 
     };
 
     componentDidMount() {
 
-        getDemandTasks();
+        let self = this;
+        init(function (ret) {
 
-    }
-componentWillUpdate(nextProps, nextState, nextContext) {
+            self.setState({projectList: ret})
 
-}
-
-    render() {
-        const {classes, demands,addProjects,buildProjectShow} = this.props;
-        let showProjects = addProjects.map((content, key) => {
-            return (
-                <Grid xs={3} item><ProjectPanel name={content.ProjectName} desc={key} keyNote={key}/></Grid>
-            )
         });
 
+    }
+
+    handleEdit = (id) => {
+
+        console.log(id);
+        openEditProject(id)
+
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(nextProps.action === BUILD_SAVE_PROJECT){
+            let projectList = this.state.projectList;
+            projectList.push(nextProps.newProject);
+            this.setState({projectList : projectList})
+        }
+    }
+
+
+    render() {
+        const {classes, buildProjectShow, editProjectShow} = this.props;
+        let showProjects = [];
+        let currentProject = [];
+        if (!!this.state.projectList) {
+            showProjects = this.state.projectList.map((content, key) => {
+                return (
+                    <Grid key={key} xs={3} item><ProjectPanel editable={content.editableProject} name={content.projectName} desc={key} handleEdit={this.handleEdit.bind(this, content.id)}/></Grid>
+                )
+            });
+
+            currentProject = this.state.projectList.map((content, key) => {
+                if (content.currentProject) {
+                    return (
+                        <Grid key={key} xs={3} item><ProjectPanel editable={content.editableProject} name={content.projectName} desc={key} handleEdit={this.handleEdit.bind(this, content.id)}/></Grid>
+                    )
+                }
+
+            });
+        }
         return (
 
             <div className={classes.root}>
                 <ExpansionPanel defaultExpanded={true}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>我当前的项目</Typography>
-
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <Grid spacing={40} container>
-                            <Grid xs={3} item><ProjectPanel name="全渠道" desc="2019年项目"/></Grid>
+                            {currentProject}
                             <Grid xs={3} item>
                                 <Tooltip title="创建新项目" aria-label="创建新项目" placement="right-start">
 
-                                <Button variant="fab" color="link" className={classes.createProject}
-                                        onClick={this.handleClickOpen}>
-                                    <AddIcon className={classes.addIcon}/>
-                                </Button>
+                                    <Button variant="fab" className={classes.createProject}
+                                            onClick={this.handleClickOpen}>
+                                        <AddIcon className={classes.addIcon}/>
+                                    </Button>
                                 </Tooltip>
                             </Grid>
                         </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>我参与的项目</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <Grid spacing={16} container>
-                            <Grid xs={3} item><ProjectPanel name="二维码" desc="2019年项目"/></Grid>
+                        <Grid spacing={40} container>
                             {showProjects}
                         </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-                <BuildProject
+
+                <EditProject projectMembers={this.props.projectMembers}
+                    open={editProjectShow}
+                />
+
+                <BuildProject projectMembers={this.props.projectMembers}
                     open={buildProjectShow}
                     onClose={this.handleClickClose}
-                    randomNum={this.state.randomNum}
                 />
-               {/* <NativeTable/>*/}
+                {/* <NativeTable/>*/}
             </div>
         );
 
@@ -155,10 +187,13 @@ componentWillUpdate(nextProps, nextState, nextContext) {
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
+
     return {
-        demands: state.reducer.task.demands,
-        addProjects:state.reducer.buildProject.addProjects,
-        buildProjectShow:state.reducer.buildProject.buildProjectShow,
+        newProject: state.reducer.buildProject.newProject,
+        buildProjectShow: state.reducer.buildProject.buildProjectShow,
+        editProjectShow:state.reducer.buildProject.editProjectShow,
+        action : state.reducer.buildProject.action,
+        projectMembers : state.reducer.common.projectMembers
     }
 };
 

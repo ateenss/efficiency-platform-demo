@@ -1,7 +1,7 @@
 import {
     SHOW_NOTIFICATION,
     CLOSE_NOTIFICATION,
-    SINGLE_SELECT_VALUE
+    SINGLE_SELECT_VALUE, INIT_PROJECT_MEMBERS
 } from '../actions/types';
 
 export const INITIAL_STATE = {
@@ -21,6 +21,8 @@ export default function (state = INITIAL_STATE, action) {
             const singleSelectState = JSON.parse(JSON.stringify(state));
             singleSelectState.singleSelectValue=action.value;
             return singleSelectState;
+        case INIT_PROJECT_MEMBERS:
+            return {...state, projectMembers : action.payload};
         default:
             return state;
     }

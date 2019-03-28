@@ -15,6 +15,7 @@ import EditProject from "../BuildProject/EditProjectMain";
 import EditIcon from "@material-ui/icons/Edit"
 import ListIcon from "@material-ui/icons/List"
 import {closeEditProject,openEditProject} from "../../actions/BuildProjectAction"
+import Tooltip from "@material-ui/core/Tooltip";
 
 
 
@@ -167,19 +168,19 @@ class ProjectPanel extends React.Component {
         console.log(this.btnRef.current.props.proejctid);
         openProject(this.btnRef.current.props.proejctid);
     };
-    handleClickOpen = (e) => {
+    handleClickOpen = (e, id) => {
         e.stopPropagation();
         e.preventDefault();
-        store.dispatch(openEditProject());
+        this.props.handleEdit(id);
     };
 
 
     render() {
-        const {classes, name, desc, onClick, keyNote,editProjectShow} = this.props;
-        const MyLink = props => <Link to="/task/my" {...props}/>
+        const {classes, name, desc, onClick, keyNote} = this.props;
+        const MyLink = props => <Link to="/taskboard" {...props}/>
         return (
             <div className={classes.wrapperDiv}>
-                <ButtonBase
+                <ButtonBase  component={MyLink}
                     ref={this.btnRef}
                     focusRipple
                     key={image.title}
@@ -213,13 +214,11 @@ class ProjectPanel extends React.Component {
             </Typography>
           </span>
                 </ButtonBase>
-
-                <Button   size="small" className={classes.edit} onClick={this.handleClickOpen} ><EditIcon style={{color:"#FFFFFF"}}/></Button>
-                <Button   classes={{label:classes.buttonLabel,root:classes.buttonRoot}}   component={MyLink} ><ListIcon style={{color:"#FFFFFF"}} /></Button>
-                <EditProject
-                    open={editProjectShow}
-                    keyNote={keyNote}
-                />
+                { this.props.editable === true ?
+                <Tooltip title={"编辑"}>
+                    <Button   size="small" className={classes.edit} onClick={this.handleClickOpen} ><EditIcon style={{color:"#FFFFFF"}}/></Button>
+                </Tooltip> : <div/>
+                }
             </div>
 
 
@@ -230,10 +229,8 @@ class ProjectPanel extends React.Component {
 // export default withStyles(styles, {withTheme: true})(ProjectPanel);
 const mapStateToProps = (state) => {
     return {
-        demands: state.reducer.task.demands,
         addProjects:state.reducer.buildProject.addProjects,
         buildProjectShow:state.reducer.buildProject.buildProjectShow,
-        editProjectShow:state.reducer.buildProject.editProjectShow,
     }
 };
 

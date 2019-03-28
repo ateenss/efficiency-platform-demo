@@ -9,7 +9,6 @@ const GlobalValidateRegex = {
         message : "wrong password"
     },
 
-
     taskName:{
         ok : value => !value || !/^[a-zA-Z0-9]{4,10}$/.test(value) ? false : true,
         message : "6-10 letters of numbers"
