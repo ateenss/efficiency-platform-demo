@@ -43,7 +43,7 @@ class MyPage extends React.Component {
 
     render() {
         const {classes, demands,tempBoardToDetail} = this.props;
-        let demandsComponents = !demands ? "" : demands.map((prop, key) => {
+        /*let demandsComponents = !demands ? "" : demands.map((prop, key) => {
                 let taskGroup = prop.taskDetailList ? prop.taskDetailList : "";
                 return (
                     <Demand key={key} taskName={prop.taskName} taskOwner={prop.taskOwner} expanded={true}
@@ -55,8 +55,25 @@ class MyPage extends React.Component {
                             tempBoardToDetail={tempBoardToDetail}
                     />
                 )
-            }
-        );
+            }*/
+        let demandsComponents;
+        if (demands) {
+            let taskGroup = demands.taskDetailList;
+            console.log("00000000000");
+            console.log(demands);
+            demandsComponents =
+                (
+                    <Demand taskName={demands.taskName} taskOwner={demands.taskOwner} expanded={true}
+                            develop={taskGroup.develop ? taskGroup.develop : ""}
+                            plan={taskGroup.plan ? taskGroup.plan : ""}
+                            integration={taskGroup.integration ? taskGroup.integration : ""}
+                            goTest={taskGroup.goTest ? taskGroup.goTest : ""}
+                            finish={taskGroup.finish ? taskGroup.finish : ""}
+                            tempBoardToDetail={tempBoardToDetail}
+                    />
+                );
+        }
+
 
         return (
 

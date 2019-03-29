@@ -306,10 +306,11 @@ export function getDemandTaskDetail(taskId) {
     const config = {
         method: 'post'
     };
-
-    console.log("内部详情成功启动");
+    store.dispatch(openDetailMission(taskId));
     let accessToken = localStorage.getItem("token");
-    let request = RequestBuilder.parseRequest(accessToken,{taskId});
+    let request = RequestBuilder.parseRequest(accessToken,taskId);
+    console.log("查看阿賈克斯配置");
+    console.log(request);
     return axios.post(send_edit_data, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
@@ -435,65 +436,7 @@ export function pullBuildMissionInitial(){
         }
 
         ],
-        demands:[
-            {
-                tasks:{"develop":[{
-                        "taskContent": "我是开发1",
-                        "taskName": "凤凰战车的任务",
-                        "taskId": "1",
-                    },{
-                        "taskContent": "我是开发2",
-                        "taskName": "枪兵的任务",
-                        "taskId": "2"
-                    }],
-                    "plan": [{
-                        "taskContent": "我是方案",
-                        "taskName": "赤木晴子的任务",
-                        "taskId": "3"
-                    },
-                        {
-                            "taskContent": "我是方案",
-                            "taskName": "雷蛇的任务",
-                            "taskId": "4"
-                        }],
-                    "integration": [{
-                        "taskContent": "我是持续集成",
-                        "taskName": "曹志的持续集成",
-                        "taskId": "5"
-                    },
-                        {
-                            "taskContent": "我是持续集成",
-                            "taskName": "阿拉蕾的持续集成",
-                            "taskId": "6"
-                        }],
-                    "goTest": [{
-                        "taskContent": "我是走查",
-                        "taskName": "李淳风的走查",
-                        "taskId": "7"
-                    },{
-                        "taskContent": "我是走查",
-                        "taskName": "巫妖王的走查",
-                        "taskId": "8"
-                    },
-                    ],
-                    "finish":[
-                        {
-                            "taskContent":"我是完成",
-                            "taskName": "李淳风的完成",
-                            "taskId": "9"
-                        },{
-                            "taskContent":"我是完成",
-                            "taskName": "喵的完成",
-                            "taskId": "10"
-                        }
-                    ]
-                },
-                taskName:"需求任务1",
-                taskOwner:"需求任务拥有者1",
-                taskDeadLine:"2018-23-33",
-                taskCode:"1069"
-            }
-        ]
+
     };
     store.dispatch({
         type:PULL_INITIAL_MISSION,

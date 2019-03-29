@@ -106,13 +106,11 @@ class MissionDetailMain extends React.Component {
         store.dispatch(closeDetailMission());
     };
 
-    componentDidMount() {
-        console.log("进入到didMount外面");
+   /* componentDidMount() {
         if (this.props.tempBoardToDetail) {
-            console.log("进入到didMount里面");
             getDemandTaskDetail(this.props.tempBoardToDetail.keyNote)
         }
-    }
+    }*/
 
     render() {
         const {classes, detailMissionShow, tempBoardToDetail} = this.props;

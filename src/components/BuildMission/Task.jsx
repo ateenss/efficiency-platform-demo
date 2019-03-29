@@ -34,7 +34,8 @@ import {openBuildMission,
     openGoTestDetail,
     openIntegrationDetail,
     openDevMissionDetail,
-    openOtherMissionDetail
+    openOtherMissionDetail,
+    getDemandTaskDetail
 } from "../../actions/BuildMissionAction"
 import store from "../../stores";
 import MissionDetailMain from "./MissionDetailMain"
@@ -129,7 +130,8 @@ class Task extends React.Component {
                 store.dispatch(openGoTestDetail(keyNote));
                 return;
             case "需求开发任务":
-                store.dispatch(openDetailMission(keyNote));
+                /*store.dispatch(openDetailMission(keyNote));*/
+                getDemandTaskDetail(keyNote);
                 return;
             case "开发任务":
                 store.dispatch(openDevMissionDetail(keyNote));
