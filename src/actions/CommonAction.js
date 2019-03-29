@@ -29,7 +29,6 @@ export const SAVE = 'http://localhost:8080/tiger-admin/iteration/save';
 
 
 export function getProjectMembers(doAfterInit) {
-    console.log("getProjectMembers");
 
     let accessToken = localStorage.getItem("accessToken");
 

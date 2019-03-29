@@ -24,13 +24,36 @@ import {
     CLOSE_TASK_EDITOR,
     CHANGE_STATUS_TO_PLAN,
     CHANGE_STATUS_TO_DEV,
-    CHANGE_STATUS_TO_JOINTTRIAL,
+    CHANGE_STATUS_TO_INTEGRATION,
     CHANGE_STATUS_TO_TEST,
-    SAVE_TASK_EDITOR
+    SAVE_TASK_EDITOR,
+    CHANGE_STATUS_TO_FINISH,
+    OPEN_DETAIL_GOTEST,
+    CLOSE_DETAIL_GOTEST,
+    SAVE_DETIAL_GOTEST,
+    OPEN_DETAIL_INTEGRATION,
+    CLOSE_DETAIL_INTEGRATION,
+    SAVE_DETIAL_INTEGRATION,
+    OPEN_DETAIL_OTHERMISSION,
+    CLOSE_DETAIL_OTHERMISSION,
+    SAVE_DETAIL_OTHERMISSION,
+    OPEN_DETAIL_DEVMISSION,
+    CLOSE_DETAIL_DEVMISSION,
+    SAVE_DETAIL_DEVMISSION,
+    OPEN_ASSIGN_GOTEST,
+    DO_ASSIGN_GOTEST,
+    CLOSE_ASSIGN_GOTEST,
+    GET_MYTASK_INFO,
+    GET_TASK_DETAIL_INFO
 } from "../actions/types"
 /*import {taskStatusChange} from "../actions/TaskStatusChangeFunc"*/
 
 export const INITIAL_STATE = {
+    detailGoTestShow:false,
+    assignGoTestShow:false,
+    detailIntegrationShow:false,
+    detailOtherMissionShow:false,
+    detailDevMissionShow:false,
     buildMissionShow:false,
     editMissionShow:false,
     detailMissionShow:false,
@@ -40,12 +63,13 @@ export const INITIAL_STATE = {
     filterManagerMissionShow:false,
     filterDeveloperMissionShow:false,
     initialData:null,
-    addMission:[],
+    addTask:[],
     addPlan:[],
     tempBoardToDetail:null,
     filterJudge:{switch:"0",keyArray:[]},
     demands:null,
-    tempTask:{content:null,taskID:null}
+    tempTask:{content:null,taskID:null},
+    tempAssignGoTest:null
 };
 const taskStatusChange = (newDemands, action,statusTo) => {
     let ret = action.value.split("-");
@@ -74,168 +98,240 @@ const taskStatusChange = (newDemands, action,statusTo) => {
 export default function (state = INITIAL_STATE, action) {
     let counter=[];
     switch (action.type) {
+        case OPEN_ASSIGN_GOTEST:
+            let openAssignGoTestState=JSON.parse(JSON.stringify(state));
+            let res = action.value.split("-");
+            let currentGroup = res[0];
+            let currentTaskId = res[2];
+            let tempAssignGoTest=state.tempAssignGoTest;
+            openAssignGoTestState.demands.map((item,index)=>{
+                if (currentGroup==="develop") {
+                    item.tasks.develop.map((item2,index2)=>{
+                        if (item2.taskId===currentTaskId) {
+                            /*openAssignGoTestState.tempAssignGoTest=item2*/
+                            tempAssignGoTest=item2
+                        }
+                    });
+                }
+            });
+            /*openAssignGoTestState.assignGoTestShow=true;*/
+            return {...state, assignGoTestShow: true,tempAssignGoTest:tempAssignGoTest};
+        case DO_ASSIGN_GOTEST:
+            //todo:这里做的事情：将任务添加在被指定人的我的任务列表里面，并且将相关信息传入
+            //信息已经全部加入到tempAssignGoTest，只要利用他去后台捞数据就行了包括id和被指定人
+            let tempDoAssign=state.tempAssignGoTest;
+            tempDoAssign.goTestMan=action.value;
+            return {...state, assignGoTestShow: false,tempAssignGoTest:tempDoAssign};
+        case GET_MYTASK_INFO:
+            return {...state,addTask:action.value.taskList};
+        case GET_TASK_DETAIL_INFO:
+            return {...state,demands:action.value};
+        case CLOSE_ASSIGN_GOTEST:
+            return {...state, assignGoTestShow: false};
         case SAVE_TASK_EDITOR:
             let saveTaskEditorState=JSON.parse(JSON.stringify(state));
             return saveTaskEditorState;
         case CHANGE_STATUS_TO_PLAN:
-            let toPlanState=JSON.parse(JSON.stringify(state));
-            toPlanState.demands=taskStatusChange(toPlanState.demands,action,"plan");
-            return toPlanState;
+            return {...state, demands: taskStatusChange(state.demands,action,"plan")};
+        case CHANGE_STATUS_TO_FINISH:
+            return {...state, demands: taskStatusChange(state.demands,action,"finish")};
         case CHANGE_STATUS_TO_DEV:
-            let toDevState=JSON.parse(JSON.stringify(state));
-            toDevState.demands=taskStatusChange(toDevState.demands,action,"develop");
-            return toDevState;
-        case CHANGE_STATUS_TO_JOINTTRIAL:
-            let toJointTrialState=JSON.parse(JSON.stringify(state));
-            toJointTrialState.demands=taskStatusChange(toJointTrialState.demands,action,"jointTrial");
-            return toJointTrialState;
+            return {...state, demands: taskStatusChange(state.demands,action,"develop")};
+        case CHANGE_STATUS_TO_INTEGRATION:
+            return {...state, demands: taskStatusChange(state.demands,action,"integration")};
         case CHANGE_STATUS_TO_TEST:
-            let toTestState=JSON.parse(JSON.stringify(state));
-            toTestState.demands=taskStatusChange(toTestState.demands,action,"test");
-            return toTestState;
+            return {...state, demands: taskStatusChange(state.demands,action,"goTest")};
         case OPEN_TASK_EDITOR:
             const openTaskEditorState=JSON.parse(JSON.stringify(state));
-            openTaskEditorState.taskEditorShow=true;
             let ret =action.value.split("-");
             let curGroup = ret[0];
             let taskId = ret[2];
             let tempTaskContent=null;
             let keyTaskName=Object.keys(openTaskEditorState.demands[0]["tasks"]);
-            console.log("我已经执行了");
-            console.log(keyTaskName);
             //todo:这里的需求编号需要重新做，目前是假值
             openTaskEditorState.demands.map((content,key)=>{
-                content.demandName==="需求任务1"&&keyTaskName.map((v1,k1)=>{
+                content.taskName==="需求任务1"&&keyTaskName.map((v1,k1)=>{
                     v1===curGroup&&openTaskEditorState.demands[key].tasks[v1].map((v2,k2)=>{
                         taskId===v2["taskId"]&&(tempTaskContent=v2)
                     })
                 })
             });
-            openTaskEditorState.tempTask["content"]=tempTaskContent;
-            openTaskEditorState.tempTask["taskID"]=action.value;
-            return openTaskEditorState;
+            return {...state,
+                taskEditorShow: true,
+                tempTask:{
+                    ...state.tempTask,
+                    content:tempTaskContent,
+                    taskID:action.value}};
         case CLOSE_TASK_EDITOR:
-            const closeTaskEditorState=JSON.parse(JSON.stringify(state));
-            closeTaskEditorState.taskEditorShow=false;
-            return closeTaskEditorState;
+            return {...state, taskEditorShow: false};
         case OPEN_BUILD_MODULE:
-            const openBuildModuleState=JSON.parse(JSON.stringify(state));
-            openBuildModuleState.buildModuleShow=true;
-            return openBuildModuleState;
+            return {...state, buildModuleShow: true};
         case CLOSE_BUILD_MODULE:
-            const closeBuildModuleState=JSON.parse(JSON.stringify(state));
-            closeBuildModuleState.buildModuleShow=false;
-            return closeBuildModuleState;
+            return {...state, buildModuleShow: false};
         case FILTER_RESET:
-            const filterResetState=JSON.parse(JSON.stringify(state));
-            filterResetState.filterJudge["switch"]="0";
-            return filterResetState;
+            //todo:采用这种写法
+            let filterJudge = state.filterJudge;
+                filterJudge.switch = "0";
+            return {...state,filterJudge:filterJudge};
         case FILTER_UNDERWAY:
             const filterUnderWayState=JSON.parse(JSON.stringify(state));
-            filterUnderWayState.addMission.map((content,key)=>{
-               if (content.MissionStatus === "进行中"){
+            filterUnderWayState.addTask.map((content,key)=>{
+               if (content.taskStatus === "进行中"){
                    counter.push(key)
                }
-                filterUnderWayState.filterJudge={switch:"1",keyArray:counter}
             });
-            return filterUnderWayState;
+            let tempUnderWay=state.filterJudge;
+            tempUnderWay.switch="1";
+            tempUnderWay.keyArray=counter;
+            return {...state, filterJudge: tempUnderWay};
         case FILTER_FINISH:
             const filterFinishState=JSON.parse(JSON.stringify(state));
-            filterFinishState.addMission.map((content,key)=>{
-                if (content.MissionStatus === "已完成"){
+            filterFinishState.addTask.map((content,key)=>{
+                if (content.taskStatus === "已完成"){
                     counter.push(key)
                 }
-                filterFinishState.filterJudge={switch:"1",keyArray:counter}
             });
-            return filterFinishState;
+            let tempFinish=state.filterJudge;
+            tempFinish.switch="1";
+            tempFinish.keyArray=counter;
+            return {...state, filterJudge: tempFinish};
         case FILTER_DEV_MISSION:
             const filterDevMissionState=JSON.parse(JSON.stringify(state));
-            filterDevMissionState.addMission.map((content,key)=>{
-                if (content.MissionType === "开发任务"){
+            filterDevMissionState.addTask.map((content,key)=>{
+                if (content.taskType === "开发任务"){
                     counter.push(key)
                 }
-                filterDevMissionState.filterJudge={switch:"1",keyArray:counter}
             });
-            return filterDevMissionState;
+            let tempDev=state.filterJudge;
+            tempDev.switch="1";
+            tempDev.keyArray=counter;
+            return {...state, filterJudge: tempDev};
         case FILTER_OWN_MISSION:
             const filterOwnMissionState=JSON.parse(JSON.stringify(state));
-            filterOwnMissionState.addMission.map((content,key)=>{
-                if (content.MissionType === "个人任务"){
+            filterOwnMissionState.addTask.map((content,key)=>{
+                if (content.taskType === "个人任务"){
                     counter.push(key)
                 }
-                filterOwnMissionState.filterJudge={switch:"1",keyArray:counter}
             });
-            return filterOwnMissionState;
+            let tempOwn=state.filterJudge;
+            tempOwn.switch="1";
+            tempOwn.keyArray=counter;
+            return {...state, filterJudge: tempOwn};
         case FILTER_DEMAND_MISSION:
             const filterDemandMissionState=JSON.parse(JSON.stringify(state));
-            filterDemandMissionState.addMission.map((content,key)=>{
-                if (content.MissionType === "需求任务"){
+            filterDemandMissionState.addTask.map((content,key)=>{
+                if (content.taskType === "需求任务"){
                     counter.push(key)
                 }
-                filterDemandMissionState.filterJudge={switch:"1",keyArray:counter}
             });
-            return filterDemandMissionState;
+            let tempDemand=state.filterJudge;
+            tempDemand.switch="1";
+            tempDemand.keyArray=counter;
+            return {...state, filterJudge: tempDemand};
         case OPEN_BUILD_PLAN:
-            const openBuildPlanState=JSON.parse(JSON.stringify(state));
-            openBuildPlanState.buildPlanShow=true;
-            return openBuildPlanState;
+            return {...state, buildPlanShow: true};
         case CLOSE_BUILD_PLAN:
-            const closeBuildPlanState=JSON.parse(JSON.stringify(state));
-            closeBuildPlanState.buildPlanShow=false;
-            return closeBuildPlanState;
+            return {...state, buildPlanShow: false};
         case SAVE_BUILD_PLAN:
-            const saveBuildPlanState=JSON.parse(JSON.stringify(state));
-            saveBuildPlanState.addPlan.push(action.value);
-            return saveBuildPlanState;
+            let tempAddPlan=state.addPlan;
+            tempAddPlan.push(action.value);
+            return {...state, addPlan: tempAddPlan};
         case OPEN_BUILD_MISSION:
-            const openBuildMissionState=JSON.parse(JSON.stringify(state));
-            openBuildMissionState.buildMissionShow=true;
-            return openBuildMissionState;
+            return {...state, buildMissionShow: true};
         case OPEN_DETAIL_MISSION:
             const openDetailMissionState=JSON.parse(JSON.stringify(state));
             openDetailMissionState.detailMissionShow=true;
-            // console.log("這是後臺"+action.value);
-            openDetailMissionState.addMission.map((value,key)=>{
-                if (key===action.value){
+            let tempMissionDeatil=state.tempBoardToDetail;
+            openDetailMissionState.addTask.map((value,key)=>{
+                if (action.value===value.taskCode){
+                    //todo:这个地方missionId和keyNote之后要厘清
                     value["keyNote"]=action.value;
-                    openDetailMissionState.tempBoardToDetail=value
+                    /*openDetailMissionState.tempBoardToDetail=value*/
+                    tempMissionDeatil=value;
                 }
             });
-            return openDetailMissionState;
+            return {...state, detailMissionShow: true,tempBoardToDetail:tempMissionDeatil};
+        case OPEN_DETAIL_GOTEST:
+            const openDetailGoTestState=JSON.parse(JSON.stringify(state));
+            /*openDetailGoTestState.detailGoTestShow=true;*/
+            let tempDetailGotest=state.tempBoardToDetail;
+            openDetailGoTestState.addTask.map((value,key)=>{
+                if (action.value===value.taskCode){
+                    //todo:这个地方missionId和keyNote之后要厘清
+                    value["keyNote"]=action.value;
+                   /* openDetailGoTestState.tempBoardToDetail=value*/
+                    tempDetailGotest=value;
+                }
+            });
+            return {...state,detailGoTestShow:true,tempBoardToDetail:tempDetailGotest};
         case CLOSE_DETAIL_MISSION:
-            const closeDetailMissionState=JSON.parse(JSON.stringify(state));
-            closeDetailMissionState.detailMissionShow=false;
-            return closeDetailMissionState;
+            return {...state, detailMissionShow: false};
+        case CLOSE_DETAIL_GOTEST:
+            return {...state, detailGoTestShow: false};
         case CLOSE_BUILD_MISSION:
-            const closeBuildMissionState=JSON.parse(JSON.stringify(state));
-            closeBuildMissionState.buildMissionShow=false;
-            return closeBuildMissionState;
+            return {...state, buildMissionShow: false};
         case BUILD_SAVE_MISSION:
-            const saveBuildMissionState=JSON.parse(JSON.stringify(state));
-            saveBuildMissionState.addMission.push(action.value);
-            return saveBuildMissionState;
+            let tempSaveMission=state.addTask;
+            tempSaveMission.push(action.value);
+            return {...state, addTask: tempSaveMission};
+        case OPEN_DETAIL_INTEGRATION:
+            const openDetailIntegrationState=JSON.parse(JSON.stringify(state));
+           /* openDetailIntegrationState.detailIntegrationShow=true;*/
+            let tempIntegration=state.tempBoardToDetail;
+            openDetailIntegrationState.addTask.map((value,key)=>{
+                if (action.value===value.taskCode){
+                    //todo:这个地方missionId和keyNote之后要厘清
+                    value["keyNote"]=action.value;
+                    /*openDetailIntegrationState.tempBoardToDetail=value*/
+                    tempIntegration=value;
+                }
+            });
+            return {...state,detailIntegrationShow:true, tempBoardToDetail: tempIntegration};
+        case CLOSE_DETAIL_INTEGRATION:
+            return {...state, detailIntegrationShow: false};
+        case OPEN_DETAIL_OTHERMISSION:
+            const openOtherMissionState=JSON.parse(JSON.stringify(state));
+            /*openOtherMissionState.detailOtherMissionShow=true;*/
+            let tempOtherMission=state.tempBoardToDetail;
+            openOtherMissionState.addTask.map((value,key)=>{
+                if (action.value===value.taskCode){
+                    //todo:这个地方missionId和keyNote之后要厘清
+                    value["keyNote"]=action.value;
+                    /*openOtherMissionState.tempBoardToDetail=value*/
+                    tempOtherMission=value;
+                }
+            });
+            return {...state, detailOtherMissionShow: true,tempBoardToDetail:tempOtherMission};
+            return openOtherMissionState;
+        case CLOSE_DETAIL_OTHERMISSION:
+            return {...state, detailOtherMissionShow: false};
+        case OPEN_DETAIL_DEVMISSION:
+            const openDevMissionState=JSON.parse(JSON.stringify(state));
+            /*openDevMissionState.detailDevMissionShow=true;*/
+            let tempDevDetail=state.tempBoardToDetail;
+            openDevMissionState.addTask.map((value,key)=>{
+                if (action.value===value.taskCode){
+                    //todo:这个地方missionId和keyNote之后要厘清
+                    value["keyNote"]=action.value;
+                    /*openDevMissionState.tempBoardToDetail=value*/
+                    tempDevDetail=value
+                }
+            });
+            return {...state, detailDevMissionShow: true,tempBoardToDetail:tempDevDetail};
+        case CLOSE_DETAIL_DEVMISSION:
+            return {...state, detailDevMissionShow: false};
         case PULL_INITIAL_MISSION:
-            const initialMissionState = JSON.parse(JSON.stringify(state));
-            initialMissionState.initialData=action.payload;
-            initialMissionState.addMission=action.payload.tasks;
-            initialMissionState.demands=action.payload.demands;
-            return initialMissionState;
+            return {...state, initialData: action.payload,addTask:action.payload.tasks,demands:action.payload.demands};
         case OPEN_EDIT_MISSION:
-            const openEditMissionState=JSON.parse(JSON.stringify(state));
-            openEditMissionState.editMissionShow=true;
-            return openEditMissionState;
+            return {...state, editMissionShow: true};
         case CLOSE_EDIT_MISSION:
-            const closeEditMissionState=JSON.parse(JSON.stringify(state));
-            closeEditMissionState.editMissionShow=false;
-            return closeEditMissionState;
+            return {...state, editMissionShow: false};
         case EDIT_SAVE_MISSION:
             //todo:这里缺少对于edit的判断，注意修改
             const saveEditMissionState=JSON.parse(JSON.stringify(state));
-            console.log("試探：");
-            console.log(action.value.keyNote);
-            saveEditMissionState.addMission.map((content,key)=>{
+            saveEditMissionState.addTask.map((content,key)=>{
                 if (action.value.keyNote===key){
-                    saveEditMissionState.addMission[key]=action.value;
+                    saveEditMissionState.addTask[key]=action.value;
                     saveEditMissionState.tempBoardToDetail=action.value
                 }
             });

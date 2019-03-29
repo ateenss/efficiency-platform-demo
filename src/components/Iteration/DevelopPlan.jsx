@@ -131,7 +131,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={3}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="外部系统接口调整"
-                                            nameIn="ExternalSystemPortAdjust"
+                                            nameIn="externalSystemPortAdjust"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -168,7 +168,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="外部系统配套改造"
-                                            nameIn="ExternalSystemSetTransform"
+                                            nameIn="externalSystemSetTransform"
                                             onChange={this.getContent}
                                             content={content}
                             />

@@ -47,8 +47,8 @@ class EditMissionMain extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        //todo:这里面应该放入addMission，是数值放置错误，必须找到指定addMission
-        nextProps.addMission.map((content,key)=>{
+        //todo:这里面应该放入addTask，是数值放置错误，必须找到指定addTask
+        nextProps.addTask.map((content,key)=>{
             if (key===this.props.tempBoardToDetail.keyNote) {
                 this.setState({
                     missionContent:content
@@ -106,10 +106,10 @@ class EditMissionMain extends React.Component {
                     <Grid container spacing={8} >
                         <Grid item xs={8}>
                             <InputField
-                                nameIn="MissionName"
+                                nameIn="taskName"
                                 onChange={this.getContent}
                                 InputLabelName="任务名称"
-                                defaultValue={missionContent.MissionName}
+                                defaultValue={missionContent.taskName}
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -124,67 +124,67 @@ class EditMissionMain extends React.Component {
                             <SingleSelect
                                 onChange={this.getContent}
                                 InputLabelName="任务状态"
-                                nameIn="MissionStatus"
-                                nameArray={initialData.MissionStatus}
-                                defaultValue={missionContent.MissionStatus}/>
+                                nameIn="taskStatus"
+                                nameArray={initialData.taskStatus}
+                                defaultValue={missionContent.taskStatus}/>
 
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
                                 onChange={this.getContent}
                                 InputLabelName="任务类型"
-                                nameIn="MissionType"
-                                nameArray={initialData.MissionType}
-                                defaultValue={missionContent.MissionType}/>
+                                nameIn="taskType"
+                                nameArray={initialData.taskType}
+                                defaultValue={missionContent.taskType}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
                                 onChange={this.getContent}
                                 InputLabelName="任务级别"
-                                nameIn="MissionLevel"
-                                nameArray={initialData.MissionLevel}
-                                defaultValue={missionContent.MissionLevel}/>
+                                nameIn="missionLevel"
+                                nameArray={initialData.missionLevel}
+                                defaultValue={missionContent.missionLevel}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect
                                 onChange={this.getContent}
                                 InputLabelName="任务负责人"
-                                nameIn="MissionHead"
-                                nameArray={initialData.MissionHead}
-                                defaultValue={missionContent.MissionHead}
+                                nameIn="missionHead"
+                                nameArray={initialData.missionHead}
+                                defaultValue={missionContent.missionHead}
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
                                 onChange={this.getContent}
                                 InputLabelName="任务优先级"
-                                nameIn="MissionPriority"
-                                nameArray={initialData.MissionPriority}
-                                defaultValue={missionContent.MissionPriority}
+                                nameIn="missionPriority"
+                                nameArray={initialData.missionPriority}
+                                defaultValue={missionContent.missionPriority}
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect
                                 onChange={this.getContent}
                                 InputLabelName="关联版本"
-                                nameIn="AssociatedVersion"
-                                nameArray={initialData.AssociatedVersion}
-                                defaultValue={missionContent.AssociatedVersion}/>
+                                nameIn="associatedVersion"
+                                nameArray={initialData.associatedVersion}
+                                defaultValue={missionContent.associatedVersion}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker
-                                nameIn="MissionDeadLine"
+                                nameIn="taskDeadLine"
                                 InputLabelName="截止时间"
                                 onDateChange={this.getContent}
-                                defaultValue={missionContent.MissionDeadLine}/>
+                                defaultValue={missionContent.taskDeadLine}/>
                         </Grid>
 
                         <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
-                                nameIn="EstimateWorkHours"
+                                nameIn="estimateWorkHours"
                                 onChange={this.getContent}
                                 InputLabelName="预估投入工时"
-                                defaultValue={missionContent.EstimateWorkHours}
+                                defaultValue={missionContent.estimateWorkHours}
                             />
                         </Grid>
 
@@ -227,7 +227,7 @@ const mapStateToProps = (state) => {
     return {
         initialData:state.reducer.buildMission.initialData,
         editMissionShow:state.reducer.buildMission.editMissionShow,
-        addMission:state.reducer.buildMission.addMission,
+        addTask:state.reducer.buildMission.addTask,
     }
 };
 

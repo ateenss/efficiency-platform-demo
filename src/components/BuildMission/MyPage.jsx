@@ -44,13 +44,14 @@ class MyPage extends React.Component {
     render() {
         const {classes, demands,tempBoardToDetail} = this.props;
         let demandsComponents = !demands ? "" : demands.map((prop, key) => {
-                let taskGroup = prop.tasks ? prop.tasks : "";
+                let taskGroup = prop.taskDetailList ? prop.taskDetailList : "";
                 return (
-                    <Demand key={key} demandName={prop.demandName} demandOwner={prop.demandOwner} expanded={true}
+                    <Demand key={key} taskName={prop.taskName} taskOwner={prop.taskOwner} expanded={true}
                             develop={taskGroup.develop ? taskGroup.develop : ""}
                             plan={taskGroup.plan ? taskGroup.plan : ""}
-                            jointTrial={taskGroup.jointTrial ? taskGroup.jointTrial : ""}
-                            test={taskGroup.test ? taskGroup.test : ""}
+                            integration={taskGroup.integration ? taskGroup.integration : ""}
+                            goTest={taskGroup.goTest ? taskGroup.goTest : ""}
+                            finish={taskGroup.finish ? taskGroup.finish : ""}
                             tempBoardToDetail={tempBoardToDetail}
                     />
                 )

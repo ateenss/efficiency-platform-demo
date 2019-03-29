@@ -20,8 +20,9 @@ import EditQuill from "../SelfComponent/EditQuill"
 import {closeTaskEdit,
     changeStatusToPlan,
     changeStatusToDev,
-    changeStatusToJointTrial,
-    changeStatusToJointTest,
+    changeStatusToIntegration,
+    changeStatusToGoTest,
+    changeStatusToFinish,
     saveTaskEditor} from "../../actions/BuildMissionAction"
 import InputField from "../SelfComponent/InputField"
 import DatePicker from "../SelfComponent/DatePicker"
@@ -152,7 +153,8 @@ class TaskEditor extends React.Component {
     onSubmit = () => {
         /*saveTask(this.state.data);*/
         const funcArray=[{name:"方案",func:changeStatusToPlan},{name:"开发",func:changeStatusToDev},
-            {name:"联调",func:changeStatusToJointTrial},{name:"提测",func:changeStatusToJointTest}];
+            {name:"持续集成",func:changeStatusToIntegration},{name:"走查",func:changeStatusToGoTest},
+        {name:"完成",func:changeStatusToFinish}];
         saveTaskEditor({status:this.state.moduleContent.ModuleStatus,id:this.state.taskID,funcArray:funcArray});
         store.dispatch(closeTaskEdit())
     };
@@ -181,26 +183,6 @@ class TaskEditor extends React.Component {
                     <DialogContent className={classes.dialogContainer}>
                         <Grid container spacing={16}>
                             <Grid xs={8} item>
-                                {/*<TigerInput
-                                    id="outlined-name"
-                                    label="任务名称"
-                                    value={this.state.data.taskName}
-                                    margin="normal"
-                                    fullWidth
-                                    InputProps={{
-                                        classes: {
-                                            input: classes.taskInput,
-                                        },
-                                        name:"taskName"
-                                    }
-                                    }
-                                    InputLabelProps={{
-                                        classes: {
-                                            root: classes.taskLabel,
-                                        }
-                                    }}
-                                    onChange={this.handleInput}
-                                />*/}
                                 <InputField
                                     InputLabelName="任务名称"
                                     onChange={this.getContent}
@@ -210,25 +192,6 @@ class TaskEditor extends React.Component {
                                 />
                             </Grid>
                             <Grid xs={4} item>
-                                {/*<TigerInput
-                                    id="outlined-name"
-                                    label="负责人"
-                                    value={this.state.data.taskName}
-                                    margin="normal"
-                                    fullWidth
-                                    InputProps={{
-                                        classes: {
-                                            input: classes.taskInput,
-                                        },
-                                        name:"taskOwner"
-                                    }
-                                    }
-                                    InputLabelProps={{
-                                        classes: {
-                                            root: classes.taskLabel,
-                                        }
-                                    }}
-                                />*/}
                                 <InputField
                                     InputLabelName="负责人"
                                     onChange={this.getContent}
@@ -236,10 +199,10 @@ class TaskEditor extends React.Component {
                                 />
                             </Grid>
                             <Grid xs={4} item>
-                                <DatePicker nameIn="DemandAcceptTime" InputLabelName="任务开始时间" onDateChange={this.getContent}/>
+                                <DatePicker nameIn="demandAcceptTime" InputLabelName="任务开始时间" onDateChange={this.getContent}/>
                             </Grid>
                             <Grid xs={4} item>
-                                <DatePicker nameIn="DemandAcceptTime" InputLabelName="任务结束时间" onDateChange={this.getContent}/>
+                                <DatePicker nameIn="demandAcceptTime" InputLabelName="任务结束时间" onDateChange={this.getContent}/>
                             </Grid>
                             <Grid xs={4} item>
                                 <SingleSelect

@@ -23,7 +23,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import SimpleListMenu from "../common/SimpleListMenu";
 import Grid from "@material-ui/core/Grid";
 import {connect} from "react-redux";
-import {openTaskEdit} from "../../actions/BuildMissionAction"
+import {openTaskEdit,openAssignGoTest} from "../../actions/BuildMissionAction"
 import TaskEditor from "./TaskEditor";
 
 
@@ -71,6 +71,16 @@ const options = [
                 changeTaskStatus(id);
             }
         }*/
+    {
+        name:"进行走查",
+        func:function (id) {
+            //todo:
+            console.log("进行验证");
+            console.log(id);
+            store.dispatch(openAssignGoTest(id))
+
+        }
+    }
 
     ]
 ;

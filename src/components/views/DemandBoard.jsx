@@ -23,6 +23,7 @@ import deepOrange from '@material-ui/core/colors/deepOrange';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
@@ -51,8 +52,8 @@ const styles = theme => ({
 const columns = [{name:"序号", options:{filter:true}},
     {name:"需求编号", options:{filter:false}},
     {name:"需求名称", options:{filter:false}},
-    {name:"需求负责人", options:{filter:true}},
-    {name:"需求状态", options:{filter:true}},
+    {name:"需求负责人", options:{filter:false}},
+    {name:"需求状态", options:{filter:false}},
     {name:"开发负责人"},
     {name:"关联版本"},
     {name:"需求来源部门"},
@@ -64,6 +65,7 @@ let selectedValue=0;
 const options = {
     filterType: 'checkbox',
     print: false,
+    sort:false,
     onRowsSelect: function (currentRowsSelected, allRowsSelected) {
         console.log(333);
     },
@@ -115,6 +117,30 @@ class TaskBoard extends React.Component {
         console.log(this.state.initialTable)
     }
 
+    getMuiTheme = () => createMuiTheme({
+        overrides: {
+            MuiPaper: {
+                root: {
+                    boxShadow: "none !important"
+                }
+            },
+            MUIDataTableBodyCell: {
+                root: {
+                    backgroundColor: "#FFF",
+                    width: "600px"
+                }
+            },
+            /*MUIDataTableHeadCell: {
+                root: {
+                    '&:nth-child(2)': {
+                        width: "500px"
+                    }
+                }
+            }*/
+        }
+    });
+
+
     openDemand=e=>{
         store.dispatch(openBuildDemand());
         e.stopPropagation();
@@ -145,15 +171,15 @@ class TaskBoard extends React.Component {
 
             inArray.push((key+initialTableLength+1).toString());
             /*inArray.push((2).toString());*/
-            inArray.push(value["BusinessNum"]);
-            inArray.push(value["DemandName"]);
-            inArray.push(value["DemandDemHead"]);
-            inArray.push(value["DemandStatus"]);
-            inArray.push(value["DemandDevHead"]);
-            inArray.push(value["AssociatedVersion"]);
-            inArray.push(value["DemandFromDepart"]);
-            inArray.push(value["DemandPassStartTime"]);
-            inArray.push(value["WithUAT"]);
+            inArray.push(value["businessNum"]);
+            inArray.push(value["taskName"]);
+            inArray.push(value["demandDemHead"]);
+            inArray.push(value["demandStatus"]);
+            inArray.push(value["demandDevHead"]);
+            inArray.push(value["associatedVersion"]);
+            inArray.push(value["demandFromDepart"]);
+            inArray.push(value["demandPassStartTime"]);
+            inArray.push(value["withUAT"]);
             outArray.push(inArray);
             inArray=[]
         });
@@ -202,12 +228,14 @@ class TaskBoard extends React.Component {
                     </div>
                 </Grid>
                 <Grid item xs={12}>
+                    <MuiThemeProvider theme={this.getMuiTheme()}>
                         <MUIDataTable
                             title={"需求列表"}
                             data={dynamicAddReuslt}
                             columns={columns}
                             options={options}
                         />
+                    </MuiThemeProvider>
 
                 </Grid>
                 <BuildDemandMain

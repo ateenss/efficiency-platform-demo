@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import MUIDataTable from "mui-datatables";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+// import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import Typography from "@material-ui/core/Typography";
 import CustomToolBar4DemandList from '../Iteration/CustomToolBar4DemandList';
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 const styles = theme => ({});
 /**
@@ -82,13 +82,20 @@ class DemandsList extends React.Component {
 
     };
 
+
     getMuiTheme = () => createMuiTheme({
         overrides: {
             MuiPaper: {
                 root: {
                     boxShadow: "none !important"
                 }
-            }
+            },
+            MUIDataTableBodyCell: {
+                root: {
+                    backgroundColor: "#FFF",
+                    width: "100px"
+                }
+            },
         }
     });
 

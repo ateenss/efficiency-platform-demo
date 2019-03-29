@@ -33,40 +33,40 @@
 
  名称  | 功能 | 备注 |
 | --- | --- |  --- |
-|ProjectID|项目编号|系统自动生成
-|ProjectName|项目名称|
-|ProjectType|项目类型|业务需求项目，系统架构优化
-|ProjectMembers|项目成员|从团队成员中选择
-|ProjectHead|项目负责人|从团队成员中选择
-|ProjectStartTime|项目开始时间|
-|ProjectEndTime|项目结束时间|
-|ProjectBuildTime|项目创建时间|
-|ProjectStatus|项目状态|未开始，进行中，已开始
-|ProjectDescription|项目描述|
+|projectID|项目编号|系统自动生成
+|projectName|项目名称|
+|projectType|项目类型|业务需求项目，系统架构优化
+|projectMembers|项目成员|从团队成员中选择
+|projectHead|项目负责人|从团队成员中选择
+|projectStartTime|项目开始时间|
+|projectEndTime|项目结束时间|
+|projectBuildTime|项目创建时间|
+|projectStatus|项目状态|未开始，进行中，已开始
+|projectDescription|项目描述|
 
 `EditProjectMain`
 
  名称  | 功能 | 备注 |
 | --- | --- |  --- |
-|ProjectID|项目编号|系统自动生成
-|ProjectName|项目名称|
-|ProjectType|项目类型|业务需求项目，系统架构优化
-|ProjectMembers|项目成员|从团队成员中选择
-|ProjectHead|项目负责人|从团队成员中选择
-|ProjectStartTime|项目开始时间|
-|ProjectEndTime|项目结束时间|
-|ProjectBuildTime|项目创建时间|
-|ProjectStatus|项目状态|未开始，进行中，已开始
+|projectID|项目编号|系统自动生成
+|projectName|项目名称|
+|projectType|项目类型|业务需求项目，系统架构优化
+|projectMembers|项目成员|从团队成员中选择
+|projectHead|项目负责人|从团队成员中选择
+|projectStartTime|项目开始时间|
+|projectEndTime|项目结束时间|
+|projectBuildTime|项目创建时间|
+|projectStatus|项目状态|未开始，进行中，已开始
 
 `项目概览`
 
  名称  | 功能 | 备注 |
 | --- | --- |  --- |
-|ProjectID|查看项目负责人|
-|ProjectID|查看包含的需求|按照不同阶段分别显示
-|ProjectID|包含的版本数|
-|ProjectID|任务数|
-|ProjectID|项目成员|
+|projectID|查看项目负责人|
+|projectID|查看包含的需求|按照不同阶段分别显示
+|projectID|包含的版本数|
+|projectID|任务数|
+|projectID|项目成员|
 ---
 
 #### `二.需求管理`
@@ -85,25 +85,25 @@
 
 | 名称  | 功能 | 备注 |
 | --- | --- |  --- |
-|DemandID|需求ID|自动生成
-|BusinessNum|业务编号|
-|DemandName|需求名称|
-|DemandType|需求类型|下拉框：外部需求，内部需求
-|DemandAcceptTime|需求受理时间|需求关联版本后自动更新为当前时间
-|DemandStatus|需求状态|下拉框：未评审、评审通过、评审未通过、已提测、已发布、已上线
-|DemandMember|需求人员|从用户信息中选取，也可以输入sysnew账号模糊匹配
-|DemandScale|需求规模|下拉框：小型、中型、大型，默认是小型
-|DemandPriority|需求优先级|下拉框：p1\p2\p3,默认是p3
-|AssociatedVersion|关联版本|从版本信息中选取
-|DemandPassTime|需求评审通过时间|状态为评审通过后自动填入
-|ExternalSys|涉及外部系统|
-|WithBM|是否涉及BM控制台|checkbox
-|WithUAT|是否需要UAT|checkbox
-|DemandFromDepart|需求来源部门|
-|DemandNote|需求备注|
-|DemandDevHead|需求分派开发负责人|从用户信息中查找，也可以输入sysnew账号模糊匹配
-|BusinessTrack|是否业务量跟踪|
-|TrafficStatic|业务量统计方式|
+|demandID|需求ID|自动生成
+|businessNum|业务编号|
+|taskName|需求名称|
+|demandType|需求类型|下拉框：外部需求，内部需求
+|demandAcceptTime|需求受理时间|需求关联版本后自动更新为当前时间
+|demandStatus|需求状态|下拉框：未评审、评审通过、评审未通过、已提测、已发布、已上线
+|demandMember|需求人员|从用户信息中选取，也可以输入sysnew账号模糊匹配
+|demandScale|需求规模|下拉框：小型、中型、大型，默认是小型
+|demandPriority|需求优先级|下拉框：p1\p2\p3,默认是p3
+|associatedVersion|关联版本|从版本信息中选取
+|demandPassTime|需求评审通过时间|状态为评审通过后自动填入
+|externalSys|涉及外部系统|
+|withBM|是否涉及BM控制台|checkbox
+|withUAT|是否需要UAT|checkbox
+|demandFromDepart|需求来源部门|
+|demandNote|需求备注|
+|demandDevHead|需求分派开发负责人|从用户信息中查找，也可以输入sysnew账号模糊匹配
+|businessTrack|是否业务量跟踪|
+|trafficStatic|业务量统计方式|
 
 ---
 ##### `后续生成属性`
@@ -117,7 +117,7 @@
 |UpdatePerson|更新人|
 |ContinuousTestResult|持续集成测试结果|
 |AssociatedDoc|关联研发文档|开发方案、持续集成案例、上线检查表
-|ProjectID|项目ID|
+|projectID|项目ID|
 |OrganizeID|组织架构ID|
 
 ---
@@ -153,25 +153,25 @@
 
 | 名称  | 功能 | 备注 |
 | --- | --- |  --- |
-|BusinessNum|业务编号|
-|DemandName|需求名称|
-|DemandType|需求类型|
+|businessNum|业务编号|
+|taskName|需求名称|
+|demandType|需求类型|
 |DemandAcceptStartTime|需求受理查询起始时间|
 |DemandAcceptEndTime|需求受理查询结束时间|
-|DemandStatus|需求状态|
-|DemandScale|需求规模|
-|DemandPriority|需求优先级|
-|AssociatedVersion|关联版本|
-|DemandPassStartTime|需求评审通过查询起始时间|
-|DemandPassEndTime|需求评审通过查询结束时间|
-|DemandDemHead|需求负责人|
-|DemandDevHead|开发负责人|
-|WithBM|是否涉及BM控制台|
-|WithUAT|是否需要UAT|
-|WithCheck|是否已走查|
-|WithProductChildTask|是否生成子任务|
-|WithChildDemand|是否子需求|
-|WithPlanReview|是否完成方案评审|
+|demandStatus|需求状态|
+|demandScale|需求规模|
+|demandPriority|需求优先级|
+|associatedVersion|关联版本|
+|demandPassStartTime|需求评审通过查询起始时间|
+|demandPassEndTime|需求评审通过查询结束时间|
+|demandDemHead|需求负责人|
+|demandDevHead|开发负责人|
+|withBM|是否涉及BM控制台|
+|withUAT|是否需要UAT|
+|withCheck|是否已走查|
+|withProductChildTask|是否生成子任务|
+|withChildDemand|是否子需求|
+|withPlanReview|是否完成方案评审|
 
 ---
 #### `需求筛选2`
@@ -195,15 +195,15 @@
 
 | 名称  | 功能 | 备注 |
 | --- | --- |  --- |
-|BusinessNum|业务编号|
-|DemandName|需求名称|
-|DemandType|需求类型|
-|DemandStatus|需求状态|
-|DemandPriority|需求优先级|
-|AssociatedVersion|关联版本|
-|DemandDevHead|开发负责人|
-|WithBM|是否涉及BM控制台|
-|WithUAT|是否UAT|
+|businessNum|业务编号|
+|taskName|需求名称|
+|demandType|需求类型|
+|demandStatus|需求状态|
+|demandPriority|需求优先级|
+|associatedVersion|关联版本|
+|demandDevHead|开发负责人|
+|withBM|是否涉及BM控制台|
+|withUAT|是否UAT|
 *****
 #### 单条需求数据查看
 *****
@@ -233,21 +233,21 @@
 | 名称  | 功能 | 备注 |
 | --- | --- |  --- |
 |MissionID|任务ID|
-|MissionName|任务名称|
-|BelongProject|所属项目|已有项目选择
-|MissionType|任务类型|下拉框：需求评审任务，需求开发任务，上线任务，个人其他任务
-|MissionLevel|任务级别|总任务，子任务
-|MissionHead|任务负责人|
-|MissionPriority|优先级|高、普通、默认、低
+|taskName|任务名称|
+|belongProject|所属项目|已有项目选择
+|taskType|任务类型|下拉框：需求评审任务，需求开发任务，上线任务，个人其他任务
+|missionLevel|任务级别|总任务，子任务
+|missionHead|任务负责人|
+|missionPriority|优先级|高、普通、默认、低
 |MissionDescription|任务描述|
-|MissionDeadLine|截止时间|默认填写提测时间，日历框
-|InvolveModule|涉及模块|
-|AssociatedVersion|关联版本|
-|AssociatedDemand|关联需求|
-|AssociatedMission|关联任务|
-|EstimateWorkHours|预估投入工时|
-|ModulePushHead|模块提交负责人|
-|BranchTag|模块branchtag号|
+|taskDeadLine|截止时间|默认填写提测时间，日历框
+|involveModule|涉及模块|
+|associatedVersion|关联版本|
+|associatedDemand|关联需求|
+|associatedMission|关联任务|
+|estimateWorkHours|预估投入工时|
+|modulePushHead|模块提交负责人|
+|branchTag|模块branchtag号|
 
 `备注：新建任务类型只能是个人任务`
 

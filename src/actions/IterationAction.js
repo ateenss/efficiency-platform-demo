@@ -22,9 +22,9 @@ const config = {
     inCharset: "utf-8",
     outCharset: "utf-8"
 };
-export const GET_RECENT = 'http://localhost:8080/tiger-admin/iteration/getRecentIterations';
-export const GET_BY_CODE = 'http://localhost:8080/tiger-admin/iteration/get';
-export const SAVE = 'http://localhost:8080/tiger-admin/iteration/save';
+export const GET_RECENT = 'http://127.0.0.1:8080/tiger-admin/iteration/getRecentIterations';
+export const GET_BY_CODE = 'http://127.0.0.1:8080/tiger-admin/iteration/get';
+export const SAVE = 'http://127.0.0.1:8080/tiger-admin/iteration/save';
 
 
 export function init(doAfterInit) {
@@ -305,8 +305,8 @@ export function getDevelopPlan(id) {
         DatabaseModifyPoint: "2443",
         DeploymentRequireAdjust: "4",
         DisasterImpactAssessment: "43",
-        ExternalSystemPortAdjust: "234",
-        ExternalSystemSetTransform: "342",
+        externalSystemPortAdjust: "234",
+        externalSystemSetTransform: "342",
         FiveHighImpact: "234",
         InternalSubSystemPortAdjust: "34",
         IsOrNotSupportGrayScale: "34",

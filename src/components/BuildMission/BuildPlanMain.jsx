@@ -142,7 +142,7 @@ class BuildPlanMain extends React.Component {
                                 <Grid item xs={3}>
                                     <MultiLineInput fullWidth
                                                     InputLabelName="外部系统接口调整"
-                                                    nameIn="ExternalSystemPortAdjust"
+                                                    nameIn="externalSystemPortAdjust"
                                                     onChange={this.getContent}
                                     />
                                 </Grid>
@@ -174,7 +174,7 @@ class BuildPlanMain extends React.Component {
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="外部系统配套改造"
-                                        nameIn="ExternalSystemSetTransform"
+                                        nameIn="externalSystemSetTransform"
                                         onChange={this.getContent}
                                     />
                                 </Grid>

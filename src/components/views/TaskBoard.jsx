@@ -33,11 +33,13 @@ import {
     filterDoDevMission,
     filterDoOwnMission,
     filterReset,
-    pullBuildMissionInitial
+    init
 } from "../../actions/BuildMissionAction"
-import BuildMissionMain from "../BuildMission/BuildMissionMain"
 import MissionDetailMain from "../BuildMission/MissionDetailMain"
-
+import IntegrationPage from "../BuildMission/IntegrationPage"
+import GoTestPage from "../BuildMission/GoTestPage";
+import OtherMissionPage from "../BuildMission/OtherMissionPage"
+import DevMissionPage from "../BuildMission/DevMissionPage"
 
 const styles = theme => ({
     root: {
@@ -64,63 +66,15 @@ const styles = theme => ({
     toolbar: {
         alignItems: 'center',
         justifyContent: 'space-between',
+        position:"absolute",
+        right:0
     },
     chip:{
         border:"1px solid #cecece"
     }
 });
 
-const tasks = [{
-    taskId: '1',
-    taskNo: '2018-23-34',
-    taskName: "30天从入门到放弃",
-    taskStatus: "进行中",
-    taskType: "需求任务"
-}, {
-    taskId: '2',
-    taskNo: '2018-23-33',
-    taskName: "30天学不会react",
-    taskStatus: "进行中",
-    taskType: "开发任务"
-}, {
-    taskId: '3',
-    taskNo: '2018-23-33',
-    taskName: "到底能不能学会",
-    taskStatus: "进行中",
-    taskType: "开发任务"
-}, {
-    taskId: '4',
-    taskNo: '2018-23-33',
-    taskName: "不能啊",
-    taskStatus: "进行中",
-    taskType: "开发任务"
-}, {
-    taskId: '5',
-    taskNo: '2018-23-33',
-    taskName: "不能啊",
-    taskStatus: "进行中",
-    taskType: "开发任务"
-}, {
-    taskId: '6',
-    taskNo: '2018-23-33',
-    taskName: "到底能不能学会",
-    taskStatus: "进行中",
-    taskType: "开发任务"
-}, {
-    taskId: '7',
-    taskNo: '2018-23-33',
-    taskName: "不能啊",
-    taskStatus: "进行中",
-    taskType: "开发任务"
-}, {
-    taskId: '8',
-    taskNo: '2018-23-33',
-    taskName: "不能啊",
-    taskStatus: "进行中",
-    taskType: "开发任务"
-}
 
-];
 
 
 class TaskBoard extends React.Component {
@@ -199,9 +153,14 @@ class TaskBoard extends React.Component {
         store.dispatch(filterReset());
     };
 
+    componentDidMount() {
+        init()
+    }
+
+
     render() {
-        const {classes,buildMissionShow,addMission,initialData,filterJudge} = this.props;
-        /*let taskComponents = addMission.map((prop, key) => {
+        const {classes,buildMissionShow,addTask,initialData,filterJudge} = this.props;
+        /*let taskComponents = addTask.map((prop, key) => {
             return (
                 <Task key={prop.taskId} taskNo={prop.taskNo} taskName={prop.taskName} taskStatus={prop.taskStatus}
                       taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, prop.taskId)}} detailFunc={(e) => {this.handleDetail(e, prop.taskId)}}/>
@@ -209,19 +168,19 @@ class TaskBoard extends React.Component {
         });*/
         let tempContent=[];
         if (filterJudge.switch==="1"){
-            addMission.map((content,key)=>{
+            addTask.map((content,key)=>{
                 if(filterJudge.keyArray.indexOf(key)>=0){
                     tempContent.push(content)
                 }
             })
         }else{
-            tempContent=addMission
+            tempContent=addTask
         }
 
         let newTaskComponents=tempContent.map((prop,key)=>{
             return (
-                <Task key={key} keyNote={key} taskNo={prop.MissionDeadLine} taskName={prop.MissionName} taskStatus={prop.MissionStatus}
-                        taskType={prop.MissionType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>
+                <Task key={key} keyNote={prop.taskCode} taskNo={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus}
+                        taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>
 
             )
         });
@@ -275,7 +234,6 @@ class TaskBoard extends React.Component {
                                           style={{background: "#FFFFFF", color: "#121212"}}/>
                                 </Badge>
                             </Grid>
-                            <Grid item xs={8}></Grid>
                             <Grid item xs={2}>
                                 <Toolbar variant="regular" className={classes.toolbar}>
                                     {/*<Button onClick={this.toggleDrawer('right', true)}>新建</Button>*/}
@@ -304,11 +262,11 @@ class TaskBoard extends React.Component {
                         </div>
                     </Drawer>
                 </div>
-                <BuildMissionMain
-                    open={buildMissionShow}
-                    onClose={this.handleClickClose}
-                />
                 <MissionDetailMain/>
+                <IntegrationPage/>
+                <GoTestPage/>
+                <OtherMissionPage/>
+                <DevMissionPage/>
             </Grid>
         )
     }
@@ -322,7 +280,7 @@ const
             demands: state.reducer.task.demands,
             buildMissionShow: state.reducer.buildMission.buildMissionShow,
             editMissionShow: state.reducer.buildMission.editMissionShow,
-            addMission: state.reducer.buildMission.addMission,
+            addTask: state.reducer.buildMission.addTask,
             initialData: state.reducer.buildMission.initialData,
             filterJudge: state.reducer.buildMission.filterJudge
         }

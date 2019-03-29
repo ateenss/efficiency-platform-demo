@@ -1,4 +1,7 @@
 import store from '../stores/index';
+import axios from 'axios';
+import UrlConf from '../constants/UrlConf'
+import RequestBuilder from '../constants/RequestBuilder'
 import {
     OPEN_BUILD_MISSION,
     CLOSE_BUILD_MISSION,
@@ -25,14 +28,44 @@ import {
     CLOSE_TASK_EDITOR,
     CHANGE_STATUS_TO_PLAN,
     CHANGE_STATUS_TO_DEV,
-    CHANGE_STATUS_TO_JOINTTRIAL,
+    CHANGE_STATUS_TO_INTEGRATION,
     CHANGE_STATUS_TO_TEST,
-    SAVE_TASK_EDITOR
+    SAVE_TASK_EDITOR,
+    CHANGE_STATUS_TO_FINISH,
+    OPEN_DETAIL_GOTEST,
+    CLOSE_DETAIL_GOTEST,
+    SAVE_DETIAL_GOTEST,
+    OPEN_DETAIL_INTEGRATION,
+    CLOSE_DETAIL_INTEGRATION,
+    SAVE_DETIAL_INTEGRATION,
+    OPEN_DETAIL_OTHERMISSION,
+    CLOSE_DETAIL_OTHERMISSION,
+    SAVE_DETAIL_OTHERMISSION,
+    OPEN_DETAIL_DEVMISSION,
+    CLOSE_DETAIL_DEVMISSION,
+    SAVE_DETAIL_DEVMISSION,
+    OPEN_ASSIGN_GOTEST,
+    CLOSE_ASSIGN_GOTEST,
+    DO_ASSIGN_GOTEST,
+    GET_MYTASK_INFO,
+    GET_TASK_DETAIL_INFO
 } from './types';
+
 
 /*!!this.props.funcArray&&this.props.funcArray.map((value,key)=>{
     value.name===event.target.value&&store.dispatch(value.func(this.props.giveContent))
 });*/
+
+export const getMyTaskInfo=value=>({
+    type:GET_MYTASK_INFO,
+    value
+});
+
+export const getDemandTaskDetailInfo=value=>({
+    type: GET_TASK_DETAIL_INFO,
+    value
+});
+
 
 export const saveTaskEditor=content=>{
     /*console.log("testahhahahahahhah");*/
@@ -45,11 +78,83 @@ export const saveTaskEditor=content=>{
     });
     store.dispatch(saveEditorSelf());
 };
+export const openAssignGoTest=value=>({
+    type: OPEN_ASSIGN_GOTEST,
+    value
+});
+
+export const closeAssignGoTest=value=>({
+    type: CLOSE_ASSIGN_GOTEST,
+    value
+});
+
+export const doAssignGoTest=value=>({
+    type:DO_ASSIGN_GOTEST,
+    value
+});
+
+
+export const openDevMissionDetail=value=>({
+    type: OPEN_DETAIL_DEVMISSION,
+    value
+});
+
+export const closeDevMissionDetail=()=>({
+    type: CLOSE_DETAIL_DEVMISSION
+});
+
+export const saveDevMissionDetail=()=>({
+    type: SAVE_DETAIL_DEVMISSION
+});
+
+
+export const openOtherMissionDetail=value=>({
+    type: OPEN_DETAIL_OTHERMISSION,
+    value
+});
+
+export const closeOtherMissionDetail=()=>({
+    type: CLOSE_DETAIL_OTHERMISSION
+});
+
+export const saveOtherMissionDetail=()=>({
+    type: SAVE_DETAIL_OTHERMISSION
+});
+
+export const openGoTestDetail=value=>({
+    type: OPEN_DETAIL_GOTEST,
+    value
+});
+
+export const closeGoTestDetail=()=>({
+    type: CLOSE_DETAIL_GOTEST
+});
+
+export const saveGoTestDetail=()=>({
+    type: SAVE_DETIAL_GOTEST
+});
+
+export const openIntegrationDetail=value=>({
+    type: OPEN_DETAIL_INTEGRATION,
+    value
+});
+
+export const closeIntegrationDetail=()=>({
+    type: CLOSE_DETAIL_INTEGRATION
+});
+
+export const saveIntegrationDetail=()=>({
+    type: SAVE_DETIAL_INTEGRATION
+});
 
 const saveEditorSelf=()=>({
     type: SAVE_TASK_EDITOR
 });
 
+export const changeStatusToFinish=value=>({
+    type:CHANGE_STATUS_TO_FINISH,
+    value
+});
 
 export const changeStatusToPlan=value=>({
     type:CHANGE_STATUS_TO_PLAN,
@@ -61,12 +166,12 @@ export const changeStatusToDev=value=>({
     value
 });
 
-export const changeStatusToJointTrial=value=>({
-    type:CHANGE_STATUS_TO_JOINTTRIAL,
+export const changeStatusToIntegration=value=>({
+    type:CHANGE_STATUS_TO_INTEGRATION,
     value
 });
 
-export const changeStatusToJointTest=value=>({
+export const changeStatusToGoTest=value=>({
     type:CHANGE_STATUS_TO_TEST,
     value
 });
@@ -167,103 +272,175 @@ export  const editSaveMissionDispatch=(value)=>({
     value
 });
 
-export function pullBuildMissionInitial(){
-    const send_edit_data = '需要填写后台地址';
+export function init() {
+    const send_edit_data = 'http://127.0.0.1:8080/tiger-admin/task/getMyTaskInfo';
     const config = {
         method: 'post'
     };
-    //todo:正常向后台要数据的时候，才把这些数据写进去，目前这个初始化调用是放在Project里面
-    /*axios.post(send_edit_data, {"version": "1.0", "data": "BuildProjectInitial"},config)
+
+    let accessToken = localStorage.getItem("token");
+    console.log("这是accessToken");
+    // console.log(localStorage);
+    console.log(accessToken);
+    let request = RequestBuilder.parseRequest(accessToken);
+    return axios.post(send_edit_data, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
-                store.dispatch({
+                let data = response.data.data;
+                console.log("已经成功");
+                console.log(response.data.data);
+                store.dispatch(getMyTaskInfo(data));
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+
+}
+
+export function getDemandTaskDetail(taskId) {
+    const send_edit_data = 'http://127.0.0.1:8080/tiger-admin/task/getDemandTaskDetail';
+    const config = {
+        method: 'post'
+    };
+
+    console.log("内部详情成功启动");
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,{taskId});
+    return axios.post(send_edit_data, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                console.log("内部详情已经成功");
+                console.log(response.data.data);
+                store.dispatch(getDemandTaskDetailInfo(data));
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+
+}
+
+
+export function pullBuildMissionInitial(){
+   /* const send_edit_data = 'http://127.0.0.1:8080/tiger-admin/task/getMyTaskInfo';
+    const config = {
+        method: 'post'
+    };
+    return axios.post(send_edit_data, {"version": "1.0"},config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                /!*store.dispatch({
                     type: "save_success",
                 });
                 store.dispatch({
                     type:"pull_initial_project",
                     payload:InitialData
-                })
+                })*!/
+                console.log("已经成功");
+                console.log(response);
             }else{
-                store.dispatch({
+                /!*store.dispatch({
                     type: "save_fail",
-                });
+                });*!/
+                console.log("没能拿到数据")
             }
         }).catch(error => {
         console.log("后台提取数据出现问题"+error);
-        store.dispatch({
+        /!*store.dispatch({
             type: "save_error",
-        });
+        });*!/
     });*/
     //以下是mock数据
     const rand=Math.floor(Math.random()*40)+1;
     const InitialData={
-        BelongProject:["项目1","项目2","项目3","项目4"],
-        MissionType:["需求评审任务","需求开发任务","上线任务","个人其他任务"],
-        MissionLevel:["总任务","子任务"],
-        MissionHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
-        MissionPriority:["高","普通","默认","低"],
-        AssociatedVersion:["49.1","49.2","49.3","49.4"],
-        InvolveModule:["模块1","模块2","模块3","模块4"],
-        AssociatedDemand:["需求1","需求2","需求3","需求4"],
-        AssociatedMission:["任务1","任务2","任务3","任务4"],
-        ModulePushHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
-        MissionStatus:["进行中","已完成"],
+        belongProject:["项目1","项目2","项目3","项目4"],
+        taskType:["需求评审任务","需求开发任务","上线任务","个人其他任务"],
+        missionLevel:["总任务","子任务"],
+        missionHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
+        missionPriority:["高","普通","默认","低"],
+        associatedVersion:["49.1","49.2","49.3","49.4"],
+        involveModule:["模块1","模块2","模块3","模块4"],
+        associatedDemand:["需求1","需求2","需求3","需求4"],
+        associatedMission:["任务1","任务2","任务3","任务4"],
+        modulePushHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
+        taskStatus:["进行中","已完成"],
         tasks:[{
-            missionID: '1',
-            MissionDeadLine: '2018-23-34',
-            MissionName: "30天从入门到放弃",
-            MissionStatus: "已完成",
-            MissionType: "需求任务"
+            taskCode: '1',
+            taskDeadLine: '2018-23-34',
+            taskName: "30天从入门到放弃",
+            taskStatus: "待处理",
+            taskType: "走查任务"
         }, {
-            missionID: '2',
-            MissionDeadLine: '2018-13-31',
-            MissionName: "30天学不会react",
-            MissionStatus: "进行中",
-            MissionType: "开发任务"
+            taskCode: '2',
+            taskDeadLine: '2018-23-33',
+            taskName: "30天学不会react",
+            taskStatus: "待处理",
+            taskType: "走查任务"
         }, {
-            missionID: '3',
-            MissionDeadLine: '2018-23-32',
-            MissionName: "到底能不能学会",
-            MissionStatus: "已完成",
-            MissionType: "开发任务"
+            taskCode: '3',
+            taskDeadLine: '2018-23-33',
+            taskName: "到底能不能学会",
+            taskStatus: "已完成",
+            taskType: "持续集成任务"
         }, {
-            missionID: '4',
-            MissionDeadLine: '2018-33-33',
-            MissionName: "不能啊",
-            MissionStatus: "进行中",
-            MissionType: "开发任务"
+            taskCode: '4',
+            taskDeadLine: '2018-23-33',
+            taskName: "不能啊",
+            taskStatus: "待处理",
+            taskType: "持续集成任务"
         }, {
-            missionID: '5',
-            MissionDeadLine: '2018-43-34',
-            MissionName: "不能啊",
-            MissionStatus: "进行中",
-            MissionType: "开发任务"
+            taskCode: '5',
+            taskDeadLine: '2018-23-33',
+            taskName: "不能啊",
+            taskStatus: "已评审",
+            taskType: "需求开发任务"
         }, {
-            missionID: '6',
-            MissionDeadLine: '2018-53-35',
-            MissionName: "到底能不能学会",
-            MissionStatus: "已完成",
-            MissionType: "需求任务"
+            taskCode: '6',
+            taskDeadLine: '2018-23-33',
+            taskName: "到底能不能学会",
+            taskStatus: "待处理",
+            taskType: "需求开发任务"
         }, {
-            missionID: '7',
-            MissionDeadLine: '2018-63-36',
-            MissionName: "不能啊",
-            MissionStatus: "进行中",
-            MissionType: "个人任务"
+            taskCode: '7',
+            taskDeadLine: '2018-23-33',
+            taskName: "不能啊",
+            taskStatus: "已走查",
+            taskType: "开发任务"
         }, {
-            missionID: '8',
-            MissionDeadLine: '2018-73-37',
-            MissionName: "不能啊",
-            MissionStatus: "进行中",
-            MissionType: "需求任务"
+            taskCode: '8',
+            taskDeadLine: '2018-23-33',
+            taskName: "不能啊",
+            taskStatus: "已完成",
+            taskType: "开发任务"
+        }, {
+            taskCode: '8',
+            taskDeadLine: '2018-23-33',
+            taskName: "不能啊",
+            taskStatus: "待处理",
+            taskType: "个人其他任务"
+        }, {
+            taskCode: '8',
+            taskDeadLine: '2018-23-33',
+            taskName: "不能啊",
+            taskStatus: "已完成",
+            taskType: "个人其他任务"
         }
+
         ],
         demands:[
             {
                 tasks:{"develop":[{
                         "taskContent": "我是开发1",
                         "taskName": "凤凰战车的任务",
-                        "taskId": "1"
+                        "taskId": "1",
                     },{
                         "taskContent": "我是开发2",
                         "taskName": "枪兵的任务",
@@ -279,28 +456,42 @@ export function pullBuildMissionInitial(){
                             "taskName": "雷蛇的任务",
                             "taskId": "4"
                         }],
-                    "jointTrial": [{
-                        "taskContent": "我是联调",
-                        "taskName": "曹志的任务",
+                    "integration": [{
+                        "taskContent": "我是持续集成",
+                        "taskName": "曹志的持续集成",
                         "taskId": "5"
                     },
                         {
-                            "taskContent": "我是联调",
-                            "taskName": "阿拉蕾的任务",
+                            "taskContent": "我是持续集成",
+                            "taskName": "阿拉蕾的持续集成",
                             "taskId": "6"
                         }],
-                    "test": [{
-                        "taskContent": "我是测试",
-                        "taskName": "李淳风的任务",
+                    "goTest": [{
+                        "taskContent": "我是走查",
+                        "taskName": "李淳风的走查",
                         "taskId": "7"
                     },{
-                        "taskContent": "我是测试",
-                        "taskName": "巫妖王的任务",
+                        "taskContent": "我是走查",
+                        "taskName": "巫妖王的走查",
                         "taskId": "8"
-                    }],
+                    },
+                    ],
+                    "finish":[
+                        {
+                            "taskContent":"我是完成",
+                            "taskName": "李淳风的完成",
+                            "taskId": "9"
+                        },{
+                            "taskContent":"我是完成",
+                            "taskName": "喵的完成",
+                            "taskId": "10"
+                        }
+                    ]
                 },
-                demandName:"需求任务1",
-                demandOwner:"需求任务拥有者1"
+                taskName:"需求任务1",
+                taskOwner:"需求任务拥有者1",
+                taskDeadLine:"2018-23-33",
+                taskCode:"1069"
             }
         ]
     };

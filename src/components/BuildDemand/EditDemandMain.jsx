@@ -64,7 +64,7 @@ class EditDemandMain extends React.Component {
     handleSave=()=>{
         store.dispatch(closeEditDemand());
         const temp=this.state.defaultContent;
-        temp["DemandID"]=this.props.randomNum;
+        temp["demandID"]=this.props.randomNum;
         temp["findNote"]=this.props.findNote;
         store.dispatch(editDemandDispatch(temp));
     };
@@ -104,144 +104,144 @@ class EditDemandMain extends React.Component {
                     <Grid container spacing={8} >
                         <Grid item xs={8}>
                             <InputField
-                                nameIn="DemandName"
+                                nameIn="taskName"
                                 onChange={this.getContent}
                                 InputLabelName="需求名称"
-                                defaultValue={this.state.defaultContent["DemandName"]}
+                                defaultValue={this.state.defaultContent["taskName"]}
                             />
                         </Grid>
                         <Grid item xs={4}>
                             <InputField
                                 InputLabelName="需求ID"
-                                nameIn="DemandID"
+                                nameIn="demandID"
                                 disabled={true}
-                                defaultValue={this.state.defaultContent["DemandID"]}/>
+                                defaultValue={this.state.defaultContent["demandID"]}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect
-                                defaultValue={this.state.defaultContent["DemandDevHead"]}
+                                defaultValue={this.state.defaultContent["demandDevHead"]}
                                 onChange={this.getContent}
                                 InputLabelName="需求分派开发负责人"
-                                nameIn="DemandDevHead"
-                                nameArray={initialData.DemandDevHead}/>
+                                nameIn="demandDevHead"
+                                nameArray={initialData.demandDevHead}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
-                                defaultValue={this.state.defaultContent["DemandType"]}
+                                defaultValue={this.state.defaultContent["demandType"]}
                                 onChange={this.getContent}
                                 InputLabelName="需求类型"
-                                nameIn="DemandType"
-                                nameArray={initialData.DemandType}/>
+                                nameIn="demandType"
+                                nameArray={initialData.demandType}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
-                                defaultValue={this.state.defaultContent["DemandStatus"]}
+                                defaultValue={this.state.defaultContent["demandStatus"]}
                                 onChange={this.getContent}
                                 InputLabelName="需求状态"
-                                nameIn="DemandStatus"
-                                nameArray={initialData.DemandStatus}/>
+                                nameIn="demandStatus"
+                                nameArray={initialData.demandStatus}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect
-                                defaultValue={this.state.defaultContent["DemandMember"]}
+                                defaultValue={this.state.defaultContent["demandMember"]}
                                 onChange={this.getContent}
                                 InputLabelName="需求人员"
-                                nameIn="DemandMember"
-                                nameArray={initialData.DemandMember}/>
+                                nameIn="demandMember"
+                                nameArray={initialData.demandMember}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
-                                defaultValue={this.state.defaultContent["DemandScale"]}
+                                defaultValue={this.state.defaultContent["demandScale"]}
                                 onChange={this.getContent}
                                 InputLabelName="需求规模"
-                                nameIn="DemandScale"
-                                nameArray={initialData.DemandScale}
+                                nameIn="demandScale"
+                                nameArray={initialData.demandScale}
                                 />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
-                                defaultValue={this.state.defaultContent["DemandPriority"]}
+                                defaultValue={this.state.defaultContent["demandPriority"]}
                                 onChange={this.getContent}
                                 InputLabelName="需求优先级"
-                                nameIn="DemandPriority"
-                                nameArray={initialData.DemandPriority}
+                                nameIn="demandPriority"
+                                nameArray={initialData.demandPriority}
                                 />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <MultiSelect
-                                defaultValue={this.state.defaultContent["AssociatedVersion"]}
+                                defaultValue={this.state.defaultContent["associatedVersion"]}
                                 onChange={this.getContent}
                                 InputLabelName="关联版本"
-                                nameIn="AssociatedVersion"
-                                nameArray={initialData.AssociatedVersion}/>
+                                nameIn="associatedVersion"
+                                nameArray={initialData.associatedVersion}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker
-                                defaultValue={this.state.defaultContent["DemandAcceptTime"]}
-                                nameIn="DemandAcceptTime"
+                                defaultValue={this.state.defaultContent["demandAcceptTime"]}
+                                nameIn="demandAcceptTime"
                                 InputLabelName="需求受理时间"
                                 onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker
-                                defaultValue={this.state.defaultContent["DemandPassTime"]}
-                                nameIn="DemandPassTime"
+                                defaultValue={this.state.defaultContent["demandPassTime"]}
+                                nameIn="demandPassTime"
                                 InputLabelName="需求评审通过时间"
                                 onDateChange={this.getContent}/>
                         </Grid>
 
                         <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
-                                nameIn="DemandFromDepart"
+                                nameIn="demandFromDepart"
                                 onChange={this.getContent}
                                 InputLabelName="需求来源部门"
-                                defaultValue={this.state.defaultContent["DemandFromDepart"]}
+                                defaultValue={this.state.defaultContent["demandFromDepart"]}
                             />
                         </Grid>
 
 
                         <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
-                                nameIn="TrafficStatic"
+                                nameIn="trafficStatic"
                                 onChange={this.getContent}
                                 InputLabelName="业务量统计方式"
-                                defaultValue={this.state.defaultContent["TrafficStatic"]}
+                                defaultValue={this.state.defaultContent["trafficStatic"]}
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
-                                nameIn="BusinessNum"
+                                nameIn="businessNum"
                                 onChange={this.getContent}
                                 InputLabelName="业务编号"
-                                defaultValue={this.state.defaultContent["BusinessNum"]}
+                                defaultValue={this.state.defaultContent["businessNum"]}
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <RadioButton
-                                nameIn="BusinessTrack"
+                                nameIn="businessTrack"
                                 InputLabelName="是否业务量跟踪"
                                 onChange={this.getContent}
-                                defaultValue={this.state.defaultContent["BusinessTrack"]}
+                                defaultValue={this.state.defaultContent["businessTrack"]}
                                 labelArray={labelArray}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <RadioButton
-                                nameIn="WithBM"
+                                nameIn="withBM"
                                 InputLabelName="是否涉及BM控制台"
                                 onChange={this.getContent}
-                                defaultValue={this.state.defaultContent["WithBM"]}
+                                defaultValue={this.state.defaultContent["withBM"]}
                                 labelArray={labelArray}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <RadioButton
-                                nameIn="WithUAT"
+                                nameIn="withUAT"
                                 InputLabelName="是否需要UAT"
                                 onChange={this.getContent}
-                                defaultValue={this.state.defaultContent["WithUAT"]}
+                                defaultValue={this.state.defaultContent["withUAT"]}
                                 labelArray={labelArray}/>
                         </Grid>
                         <Grid item xs={12} className={classes.gridStyle}>
-                            <DesciptionInput defaultValue={this.state.defaultContent["DemandNote"]} onChange={this.getContent} InputLabelName="需求备注" nameIn="DemandNote"/>
+                            <DesciptionInput defaultValue={this.state.defaultContent["demandNote"]} onChange={this.getContent} InputLabelName="需求备注" nameIn="demandNote"/>
                         </Grid>
                         {/*<Grid item xs={4}>*/}
                         {/*<Typography color="error">{hintMessage}</Typography>*/}

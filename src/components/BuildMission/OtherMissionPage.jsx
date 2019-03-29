@@ -10,18 +10,23 @@ import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
+import Grid from "@material-ui/core/Grid";
+import ReactQuill from "react-quill";
+import {saveTask} from "../../actions/DemandTasksAction";
+import TigerInput from "../Input/TigerInput"
 import store from "../../stores";
 import MyPage from "./MyPage"
-import {closeDetailMission,getDemandTaskDetail} from "../../actions/BuildMissionAction"
-import {SHOW_NOTIFICATION} from "../../actions/types";
+import {closeOtherMissionDetail} from "../../actions/BuildMissionAction"
+import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
+
 
 
 const styles = {
     appBar: {
         position: 'relative',
-        boxShadow: "none",
-        color: "#292929",
-        background: "#f5f5f5"
+        boxShadow:"none",
+        color:"#292929",
+        background:"#f5f5f5"
     },
     flex: {
         flex: 1,
@@ -62,11 +67,11 @@ class MissionDetailMain extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextStatus) {
-        if (nextProps.action === "saveTask") {
+        if(nextProps.action === "saveTask"){
             this.setState({
                 openTask: nextProps.openTask
             });
-            setTimeout(function () {
+            setTimeout(function(){
 
                 store.dispatch({
                     type: SHOW_NOTIFICATION,
@@ -92,10 +97,10 @@ class MissionDetailMain extends React.Component {
     }
 
     handleClose = () => {
-        store.dispatch(closeDetailMission());
+        store.dispatch(closeOtherMissionDetail());
     };
 
-    handleInput = (e) => {
+    handleInput = (e) =>{
         const key = e.target.name;
         this.state.data[key] = e.target.value;
         this.setState(this.state.data);
@@ -103,40 +108,32 @@ class MissionDetailMain extends React.Component {
 
     onSubmit = () => {
         // saveTask(this.state.data);
-        store.dispatch(closeDetailMission());
+        store.dispatch(closeOtherMissionDetail());
     };
 
-    componentDidMount() {
-        console.log("进入到didMount外面");
-        if (this.props.tempBoardToDetail) {
-            console.log("进入到didMount里面");
-            getDemandTaskDetail(this.props.tempBoardToDetail.keyNote)
-        }
-    }
-
     render() {
-        const {classes, detailMissionShow, tempBoardToDetail} = this.props;
+        const {classes,tempBoardToDetail,detailOtherMissionShow} = this.props;
 
         return (
 
             <div>
-                <Dialog fullScreen open={detailMissionShow} onClose={this.handleClose} TransitionComponent={Transition}>
+                <Dialog  fullScreen open={detailOtherMissionShow} onClose={this.handleClose} TransitionComponent={Transition}>
                     <AppBar className={classes.appBar} color="default">
                         <Toolbar variant="dense">
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
                                 <CloseIcon/>
                             </IconButton>
                             <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
-                                需求任务详情
+                                个人其他任务详情
                             </Typography>
                             <Button color="inherit" onClick={this.onSubmit}>
                                 保存
                             </Button>
                         </Toolbar>
                     </AppBar>
-                    <DialogContent className={classes.dialogContainer}>
+                    {/*<DialogContent className={classes.dialogContainer}>
                         <MyPage tempBoardToDetail={tempBoardToDetail}/>
-                    </DialogContent>
+                    </DialogContent>*/}
                 </Dialog>
             </div>
         )
@@ -146,12 +143,12 @@ class MissionDetailMain extends React.Component {
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
     return {
-        action: state.reducer.task.action,
+        action : state.reducer.task.action,
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
-        detailMissionShow: state.reducer.buildMission.detailMissionShow,
-        tempBoardToDetail: state.reducer.buildMission.tempBoardToDetail,
-        addTask: state.reducer.buildMission.addTask,
+        detailOtherMissionShow:state.reducer.buildMission.detailOtherMissionShow,
+        tempBoardToDetail:state.reducer.buildMission.tempBoardToDetail,
+        addTask:state.reducer.buildMission.addTask,
     }
 };
 

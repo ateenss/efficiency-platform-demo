@@ -110,16 +110,16 @@ class BuildModuleMain extends React.Component {
                             />
                         </Grid>
                         <Grid item xs={4} >
-                            <InputField InputLabelName="任务ID" defaultValue={randomNum} nameIn="DemandID"  disabled={true}/>
+                            <InputField InputLabelName="任务ID" defaultValue={randomNum} nameIn="demandID"  disabled={true}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="任务开发负责人" nameIn="ModuleDevHead" nameArray={initialData.DemandDevHead}/>
+                            <MultiSelect onChange={this.getContent} InputLabelName="任务开发负责人" nameIn="ModuleDevHead" nameArray={initialData.demandDevHead}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="DemandAcceptTime" InputLabelName="任务开始时间" onDateChange={this.getContent}/>
+                            <DatePicker nameIn="demandAcceptTime" InputLabelName="任务开始时间" onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="DemandAcceptTime" InputLabelName="任务结束时间" onDateChange={this.getContent}/>
+                            <DatePicker nameIn="demandAcceptTime" InputLabelName="任务结束时间" onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect

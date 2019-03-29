@@ -26,7 +26,16 @@ import history from "../../history/history";
 import MyPage from "./MyPage.jsx";
 import {Home} from "@material-ui/icons";
 import {Typography} from "@material-ui/core";
-import {openBuildMission,closeBuildMission,pullBuildMissionInitial,openDetailMission,closeDetailMission} from "../../actions/BuildMissionAction"
+import {openBuildMission,
+    closeBuildMission,
+    pullBuildMissionInitial,
+    openDetailMission,
+    closeDetailMission,
+    openGoTestDetail,
+    openIntegrationDetail,
+    openDevMissionDetail,
+    openOtherMissionDetail
+} from "../../actions/BuildMissionAction"
 import store from "../../stores";
 import MissionDetailMain from "./MissionDetailMain"
 
@@ -114,13 +123,31 @@ class Task extends React.Component {
         };
     }
 
-    openDetailPanel=keyNote=>{
-        store.dispatch(openDetailMission(keyNote))
+    openDetailPanel=(keyNote,taskType)=>{
+        switch (taskType) {
+            case "走查任务":
+                store.dispatch(openGoTestDetail(keyNote));
+                return;
+            case "需求开发任务":
+                store.dispatch(openDetailMission(keyNote));
+                return;
+            case "开发任务":
+                store.dispatch(openDevMissionDetail(keyNote));
+                return;
+            case "持续集成任务":
+                store.dispatch(openIntegrationDetail(keyNote));
+                return;
+            case "个人其他任务":
+                store.dispatch(openOtherMissionDetail(keyNote));
+                return;
+            default:
+                return false;
+        }
     };
 
     render() {
 
-        const {classes,taskNo,keyNote,missionItem} = this.props;
+        const {classes,taskNo,keyNote,missionItem,taskType} = this.props;
         const MyLink = props => <Link to="/task/my" {...props}/>
         return (
             <Grid xs={3} item>
@@ -162,7 +189,7 @@ class Task extends React.Component {
                                 {/* <IconButton aria-label="详情" taskid="1" component={MyLink} ref={this.btnRef}>
                                 <ShareIcon />
                             </IconButton>*/}
-                                <IconButton aria-label="详情" taskid="1" onClick={this.openDetailPanel.bind(this,keyNote)}>
+                                <IconButton aria-label="详情" taskid="1" onClick={this.openDetailPanel.bind(this,keyNote,taskType)}>
                                     <ShareIcon/>
                                 </IconButton>
                             </Grid>

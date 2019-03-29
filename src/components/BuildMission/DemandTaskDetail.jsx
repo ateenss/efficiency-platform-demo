@@ -18,7 +18,7 @@ import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
 import Task from './DemandTask';
 import Button from '@material-ui/core/Button';
-import {openEditMission,openBuildPlan,openBuildModule,closeBuildModule} from "../../actions/BuildMissionAction"
+import {openEditMission,openBuildPlan,openBuildModule,closeBuildModule,closeAssignGoTest,doAssignGoTest} from "../../actions/BuildMissionAction"
 import Divider from "@material-ui/core/Divider"
 import {connect} from "react-redux";
 import EditMissionMain from "./EditMissionMain"
@@ -27,6 +27,9 @@ import store from '../../stores';
 import SimpleListMenu from "../common/SimpleListMenu";
 import BuildModuleMain from "../BuildMission/BuildModuleMain"
 import TaskEditor from "./TaskEditor";
+import DialogTitle from '@material-ui/core/DialogTitle';
+import MultiSelect from "../SelfComponent/MultiSelect";
+import Dialog from '@material-ui/core/Dialog';
 
 
 import {
@@ -128,16 +131,64 @@ const options = [
     ]
 ;
 
+//这里是打开指定走查人
+const AssignGoTest=(props)=>{
+    const nameArray=["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"];
+    return(
+        <Dialog  onClose={()=>store.dispatch(closeAssignGoTest())} aria-labelledby="simple-dialog-title" open={props.openAssign}>
+            <DialogTitle id="simple-dialog-title">走查状态变化</DialogTitle>
+            <div>
+                <MultiSelect
+                    nameArray={nameArray}
+                    onChange={props.getContent}
+                    InputLabelName="指定走查人"
+                    nameIn="goTestMan"
+                />
+                <Button onClick={props.openAssignGoTest}>开始走查</Button>
+            </div>
+        </Dialog>
+    )
+};
+
 class DemandTaskDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            expanded: this.props.expanded
+            expanded: this.props.expanded,
+            assignContent:null
         };
     }
 
     handleExpandClick = () => {
         this.setState(state => ({expanded: !state.expanded}));
+    };
+    openAssignGoTest=()=>{
+        store.dispatch(doAssignGoTest(this.state.assignContent.goTestMan));
+        /*store.dispatch(closeAssignGoTest())*/
+    };
+
+    getContent=e=>{
+        if (e.keyNote){
+            const keyNote=e.keyNote;
+            const value=e.value;
+            let data = Object.assign({}, this.state.assignContent, {
+                [keyNote]: value.toString()
+            });
+            this.setState({
+                assignContent:data
+            })
+        }else{
+            const keyNote=e.target.name;
+            const value=e.target.value;
+            let data = Object.assign({}, this.state.assignContent, {
+                [keyNote]: value.toString()
+            });
+            this.setState({
+                assignContent:data
+            })
+        }
+        console.log(this.state.assignContent);
+
     };
 
    /* openEditMission=()=>{
@@ -149,7 +200,7 @@ class DemandTaskDetail extends React.Component {
     };*/
 
     render() {
-        const {classes, develop, plan, test,jointTrial, finish,editMissionShow,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
+        const {classes, develop, plan, goTest,integration, assignGoTestShow,finish,editMissionShow,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
 
         return (
             <Card className={classes.demand}>
@@ -159,13 +210,11 @@ class DemandTaskDetail extends React.Component {
                             }
 
                             title={
-                                <div className={classes.cardHeaderTitle}><span>{tempBoardToDetail.MissionName}</span>
-                                    <Chip label="已评审" className={classes.chip}/>
-                                    {/*<Button onClick={this.openPlan}>新建方案</Button>
-                                    <Button onClick={this.openEditMission}>编辑需求任务</Button>*/}
+                                <div className={classes.cardHeaderTitle}><span>{tempBoardToDetail.taskName}</span>
+                                    <Chip label={tempBoardToDetail.taskStatus} className={classes.chip}/>
                                 </div>
                             }
-                            subheader={tempBoardToDetail.MissionDeadLine}
+                            subheader={tempBoardToDetail.taskDeadLine}
                 >
                 </CardHeader>
                 <CardActions className={classes.actions} disableActionSpacing>
@@ -183,13 +232,14 @@ class DemandTaskDetail extends React.Component {
                 <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                     <Grid container spacing={0} className={classes.taskFlowStatus}>
                         <Grid container spacing={0} className={classes.taskStatusGroup}>
-                            <Grid item xs={3} sm={12} md={3}><h5 align="center" className={classes.taskStatus}>方案</h5></Grid>
-                            <Grid item xs={3} sm={12} md={3}><h5 align="center" className={classes.taskStatus}>开发</h5></Grid>
-                            <Grid item xs={3} sm={12} md={3}><h5 align="center" className={classes.taskStatus}>联调</h5></Grid>
-                            <Grid item xs={3} sm={12} md={3}><h5 align="center" className={classes.taskStatus}>提测</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}><h5 align="center" className={classes.taskStatus}>方案</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}><h5 align="center" className={classes.taskStatus}>开发</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}><h5 align="center" className={classes.taskStatus}>走查</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}><h5 align="center" className={classes.taskStatus}>持续集成</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}><h5 align="center" className={classes.taskStatus}>完成</h5></Grid>
                         </Grid>
                         <Grid container spacing={0} className={classes.taskGroup}>
-                            <Grid xs={3} sm={12} md={3} item>
+                            <Grid xs={2} sm={12} md={2} item>
 
                                 {!plan ? "" : plan.map((prop, key) => {
                                     return (
@@ -200,7 +250,7 @@ class DemandTaskDetail extends React.Component {
 
                             </Grid>
 
-                            <Grid xs={3} sm={12} md={3} item>
+                            <Grid xs={2} sm={12} md={2} item>
 
                                 {!develop ? "" : develop.map((prop, key) => {
                                     return (
@@ -209,19 +259,28 @@ class DemandTaskDetail extends React.Component {
                                 })}
 
                             </Grid>
-                            <Grid xs={3} sm={12} md={3} item>
-                                {!jointTrial ? "" : jointTrial.map((prop, key) => {
+
+                            <Grid xs={2} sm={12} md={2} item>
+                                {console.log(goTest)}
+                                {!goTest ? "" : goTest.map((prop, key) => {
                                     return (
-                                        <Task group="jointTrial" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
+                                        <Task  group="goTest" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
                                     );
                                 })}
 
                             </Grid>
-                            <Grid xs={3} sm={12} md={3} item>
-                                {console.log(test)}
-                                {!test ? "" : test.map((prop, key) => {
+                            <Grid xs={2} sm={12} md={2} item>
+                                {!integration ? "" : integration.map((prop, key) => {
                                     return (
-                                        <Task  group="test" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
+                                        <Task group="integration" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
+                                    );
+                                })}
+
+                            </Grid>
+                            <Grid xs={2} sm={12} md={2} item>
+                                {!finish ? "" : finish.map((prop, key) => {
+                                    return (
+                                        <Task group="finish" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
                                     );
                                 })}
 
@@ -239,6 +298,10 @@ class DemandTaskDetail extends React.Component {
                     open={buildModuleShow}
                 />
                 <TaskEditor />
+                <AssignGoTest
+                    openAssign={assignGoTestShow}
+                    openAssignGoTest={this.openAssignGoTest}
+                    getContent={this.getContent}/>
             </Card>
 
         );
@@ -252,8 +315,9 @@ const mapStateToProps = (state) => {
         initialData:state.reducer.buildMission.initialData,
         editMissionShow:state.reducer.buildMission.editMissionShow,
         buildPlanShow:state.reducer.buildMission.buildPlanShow,
-        addMission:state.reducer.buildMission.addMission,
+        addTask:state.reducer.buildMission.addTask,
         buildModuleShow:state.reducer.buildMission.buildModuleShow,
+        assignGoTestShow:state.reducer.buildMission.assignGoTestShow,
     }
 };
 

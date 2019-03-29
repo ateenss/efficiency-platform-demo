@@ -67,6 +67,22 @@ export const EDIT_SAVE_MISSION="edit_save_mission";
 export const OPEN_DETAIL_MISSION="open_detail_mission";
 export const CLOSE_DETAIL_MISSION="close_detail_mission";
 export const SAVE_DETAIL_MISSION="save_detail_mission";
+//走查任务详情
+export const OPEN_DETAIL_GOTEST="open_detail_goTest";
+export const CLOSE_DETAIL_GOTEST="close_detail_goTest";
+export const SAVE_DETIAL_GOTEST="save_detail_goTest";
+//持续集成任务详情
+export const OPEN_DETAIL_INTEGRATION="open_detail_integration";
+export const CLOSE_DETAIL_INTEGRATION="close_detail_integration";
+export const SAVE_DETIAL_INTEGRATION="save_detail_integration";
+//个人其他任务详情
+export const OPEN_DETAIL_OTHERMISSION="open_detail_otherMission";
+export const CLOSE_DETAIL_OTHERMISSION="close_detail_otherMission";
+export const SAVE_DETAIL_OTHERMISSION="save_detail_otherMission";
+//开发任务详情
+export const OPEN_DETAIL_DEVMISSION="open_detail_devMission";
+export const CLOSE_DETAIL_DEVMISSION="close_detail_devMission";
+export const SAVE_DETAIL_DEVMISSION="save_detail_devMission";
 //新建方案
 export const OPEN_BUILD_PLAN="open_build_plan";
 export const CLOSE_BUILD_PLAN="close_build_plan";
@@ -87,5 +103,14 @@ export const SAVE_TASK_EDITOR="save_task_editor";
 //模块（子任务）状态跃迁
 export const CHANGE_STATUS_TO_PLAN="change_status_to_plan";
 export const CHANGE_STATUS_TO_DEV="change_status_to_dev";
-export const CHANGE_STATUS_TO_JOINTTRIAL="change_status_to_jointTrial";
+export const CHANGE_STATUS_TO_INTEGRATION="change_status_to_integration";
 export const CHANGE_STATUS_TO_TEST="change_status_to_test";
+export const CHANGE_STATUS_TO_FINISH="change_status_to_finish";
+//taskEditor对指定走查人的操作
+export const OPEN_ASSIGN_GOTEST="open_assign_goTest";
+export const CLOSE_ASSIGN_GOTEST="close_assign_goTest";
+export const DO_ASSIGN_GOTEST="do_assign_goTest";
+//拉取MyTask初始化列表
+export const GET_MYTASK_INFO="get_myTask_info";
+//初始化需求开发任务详情
+export const GET_TASK_DETAIL_INFO="get_taskDetail_info";

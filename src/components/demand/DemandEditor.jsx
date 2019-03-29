@@ -125,7 +125,7 @@ class DemandEditor extends React.Component {
                                 <TigerInput
                                     id="outlined-name"
                                     label="需求名称"
-                                    value={this.state.data.demandName}
+                                    value={this.state.data.taskName}
                                     margin="normal"
                                     fullWidth
                                     InputProps={{
@@ -147,7 +147,7 @@ class DemandEditor extends React.Component {
                                 <TigerInput
                                     id="outlined-name"
                                     label="需求名称"
-                                    value={this.state.data.demandName}
+                                    value={this.state.data.taskName}
                                     margin="normal"
                                     fullWidth
                                     InputProps={{
@@ -169,7 +169,7 @@ class DemandEditor extends React.Component {
                                 <TigerInput
                                     id="outlined-name"
                                     label="负责人"
-                                    value={this.state.data.demandOwner}
+                                    value={this.state.data.taskOwner}
                                     margin="normal"
                                     fullWidth
                                     InputProps={{

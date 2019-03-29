@@ -5,7 +5,7 @@ import {
 export const INITIAL_STATE = {
     error: '',
    /* demands:{
-    "demandName": "hahaha",
+    "taskName": "hahaha",
         "tasks": {
         "develop": [{
             "taskContent": "hahaha",
@@ -18,7 +18,7 @@ export const INITIAL_STATE = {
             "taskId": "2"
         }]
     },
-    "demandOwner": "zhouzhihao"
+    "taskOwner": "zhouzhihao"
 }*/
     demands:[
         {
@@ -31,8 +31,8 @@ export const INITIAL_STATE = {
                     "taskName": "11111",
                     "taskId": "2"
                 }]},
-            demandName:"需求任务1",
-            demandOwner:"需求任务拥有者1"
+            taskName:"需求任务1",
+            taskOwner:"需求任务拥有者1"
         }
     ]
 };
@@ -50,7 +50,7 @@ const taskStatus = {
         },
         {
             name: "联调",
-            value: "jointTrial"
+            value: "integration"
         },
         {
             name: "测试",

@@ -96,19 +96,19 @@ export function pullBuildDemandInitial(){
     //以下是mock数据
     const rand=Math.floor(Math.random()*40)+1;
     const InitialData={
-        DemandID:rand,
-        DemandType:["外部需求","内部需求"],
-        DemandStatus:["未评审","评审通过","评审未通过","已提测","已发布","已上线"],
-        DemandMember:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
-        DemandScale:["小型","中型","大型"],
-        DemandPriority:["p1","p2","p3"],
-        AssociatedVersion:["49.1","49.2","49.3","49.4"],
-        DemandDevHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
+        demandID:rand,
+        demandType:["外部需求","内部需求"],
+        demandStatus:["未评审","评审通过","评审未通过","已提测","已发布","已上线"],
+        demandMember:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
+        demandScale:["小型","中型","大型"],
+        demandPriority:["p1","p2","p3"],
+        associatedVersion:["49.1","49.2","49.3","49.4"],
+        demandDevHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
         dataMuiTable:[
-            {listID:"1",BusinessNum:"YDZF-201809-12",DemandName:"快速收款码需求这个需求很厉害",DemandDemHead:"张飞",DemandStatus:"开发中",DemandDevHead:"安倍晴明",AssociatedVersion:"49.1",DemandFromDepart:"大唐降妖司",DemandPassStartTime:"2018-03-16/2018-03-19",WithUAT:"是"},
-            {listID:"2",BusinessNum:"TYDZF-201809-13",DemandName:"ApplePayOnweb需求",DemandDemHead:"韦小宝",DemandStatus:"已完成",DemandDevHead:"酒吞童子",AssociatedVersion:"49.2",DemandFromDepart:"青丘",DemandPassStartTime:"2018-03-16/2018-03-19",WithUAT:"否"},
-            {listID:"3",BusinessNum:"YDZF-201809-15",DemandName:"你说这是什么需求",DemandDemHead:"张无忌",DemandStatus:"提测",DemandDevHead:"玉藻前",AssociatedVersion:"49.3",DemandFromDepart:"妖市",DemandPassStartTime:"2018-03-16/2018-03-19",WithUAT:"否"},
-            {listID:"4",BusinessNum:"YDZF-201809-16",DemandName:"楼上，你在问我吗？",DemandDemHead:"周芷若",DemandStatus:"未开始",DemandDevHead:"二口女",AssociatedVersion:"49.4",DemandFromDepart:"定西镇",DemandPassStartTime:"2018-03-16/2018-03-19",WithUAT:"是"},
+            {listID:"1",businessNum:"YDZF-201809-12",taskName:"快速收款码需求这个需求很厉害",demandDemHead:"张飞",demandStatus:"开发中",demandDevHead:"安倍晴明",associatedVersion:"49.1",demandFromDepart:"大唐降妖司",demandPassStartTime:"2018-03-16/2018-03-19",withUAT:"是"},
+            {listID:"2",businessNum:"TYDZF-201809-13",taskName:"ApplePayOnweb需求",demandDemHead:"韦小宝",demandStatus:"已完成",demandDevHead:"酒吞童子",associatedVersion:"49.2",demandFromDepart:"青丘",demandPassStartTime:"2018-03-16/2018-03-19",withUAT:"否"},
+            {listID:"3",businessNum:"YDZF-201809-15",taskName:"你说这是什么需求",demandDemHead:"张无忌",demandStatus:"提测",demandDevHead:"玉藻前",associatedVersion:"49.3",demandFromDepart:"妖市",demandPassStartTime:"2018-03-16/2018-03-19",withUAT:"否"},
+            {listID:"4",businessNum:"YDZF-201809-16",taskName:"楼上，你在问我吗？",demandDemHead:"周芷若",demandStatus:"未开始",demandDevHead:"二口女",associatedVersion:"49.4",demandFromDepart:"定西镇",demandPassStartTime:"2018-03-16/2018-03-19",withUAT:"是"},
         ]
     };
     store.dispatch({

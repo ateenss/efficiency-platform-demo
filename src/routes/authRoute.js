@@ -15,15 +15,15 @@ class AuthenticatedComponent extends React.Component {
     render() {
         const {authenticated} = this.props;
         let token = localStorage.getItem('token');
-        // let link=(<Redirect to="/login" />);
-        /* if (authenticated || !!token) {
+        let link=(<Redirect to="/login" />);
+         if (authenticated || !!token) {
              link=(indexRoutes.map((prop, key) => {
                      return <Route path={prop.path} component={prop.component} key={key} />;
                  }))
-         }*/
-        let link = (indexRoutes.map((prop, key) => {
+         }
+       /* let link = (indexRoutes.map((prop, key) => {
             return <Route path={prop.path} component={prop.component} key={key}/>;
-        }));
+        }));*/
         return (
             <div>
                 {link}

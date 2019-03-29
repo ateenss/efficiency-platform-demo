@@ -134,38 +134,38 @@ class FilterDemandManager extends React.Component {
                 <Grid container spacing={16} >
                     <Grid item xs={2} >
                         <InputField
-                            nameIn="DemandName"
+                            nameIn="taskName"
                             onChange={this.getContent}
                             InputLabelName="需求名称"
                         />
                     </Grid>
 
                     <Grid item xs={2}>
-                        <MultiSelect onChange={this.getContent} InputLabelName="需求分派开发负责人" nameIn="DemandDevHead" nameArray={initialData.DemandDevHead}/>
+                        <MultiSelect onChange={this.getContent} InputLabelName="需求分派开发负责人" nameIn="demandDevHead" nameArray={initialData.demandDevHead}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <SingleSelect onChange={this.getContent} InputLabelName="需求类型" nameIn="DemandType" nameArray={initialData.DemandType}/>
+                        <SingleSelect onChange={this.getContent} InputLabelName="需求类型" nameIn="demandType" nameArray={initialData.demandType}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <SingleSelect onChange={this.getContent} InputLabelName="需求状态" nameIn="DemandStatus" nameArray={initialData.DemandStatus}/>
+                        <SingleSelect onChange={this.getContent} InputLabelName="需求状态" nameIn="demandStatus" nameArray={initialData.demandStatus}/>
                     </Grid>
                     <Grid item xs={2}>
-                        <SingleSelect onChange={this.getContent} InputLabelName="需求优先级" nameIn="DemandPriority" nameArray={initialData.DemandPriority} defaultValue="p3"/>
+                        <SingleSelect onChange={this.getContent} InputLabelName="需求优先级" nameIn="demandPriority" nameArray={initialData.demandPriority} defaultValue="p3"/>
                     </Grid>
                     <Grid item xs={2}>
-                        <MultiSelect onChange={this.getContent} InputLabelName="关联版本" nameIn="AssociatedVersion" nameArray={initialData.AssociatedVersion}/>
+                        <MultiSelect onChange={this.getContent} InputLabelName="关联版本" nameIn="associatedVersion" nameArray={initialData.associatedVersion}/>
                     </Grid>
 
                     <Grid item xs={2}>
                         <InputField
-                            nameIn="BusinessNum"
+                            nameIn="businessNum"
                             onChange={this.getContent}
                             InputLabelName="业务编号"
                         />
                     </Grid>
                     <Grid item xs={2}>
                         <RadioButton
-                            nameIn="WithBM"
+                            nameIn="withBM"
                             InputLabelName="是否涉及BM控制台"
                             onChange={this.getContent}
                             labelArray={labelArray}
@@ -173,7 +173,7 @@ class FilterDemandManager extends React.Component {
                     </Grid>
                     <Grid item xs={2}>
                         <RadioButton
-                            nameIn="WithUAT"
+                            nameIn="withUAT"
                             InputLabelName="是否需要UAT"
                             onChange={this.getContent}
                             labelArray={labelArray}
