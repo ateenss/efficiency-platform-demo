@@ -16,6 +16,8 @@ import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import {closeAddIteration, saveIteration} from "../../actions/IterationAction";
 import MultiSelect from "../SelfComponent/MultiSelect"
+import GlobalValidateRegex from "../../constants/GlobalValidateRegex";
+import {ADD_ITERATION, SAVE_ADD_ITERATION, SHOW_NOTIFICATION} from "../../actions/types";
 
 
 const styles = {
@@ -36,24 +38,45 @@ class AddIteration extends React.Component {
         super(props);
         this.state = {
             openTask: false,
-            iterationContent: {}
+            iterationContent: {},
+            errorList: {}
         }
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({iterationContent : nextProps.editData, action:nextProps.action});
+        this.setState({iterationContent: nextProps.editData, action: nextProps.action});
 
     }
 
     handleClose = () => {
         closeAddIteration();
     };
+
     handleSave = () => {
+        if (this.props.action === ADD_ITERATION) {
+            if (JSON.stringify(this.state.errorList) === "{}") {
+                store.dispatch({
+                    type: SHOW_NOTIFICATION,
+                    payload: {type: "error", message: "诶。。好像有错你也要提交"}
+                });
+                return false;
+            }
+        }
+        for (let i in this.state.errorList) {
+            if (this.state.errorList[i] === true) {
+                store.dispatch({
+                    type: SHOW_NOTIFICATION,
+                    payload: {type: "error", message: "诶。。好像有错你也要提交"}
+                });
+                return false;
+            }
+        }
+
         saveIteration(this.state.action, this.state.iterationContent);
     };
 
 
-    getContent = e => {
+    getContent = (e) => {
         if (e.keyNote) {
             const keyNote = e.keyNote;
             const value = e.value;
@@ -73,6 +96,15 @@ class AddIteration extends React.Component {
                 iterationContent: data
             })
         }
+
+    };
+
+    onBlur = (keyValue) => {
+
+        let errorList = this.state.errorList;
+        errorList[keyValue.name] = keyValue.hasError;
+
+        this.setState({errorList: errorList});
     };
 
 
@@ -80,7 +112,7 @@ class AddIteration extends React.Component {
         const {initialData, buttonStyle} = this.props;
 
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} >
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open}>
                 <DialogTitle id="simple-dialog-title">新增版本</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
@@ -90,6 +122,10 @@ class AddIteration extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="版本名称"
                                 defaultValue={this.state.iterationContent.iterationName}
+                                required
+                                expr={GlobalValidateRegex.numberRegex}
+                                maxLength="4"
+                                onBlur={this.onBlur}
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -134,7 +170,8 @@ class AddIteration extends React.Component {
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="上线负责人" nameIn="deliveryPersonInCharge"
+                            <SingleSelect onChange={this.getContent} InputLabelName="上线负责人"
+                                          nameIn="deliveryPersonInCharge"
                                           nameArray={this.props.projectMembers}
                                           defaultValue={this.state.iterationContent.deliveryPersonInCharge}
 
@@ -144,7 +181,7 @@ class AddIteration extends React.Component {
                         <Grid item xs={4}>
                             <MultiSelect onChange={this.getContent} InputLabelName="上线检查人" nameIn="deliveryCheckers"
                                          nameArray={this.props.projectMembers}
-                                            defaultValue={this.state.iterationContent.deliveryCheckers}
+                                         defaultValue={this.state.iterationContent.deliveryCheckers}
 
                             />
 
@@ -152,7 +189,7 @@ class AddIteration extends React.Component {
                         <Grid item xs={4}>
                             <MultiSelect onChange={this.getContent} InputLabelName="上线人" nameIn="deliveryPersons"
                                          nameArray={this.props.projectMembers}
-                                            defaultValue={this.state.iterationContent.deliveryPersons}
+                                         defaultValue={this.state.iterationContent.deliveryPersons}
 
                             />
 
@@ -182,11 +219,11 @@ AddIteration.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    console.log("map数据:"+JSON.stringify(state.reducer.iteration.editData));
+    console.log("map数据:" + JSON.stringify(state.reducer.iteration.editData));
     return {
         initialData: state.reducer.iteration.initialData,
-        editData : !!state.reducer.iteration.editData ? state.reducer.iteration.editData : "",
-        action : state.reducer.iteration.action
+        editData: !!state.reducer.iteration.editData ? state.reducer.iteration.editData : "",
+        action: state.reducer.iteration.action
     }
 };
 

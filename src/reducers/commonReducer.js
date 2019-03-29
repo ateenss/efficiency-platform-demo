@@ -14,7 +14,7 @@ export const INITIAL_STATE = {
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case SHOW_NOTIFICATION:
-            return {...state, open: true, message: action.payload};
+            return {...state, open: true, message: action.payload.message, type:action.payload.type};
         case CLOSE_NOTIFICATION:
             return {...state, open : false, message : ""};
         case SINGLE_SELECT_VALUE:

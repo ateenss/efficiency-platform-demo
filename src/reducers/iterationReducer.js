@@ -17,7 +17,7 @@ export default function (state = INITIAL_STATE, action) {
         case SELECT_ITERATION:
             return {...state, iteration: action.payload, action: SELECT_ITERATION};
         case ADD_ITERATION:
-            return {...state, openAddIteration: true, initialData: action.payload.initData, action: ADD_ITERATION};
+            return {...state, openAddIteration: true, initialData: action.payload.initData, action: ADD_ITERATION, editData : {}};
         case CLOSE_ADD_ITERATION:
             return {...state, openAddIteration: false, action: CLOSE_ADD_ITERATION};
         case SAVE_ADD_ITERATION:

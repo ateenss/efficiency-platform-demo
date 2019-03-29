@@ -149,7 +149,7 @@ class Reminder extends React.Component {
                     onClose={this.handleClose}
                 ><MySnackbarContentWrapper
                     onClose={this.handleClose}
-                    variant="success"
+                    variant={this.props.type}
                     message={this.props.message}
                 /></Snackbar>
             </div>
@@ -163,7 +163,8 @@ const mapStateToProps = (state) => {
     // console.log("232234242  " + JSON.stringify(state))
     return {
         open: state.reducer.common.open,
-        message: !!state.reducer.common.message ? state.reducer.common.message : ""
+        message: !!state.reducer.common.message ? state.reducer.common.message : "",
+        type: !!state.reducer.common.type ? state.reducer.common.type : "success"
     }
 };
 

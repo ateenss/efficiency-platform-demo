@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import GlobalValidateRegex from "../../constants/GlobalValidateRegex";
 import store from '../../stores/index';
 import {hintPopUp} from "../../actions/BuildProjectAction"
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
     container: {
@@ -15,7 +16,7 @@ const styles = theme => ({
         marginLeft: 0,
         marginRight: 0,
         width: "100%",
-        marginTop:0
+        marginTop: 0
     },
     dense: {
         marginTop: 19,
@@ -26,34 +27,58 @@ const styles = theme => ({
 });
 
 
-
 class TextFields extends React.Component {
     state = {
         name: 'Cat in the Hat',
         age: '',
-        message: ""
+        message: "",
+        error: false
     };
 
-    handleChange = event => {
+    handleChange = (rules, e) => {
         // this.setState({ [name]: event.target.value });
-        this.props.onChange({keyNote:event.target.name,value:event.target.value})
+
+        this.props.onChange({keyNote: e.target.name, value: e.target.value})
     };
 
-    onBLUR = e => {
-        const regex = GlobalValidateRegex[e.target.name];
-        if (!regex.ok(e.target.value)) {
-            this.setState({message : regex.message});
-            store.dispatch(hintPopUp({[e.target.name]:regex.message}));
-        }else{
-            // this.setState({message:""})
-            store.dispatch(hintPopUp({[e.target.name]:""}));
+    onBLUR = (rules, e) => {
+
+        if (rules.required) {
+            if (!e.target.value) {
+                this.setState({message: "必填", error: true});
+                this.props.onBlur({name:e.target.name , hasError:true});
+
+                return false;
+            }
         }
 
+        if (rules.maxLength) {
+            let maxLength = parseInt(rules.maxLength);
+            if (e.target.value.length > maxLength) {
+                this.setState({message: "长度超限，最大[" + rules.maxLength + "]", error: true});
+                this.props.onBlur({name:e.target.name , hasError:true});
+                return false;
+            }
+        }
 
+        if (rules.expr) {
+            let regex = new RegExp(rules.expr);
+            if (!regex.test(e.target.value)) {
+                this.setState({message: "格式校验错误", error: true});
+                this.props.onBlur({name:e.target.name , hasError:true});
+                return false;
+            }
+        }
+
+        this.setState({message: "", error: false});
+
+        this.props.onBlur({name:e.target.name , hasError:false});
+
+        return true;
     };
 
     render() {
-        const { classes ,InputLabelName,defaultValue,nameIn,disabled,error} = this.props;
+        const {classes, InputLabelName, defaultValue, nameIn, disabled, error} = this.props;
         return (
             <form className={classes.container} noValidate autoComplete="off">
                 <TextField
@@ -63,15 +88,24 @@ class TextFields extends React.Component {
                     defaultValue={!!defaultValue ? defaultValue : ""}
                     className={classes.textField}
                     margin="normal"
-                    onChange={this.handleChange}
+                    onChange={this.handleChange.bind(this, {
+                        required: this.props.required,
+                        expr: this.props.expr,
+                        maxLength: this.props.maxLength
+                    })}
                     name={nameIn}
-                    /*inputProps={{
-                        onBlur: this.onBLUR
-                    }}*/
+                    inputProps={{
+                        onBlur: this.onBLUR.bind(this, {
+                            required: this.props.required,
+                            expr: this.props.expr,
+                            maxLength: this.props.maxLength
+                        })
+                    }}
                     fullWidth
                     type="email"
-                    error={error}
+                    error={this.state.error}
                 />
+                <Typography color="error">{this.state.message}</Typography>
             </form>
         );
     }

@@ -29,12 +29,14 @@ class SingleSelect extends React.Component {
     };
 
     componentDidMount() {
-        console.log("defaultSelect"+this.props.defaultValue);
-        if (this.props.defaultValue) {
-            this.setState({
-                value: this.props.defaultValue
-            })
+        let value = this.props.defaultValue;
+        if(!this.props.defaultValue){
+            value = this.props.nameArray[0].value;
         }
+        console.log(value);
+        this.setState({
+            value: value
+        })
     }
 
 

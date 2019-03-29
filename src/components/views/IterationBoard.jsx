@@ -80,7 +80,6 @@ class IterationBoard extends React.Component {
 
     constructor(props) {
         super(props);
-        getProjectMembers();
         this.state = {
             open: false,
             iterationInfo: {},
@@ -166,6 +165,8 @@ class IterationBoard extends React.Component {
             }
             self.setState({iterationState: iterationState});
             self.setState(self.props.iteration);
+
+            getProjectMembers();
 
         });
 

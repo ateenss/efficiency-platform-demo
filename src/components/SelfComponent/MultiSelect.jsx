@@ -8,6 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
+import Chip from "@material-ui/core/Chip";
 
 const styles = theme => ({
     root: {
@@ -65,20 +66,6 @@ class MultipleSelect extends React.Component {
         this.props.onChange({keyNote:event.target.name,value:event.target.value})
     };
 
-    handleChangeMultiple = event => {
-        const { options } = event.target;
-        const value = [];
-        for (let i = 0, l = options.length; i < l; i += 1) {
-            if (options[i].selected) {
-                value.push(options[i].value);
-            }
-        }
-        this.setState({
-            name: value,
-        });
-
-    };
-
     render() {
         const { classes,InputLabelName,defaultValue ,nameIn,nameArray,openMulti} = this.props;
 
@@ -92,13 +79,19 @@ class MultipleSelect extends React.Component {
                         value={this.state.name}
                         onChange={this.handleChange}
                         input={<Input id="select-multiple-checkbox" />}
-                        renderValue={selected => selected.join(', ')}
-                        MenuProps={MenuProps}
+                        renderValue={selected => (
+                                selected.map(value => (
+                                    nameArray.map((content, index) => (
+                                        value === content.id ? content.name : ""
+                                    ))
+                                ))
+                        )}
+                         MenuProps={MenuProps}
                     >
-                        {nameArray.map(name => (
-                            <MenuItem key={name} value={name} >
-                                <Checkbox checked={this.state.name.indexOf(name) > -1} />
-                                <ListItemText primary={name} />
+                        {nameArray.map((content, index) => (
+                            <MenuItem key={index} value={content.id} >
+                                <Checkbox checked={this.state.name.indexOf(content.id) > -1} />
+                                <ListItemText primary={content.name} />
                             </MenuItem>
                         ))}
                     </Select>
