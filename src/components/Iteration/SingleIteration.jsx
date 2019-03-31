@@ -71,14 +71,11 @@ class SingleIteration extends React.Component {
         let iterationComponents = !iterationList ? "" : iterationList.map((prop, key) => {
                 return (
                     <ListItem key={key} button className={classes.nested}
-                              onClick={this.props.handleSelected.bind(this, prop.iter)} selected={prop.selected}  style={{paddingRight:"0"}}>
+                              onClick={this.props.handleSelected.bind(this, prop.id)} selected={prop.selected}  style={{paddingRight:"0"}}>
 
 
                         <ListItemText inset primary={prop.iter + "版"} className={classes.itemText}/>
-                        <IterationMenuList icon={<MoreVertIcon/>} handleEdit={this.props.handleEdit.bind(this, prop.iter)}/>
-                        {/*<ListItemIcon style={{marginRight: "0"}} onClick={this.props.handleEdit.bind(this, prop.iter)}>*/}
-                            {/*<EditIcon fontSize="small"/>*/}
-                        {/*</ListItemIcon>*/}
+                        <IterationMenuList icon={<MoreVertIcon/>} handleEdit={this.props.handleEdit.bind(this, prop.id)}/>
                     </ListItem>
                 )
             }

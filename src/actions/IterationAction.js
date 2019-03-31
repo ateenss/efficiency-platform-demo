@@ -23,7 +23,7 @@ const config = {
     outCharset: "utf-8"
 };
 export const GET_RECENT = 'http://127.0.0.1:8080/tiger-admin/iteration/getRecentIterations';
-export const GET_BY_CODE = 'http://127.0.0.1:8080/tiger-admin/iteration/get';
+export const GET_BY_ID = 'http://127.0.0.1:8080/tiger-admin/iteration/get';
 export const SAVE = 'http://127.0.0.1:8080/tiger-admin/iteration/save';
 
 
@@ -44,67 +44,35 @@ export function init(doAfterInit) {
                 return false;
             }
 
-
-            const iterations = [
-                {
-                    iteration: "48",
-                    children: [
-                        "48.1", "48.2", "48.3"
-                    ]
-                },
-                {
-                    iteration: "47",
-                    children: [
-                        "47.1", "47.2"
-                    ]
-                }
-
-
-            ];
-
-            let ret = [];
-
+            let group = [];
             for (let i in response.data.data) {
                 let unit = response.data.data[i];
 
-                let iteration = {
-                    iteration: unit.iterationCode.split(".")[0],
-                    children: []
-                }
+                let unitChild = {id: unit.id, name : unit.iterationName};
 
-                let inRet = false;
-                for (let idx in ret) {
-                    if (unit.iterationCode.split(".")[0] === ret[idx].iteration) {
-                        inRet = true;
-                        iteration = ret[idx];
+                let inGroup = false;
+
+                for(let j in group){
+
+                    if(unit.group === group[j].iteration){
+                        inGroup = true;
+                        group[j].children.push(unitChild);
                     }
+
                 }
 
-                if (!inRet) {
-                    ret.push(iteration);
+                if(!inGroup){
+                    let newUnit = {
+                        iteration : unit.group,
+                        children : []
+                    };
+                    newUnit.children.push(unitChild);
+                    group.push(newUnit);
                 }
 
-                for (let j in response.data.data) {
-                    if (iteration.iteration === response.data.data[j].iterationCode.split(".")[0]) {
-
-                        let inChildren = false;
-                        for (let c in iteration.children) {
-                            if (iteration.children[c] === response.data.data[j].iterationCode) {
-                                inChildren = true;
-                            }
-                        }
-                        if (!inChildren) {
-
-                            iteration.children.push(response.data.data[j].iterationCode);
-                        }
-
-                    }
-                }
             }
 
-            console.log(JSON.stringify(ret));
-
-            doAfterInit(ret);
+            doAfterInit(group);
 
         })
         .catch(error => {
@@ -122,7 +90,7 @@ export function selectIteration(id) {
 
     let accessToken = localStorage.getItem("accessToken");
 
-    return axios.post(GET_BY_CODE, {"version": "1.0", "data": id}, config)
+    return axios.post(GET_BY_ID, {"version": "1.0", "data": id}, config)
         .then(response => {
 
             if (response.data.respCode !== "00") {
@@ -199,7 +167,7 @@ export function addIteration(id) {
 
     if (!!id) {
         // TODO post here use iterationData in saveIteration
-        return axios.post(GET_BY_CODE, {"version": "1.0", "data": id}, config)
+        return axios.post(GET_BY_ID, {"version": "1.0", "data": id}, config)
             .then(response => {
 
                 if (response.data.respCode !== "00") {
@@ -271,6 +239,7 @@ export function saveIteration(action, iterationData) {
 
             if(action === ADD_ITERATION){
                 data.demandList = [];
+                data.id = response.data.data.id;
             }
             store.dispatch({
                 type: type,

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -30,10 +30,9 @@ class SingleSelect extends React.Component {
 
     componentDidMount() {
         let value = this.props.defaultValue;
-        if(!this.props.defaultValue){
-            value = this.props.nameArray[0].value;
+        if (!this.props.defaultValue) {
+            value = this.props.nameArray[0].id;
         }
-        console.log(value);
         this.setState({
             value: value
         })
@@ -42,15 +41,15 @@ class SingleSelect extends React.Component {
 
     handleChange = event => {
         // console.log(event.target.name);
-        this.setState({ value: event.target.value });
-        !!this.props.funcArray&&this.props.funcArray.map((value,key)=>{
-            value.name===event.target.value&&store.dispatch(value.func(this.props.giveContent))
+        this.setState({value: event.target.value});
+        !!this.props.funcArray && this.props.funcArray.map((value, key) => {
+            value.name === event.target.value && store.dispatch(value.func(this.props.giveContent))
         });
-        this.props.onChange({keyNote:event.target.name,value:event.target.value})
+        this.props.onChange({keyNote: event.target.name, value: event.target.value})
     };
 
     render() {
-        const { classes,InputLabelName,nameArray,nameIn,disabled } = this.props;
+        const {classes, InputLabelName, nameArray, nameIn, disabled} = this.props;
 
         return (
             <form className={classes.root} autoComplete="off">
@@ -66,9 +65,9 @@ class SingleSelect extends React.Component {
                         }}
                     >
                         {
-                            nameArray.map((value,index)=>{
-                                return(
-                                    <MenuItem value={value.id} key={index} >{value.name}</MenuItem>
+                            nameArray.map((value, index) => {
+                                return (
+                                    <MenuItem value={value.id} key={index}>{value.name}</MenuItem>
                                 )
                             })
                         }

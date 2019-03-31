@@ -152,10 +152,10 @@ class IterationBoard extends React.Component {
                     if (i == 0 && j == 0) {
                         selected = true;
                     }
-                    iterationChildren.push({iter: iter.children[j], selected: true});
+                    iterationChildren.push({iter: iter.children[j].name, selected: true, id : iter.children[j].id});
 
                     if (i == 0 && j == 0) {
-                        selectIteration(iter.children[j]);
+                        selectIteration(iter.children[j].id);
                     }
                 }
 
@@ -164,7 +164,6 @@ class IterationBoard extends React.Component {
                 iterationState.push(parent);
             }
             self.setState({iterationState: iterationState});
-            self.setState(self.props.iteration);
 
             getProjectMembers();
 
@@ -213,21 +212,15 @@ class IterationBoard extends React.Component {
         for (let i in iterationState) {
             let iter = iterationState[i];
             for (let j in iter.children) {
-                if (iter.children[j].iter === nextProps.iterationName) {
+                if (iter.children[j].id === nextProps.iteration.iterationInfo.id) {
                     iter.children[j].selected = true;
                 } else {
                     iter.children[j].selected = false;
                 }
             }
         }
+
         this.setState({iterationState: iterationState});
-
-        // let self = this;
-        // setTimeout(function(){
-        //
-        //     self.setState({hide : false})
-        // },1000)
-
 
     }
 
@@ -356,32 +349,6 @@ class IterationBoard extends React.Component {
         );
     }
 }
-
-
-IterationBoard.defaultProps = {
-
-
-    iteration: {
-
-        demandList: [
-            ["YDZF-201809-12", "快速收款码需求这个需求很厉害", "张飞", "开发中", "Jack", "云闪付", "2019-03-13", "是"],
-            ["TYDZF-201809-13", "ApplePayOnweb需求", "韦小宝", "已完成", "Jack", "云闪付", "2019-03-13", "是"],
-            ["YDZF-201809-15", "你说这是什么需求", "张无忌", "提测", "Jack", "云闪付", "2019-03-13", "是"],
-            ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付", "2019-03-13", "是"],
-            ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付", "2019-03-13", "是"],
-
-            ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付", "2019-03-13", "是"],
-            ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付", "2019-03-13", "是"],
-
-            ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付", "2019-03-13", "是"],
-
-            ["YDZF-201809-16", "楼上，你在问我吗？", "周芷若", "未开始", "Jack", "云闪付", "2019-03-13", "是"],
-
-
-        ]
-    }
-}
-
 
 IterationBoard.propTypes = {
     classes: PropTypes.object.isRequired,

@@ -99,7 +99,7 @@ class AddIteration extends React.Component {
 
     };
 
-    onBlur = (keyValue) => {
+    validate = (keyValue) => {
 
         let errorList = this.state.errorList;
         errorList[keyValue.name] = keyValue.hasError;
@@ -123,9 +123,9 @@ class AddIteration extends React.Component {
                                 InputLabelName="版本名称"
                                 defaultValue={this.state.iterationContent.iterationName}
                                 required
-                                expr={GlobalValidateRegex.numberRegex}
-                                maxLength="4"
-                                onBlur={this.onBlur}
+                                expr={GlobalValidateRegex.projectCodeRegex}
+                                maxLength="10"
+                                validate={this.validate}
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -166,6 +166,9 @@ class AddIteration extends React.Component {
                             <InputField onChange={this.getContent} InputLabelName="Bugzilla" nameIn="bugzillaId"
                                         nameArray={initialData}
                                         defaultValue={this.state.iterationContent.bugzillaId}
+                                        expr={GlobalValidateRegex.strRegex}
+                                        maxLength="10"
+                                        validate={this.validate}
 
                             />
                         </Grid>
@@ -182,6 +185,9 @@ class AddIteration extends React.Component {
                             <MultiSelect onChange={this.getContent} InputLabelName="上线检查人" nameIn="deliveryCheckers"
                                          nameArray={this.props.projectMembers}
                                          defaultValue={this.state.iterationContent.deliveryCheckers}
+                                         required
+                                         validate={this.validate}
+
 
                             />
 
@@ -190,6 +196,8 @@ class AddIteration extends React.Component {
                             <MultiSelect onChange={this.getContent} InputLabelName="上线人" nameIn="deliveryPersons"
                                          nameArray={this.props.projectMembers}
                                          defaultValue={this.state.iterationContent.deliveryPersons}
+                                         required
+                                         validate={this.validate}
 
                             />
 

@@ -1,7 +1,7 @@
 
 const GlobalValidateRegex = {
-    numberRegex: /[a-zA-Z0-9]$/,
-
+    projectCodeRegex: "^(([1-9]{1}\\d*)|(0{1}))(\\.\\d{1,2})$",
+    strRegex : "^[0-9a-zA-Z]+$",
 
     username : {
         ok : value => !value || !/^[a-zA-Z0-9]{4,10}$/.test(value) ? false : true,

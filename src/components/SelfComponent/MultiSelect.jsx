@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -9,12 +9,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from "@material-ui/core/Chip";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        height:50
+        height: 50
     },
     formControl: {
         margin: "0",
@@ -51,24 +52,40 @@ class MultipleSelect extends React.Component {
 
     componentWillMount() {
 
-        if (this.props.defaultValue){
-            let array=[];
-            array=this.props.defaultValue.split(",");
+        if (this.props.defaultValue) {
+            let array = [];
+            array = this.props.defaultValue.split(",");
             this.setState({
-                name:array
+                name: array
             })
         }
     }
 
+    onBLUR = (rules, e) =>{
+        if (rules.required) {
+            if (!e.target.value || e.target.value.length == 0) {
+                this.setState({message: "必填", error: true});
+                this.props.onBlur({name:e.target.name , hasError:true});
+
+                return false;
+            }
+        }
+
+        this.setState({message: "", error: false});
+
+        this.props.validate({name:e.target.name , hasError:false});
+
+    }
+
     handleChange = event => {
-        this.setState({ name: event.target.value });
+        this.setState({name: event.target.value});
         // console.log(event.target.value)
-        this.props.onChange({keyNote:event.target.name,value:event.target.value})
+        this.props.onChange({keyNote: event.target.name, value: event.target.value})
     };
 
     render() {
-        const { classes,InputLabelName,defaultValue ,nameIn,nameArray,openMulti} = this.props;
-
+        const {classes, InputLabelName, defaultValue, nameIn, nameArray, openMulti} = this.props;
+        let rules = {required : this.props.required}
         return (
             <div className={classes.root}>
                 <FormControl className={classes.formControl} fullWidth>
@@ -78,23 +95,28 @@ class MultipleSelect extends React.Component {
                         name={nameIn}
                         value={this.state.name}
                         onChange={this.handleChange}
-                        input={<Input id="select-multiple-checkbox" />}
+                        input={<Input id="select-multiple-checkbox"/>}
+                        inputProps={{
+                            onBlur: this.onBLUR.bind(this, rules)
+                        }}
                         renderValue={selected => (
-                                selected.map(value => (
-                                    nameArray.map((content, index) => (
-                                        value === content.id ? content.name : ""
-                                    ))
+                            selected.map(value => (
+                                nameArray.map((content, index) => (
+                                    value === content.id ? content.name : ""
                                 ))
+                            ))
                         )}
-                         MenuProps={MenuProps}
+                        MenuProps={MenuProps}
                     >
                         {nameArray.map((content, index) => (
-                            <MenuItem key={index} value={content.id} >
-                                <Checkbox checked={this.state.name.indexOf(content.id) > -1} />
-                                <ListItemText primary={content.name} />
+                            <MenuItem key={index} value={content.id}>
+                                <Checkbox checked={this.state.name.indexOf(content.id) > -1}/>
+                                <ListItemText primary={content.name}/>
                             </MenuItem>
                         ))}
                     </Select>
+                    <Typography color="error">{this.state.message}</Typography>
+
                 </FormControl>
             </div>
         );
@@ -105,4 +127,4 @@ MultipleSelect.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(MultipleSelect);
+export default withStyles(styles, {withTheme: true})(MultipleSelect);

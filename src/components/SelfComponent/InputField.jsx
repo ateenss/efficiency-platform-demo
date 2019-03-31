@@ -52,7 +52,7 @@ class TextFields extends React.Component {
             }
         }
 
-        if (rules.maxLength) {
+        if (rules.maxLength && e.target.value) {
             let maxLength = parseInt(rules.maxLength);
             if (e.target.value.length > maxLength) {
                 this.setState({message: "长度超限，最大[" + rules.maxLength + "]", error: true});
@@ -61,7 +61,7 @@ class TextFields extends React.Component {
             }
         }
 
-        if (rules.expr) {
+        if (rules.expr && e.target.value) {
             let regex = new RegExp(rules.expr);
             if (!regex.test(e.target.value)) {
                 this.setState({message: "格式校验错误", error: true});
@@ -72,13 +72,18 @@ class TextFields extends React.Component {
 
         this.setState({message: "", error: false});
 
-        this.props.onBlur({name:e.target.name , hasError:false});
+        this.props.validate({name:e.target.name , hasError:false});
 
         return true;
     };
 
     render() {
         const {classes, InputLabelName, defaultValue, nameIn, disabled, error} = this.props;
+        let rules = {
+            required: this.props.required,
+            expr: this.props.expr,
+            maxLength: this.props.maxLength
+        };
         return (
             <form className={classes.container} noValidate autoComplete="off">
                 <TextField
@@ -88,18 +93,10 @@ class TextFields extends React.Component {
                     defaultValue={!!defaultValue ? defaultValue : ""}
                     className={classes.textField}
                     margin="normal"
-                    onChange={this.handleChange.bind(this, {
-                        required: this.props.required,
-                        expr: this.props.expr,
-                        maxLength: this.props.maxLength
-                    })}
+                    onChange={this.handleChange.bind(this, rules)}
                     name={nameIn}
                     inputProps={{
-                        onBlur: this.onBLUR.bind(this, {
-                            required: this.props.required,
-                            expr: this.props.expr,
-                            maxLength: this.props.maxLength
-                        })
+                        onBlur: this.onBLUR.bind(this, rules)
                     }}
                     fullWidth
                     type="email"
