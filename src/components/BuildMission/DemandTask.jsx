@@ -23,7 +23,12 @@ import CardHeader from "@material-ui/core/CardHeader";
 import SimpleListMenu from "../common/SimpleListMenu";
 import Grid from "@material-ui/core/Grid";
 import {connect} from "react-redux";
-import {openTaskEdit,openAssignGoTest} from "../../actions/BuildMissionAction"
+import {
+    openTaskEdit,
+    openAssignGoTest,
+    changeStatusToDev,
+    changeStatusToIntegration, changeStatusToFinish,doAssignGoTest
+} from "../../actions/BuildMissionAction"
 import TaskEditor from "./TaskEditor";
 
 
@@ -44,7 +49,7 @@ const styles = {
     taskHeader:{
         padding:"10px 15px 0 15px",
     },
-    taskContent:{
+    taskDeadline:{
         padding:"0 15px 10px 15px",
         paddingBottom:"15px !important"
     },
@@ -56,35 +61,6 @@ const styles = {
 };
 
 
-const options = [
-        {
-            name: "编辑",
-            func: function (id) {
-                /*editTask(id)*/
-                //todo:在这里将task和taskEditor进行关联
-                store.dispatch(openTaskEdit(id))
-            }
-        },
-       /* {
-            name: "完成",
-            func: function (id) {
-                changeTaskStatus(id);
-            }
-        }*/
-    {
-        name:"进行走查",
-        func:function (id) {
-            //todo:
-            console.log("进行验证");
-            console.log(id);
-            store.dispatch(openAssignGoTest(id))
-
-        }
-    }
-
-    ]
-;
-
 
 class DemandTask extends React.Component {
     constructor(props) {
@@ -93,6 +69,53 @@ class DemandTask extends React.Component {
             expanded: false
         };
     }
+    funcOptions=()=>{
+        let tempOptions=[{
+            name: "编辑",
+            func: function (id) {
+                /*editTask(id)*/
+                store.dispatch(openTaskEdit(id))
+            }
+        }];
+        if (this.props.group==="plan") {
+            tempOptions.push({
+                name: "进行开发",
+                func: function (id) {
+                    store.dispatch(changeStatusToDev(id))
+                }
+            })
+        }else if (this.props.group==="develop") {
+            tempOptions.push({
+                name: "进行走查",
+                func: function (id) {
+                    store.dispatch(openAssignGoTest(id))
+                }
+            })
+        }else if (this.props.group==="goTest") {
+            tempOptions.push({
+                name: "进行持续集成",
+                func: function (id) {
+                    store.dispatch(changeStatusToIntegration(id))
+                }
+            })
+        }else if(this.props.group==="integration"){
+            tempOptions.push({
+                name: "任务完成",
+                func: function (id) {
+                    store.dispatch(changeStatusToFinish(id))
+                }
+            })
+        }else{
+            tempOptions.push({
+                name: "完成并删除任务",
+                func: function (id) {
+                    store.dispatch(openTaskEdit(id))
+                }
+            })
+        }
+
+        return tempOptions
+    };
 
     render() {
         const {classes} = this.props;
@@ -101,16 +124,16 @@ class DemandTask extends React.Component {
             <Card className={classes.taskCard}>
                 <CardHeader className={classes.taskHeader}
                             action={
-                                <SimpleListMenu icon={<MoreVertIcon/>} options={options}
+                                <SimpleListMenu icon={<MoreVertIcon/>} options={this.funcOptions()}
                                                 id={this.props.group+"-taskId-" + this.props.taskId}/>
                             }
                             title={<h6 className={classes.cardTitle}>{this.props.taskName}</h6>}
                 />
-                <CardContent className={classes.taskContent}>
+                <CardContent className={classes.taskDeadline}>
 
                     <Divider/>
                     <p>
-                        {this.props.taskContent}
+                        {this.props.taskDeadline}
                     </p>
 
                     <p href="#pablo" className={classes.cardLink}
@@ -124,7 +147,6 @@ class DemandTask extends React.Component {
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
-    console.log(333333);
     return {
         demands: state.reducer.task.demands
     }

@@ -12,8 +12,9 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
 import store from "../../stores";
 import MyPage from "./MyPage"
-import {closeDetailMission,getDemandTaskDetail} from "../../actions/BuildMissionAction"
+import {closeDetailMission,getDemandTaskDetail,getTest,init} from "../../actions/BuildMissionAction"
 import {SHOW_NOTIFICATION} from "../../actions/types";
+import {getProjectMembers} from "../../actions/CommonAction";
 
 
 const styles = {
@@ -92,6 +93,7 @@ class MissionDetailMain extends React.Component {
     }
 
     handleClose = () => {
+        init();
         store.dispatch(closeDetailMission());
     };
 
@@ -103,14 +105,16 @@ class MissionDetailMain extends React.Component {
 
     onSubmit = () => {
         // saveTask(this.state.data);
+        init();
         store.dispatch(closeDetailMission());
     };
 
-   /* componentDidMount() {
-        if (this.props.tempBoardToDetail) {
+    componentDidMount() {
+        /*if (this.props.tempBoardToDetail) {
             getDemandTaskDetail(this.props.tempBoardToDetail.keyNote)
-        }
-    }*/
+        }*/
+        getProjectMembers();
+    }
 
     render() {
         const {classes, detailMissionShow, tempBoardToDetail} = this.props;

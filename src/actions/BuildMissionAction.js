@@ -48,13 +48,25 @@ import {
     CLOSE_ASSIGN_GOTEST,
     DO_ASSIGN_GOTEST,
     GET_MYTASK_INFO,
-    GET_TASK_DETAIL_INFO
+    GET_TASK_DETAIL_INFO,
+    SAVE_BUILD_MODULE,
+    SHOW_NOTIFICATION,
+    INIT_TASK_MEMBERS,
+    CHANGE_PLAN2_DEV,
+    ADD_TEST_TASK_PANEL,
+    MODIFY_AFTER_TASKEDITOR
 } from './types';
+import {GET_PROJECT_MEMBERS} from "./CommonAction";
 
 
 /*!!this.props.funcArray&&this.props.funcArray.map((value,key)=>{
     value.name===event.target.value&&store.dispatch(value.func(this.props.giveContent))
 });*/
+
+export const addTestTask2Panel=value=>({
+    type:ADD_TEST_TASK_PANEL,
+    value
+})
 
 export const getMyTaskInfo=value=>({
     type:GET_MYTASK_INFO,
@@ -68,12 +80,7 @@ export const getDemandTaskDetailInfo=value=>({
 
 
 export const saveTaskEditor=content=>{
-    /*console.log("testahhahahahahhah");*/
     content.funcArray.map((value,key)=>{
-        /*console.log("开始");
-        console.log("结束");
-        console.log(value.name);
-        console.log(value.func);*/
         value.name===content.status&&store.dispatch(value.func(content.id))
     });
     store.dispatch(saveEditorSelf());
@@ -193,6 +200,8 @@ export const closeBuildModule=()=>({
     type: CLOSE_BUILD_MODULE
 });
 
+
+
 export const filterReset=()=>({
     type: FILTER_RESET
 });
@@ -217,8 +226,9 @@ export const filterDoOwnMission=()=>({
     type:FILTER_OWN_MISSION
 });
 
-export const openBuildPlan=()=>({
-   type: OPEN_BUILD_PLAN
+export const openBuildPlan = value => ({
+    type: OPEN_BUILD_PLAN,
+    value
 });
 
 export const closeBuildPlan=()=>({
@@ -272,6 +282,222 @@ export  const editSaveMissionDispatch=(value)=>({
     value
 });
 
+export const saveModule=value=>({
+    type: SAVE_BUILD_MODULE,
+    value
+});
+
+export const planChange2Dev=value=>({
+    type:CHANGE_PLAN2_DEV,
+    value
+});
+
+export const modifyAfterEditor=value=>({
+    type:MODIFY_AFTER_TASKEDITOR,
+    value
+});
+
+export function getDemandTaskPlan(){
+    const send_edit_data = 'http://127.0.0.1:8080/tiger-admin/task/getDemandTaskPlan';
+    const config = {
+        method: 'post'
+    };
+
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken);
+    return axios.post(send_edit_data, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                /*store.dispatch(getMyTaskInfo(data));*/
+                store.dispatch(openBuildPlan(data))
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+}
+
+
+
+export function submitAndPlan(content) {
+    store.dispatch(closeBuildPlan());
+    const submit_plan = 'http://127.0.0.1:8080/tiger-admin/task/submitAndSavePlan';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,content);
+    axios.post(submit_plan, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                console.log("存储数据成功")
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+        console.log("后台提取数据出现问题"+error);
+
+    });
+}
+
+
+export function saveDevPlan(content,taskId) {
+    const submit_task_edit = 'http://127.0.0.1:8080/tiger-admin/task/saveTaskEditor';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,content);
+    axios.post(submit_task_edit, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                getDemandTaskDetail(taskId);
+                console.log("存储数据成功")
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+
+    // store.dispatch(modifyAfterEditor(content));
+    store.dispatch(closeTaskEdit());
+}
+
+
+export function submitAndChange2Dev(id,content,parentTaskId){
+   /* store.dispatch(modifyAfterEditor(content));*/
+    const submit_task_edit = 'http://127.0.0.1:8080/tiger-admin/task/submitTaskEditor';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,content);
+    axios.post(submit_task_edit, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                getDemandTaskDetail(parentTaskId);
+                console.log("存储数据成功")
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+
+    //todo:这里有可能多余
+    store.dispatch(planChange2Dev(id));
+    store.dispatch(closeTaskEdit());
+
+}
+
+
+export function finishTest(content) {
+    const finish_test = 'http://127.0.0.1:8080/tiger-admin/task/finishTest';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,content);
+    return axios.post(finish_test, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                store.dispatch(addTestTask2Panel(data));
+                console.log("拉取数据成功")
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+}
+
+
+export function goToTest(content){
+    store.dispatch(doAssignGoTest(content.taskCode));
+    const go_to_test = 'http://127.0.0.1:8080/tiger-admin/task/goToTest';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,content);
+    return axios.post(go_to_test, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                /*let data = response.data.data;*/
+                console.log("存储数据成功")
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+}
+
+
+export function savePlanContent(content) {
+    const save_module_data = 'http://127.0.0.1:8080/tiger-admin/task/savePlanContent';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,content);
+    return axios.post(save_module_data, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                store.dispatch(saveBuildPlan(content));
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+}
+
+
+export function saveBuildModule(saveContent) {
+    const save_module_data = 'http://127.0.0.1:8080/tiger-admin/task/saveNewDevTask';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,saveContent);
+    return axios.post(save_module_data, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                store.dispatch(saveModule(saveContent));
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+}
+
+
 export function init() {
     const send_edit_data = 'http://127.0.0.1:8080/tiger-admin/task/getMyTaskInfo';
     const config = {
@@ -279,16 +505,11 @@ export function init() {
     };
 
     let accessToken = localStorage.getItem("token");
-    console.log("这是accessToken");
-    // console.log(localStorage);
-    console.log(accessToken);
     let request = RequestBuilder.parseRequest(accessToken);
     return axios.post(send_edit_data, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                console.log("已经成功");
-                console.log(response.data.data);
                 store.dispatch(getMyTaskInfo(data));
             }else{
 
@@ -309,17 +530,12 @@ export function getDemandTaskDetail(taskId) {
     store.dispatch(openDetailMission(taskId));
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,taskId);
-    console.log("查看阿賈克斯配置");
-    console.log(request);
     return axios.post(send_edit_data, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                console.log("内部详情已经成功");
-                console.log(response.data.data);
                 store.dispatch(getDemandTaskDetailInfo(data));
             }else{
-
                 console.log("没能拿到数据")
             }
         }).catch(error => {
@@ -331,34 +547,6 @@ export function getDemandTaskDetail(taskId) {
 
 
 export function pullBuildMissionInitial(){
-   /* const send_edit_data = 'http://127.0.0.1:8080/tiger-admin/task/getMyTaskInfo';
-    const config = {
-        method: 'post'
-    };
-    return axios.post(send_edit_data, {"version": "1.0"},config)
-        .then(response => {
-            if (response.data.respCode === "00") {
-                /!*store.dispatch({
-                    type: "save_success",
-                });
-                store.dispatch({
-                    type:"pull_initial_project",
-                    payload:InitialData
-                })*!/
-                console.log("已经成功");
-                console.log(response);
-            }else{
-                /!*store.dispatch({
-                    type: "save_fail",
-                });*!/
-                console.log("没能拿到数据")
-            }
-        }).catch(error => {
-        console.log("后台提取数据出现问题"+error);
-        /!*store.dispatch({
-            type: "save_error",
-        });*!/
-    });*/
     //以下是mock数据
     const rand=Math.floor(Math.random()*40)+1;
     const InitialData={

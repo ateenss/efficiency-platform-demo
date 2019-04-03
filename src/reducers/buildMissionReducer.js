@@ -44,7 +44,12 @@ import {
     DO_ASSIGN_GOTEST,
     CLOSE_ASSIGN_GOTEST,
     GET_MYTASK_INFO,
-    GET_TASK_DETAIL_INFO
+    GET_TASK_DETAIL_INFO,
+    SAVE_BUILD_MODULE,
+    INIT_TASK_MEMBERS,
+    CHANGE_PLAN2_DEV,
+    ADD_TEST_TASK_PANEL,
+    MODIFY_AFTER_TASKEDITOR
 } from "../actions/types"
 /*import {taskStatusChange} from "../actions/TaskStatusChangeFunc"*/
 
@@ -95,37 +100,79 @@ const taskStatusChange = (newDemands, action,statusTo) => {
     }
 };
 
+const findTask=(data,changeState)=>{
+    let ret =data.split("-");
+    let curGroup = ret[0];
+    let taskId = ret[2];
+    let tempTaskContent=null;
+    let taskItem=changeState.demands.taskDetailList[curGroup];
+    taskItem.map((item,index)=>{
+        if (item.taskCode===taskId){
+            tempTaskContent=item
+        }
+    });
+    return tempTaskContent;
+};
+
+const changeStatus=(from,to,content)=>{
+    to.push(content);
+    let tempIndex=0;
+    from.map((item,index)=>{
+        if (item.taskCode===content.taskCode){
+            tempIndex=index;
+        }
+    });
+    from.splice(tempIndex,1);
+};
+
+
 export default function (state = INITIAL_STATE, action) {
     let counter=[];
     switch (action.type) {
+        case MODIFY_AFTER_TASKEDITOR:
+            console.log("修改前台数据");
+            console.log(action.value);
+            let newTempTask=JSON.parse(JSON.stringify(state.tempTask));
+            newTempTask.content=action.value;
+            return {...state,tempTask:newTempTask};
+        case CHANGE_PLAN2_DEV:
+            let changePLAN2DEV=JSON.parse(JSON.stringify(state.demands));
+            changeStatus(changePLAN2DEV.taskDetailList.plan,changePLAN2DEV.taskDetailList.develop,state.tempTask.content);
+            return {...state,demands:changePLAN2DEV};
         case OPEN_ASSIGN_GOTEST:
-            let openAssignGoTestState=JSON.parse(JSON.stringify(state));
-            let res = action.value.split("-");
-            let currentGroup = res[0];
-            let currentTaskId = res[2];
-            let tempAssignGoTest=state.tempAssignGoTest;
-            openAssignGoTestState.demands.map((item,index)=>{
-                if (currentGroup==="develop") {
-                    item.tasks.develop.map((item2,index2)=>{
-                        if (item2.taskId===currentTaskId) {
-                            /*openAssignGoTestState.tempAssignGoTest=item2*/
-                            tempAssignGoTest=item2
-                        }
-                    });
-                }
-            });
-            /*openAssignGoTestState.assignGoTestShow=true;*/
-            return {...state, assignGoTestShow: true,tempAssignGoTest:tempAssignGoTest};
+            return {...state,
+                assignGoTestShow: true,
+                tempAssignGoTest:findTask(action.value,state)};
         case DO_ASSIGN_GOTEST:
-            //todo:这里做的事情：将任务添加在被指定人的我的任务列表里面，并且将相关信息传入
-            //信息已经全部加入到tempAssignGoTest，只要利用他去后台捞数据就行了包括id和被指定人
-            let tempDoAssign=state.tempAssignGoTest;
-            tempDoAssign.goTestMan=action.value;
-            return {...state, assignGoTestShow: false,tempAssignGoTest:tempDoAssign};
+            let changTestView=state.demands.taskDetailList;
+            changTestView.goTest.push(state.tempAssignGoTest);
+            let tempIndex=0;
+            changTestView.develop.map((item,index)=>{
+               if (item.taskCode===action.value){
+                   tempIndex=index;
+               }
+            });
+            changTestView.develop.splice(tempIndex,1);
+            return {...state, assignGoTestShow: false,demands:{...state.demands,changTestView}};
+        case ADD_TEST_TASK_PANEL:
+            let tempData=state.addTask;
+            tempData.push(action.value);
+            return {...state,addTask:tempData};
         case GET_MYTASK_INFO:
-            return {...state,addTask:action.value.taskList};
+            return {...state,addTask:action.value.taskList,finished:action.value.finished,unfinished:action.value.underWay};
         case GET_TASK_DETAIL_INFO:
             return {...state,demands:action.value};
+        case SAVE_BUILD_MODULE:
+            let tempSaveContent=new Object();
+            tempSaveContent["taskName"]=action.value.taskName;
+            tempSaveContent["taskDeadline"]=action.value.taskDeadline;
+            /*tempSaveContent["taskOwner"]=action.value.taskOwner;*/
+            tempSaveContent["taskStatus"]="待评审";
+            tempSaveContent["taskType"]="开发任务";
+            let tempState=JSON.parse(JSON.stringify(state));
+            tempState.demands.taskDetailList.plan.push(tempSaveContent);
+            //todo:应该是只改变局部数据的
+            return {...tempState};
         case CLOSE_ASSIGN_GOTEST:
             return {...state, assignGoTestShow: false};
         case SAVE_TASK_EDITOR:
@@ -142,19 +189,15 @@ export default function (state = INITIAL_STATE, action) {
         case CHANGE_STATUS_TO_TEST:
             return {...state, demands: taskStatusChange(state.demands,action,"goTest")};
         case OPEN_TASK_EDITOR:
-            const openTaskEditorState=JSON.parse(JSON.stringify(state));
             let ret =action.value.split("-");
             let curGroup = ret[0];
             let taskId = ret[2];
             let tempTaskContent=null;
-            let keyTaskName=Object.keys(openTaskEditorState.demands[0]["tasks"]);
-            //todo:这里的需求编号需要重新做，目前是假值
-            openTaskEditorState.demands.map((content,key)=>{
-                content.taskName==="需求任务1"&&keyTaskName.map((v1,k1)=>{
-                    v1===curGroup&&openTaskEditorState.demands[key].tasks[v1].map((v2,k2)=>{
-                        taskId===v2["taskId"]&&(tempTaskContent=v2)
-                    })
-                })
+            let taskItem=state.demands.taskDetailList[curGroup];
+            taskItem.map((item,index)=>{
+                if (item.taskCode===taskId){
+                    tempTaskContent=item
+                }
             });
             return {...state,
                 taskEditorShow: true,
@@ -229,7 +272,7 @@ export default function (state = INITIAL_STATE, action) {
             tempDemand.keyArray=counter;
             return {...state, filterJudge: tempDemand};
         case OPEN_BUILD_PLAN:
-            return {...state, buildPlanShow: true};
+            return {...state, buildPlanShow: true,tempDemandTaskPlan:action.value};
         case CLOSE_BUILD_PLAN:
             return {...state, buildPlanShow: false};
         case SAVE_BUILD_PLAN:
@@ -243,10 +286,8 @@ export default function (state = INITIAL_STATE, action) {
             openDetailMissionState.detailMissionShow=true;
             let tempMissionDeatil=state.tempBoardToDetail;
             openDetailMissionState.addTask.map((value,key)=>{
-                if (action.value===value.taskCode){
-                    //todo:这个地方missionId和keyNote之后要厘清
+                if (action.value===value.taskId){
                     value["keyNote"]=action.value;
-                    /*openDetailMissionState.tempBoardToDetail=value*/
                     tempMissionDeatil=value;
                 }
             });
@@ -256,10 +297,8 @@ export default function (state = INITIAL_STATE, action) {
             /*openDetailGoTestState.detailGoTestShow=true;*/
             let tempDetailGotest=state.tempBoardToDetail;
             openDetailGoTestState.addTask.map((value,key)=>{
-                if (action.value===value.taskCode){
-                    //todo:这个地方missionId和keyNote之后要厘清
+                if (action.value===value.taskId){
                     value["keyNote"]=action.value;
-                   /* openDetailGoTestState.tempBoardToDetail=value*/
                     tempDetailGotest=value;
                 }
             });
@@ -279,10 +318,8 @@ export default function (state = INITIAL_STATE, action) {
            /* openDetailIntegrationState.detailIntegrationShow=true;*/
             let tempIntegration=state.tempBoardToDetail;
             openDetailIntegrationState.addTask.map((value,key)=>{
-                if (action.value===value.taskCode){
-                    //todo:这个地方missionId和keyNote之后要厘清
+                if (action.value===value.taskId){
                     value["keyNote"]=action.value;
-                    /*openDetailIntegrationState.tempBoardToDetail=value*/
                     tempIntegration=value;
                 }
             });
@@ -294,10 +331,8 @@ export default function (state = INITIAL_STATE, action) {
             /*openOtherMissionState.detailOtherMissionShow=true;*/
             let tempOtherMission=state.tempBoardToDetail;
             openOtherMissionState.addTask.map((value,key)=>{
-                if (action.value===value.taskCode){
-                    //todo:这个地方missionId和keyNote之后要厘清
+                if (action.value===value.taskId){
                     value["keyNote"]=action.value;
-                    /*openOtherMissionState.tempBoardToDetail=value*/
                     tempOtherMission=value;
                 }
             });
@@ -310,10 +345,8 @@ export default function (state = INITIAL_STATE, action) {
             /*openDevMissionState.detailDevMissionShow=true;*/
             let tempDevDetail=state.tempBoardToDetail;
             openDevMissionState.addTask.map((value,key)=>{
-                if (action.value===value.taskCode){
-                    //todo:这个地方missionId和keyNote之后要厘清
+                if (action.value===value.taskId){
                     value["keyNote"]=action.value;
-                    /*openDevMissionState.tempBoardToDetail=value*/
                     tempDevDetail=value
                 }
             });

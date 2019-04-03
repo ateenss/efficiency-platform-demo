@@ -157,7 +157,7 @@ class Task extends React.Component {
                     <CardHeader
                         avatar={
                             <Avatar aria-label="Recipe" className={classes.taskType}>
-                                {this.props.taskType} - {this.props.taskNo}
+                                {this.props.taskType} - {this.props.keyNote}
                             </Avatar>
                         }
                         className={classes.taskHeader}
@@ -178,10 +178,7 @@ class Task extends React.Component {
                         <Grid container justify="flex-start">
 
                         <Grid item>
-                            {/*<IconButton aria-label="edit" onClick={this.props.editFunc}>*/}
-                            {/*<EditIcon/>*/}
-                            {/*</IconButton>*/}
-                            <Typography style={{marginLeft:"10px",color:"#b94947", fontSize:"12px"}}>2019/3/18  截止</Typography>
+                            <Typography style={{marginLeft:"10px",color:"#b94947", fontSize:"12px"}}>{this.props.taskDeadline} 截止</Typography>
                         </Grid>
                         </Grid>
                         <Grid container justify="flex-end">

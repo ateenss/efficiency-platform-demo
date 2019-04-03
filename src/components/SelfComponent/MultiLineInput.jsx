@@ -30,14 +30,18 @@ class MultiLineInput extends React.Component {
         multiline: 'Controlled',
     };
 
-    handleChange = event => {
+    /*handleChange = event => {
+        this.props.onChange({keyNote:event.target.name,value:event.target.value})
+    };*/
+
+    onBLUR=event=>{
         this.props.onChange({keyNote:event.target.name,value:event.target.value})
     };
 
     judgeDefaultValue=(name,value)=>!!value?(!!value[name] ? value[name] : ""):"";
 
     render() {
-        const { classes ,InputLabelName,content,nameIn, ...others} = this.props;
+        const { classes ,InputLabelName,content,defaultValue,nameIn, ...others} = this.props;
 
         return (
             <form className={classes.container} noValidate autoComplete="off">
@@ -52,8 +56,12 @@ class MultiLineInput extends React.Component {
                     margin="normal"
                     variant="outlined"
                     name={nameIn}
-                    defaultValue={this.judgeDefaultValue(nameIn,content)}
-                    onChange={this.handleChange}
+                    inputProps={{
+                        onBlur: this.onBLUR
+                    }}
+                    /*defaultValue={this.judgeDefaultValue(nameIn,content)}*/
+                    defaultValue={!!defaultValue ? defaultValue : ""}
+                   /* onChange={this.handleChange}*/
                     {...others}
                 />
 

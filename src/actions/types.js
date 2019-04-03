@@ -97,6 +97,7 @@ export const FILTER_RESET="filter_reset";
 //模块（子任务）
 export const OPEN_BUILD_MODULE="open_build_module";
 export const CLOSE_BUILD_MODULE="close_build_module";
+export const SAVE_BUILD_MODULE="save_build_module";
 export const OPEN_TASK_EDITOR="open_task_editor";
 export const CLOSE_TASK_EDITOR="close_task_editor";
 export const SAVE_TASK_EDITOR="save_task_editor";
@@ -114,3 +115,11 @@ export const DO_ASSIGN_GOTEST="do_assign_goTest";
 export const GET_MYTASK_INFO="get_myTask_info";
 //初始化需求开发任务详情
 export const GET_TASK_DETAIL_INFO="get_taskDetail_info";
+//获取任务人员
+export const INIT_TASK_MEMBERS="init_task_members";
+//新增走查任务到达主面板
+export const ADD_TEST_TASK_PANEL="add_test_task_panel";
+//从方案状态改写到开发状态
+export const CHANGE_PLAN2_DEV="change_plan2_dev";
+//编辑任务方案后实时对前端数据修改
+export const MODIFY_AFTER_TASKEDITOR="modify_after_taskeditor";

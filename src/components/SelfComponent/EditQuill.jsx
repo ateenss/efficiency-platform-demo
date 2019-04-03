@@ -31,6 +31,12 @@ class EditQuill extends React.Component {
         this.setState({ theme: newTheme })
     }
 
+    componentDidMount() {
+        !!this.props.defaultValue&& ( this.setState({
+            editorHtml:this.props.defaultValue
+        }))
+    }
+
     render () {
         const { classes,classStyle ,placeholder} = this.props;
         return (

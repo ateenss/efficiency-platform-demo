@@ -12,11 +12,12 @@ import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
-import {closeBuildModule} from "../../actions/BuildMissionAction"
+import {closeBuildModule,saveBuildModule} from "../../actions/BuildMissionAction"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import EditQuill from "../SelfComponent/EditQuill"
+import {getProjectMembers} from "../../actions/CommonAction";
 
 
 const styles = {
@@ -53,7 +54,8 @@ class BuildModuleMain extends React.Component {
             openTask: false,
             moduleContent:{
 
-            }
+            },
+            errorList: {}
         }
     }
 
@@ -64,8 +66,10 @@ class BuildModuleMain extends React.Component {
         store.dispatch(closeBuildModule());
     };
     handleSave=()=>{
-
-        // store.dispatch(buildSaveDemandDispatch(temp));
+        let saveContent=this.state.moduleContent;
+        // saveContent["parentTaskCode"]=this.props.demands.taskCode;
+        saveContent["taskId"]=this.props.demands.taskId;
+        saveBuildModule(saveContent);
         store.dispatch(closeBuildModule());
     };
 
@@ -93,54 +97,40 @@ class BuildModuleMain extends React.Component {
         }
     };
 
+    validate = (keyValue) => {
+
+        let errorList = this.state.errorList;
+        errorList[keyValue.name] = keyValue.hasError;
+
+        this.setState({errorList: errorList});
+    };
+
+
 
     render() {
-        const {classes, onClose, selectedValue,initialData,buttonStyle,randomNum,hintMessage, ...other} = this.props;
-        const statusArray=["方案","开发","联调","提测"];
+        const {classes, onClose, selectedValue,initialData,buttonStyle,randomNum,hintMessage,projectMembers, ...other} = this.props;
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
-                <DialogTitle id="simple-dialog-title">创建新任务</DialogTitle>
+                <DialogTitle id="simple-dialog-title">创建开发任务</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
-                        <Grid item xs={8} >
+                        <Grid item xs={8} className={classes.gridStyle}>
                             <InputField
-                                nameIn="ModuleName"
+                                nameIn="taskName"
                                 onChange={this.getContent}
                                 InputLabelName="任务名称"
+                                validate={this.validate}
                             />
                         </Grid>
-                        <Grid item xs={4} >
-                            <InputField InputLabelName="任务ID" defaultValue={randomNum} nameIn="demandID"  disabled={true}/>
+                        <Grid item xs={4} className={classes.gridStyle}>
+                            <SingleSelect onChange={this.getContent} InputLabelName="开发人员" validate={this.validate} nameIn="ownerId" nameArray={projectMembers}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="任务开发负责人" nameIn="ModuleDevHead" nameArray={initialData.demandDevHead}/>
+                            <DatePicker nameIn="taskDeadline" InputLabelName="任务截至时间"  onDateChange={this.getContent}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="demandAcceptTime" InputLabelName="任务开始时间" onDateChange={this.getContent}/>
+                            <InputField InputLabelName="涉及模块"  nameIn="involveModule"  validate={this.validate} onChange={this.getContent}/>
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="demandAcceptTime" InputLabelName="任务结束时间" onDateChange={this.getContent}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect
-                                onChange={this.getContent}
-                                InputLabelName="任务状态"
-                                nameIn="ModuleStatus"
-                                nameArray={statusArray}/>
-                        </Grid>
-                        <Grid item xs={12} className={classes.gridStyle}>
-                            <Typography className={classes.quillLabel}>开发方案</Typography>
-                            <EditQuill
-                                onChange={this.getContent}
-                                InputLabelName="任务描述"
-                                nameIn="ModuleDescription"
-                                classStyle={classes.quillIn}
-                            />
-                        </Grid>
-                        {/*<Grid item xs={4}>*/}
-                        {/*<Typography color="error">{hintMessage}</Typography>*/}
-                        {/*</Grid>*/}
-
                     </Grid>
                 </DialogContent>
                 <DialogActions>
@@ -169,6 +159,8 @@ const mapStateToProps = (state) => {
         initialData:state.reducer.buildDemand.initialData,
         hintMessage:state.reducer.buildDemand.hintMessage,
         buildDemandShow:state.reducer.buildDemand.buildDemandShow,
+        demands:state.reducer.buildMission.demands,
+        projectMembers:state.reducer.common.projectMembers
     }
 };
 

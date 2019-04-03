@@ -16,7 +16,7 @@ import {saveTask} from "../../actions/DemandTasksAction";
 import TigerInput from "../Input/TigerInput"
 import store from "../../stores";
 import MyPage from "./MyPage"
-import {closeDetailMission,closeGoTestDetail,changeStatusToGoTest,changeStatusToFinish} from "../../actions/BuildMissionAction"
+import {closeDetailMission,closeGoTestDetail,changeStatusToGoTest,finishTest,init,changeStatusToFinish} from "../../actions/BuildMissionAction"
 import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
 import InputField from "../SelfComponent/InputField"
 import Card from '@material-ui/core/Card';
@@ -142,9 +142,10 @@ class MissionDetailMain extends React.Component {
     }
 
     handleChangeAndClose=()=>{
-        //todo:这里面需要传入一个ID，这里就是改变状态到持续集成，不应该是完成，下面需要修改
-        //注意这里的不应该是taskCode，应该传入任务ID，应该发起一个请求该后台做有关id任务的状态
-        store.dispatch(changeStatusToFinish(this.props.tempBoardToDetail.taskCode));
+        /*store.dispatch(changeStatusToFinish(this.props.tempBoardToDetail.taskCode));*/
+        console.log("实验输入");
+        console.log(this.props.tempBoardToDetail.taskId);
+        finishTest(this.props.tempBoardToDetail.taskId);
         this.setState({
             openAlert:false
         })
@@ -164,6 +165,7 @@ class MissionDetailMain extends React.Component {
 
 
     handleClose = () => {
+        init();
         store.dispatch(closeGoTestDetail());
     };
 

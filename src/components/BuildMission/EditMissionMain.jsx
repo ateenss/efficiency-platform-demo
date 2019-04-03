@@ -47,7 +47,6 @@ class EditMissionMain extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        //todo:这里面应该放入addTask，是数值放置错误，必须找到指定addTask
         nextProps.addTask.map((content,key)=>{
             if (key===this.props.tempBoardToDetail.keyNote) {
                 this.setState({

@@ -30,6 +30,7 @@ import TaskEditor from "./TaskEditor";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MultiSelect from "../SelfComponent/MultiSelect";
 import Dialog from '@material-ui/core/Dialog';
+import GotoTest from "./GotoTest"
 
 
 import {
@@ -110,9 +111,10 @@ const styles = {
 
 const options = [
         {
-            name: "新建方案",
+            name: "编写方案",
             func: function (id) {
                 store.dispatch(openBuildPlan())
+
             }
         },
         {
@@ -243,7 +245,7 @@ class DemandTaskDetail extends React.Component {
 
                                 {!plan ? "" : plan.map((prop, key) => {
                                     return (
-                                        <Task group="plan" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent} />
+                                        <Task group="plan" key={key} taskId={prop.taskCode} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -254,7 +256,7 @@ class DemandTaskDetail extends React.Component {
 
                                 {!develop ? "" : develop.map((prop, key) => {
                                     return (
-                                        <Task group="develop" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
+                                        <Task group="develop" key={key} taskId={prop.taskCode} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -264,7 +266,7 @@ class DemandTaskDetail extends React.Component {
                                 {console.log(goTest)}
                                 {!goTest ? "" : goTest.map((prop, key) => {
                                     return (
-                                        <Task  group="goTest" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
+                                        <Task  group="goTest" key={key} taskId={prop.taskCode} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -272,7 +274,7 @@ class DemandTaskDetail extends React.Component {
                             <Grid xs={2} sm={12} md={2} item>
                                 {!integration ? "" : integration.map((prop, key) => {
                                     return (
-                                        <Task group="integration" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
+                                        <Task group="integration" key={key} taskId={prop.taskCode} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -280,7 +282,7 @@ class DemandTaskDetail extends React.Component {
                             <Grid xs={2} sm={12} md={2} item>
                                 {!finish ? "" : finish.map((prop, key) => {
                                     return (
-                                        <Task group="finish" key={key} taskId={prop.taskId} taskName={prop.taskName} taskContent={prop.taskContent}/>
+                                        <Task group="finish" key={key} taskId={prop.taskCode} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -298,10 +300,11 @@ class DemandTaskDetail extends React.Component {
                     open={buildModuleShow}
                 />
                 <TaskEditor />
-                <AssignGoTest
+                {/*<AssignGoTest
                     openAssign={assignGoTestShow}
                     openAssignGoTest={this.openAssignGoTest}
-                    getContent={this.getContent}/>
+                    getContent={this.getContent}/>*/}
+                <GotoTest/>
             </Card>
 
         );

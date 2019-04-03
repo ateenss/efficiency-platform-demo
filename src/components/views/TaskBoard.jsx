@@ -37,7 +37,7 @@ import {
 } from "../../actions/BuildMissionAction"
 import MissionDetailMain from "../BuildMission/MissionDetailMain"
 import IntegrationPage from "../BuildMission/IntegrationPage"
-import GoTestPage from "../BuildMission/GoTestPage";
+import GoTestPage from "../BuildMission/TestPage";
 import OtherMissionPage from "../BuildMission/OtherMissionPage"
 import DevMissionPage from "../BuildMission/DevMissionPage"
 
@@ -159,7 +159,7 @@ class TaskBoard extends React.Component {
 
 
     render() {
-        const {classes,buildMissionShow,addTask,initialData,filterJudge} = this.props;
+        const {classes,buildMissionShow,addTask,initialData,filterJudge,finished,unfinished} = this.props;
         /*let taskComponents = addTask.map((prop, key) => {
             return (
                 <Task key={prop.taskId} taskNo={prop.taskNo} taskName={prop.taskName} taskStatus={prop.taskStatus}
@@ -179,7 +179,7 @@ class TaskBoard extends React.Component {
 
         let newTaskComponents=tempContent.map((prop,key)=>{
             return (
-                <Task key={key} keyNote={prop.taskCode} taskNo={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus}
+                <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus}
                         taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>
 
             )
@@ -223,21 +223,19 @@ class TaskBoard extends React.Component {
                     <AppBar className={classes.header} position="static" color="default">
                         <Grid container spacing={16}>
                             <Grid item xs={1}>
-                                <Badge className={classes.margin} badgeContent={4} color="secondary">
+                                <Badge className={classes.margin} badgeContent={unfinished} color="secondary">
                                     <Chip label="进行中" className={classes.chip} variant="default"
                                           style={{background: "#FFFFFF", color: "#121212"}}/>
                                 </Badge>
                             </Grid>
                             <Grid item xs={1}>
-                                <Badge className={classes.margin} badgeContent={4} color="secondary">
+                                <Badge className={classes.margin} badgeContent={finished} color="secondary">
                                     <Chip label="已完成" className={classes.chip} variant="default"
                                           style={{background: "#FFFFFF", color: "#121212"}}/>
                                 </Badge>
                             </Grid>
                             <Grid item xs={2}>
                                 <Toolbar variant="regular" className={classes.toolbar}>
-                                    {/*<Button onClick={this.toggleDrawer('right', true)}>新建</Button>*/}
-                                    {/*<Button onClick={this.openMissionPanel}>新建</Button>*/}
                                     <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>
                                 </Toolbar>
                             </Grid>
@@ -282,7 +280,9 @@ const
             editMissionShow: state.reducer.buildMission.editMissionShow,
             addTask: state.reducer.buildMission.addTask,
             initialData: state.reducer.buildMission.initialData,
-            filterJudge: state.reducer.buildMission.filterJudge
+            filterJudge: state.reducer.buildMission.filterJudge,
+            finished: state.reducer.buildMission.finished,
+            unfinished: state.reducer.buildMission.unfinished
         }
     };
 

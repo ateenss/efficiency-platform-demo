@@ -11,7 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import store from '../../stores/index';
-import {closeBuildPlan, saveBuildPlan} from "../../actions/BuildMissionAction"
+import {closeBuildPlan, saveBuildPlan,savePlanContent,submitAndPlan} from "../../actions/BuildMissionAction"
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import EditQuill from "../SelfComponent/EditQuill"
@@ -79,8 +79,19 @@ class BuildPlanMain extends React.Component {
     };
 
     savePlan = () => {
-        store.dispatch(saveBuildPlan(this.state.planContent));
-        store.dispatch(closeBuildPlan());
+       /* store.dispatch(savePlanContent(this.state.planContent));
+        store.dispatch(closeBuildPlan());*/
+        let tempContent=this.state.planContent;
+        tempContent["taskId"]=this.props.tempBoardToDetail.taskId;
+        tempContent["saveOrSubmit"]=0;
+        submitAndPlan(tempContent);
+    };
+
+    submitPlan=()=>{
+        let tempContent=this.state.planContent;
+        tempContent["taskId"]=this.props.tempBoardToDetail.taskId;
+        tempContent["saveOrSubmit"]=1;
+        submitAndPlan(tempContent);
     };
 
     getContent = e => {
@@ -104,9 +115,18 @@ class BuildPlanMain extends React.Component {
             })
         }
     };
+    componentDidMount() {
+        if (this.props.tempDemandTaskPlan){
+            this.setState({
+                planContent:this.props.tempDemandTaskPlan
+            })
+        }
+    }
+
 
     render() {
         const {classes, buildPlanShow} = this.props;
+        const {planContent}=this.state;
         return (
             <div>
                 <Dialog
@@ -126,6 +146,9 @@ class BuildPlanMain extends React.Component {
                             <Button color="inherit" onClick={this.savePlan}>
                                 保存
                             </Button>
+                            <Button color="inherit" onClick={this.submitPlan}>
+                                提交
+                            </Button>
                         </Toolbar>
                     </AppBar>
                     <Grid container spacing={8}>
@@ -134,37 +157,43 @@ class BuildPlanMain extends React.Component {
                                 <Grid item xs={12} className={classes.quillWrapper}>
                                     <EditQuill
                                         classStyle={classes.quillIn}
-                                        nameIn="OverallSchemeDescription"
+                                        nameIn="overallPlan"
                                         placeholder="请输入整体方案描述"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.overallPlan}
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <MultiLineInput fullWidth
                                                     InputLabelName="外部系统接口调整"
-                                                    nameIn="externalSystemPortAdjust"
+                                                    nameIn="outerSysInterfaceChange"
                                                     onChange={this.getContent}
+                                                    defaultValue={planContent.outerSysInterfaceChange}
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <MultiLineInput fullWidth
                                                     InputLabelName="是否支持灰度功能"
-                                                    nameIn="IsOrNotSupportGrayScale"
+                                                    nameIn="supportGrayEnv"
                                                     onChange={this.getContent}
+                                                    defaultValue={planContent.supportGrayEnv}
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <MultiLineInput fullWidth
                                                     InputLabelName="灾备影响性评估"
-                                                    nameIn="DisasterImpactAssessment"
+                                                    nameIn="disasterRecoveryAssessment"
                                                     onChange={this.getContent}
+                                                    defaultValue={planContent.disasterRecoveryAssessment}
+                                    />
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <MultiLineInput fullWidth
                                                     InputLabelName="生产影响性评估"
-                                                    nameIn="ProductImpactAssessment"
+                                                    nameIn="productEnvAssessment"
                                                     onChange={this.getContent}
+                                                    defaultValue={planContent.productEnvAssessment}
                                     />
                                 </Grid>
                             </Grid>
@@ -174,71 +203,81 @@ class BuildPlanMain extends React.Component {
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="外部系统配套改造"
-                                        nameIn="externalSystemSetTransform"
+                                        nameIn="outerSysChange"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.outerSysChange}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="模块上线顺序要求"
-                                        nameIn="ModuleOnLineSequenceRequire"
+                                        nameIn="moduleDeploySequence"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.moduleDeploySequence}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="内部子系统间接口调整"
-                                        nameIn="InternalSubSystemPortAdjust"
+                                        nameIn="innerSysInterfaceChange"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.innerSysInterfaceChange}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="安全相关"
-                                        nameIn="SafetyRelated"
+                                        nameIn="safety"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.safety}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="数据库修改点"
-                                        nameIn="DatabaseModifyPoint"
+                                        nameIn="dbChange"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.dbChange}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="参数配置要求"
-                                        nameIn="ParamConfigRequire"
+                                        nameIn="config"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.config}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="接口规范变更"
-                                        nameIn="PortSpecificationChange"
+                                        nameIn="interfaceChange"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.interfaceChange}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="运维信息变更"
-                                        nameIn="MaintenanceInfoChange"
+                                        nameIn="operationChange"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.operationChange}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="部署需求调整"
-                                        nameIn="DeploymentRequireAdjust"
+                                        nameIn="deploymentChange"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.deploymentChange}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <MultiLineInput
                                         InputLabelName="五高影响性"
-                                        nameIn="FiveHighImpact"
+                                        nameIn="high5Assessment"
                                         onChange={this.getContent}
+                                        defaultValue={planContent.high5Assessment}
                                     />
                                 </Grid>
                             </Grid>
@@ -257,10 +296,11 @@ BuildPlanMain.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    // console.log("map数据:"+state.reducer.buildProject.addProjects);
     return {
         initialData: state.reducer.buildMission.initialData,
         buildPlanShow: state.reducer.buildMission.buildPlanShow,
+        tempBoardToDetail:state.reducer.buildMission.tempBoardToDetail,
+        tempDemandTaskPlan:state.reducer.buildMission.tempDemandTaskPlan
     }
 };
 
