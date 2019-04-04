@@ -5,7 +5,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import {connect} from "react-redux";
 import store from '../../stores/index';
-import {closeFilterManagerDemand, filterSaveManagerDemand} from "../../actions/BuildDemandAction"
+import {closeFilterManagerDemand, filterSaveManagerDemand} from "../../actions/DemandAction"
 import InputField from "../SelfComponent/InputField";
 import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect";

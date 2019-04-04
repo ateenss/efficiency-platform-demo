@@ -10,6 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Checkbox from '@material-ui/core/Checkbox';
+import MenuItem from "./SingleSelect";
 
 
 const styles = {
@@ -27,13 +28,13 @@ const styles = {
         bottom:0,
         width:"100%"
     },
-    labelA:{
+    label1:{
         position:"absolute",
         top:"10px",
         left:"0",
         marginRight:"20px"
     },
-    labelB:{
+    label0:{
         position:"absolute",
         top:"10px",
         right:"0",
@@ -75,8 +76,13 @@ class RadioButtons extends React.Component {
                         value={this.state.value}
                         onChange={this.handleChange}
                     >
-                        <FormControlLabel value={labelArray[0]}   control={<Checkbox />} label={labelArray[0]} className={classes.labelA}/>
-                        <FormControlLabel value={labelArray[1]} control={<Checkbox />} label={labelArray[1]} className={classes.labelB}/>
+                        {
+                            labelArray.map((value, index) => {
+                                return (
+                                    <FormControlLabel key={index} value={value.id} control={<Checkbox />} label={value.name} className={classes["label"+value.id]}/>
+                                )
+                            })
+                        }
                     </RadioGroup>
                 </FormControl>
             </div>

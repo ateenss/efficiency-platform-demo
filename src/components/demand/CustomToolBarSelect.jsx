@@ -5,12 +5,13 @@ import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
 import EditIcon from "@material-ui/icons/Edit";
 import {withStyles} from "@material-ui/core/styles";
-import {changeTaskStatus, editDemand, editTask} from "../../actions/DemandTasksAction";
+import {editDemand, openReviewDemand} from "../../actions/DemandAction";
 import DemandGuihuaIcon from "@material-ui/icons/Receipt"
 import ChooseDemandBox from "./ChooseDemandBox";
-import SimpleListMenu from "../common/SimpleListMenu";
 import store from '../../stores/index';
-import {openEditDemand} from "../../actions/BuildDemandAction"
+import {openEditDemand} from "../../actions/DemandAction"
+import IterationListMenu from "./IterationListMenu";
+import {connect} from "react-redux";
 
 const defaultToolbarSelectStyles = {
     iconButton: {
@@ -28,31 +29,6 @@ const defaultToolbarSelectStyles = {
     },
 };
 
-const options = [
-        {
-            name: "47.0",
-            func: function (id) {
-                console.log(3);
-            }
-        },
-        {
-            name: "48.0",
-            func: function (id) {
-                console.log(3);
-                this.props.setSelectedRows([]);
-            }
-        }
-        ,
-        {
-            name: "49.0",
-            func: function (id) {
-                console.log(3);
-            }
-        }
-
-    ]
-;
-
 class CustomToolbarSelect extends React.Component {
     constructor(props) {
         super(props);
@@ -62,6 +38,10 @@ class CustomToolbarSelect extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps, nextContext) {
+
+
+    }
 
     handleClickInverseSelection = () => {
         const nextSelectedRows = this.props.displayData.reduce((nextSelectedRows, _, index) => {
@@ -80,8 +60,7 @@ class CustomToolbarSelect extends React.Component {
     };
 
     handleEdit = () => {
-        editDemand(this.props.displayData[this.props.selectedRows.data[0].dataIndex]);
-        store.dispatch(openEditDemand());
+        editDemand(this.props.displayData[this.props.selectedRows.data[0].dataIndex].data[0]);
     };
 
     handleClickBlockSelected = () => {
@@ -94,6 +73,11 @@ class CustomToolbarSelect extends React.Component {
     handleDemand = () => {
         this.setState({open: true})
     };
+
+    openReviewDemand = () => {
+        openReviewDemand(this.props.displayData[this.props.selectedRows.data[0].dataIndex].data[0]);
+    };
+
 
 
     render() {
@@ -116,9 +100,14 @@ class CustomToolbarSelect extends React.Component {
                         <EditIcon className={classes.icon}/>
                     </IconButton>
                 </Tooltip>
+                <Tooltip title={"评审"}>
+                    <IconButton className={classes.iconButton} onClick={this.openReviewDemand}>
+                        <EditIcon className={classes.icon}/>
+                    </IconButton>
+                </Tooltip>
                 <Tooltip title={"变更迭代"} id="3333">
-                    <SimpleListMenu options={options} display="inline" buttonClass={classes.iconButton} id="234"
-                                    icon={<DemandGuihuaIcon className={classes.icon}/>}/>
+                    <IterationListMenu options={this.props.iteration} display="inline" buttonClass={classes.iconButton} id="234"
+                                    icon={<DemandGuihuaIcon className={classes.icon}/>} demandId={this.props.displayData[this.props.selectedRows.data[0].dataIndex].data[0]}/>
                 </Tooltip>
 
             </div>
@@ -126,4 +115,21 @@ class CustomToolbarSelect extends React.Component {
     }
 }
 
-export default withStyles(defaultToolbarSelectStyles, {name: "CustomToolbarSelect"})(CustomToolbarSelect);
+
+const
+    mapStateToProps = (state) => {
+        console.log("!!!!!!!!" + JSON.stringify(state.reducer.buildDemand.updatedRow));
+        return {
+            updatedRow : state.reducer.buildDemand.updatedRow
+        }
+    };
+
+export default connect(mapStateToProps)
+
+(
+    withStyles(defaultToolbarSelectStyles, {name: "CustomToolbarSelect"})
+
+    (
+        CustomToolbarSelect
+    ))
+;

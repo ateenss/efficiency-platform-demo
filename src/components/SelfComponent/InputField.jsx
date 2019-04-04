@@ -35,6 +35,8 @@ class TextFields extends React.Component {
         error: false
     };
 
+
+
     handleChange = (rules, e) => {
         // this.setState({ [name]: event.target.value });
 
@@ -46,7 +48,7 @@ class TextFields extends React.Component {
         if (rules.required) {
             if (!e.target.value) {
                 this.setState({message: "必填", error: true});
-                this.props.onBlur({name:e.target.name , hasError:true});
+                this.props.validate({name:e.target.name , hasError:true});
 
                 return false;
             }
@@ -56,7 +58,7 @@ class TextFields extends React.Component {
             let maxLength = parseInt(rules.maxLength);
             if (e.target.value.length > maxLength) {
                 this.setState({message: "长度超限，最大[" + rules.maxLength + "]", error: true});
-                this.props.onBlur({name:e.target.name , hasError:true});
+                this.props.validate({name:e.target.name , hasError:true});
                 return false;
             }
         }
@@ -65,12 +67,14 @@ class TextFields extends React.Component {
             let regex = new RegExp(rules.expr);
             if (!regex.test(e.target.value)) {
                 this.setState({message: "格式校验错误", error: true});
-                this.props.onBlur({name:e.target.name , hasError:true});
+                this.props.validate({name:e.target.name , hasError:true});
                 return false;
             }
         }
 
         this.setState({message: "", error: false});
+
+        console.log(e.target.name);
 
         this.props.validate({name:e.target.name , hasError:false});
 

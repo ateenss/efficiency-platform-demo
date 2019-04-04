@@ -1,17 +1,26 @@
-import {OPEN_BUILD_DEMAND,
-        CLOSE_BUILD_DEMAND,
-        PULL_INITIAL_DEMAND,
-        BUILD_SAVE_DEMAND,
-        OPEN_EDIT_DEMAND,
-        CLOSE_EDIT_DEMAND,
-        EDIT_SAVE_DEMAND,
-        FILTER_DEMAND_OPEN_MANAGER,
-        FILTER_DEMAND_CLOSE_MANAGER,
+import {
+    OPEN_BUILD_DEMAND,
+    CLOSE_BUILD_DEMAND,
+    PULL_INITIAL_DEMAND,
+    BUILD_SAVE_DEMAND,
+    OPEN_EDIT_DEMAND,
+    CLOSE_EDIT_DEMAND,
+    EDIT_SAVE_DEMAND,
+    FILTER_DEMAND_OPEN_MANAGER,
+    FILTER_DEMAND_CLOSE_MANAGER,
     FILTER_DEMAND_OPEN_DEVELOPER,
     FILTER_DEMAND_CLOSE_DEVELOPER,
     FILTER_DEMAND_MANAGER_SAVE,
-    FILTER_DEMAND_DEVELOPER_SAVE
+    FILTER_DEMAND_DEVELOPER_SAVE,
+    UPDATE_ROW,
+    EDIT_DEMAND,
+    SAVE_EDIT_DEMAND,
+    BUILD_SAVE_PROJECT,
+    ADD_DEMAND,
+    SAVE_ADD_DEMAND,
+    REVIEW_DEMAND, CLOSE_REVIEW_DEMAND, SAVE_REVIEW_DEMAND
 } from "../actions/types"
+import {GET_DEMAND} from "../actions/DemandTasksAction";
 
 
 export const INITIAL_STATE = {
@@ -46,11 +55,7 @@ export default function (state = INITIAL_STATE, action) {
             const closeFilterDeveloperDemandState=JSON.parse(JSON.stringify(state));
             closeFilterDeveloperDemandState.filterDeveloperDemandShow=false;
             return closeFilterDeveloperDemandState;
-        case OPEN_BUILD_DEMAND:
-            // console.log("打开建立需求面板");
-            const showOpenBuildState = JSON.parse(JSON.stringify(state));
-            showOpenBuildState.buildDemandShow=true;
-            return showOpenBuildState;
+
         case OPEN_EDIT_DEMAND:
             // console.log("创建提交store");
             const showOpenEditState = JSON.parse(JSON.stringify(state));
@@ -96,6 +101,30 @@ export default function (state = INITIAL_STATE, action) {
             });
 
             return editDemandState;
+        case EDIT_DEMAND:
+
+            return {...state, editData: action.payload, editDemandShow: true, action : EDIT_DEMAND}
+        case ADD_DEMAND:
+
+            return {...state, buildDemandShow: true, action : ADD_DEMAND}
+        case UPDATE_ROW:
+
+            return {...state, updatedRow : action.payload, action : UPDATE_ROW}
+        case SAVE_EDIT_DEMAND:
+
+            return {...state, updatedRow : action.payload, editDemandShow:false, action:SAVE_EDIT_DEMAND}
+        case SAVE_ADD_DEMAND:
+
+            return {...state, updatedRow : action.payload, buildDemandShow:false, action:SAVE_ADD_DEMAND}
+        case REVIEW_DEMAND:
+
+            return {...state, editData: action.payload, openReviewDemand: true, action : REVIEW_DEMAND}
+        case CLOSE_REVIEW_DEMAND:
+
+            return {...state, openReviewDemand: false, action : CLOSE_REVIEW_DEMAND}
+        case SAVE_REVIEW_DEMAND:
+
+            return {...state, updatedRow : action.payload, openReviewDemand:false, action:SAVE_REVIEW_DEMAND}
         default:
             return state;
     }
