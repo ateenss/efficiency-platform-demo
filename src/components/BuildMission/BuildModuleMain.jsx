@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import blue from '@material-ui/core/colors/blue';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,14 +9,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
-import MultiSelect from "../SelfComponent/MultiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
 import {closeBuildModule,saveBuildModule} from "../../actions/BuildMissionAction"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
-import EditQuill from "../SelfComponent/EditQuill"
-import {getProjectMembers} from "../../actions/CommonAction";
 
 
 const styles = {
@@ -67,9 +63,8 @@ class BuildModuleMain extends React.Component {
     };
     handleSave=()=>{
         let saveContent=this.state.moduleContent;
-        // saveContent["parentTaskCode"]=this.props.demands.taskCode;
         saveContent["taskId"]=this.props.demands.taskId;
-        saveBuildModule(saveContent);
+        saveBuildModule(saveContent,this.props.demands.taskId);
         store.dispatch(closeBuildModule());
     };
 
@@ -80,7 +75,7 @@ class BuildModuleMain extends React.Component {
             const keyNote=e.keyNote;
             const value=e.value;
             let data = Object.assign({}, this.state.moduleContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 moduleContent:data
@@ -89,7 +84,7 @@ class BuildModuleMain extends React.Component {
             const keyNote=e.target.name;
             const value=e.target.value;
             let data = Object.assign({}, this.state.moduleContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 moduleContent:data
@@ -154,7 +149,6 @@ BuildModuleMain.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    // console.log("map数据:"+state.reducer.buildProject.addProjects);
     return {
         initialData:state.reducer.buildDemand.initialData,
         hintMessage:state.reducer.buildDemand.hintMessage,

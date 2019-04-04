@@ -11,16 +11,11 @@ import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from "@material-ui/core/Grid";
-import ReactQuill from "react-quill";
-import {saveTask} from "../../actions/DemandTasksAction";
-import TigerInput from "../Input/TigerInput"
 import store from "../../stores";
-import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
 import EditQuill from "../SelfComponent/EditQuill"
 import {closeTaskEdit,
     submitAndChange2Dev,
     saveDevPlan,
-    getDemandTaskDetail,
     } from "../../actions/BuildMissionAction"
 import InputField from "../SelfComponent/InputField"
 import DatePicker from "../SelfComponent/DatePicker"
@@ -75,7 +70,7 @@ class TaskEditor extends React.Component {
             data: {},
             taskName:null,
             taskID:null,
-            taskContent:null,
+            taskContent:"11",
             errorList: {},
             tempTaskId:null,
             taskEditorContent:null
@@ -83,79 +78,50 @@ class TaskEditor extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextStatus) {
-        if (nextProps.tempTask.content) {
-            if(nextProps.tempTask.content.taskName){
+        if (nextProps.tempTask.content && nextProps.action === "OPEN_TASK_EDITOR") {
             this.setState({
-                taskName:nextProps.tempTask.content.taskName,
-                taskContent:nextProps.tempTask.content,
-                tempTaskId:nextProps.tempTask.taskID
+                taskContent: nextProps.tempTask.content,
+                tempTaskId: nextProps.tempTask.taskID
             });
-        }}
+        }
     }
 
     handleClose = () => {
-        /*getDemandTaskDetail(this.props.demands.taskId);*/
         store.dispatch(closeTaskEdit())
 
     };
 
-    handleInput = (e) =>{
-        const key = e.target.name;
-        this.state.data[key] = e.target.value;
-        this.setState(this.state.data);
-    };
 
     getContent=e=>{
         if (e.keyNote){
             const keyNote=e.keyNote;
             const value=e.value;
-            let data = Object.assign({}, this.state.taskEditorContent, {
-                [keyNote]: value.toString()
+            let data = Object.assign({}, this.state.taskContent, {
+                [keyNote]: value
             });
             this.setState({
-                taskEditorContent:data
+                taskContent:data
             })
         }else{
             const keyNote=e.target.name;
             const value=e.target.value;
-            let data = Object.assign({}, this.state.taskEditorContent, {
-                [keyNote]: value.toString()
+            let data = Object.assign({}, this.state.taskContent, {
+                [keyNote]: value
             });
             this.setState({
-                taskEditorContent:data
+                taskContent:data
             })
         }
     };
 
-    contentModify=()=>{
-        let tempData=this.state.taskEditorContent;
-        tempData["taskCode"]=this.state.taskContent.taskCode;
-        tempData["taskId"]=this.state.taskContent.taskId;
-        if (!tempData.taskName){
-            tempData["taskName"]=this.state.taskContent.taskName
-        }
-        if (!tempData.ownerId){
-            tempData["ownerId"]=this.state.taskContent.taskOwner
-        }
-        if (!tempData.taskDeadline){
-            tempData["taskDeadline"]=this.state.taskContent.taskDeadline
-        }
-        if (!tempData.involveModule){
-            tempData["involveModule"]=this.state.taskContent.involveModule
-        }
-        tempData["ownerId"]= parseInt(tempData["ownerId"]);
-        return tempData
-    };
-
 
     save=()=>{
-        saveDevPlan(this.contentModify(),this.props.demands.taskId);
+        saveDevPlan(this.state.taskContent,this.props.demands.taskId);
     };
 
 
-    //todo:缺少module字段
     onSubmit = () => {
-        submitAndChange2Dev(this.state.tempTaskId,this.contentModify(),this.props.demands.taskId);
+        submitAndChange2Dev(this.state.tempTaskId,this.state.taskContent,this.props.demands.taskId);
     };
     validate = (keyValue) => {
 
@@ -165,12 +131,11 @@ class TaskEditor extends React.Component {
         this.setState({errorList: errorList});
     };
 
+
+
     render() {
-        const taskContent=!!this.state.taskContent?this.state.taskContent:"";
-        let timeFormat=null;
-        if (this.state.taskContent){
-            timeFormat=taskContent.taskDeadline.split(" ")[0];
-        }
+
+        const{taskContent}=this.state;
         const {classes,taskEditorShow,projectMembers} = this.props;
         return (
 
@@ -199,31 +164,26 @@ class TaskEditor extends React.Component {
                                     InputLabelName="任务名称"
                                     onChange={this.getContent}
                                     nameIn="taskName"
-                                    defaultValue={this.state.taskName}
+                                    defaultValue={taskContent.taskName}
                                     validate={this.validate}
                                 />
                             </Grid>
-                            {/*<Grid xs={4} item>
-                                <InputField
-                                    InputLabelName="开发人员"
-                                    onChange={this.getContent}
-                                    nameIn="taskOwner"
-                                    validate={this.validate}
-                                />
-                            </Grid>*/}
                             <Grid item xs={4} className={classes.gridStyle}>
                                 <SingleSelect
                                     onChange={this.getContent}
                                     InputLabelName="开发人员"
                                     validate={this.validate}
                                     nameIn="ownerId"
-                                    nameArray={projectMembers}/>
+                                    nameArray={projectMembers}
+                                    defaultValue={taskContent.ownerId}
+                                />
+
                             </Grid>
                             <Grid xs={4} item>
                                 <DatePicker nameIn="taskDeadline"
                                             InputLabelName="任务结束时间"
                                             onDateChange={this.getContent}
-                                            defaultValue={timeFormat} />
+                                            defaultValue={taskContent.taskDeadline} />
                             </Grid>
                             <Grid item xs={4} className={classes.gridStyle}>
                                 <InputField InputLabelName="涉及模块"
@@ -262,14 +222,15 @@ class TaskEditor extends React.Component {
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
     return {
-        action : state.reducer.task.action,
+        /*action : state.reducer.task.action,*/
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
         detailMissionShow:state.reducer.buildMission.detailMissionShow,
         taskEditorShow: state.reducer.buildMission.taskEditorShow,
         tempTask: state.reducer.buildMission.tempTask,
         projectMembers:state.reducer.common.projectMembers,
-        demands:state.reducer.buildMission.demands
+        demands:state.reducer.buildMission.demands,
+        action:state.reducer.buildMission.action,
     }
 };
 

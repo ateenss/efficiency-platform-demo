@@ -297,19 +297,18 @@ export const modifyAfterEditor=value=>({
     value
 });
 
-export function getDemandTaskPlan(){
+export function getDemandTaskPlan(content){
     const send_edit_data = 'http://127.0.0.1:8080/tiger-admin/task/getDemandTaskPlan';
     const config = {
         method: 'post'
     };
 
     let accessToken = localStorage.getItem("token");
-    let request = RequestBuilder.parseRequest(accessToken);
+    let request = RequestBuilder.parseRequest(accessToken,content);
     return axios.post(send_edit_data, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                /*store.dispatch(getMyTaskInfo(data));*/
                 store.dispatch(openBuildPlan(data))
             }else{
 
@@ -475,7 +474,7 @@ export function savePlanContent(content) {
 }
 
 
-export function saveBuildModule(saveContent) {
+export function saveBuildModule(saveContent,parentTaskId) {
     const save_module_data = 'http://127.0.0.1:8080/tiger-admin/task/saveNewDevTask';
     const config = {
         method: 'post'
@@ -487,6 +486,7 @@ export function saveBuildModule(saveContent) {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
                 store.dispatch(saveModule(saveContent));
+                getDemandTaskDetail(parentTaskId);
             }else{
 
                 console.log("没能拿到数据")

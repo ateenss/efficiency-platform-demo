@@ -70,7 +70,7 @@ function Transition(props) {
 class BuildPlanMain extends React.Component {
     state = {
         open: false,
-        planContent: null
+        planContent: "11"
     };
 
 
@@ -115,17 +115,21 @@ class BuildPlanMain extends React.Component {
             })
         }
     };
-    componentDidMount() {
-        if (this.props.tempDemandTaskPlan){
-            this.setState({
-                planContent:this.props.tempDemandTaskPlan
-            })
+
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.action==="OPEN_BUILD_PLAN") {
+            if (nextProps.tempDemandTaskPlan){
+                this.setState({
+                    planContent:nextProps.tempDemandTaskPlan
+                })
+            }
         }
     }
 
 
     render() {
-        const {classes, buildPlanShow} = this.props;
+        const {classes, buildPlanShow,tempDemandTaskPlan} = this.props;
         const {planContent}=this.state;
         return (
             <div>
@@ -300,7 +304,8 @@ const mapStateToProps = (state) => {
         initialData: state.reducer.buildMission.initialData,
         buildPlanShow: state.reducer.buildMission.buildPlanShow,
         tempBoardToDetail:state.reducer.buildMission.tempBoardToDetail,
-        tempDemandTaskPlan:state.reducer.buildMission.tempDemandTaskPlan
+        tempDemandTaskPlan:state.reducer.buildMission.tempDemandTaskPlan,
+        action:state.reducer.buildMission.action,
     }
 };
 

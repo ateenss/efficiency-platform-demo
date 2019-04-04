@@ -61,7 +61,7 @@ class MultiLineInput extends React.Component {
                     }}
                     /*defaultValue={this.judgeDefaultValue(nameIn,content)}*/
                     defaultValue={!!defaultValue ? defaultValue : ""}
-                   /* onChange={this.handleChange}*/
+                    /*onChange={this.handleChange}*/
                     {...others}
                 />
 

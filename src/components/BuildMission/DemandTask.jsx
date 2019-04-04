@@ -73,7 +73,6 @@ class DemandTask extends React.Component {
         let tempOptions=[{
             name: "编辑",
             func: function (id) {
-                /*editTask(id)*/
                 store.dispatch(openTaskEdit(id))
             }
         }];

@@ -18,7 +18,11 @@ import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
 import Task from './DemandTask';
 import Button from '@material-ui/core/Button';
-import {openEditMission,openBuildPlan,openBuildModule,closeBuildModule,closeAssignGoTest,doAssignGoTest} from "../../actions/BuildMissionAction"
+import {openEditMission,
+    openBuildModule,
+    closeAssignGoTest,
+    doAssignGoTest,
+    getDemandTaskPlan} from "../../actions/BuildMissionAction"
 import Divider from "@material-ui/core/Divider"
 import {connect} from "react-redux";
 import EditMissionMain from "./EditMissionMain"
@@ -113,8 +117,8 @@ const options = [
         {
             name: "编写方案",
             func: function (id) {
-                store.dispatch(openBuildPlan())
-
+                /*store.dispatch(openBuildPlan())*/
+                getDemandTaskPlan(id)
             }
         },
         {
@@ -133,24 +137,6 @@ const options = [
     ]
 ;
 
-//这里是打开指定走查人
-const AssignGoTest=(props)=>{
-    const nameArray=["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"];
-    return(
-        <Dialog  onClose={()=>store.dispatch(closeAssignGoTest())} aria-labelledby="simple-dialog-title" open={props.openAssign}>
-            <DialogTitle id="simple-dialog-title">走查状态变化</DialogTitle>
-            <div>
-                <MultiSelect
-                    nameArray={nameArray}
-                    onChange={props.getContent}
-                    InputLabelName="指定走查人"
-                    nameIn="goTestMan"
-                />
-                <Button onClick={props.openAssignGoTest}>开始走查</Button>
-            </div>
-        </Dialog>
-    )
-};
 
 class DemandTaskDetail extends React.Component {
     constructor(props) {
@@ -202,13 +188,13 @@ class DemandTaskDetail extends React.Component {
     };*/
 
     render() {
-        const {classes, develop, plan, goTest,integration, assignGoTestShow,finish,editMissionShow,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
-
+        const {classes, develop, plan, goTest,integration, demands,assignGoTestShow,finish,editMissionShow,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
+        //todo:看看SimpleList里面如何拿id
         return (
             <Card className={classes.demand}>
                 <CardHeader className={classes.demandHeader}
                             action={
-                                <SimpleListMenu icon={<MoreVertIcon/>} options={options}/>
+                                <SimpleListMenu icon={<MoreVertIcon/>} options={options} id={demands.taskId}/>
                             }
 
                             title={
@@ -245,7 +231,7 @@ class DemandTaskDetail extends React.Component {
 
                                 {!plan ? "" : plan.map((prop, key) => {
                                     return (
-                                        <Task group="plan" key={key} taskId={prop.taskCode} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task group="plan" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -256,7 +242,7 @@ class DemandTaskDetail extends React.Component {
 
                                 {!develop ? "" : develop.map((prop, key) => {
                                     return (
-                                        <Task group="develop" key={key} taskId={prop.taskCode} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task group="develop" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -266,7 +252,7 @@ class DemandTaskDetail extends React.Component {
                                 {console.log(goTest)}
                                 {!goTest ? "" : goTest.map((prop, key) => {
                                     return (
-                                        <Task  group="goTest" key={key} taskId={prop.taskCode} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task  group="goTest" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -274,7 +260,7 @@ class DemandTaskDetail extends React.Component {
                             <Grid xs={2} sm={12} md={2} item>
                                 {!integration ? "" : integration.map((prop, key) => {
                                     return (
-                                        <Task group="integration" key={key} taskId={prop.taskCode} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task group="integration" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -282,7 +268,7 @@ class DemandTaskDetail extends React.Component {
                             <Grid xs={2} sm={12} md={2} item>
                                 {!finish ? "" : finish.map((prop, key) => {
                                     return (
-                                        <Task group="finish" key={key} taskId={prop.taskCode} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task group="finish" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -300,10 +286,6 @@ class DemandTaskDetail extends React.Component {
                     open={buildModuleShow}
                 />
                 <TaskEditor />
-                {/*<AssignGoTest
-                    openAssign={assignGoTestShow}
-                    openAssignGoTest={this.openAssignGoTest}
-                    getContent={this.getContent}/>*/}
                 <GotoTest/>
             </Card>
 
@@ -321,6 +303,7 @@ const mapStateToProps = (state) => {
         addTask:state.reducer.buildMission.addTask,
         buildModuleShow:state.reducer.buildMission.buildModuleShow,
         assignGoTestShow:state.reducer.buildMission.assignGoTestShow,
+        demands:state.reducer.buildMission.demands,
     }
 };
 

@@ -97,7 +97,7 @@ const styles = theme => ({
 });
 
 
-const options = [
+/*const options = [
         {
             name: "编辑",
             func: function (id) {
@@ -112,7 +112,7 @@ const options = [
         }
 
     ]
-;
+;*/
 
 
 class Task extends React.Component {

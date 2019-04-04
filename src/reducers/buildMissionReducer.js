@@ -195,18 +195,20 @@ export default function (state = INITIAL_STATE, action) {
             let tempTaskContent=null;
             let taskItem=state.demands.taskDetailList[curGroup];
             taskItem.map((item,index)=>{
-                if (item.taskCode===taskId){
-                    tempTaskContent=item
+                if (!(item.taskId-taskId)){
+                    tempTaskContent=item;
+
                 }
             });
             return {...state,
                 taskEditorShow: true,
+                action:"OPEN_TASK_EDITOR",
                 tempTask:{
                     ...state.tempTask,
                     content:tempTaskContent,
                     taskID:action.value}};
         case CLOSE_TASK_EDITOR:
-            return {...state, taskEditorShow: false};
+            return {...state, taskEditorShow: false,action:"CLOSE_TASK_EDITOR"};
         case OPEN_BUILD_MODULE:
             return {...state, buildModuleShow: true};
         case CLOSE_BUILD_MODULE:
@@ -272,9 +274,12 @@ export default function (state = INITIAL_STATE, action) {
             tempDemand.keyArray=counter;
             return {...state, filterJudge: tempDemand};
         case OPEN_BUILD_PLAN:
-            return {...state, buildPlanShow: true,tempDemandTaskPlan:action.value};
+            if (action.value==="000"){
+                return {...state, buildPlanShow: true,action:"OPEN_BUILD_PLAN"};
+            }
+            return {...state, buildPlanShow: true,tempDemandTaskPlan:action.value,action:"OPEN_BUILD_PLAN"};
         case CLOSE_BUILD_PLAN:
-            return {...state, buildPlanShow: false};
+            return {...state, buildPlanShow: false,action:"CLOSE_BUILD_PLAN"};
         case SAVE_BUILD_PLAN:
             let tempAddPlan=state.addPlan;
             tempAddPlan.push(action.value);
