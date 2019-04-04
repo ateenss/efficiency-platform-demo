@@ -61,7 +61,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-class TaskEditor extends React.Component {
+class DevTaskEditor extends React.Component {
 
     constructor(props) {
         super(props);
@@ -234,4 +234,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(TaskEditor));
+export default connect(mapStateToProps)(withStyles(styles)(DevTaskEditor));

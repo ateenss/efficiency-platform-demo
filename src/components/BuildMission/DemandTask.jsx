@@ -29,7 +29,7 @@ import {
     changeStatusToDev,
     changeStatusToIntegration, changeStatusToFinish,doAssignGoTest
 } from "../../actions/BuildMissionAction"
-import TaskEditor from "./TaskEditor";
+import TaskEditor from "./DevTaskEditor";
 
 
 const styles = {
@@ -76,25 +76,19 @@ class DemandTask extends React.Component {
                 store.dispatch(openTaskEdit(id))
             }
         }];
-        if (this.props.group==="plan") {
+        /*if (this.props.group==="plan") {
             tempOptions.push({
                 name: "进行开发",
                 func: function (id) {
                     store.dispatch(changeStatusToDev(id))
                 }
             })
-        }else if (this.props.group==="develop") {
+        }*/
+        if (this.props.group==="develop") {
             tempOptions.push({
                 name: "进行走查",
                 func: function (id) {
                     store.dispatch(openAssignGoTest(id))
-                }
-            })
-        }else if (this.props.group==="goTest") {
-            tempOptions.push({
-                name: "进行持续集成",
-                func: function (id) {
-                    store.dispatch(changeStatusToIntegration(id))
                 }
             })
         }else if(this.props.group==="integration"){
@@ -104,7 +98,7 @@ class DemandTask extends React.Component {
                     store.dispatch(changeStatusToFinish(id))
                 }
             })
-        }else{
+        }else if(this.props.group==="finish"){
             tempOptions.push({
                 name: "完成并删除任务",
                 func: function (id) {

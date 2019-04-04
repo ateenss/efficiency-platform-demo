@@ -107,7 +107,7 @@ const findTask=(data,changeState)=>{
     let tempTaskContent=null;
     let taskItem=changeState.demands.taskDetailList[curGroup];
     taskItem.map((item,index)=>{
-        if (item.taskCode===taskId){
+        if (!(item.taskId-taskId)){
             tempTaskContent=item
         }
     });

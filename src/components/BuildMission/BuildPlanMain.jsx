@@ -11,9 +11,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import store from '../../stores/index';
-import {closeBuildPlan, saveBuildPlan,savePlanContent,submitAndPlan} from "../../actions/BuildMissionAction"
+import {closeBuildPlan, submitAndPlan} from "../../actions/BuildMissionAction"
 import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
 import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
 
@@ -79,8 +78,8 @@ class BuildPlanMain extends React.Component {
     };
 
     savePlan = () => {
-       /* store.dispatch(savePlanContent(this.state.planContent));
-        store.dispatch(closeBuildPlan());*/
+        console.log("保存方案");
+        console.log(this.state.planContent.overallPlan);
         let tempContent=this.state.planContent;
         tempContent["taskId"]=this.props.tempBoardToDetail.taskId;
         tempContent["saveOrSubmit"]=0;
@@ -99,7 +98,7 @@ class BuildPlanMain extends React.Component {
             const keyNote = e.keyNote;
             const value = e.value;
             let data = Object.assign({}, this.state.planContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 planContent: data
@@ -108,7 +107,7 @@ class BuildPlanMain extends React.Component {
             const keyNote = e.target.name;
             const value = e.target.value;
             let data = Object.assign({}, this.state.planContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 planContent: data

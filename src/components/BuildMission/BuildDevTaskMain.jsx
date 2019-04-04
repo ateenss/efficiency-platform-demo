@@ -43,7 +43,7 @@ const styles = {
 
 };
 
-class BuildModuleMain extends React.Component {
+class BuildDevTaskMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -141,7 +141,7 @@ class BuildModuleMain extends React.Component {
     }
 }
 
-BuildModuleMain.propTypes = {
+BuildDevTaskMain.propTypes = {
     classes: PropTypes.object.isRequired,
     onClose: PropTypes.func,
     selectedValue: PropTypes.string,
@@ -158,4 +158,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(BuildModuleMain));
+export default connect(mapStateToProps)(withStyles(styles)(BuildDevTaskMain));

@@ -35,11 +35,11 @@ class MyPage extends React.Component {
         this.setState({value: newValue});
     }
 
-    componentDidMount() {
+   /* componentDidMount() {
 
         getDemandTasks();
 
-    }
+    }*/
 
     render() {
         const {classes, demands,tempBoardToDetail} = this.props;

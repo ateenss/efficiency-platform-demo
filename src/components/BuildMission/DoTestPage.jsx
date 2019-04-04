@@ -11,14 +11,9 @@ import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from "@material-ui/core/Grid";
-import ReactQuill from "react-quill";
-import {saveTask} from "../../actions/DemandTasksAction";
-import TigerInput from "../Input/TigerInput"
 import store from "../../stores";
-import MyPage from "./MyPage"
-import {closeDetailMission,closeGoTestDetail,changeStatusToGoTest,finishTest,init,changeStatusToFinish} from "../../actions/BuildMissionAction"
-import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
-import InputField from "../SelfComponent/InputField"
+import {closeGoTestDetail,finishTest,init} from "../../actions/BuildMissionAction"
+import {SHOW_NOTIFICATION} from "../../actions/types";
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -133,18 +128,10 @@ class MissionDetailMain extends React.Component {
                 data: {taskName: nextProps.task.taskName, taskContent: nextProps.task.taskContent}
             });
         }
-        /* if(nextProps.keyNote>-1){
-             this.setState({
-                 projectContent:nextProps.addProjects[nextProps.keyNote]
-             })
-         }*/
 
     }
 
     handleChangeAndClose=()=>{
-        /*store.dispatch(changeStatusToFinish(this.props.tempBoardToDetail.taskCode));*/
-        console.log("实验输入");
-        console.log(this.props.tempBoardToDetail.taskId);
         finishTest(this.props.tempBoardToDetail.taskId);
         this.setState({
             openAlert:false
@@ -176,11 +163,8 @@ class MissionDetailMain extends React.Component {
     };
 
     onSubmit = () => {
-        // saveTask(this.state.data);
         store.dispatch(closeGoTestDetail());
     };
-    //todo:这里需要利用tempBoardToDetail传入数据，下面用的是假数据，不科学，只负责显示
-    //要能够根据taskCode找到这个走查任务的相关任务信息
 
     render() {
         const {classes,demands,detailGoTestShow,tempBoardToDetail} = this.props;

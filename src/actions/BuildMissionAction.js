@@ -428,6 +428,8 @@ export function finishTest(content) {
 
 
 export function goToTest(content){
+    console.log("这里是去检测了1");
+    console.log(content.goTestMan);
     store.dispatch(doAssignGoTest(content.taskCode));
     const go_to_test = 'http://127.0.0.1:8080/tiger-admin/task/goToTest';
     const config = {
@@ -548,7 +550,7 @@ export function getDemandTaskDetail(taskId) {
 
 export function pullBuildMissionInitial(){
     //以下是mock数据
-    const rand=Math.floor(Math.random()*40)+1;
+
     const InitialData={
         belongProject:["项目1","项目2","项目3","项目4"],
         taskType:["需求评审任务","需求开发任务","上线任务","个人其他任务"],
@@ -561,69 +563,6 @@ export function pullBuildMissionInitial(){
         associatedMission:["任务1","任务2","任务3","任务4"],
         modulePushHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
         taskStatus:["进行中","已完成"],
-        tasks:[{
-            taskCode: '1',
-            taskDeadLine: '2018-23-34',
-            taskName: "30天从入门到放弃",
-            taskStatus: "待处理",
-            taskType: "走查任务"
-        }, {
-            taskCode: '2',
-            taskDeadLine: '2018-23-33',
-            taskName: "30天学不会react",
-            taskStatus: "待处理",
-            taskType: "走查任务"
-        }, {
-            taskCode: '3',
-            taskDeadLine: '2018-23-33',
-            taskName: "到底能不能学会",
-            taskStatus: "已完成",
-            taskType: "持续集成任务"
-        }, {
-            taskCode: '4',
-            taskDeadLine: '2018-23-33',
-            taskName: "不能啊",
-            taskStatus: "待处理",
-            taskType: "持续集成任务"
-        }, {
-            taskCode: '5',
-            taskDeadLine: '2018-23-33',
-            taskName: "不能啊",
-            taskStatus: "已评审",
-            taskType: "需求开发任务"
-        }, {
-            taskCode: '6',
-            taskDeadLine: '2018-23-33',
-            taskName: "到底能不能学会",
-            taskStatus: "待处理",
-            taskType: "需求开发任务"
-        }, {
-            taskCode: '7',
-            taskDeadLine: '2018-23-33',
-            taskName: "不能啊",
-            taskStatus: "已走查",
-            taskType: "开发任务"
-        }, {
-            taskCode: '8',
-            taskDeadLine: '2018-23-33',
-            taskName: "不能啊",
-            taskStatus: "已完成",
-            taskType: "开发任务"
-        }, {
-            taskCode: '8',
-            taskDeadLine: '2018-23-33',
-            taskName: "不能啊",
-            taskStatus: "待处理",
-            taskType: "个人其他任务"
-        }, {
-            taskCode: '8',
-            taskDeadLine: '2018-23-33',
-            taskName: "不能啊",
-            taskStatus: "已完成",
-            taskType: "个人其他任务"
-        }
-
-        ],
 
     };
     store.dispatch({

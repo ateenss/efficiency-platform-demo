@@ -25,16 +25,15 @@ import {openEditMission,
     getDemandTaskPlan} from "../../actions/BuildMissionAction"
 import Divider from "@material-ui/core/Divider"
 import {connect} from "react-redux";
-import EditMissionMain from "./EditMissionMain"
 import BuildPlanShow from "./BuildPlanMain"
 import store from '../../stores';
 import SimpleListMenu from "../common/SimpleListMenu";
-import BuildModuleMain from "../BuildMission/BuildModuleMain"
-import TaskEditor from "./TaskEditor";
+import BuildModuleMain from "./BuildDevTaskMain"
+import TaskEditor from "./DevTaskEditor";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MultiSelect from "../SelfComponent/MultiSelect";
 import Dialog from '@material-ui/core/Dialog';
-import GotoTest from "./GotoTest"
+import GotoTest from "./GoTestPage"
 
 
 import {
@@ -124,18 +123,11 @@ const options = [
         {
             name: "编写方案",
             func: function (id) {
-                /*store.dispatch(openBuildPlan())*/
                 getDemandTaskPlan(id)
             }
         },
         {
-            name: "编辑需求",
-            func: function (id) {
-                store.dispatch(openEditMission())
-            }
-        },
-        {
-            name: "新建模块",
+            name: "新建开发任务",
             func: function (id) {
                 store.dispatch(openBuildModule())
             }
@@ -186,17 +178,9 @@ class DemandTaskDetail extends React.Component {
 
     };
 
-   /* openEditMission=()=>{
-        store.dispatch(openEditMission())
-    };
-
-    openPlan=()=>{
-        store.dispatch(openBuildPlan())
-    };*/
 
     render() {
         const {classes, develop, plan, goTest,integration, demands,assignGoTestShow,finish,editMissionShow,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
-        //todo:看看SimpleList里面如何拿id
         return (
             <Card className={classes.demand}>
                 <CardHeader className={classes.demandHeader}
@@ -284,10 +268,6 @@ class DemandTaskDetail extends React.Component {
                         </Grid>
                     </Grid>
                 </Collapse>
-                <EditMissionMain
-                    open={editMissionShow}
-                    tempBoardToDetail={tempBoardToDetail}
-                />
                 <BuildPlanShow
                     open={buildPlanShow}/>
                 <BuildModuleMain
@@ -303,7 +283,6 @@ class DemandTaskDetail extends React.Component {
 
 // export default withStyles(styles)(DemandTaskDetail);
 const mapStateToProps = (state) => {
-    // console.log("map数据:"+state.reducer.buildProject.addProjects);
     return {
         initialData:state.reducer.buildMission.initialData,
         editMissionShow:state.reducer.buildMission.editMissionShow,

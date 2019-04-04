@@ -19,7 +19,7 @@ const styles = theme => ({
     },
 });
 
-class GotoTest extends React.Component{
+class GoTestPage extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -28,9 +28,8 @@ class GotoTest extends React.Component{
         };
     }
     openAssignGoTest=()=>{
-        // store.dispatch(doAssignGoTest(this.state.assignContent.goTestMan));
         let temp=this.props.tempAssignGoTest;
-        temp["goTestMan"]=this.state.assignContent.goTestMan;
+        temp["goTestMan"]=this.state.assignContent.goTestMan[0];
         goToTest(temp);
     };
 
@@ -39,7 +38,7 @@ class GotoTest extends React.Component{
             const keyNote=e.keyNote;
             const value=e.value;
             let data = Object.assign({}, this.state.assignContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 assignContent:data
@@ -48,7 +47,7 @@ class GotoTest extends React.Component{
             const keyNote=e.target.name;
             const value=e.target.value;
             let data = Object.assign({}, this.state.assignContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 assignContent:data
@@ -93,6 +92,6 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(GotoTest));
+export default connect(mapStateToProps)(withStyles(styles)(GoTestPage));
 
 

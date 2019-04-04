@@ -26,11 +26,7 @@ import history from "../../history/history";
 import MyPage from "./MyPage.jsx";
 import {Home} from "@material-ui/icons";
 import {Typography} from "@material-ui/core";
-import {openBuildMission,
-    closeBuildMission,
-    pullBuildMissionInitial,
-    openDetailMission,
-    closeDetailMission,
+import {
     openGoTestDetail,
     openIntegrationDetail,
     openDevMissionDetail,
@@ -97,22 +93,6 @@ const styles = theme => ({
 });
 
 
-/*const options = [
-        {
-            name: "编辑",
-            func: function (id) {
-                editTask(id)
-            }
-        },
-        {
-            name: "完成",
-            func: function (id) {
-                changeTaskStatus(id);
-            }
-        }
-
-    ]
-;*/
 
 
 class Task extends React.Component {
@@ -185,9 +165,6 @@ class Task extends React.Component {
 
 
                             <Grid item>
-                                {/* <IconButton aria-label="详情" taskid="1" component={MyLink} ref={this.btnRef}>
-                                <ShareIcon />
-                            </IconButton>*/}
                                 <IconButton aria-label="详情" taskid="1" onClick={this.openDetailPanel.bind(this,keyNote,taskType)}>
                                     <ShareIcon/>
                                 </IconButton>
@@ -196,7 +173,6 @@ class Task extends React.Component {
 
                     </CardActions>
                 </Card>
-                {/*<MissionDetailMain/>*/}
             </Grid>
 
         );

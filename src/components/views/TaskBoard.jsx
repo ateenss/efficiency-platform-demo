@@ -37,9 +37,8 @@ import {
 } from "../../actions/BuildMissionAction"
 import MissionDetailMain from "../BuildMission/MissionDetailMain"
 import IntegrationPage from "../BuildMission/IntegrationPage"
-import GoTestPage from "../BuildMission/TestPage";
-import OtherMissionPage from "../BuildMission/OtherMissionPage"
-import DevMissionPage from "../BuildMission/DevMissionPage"
+import GoTestPage from "../BuildMission/DoTestPage";
+import OtherMissionPage from "../BuildMission/OtherTaskPage"
 
 const styles = theme => ({
     root: {
@@ -264,7 +263,6 @@ class TaskBoard extends React.Component {
                 <IntegrationPage/>
                 <GoTestPage/>
                 <OtherMissionPage/>
-                <DevMissionPage/>
             </Grid>
         )
     }
