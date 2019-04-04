@@ -1,4 +1,10 @@
-
+export const UPDATE_ROW = "update_row";
+export const EDIT_DEMAND = "edit_demand";
+export const ADD_DEMAND = "add_demand";
+export const SAVE_ADD_DEMAND="save_add_demand";
+export const REVIEW_DEMAND="review_demand";
+export const CLOSE_REVIEW_DEMAND="close_review_demand";
+export const SAVE_REVIEW_DEMAND="save_review_demand";
 //所有的action公用名字在这里拾取
 
 export const AUTH_USER = 'auth_user';
@@ -52,7 +58,7 @@ export const FILTER_DEMAND_CLOSE_DEVELOPER="filter_demand_close_developer";
 export const FILTER_DEMAND_MANAGER_SAVE="filter_demand_manager_save";
 export const FILTER_DEMAND_DEVELOPER_SAVE="filter_demand_developer_save";
 export const INIT_PROJECT_MEMBERS="init_project_members";
-
+export const SAVE_EDIT_DEMAND="save_edit_demand";
 //任务管理
 //任务新建
 export const OPEN_BUILD_MISSION="open_build_mission";

@@ -33,9 +33,11 @@ class SingleSelect extends React.Component {
         if (!this.props.defaultValue) {
             value = this.props.nameArray[0].id;
         }
+
         this.setState({
             value: value
         })
+
     }
 
 

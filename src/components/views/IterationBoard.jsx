@@ -165,7 +165,11 @@ class IterationBoard extends React.Component {
             }
             self.setState({iterationState: iterationState});
 
-            getProjectMembers();
+            setTimeout(function(){
+                getProjectMembers();
+
+            }, 2000)
+
 
         });
 

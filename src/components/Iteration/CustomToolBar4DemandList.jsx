@@ -10,7 +10,7 @@ import {changeTaskStatus, editDemand, editTask} from "../../actions/DemandTasksA
 import DemandGuihuaIcon from "@material-ui/icons/Receipt"
 import SimpleListMenu from "../common/SimpleListMenu";
 import store from '../../stores/index';
-import {openEditDemand} from "../../actions/BuildDemandAction"
+import {openEditDemand} from "../../actions/DemandAction"
 import {getDevelopPlan, getPublishDocuments} from "../../actions/IterationAction";
 
 const defaultToolbarSelectStyles = {

@@ -2,8 +2,6 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import store from '../../stores/index';
-import {getDemandTasks} from '../../actions/DemandTasksAction';
 import {connect} from "react-redux";
 import Grid from '@material-ui/core/Grid'
 

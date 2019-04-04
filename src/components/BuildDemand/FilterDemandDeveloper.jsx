@@ -8,7 +8,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import {connect} from "react-redux";
 import store from '../../stores/index';
-import {closeFilterDeveloperDemand,filterSaveDeveloperDemand} from "../../actions/BuildDemandAction"
+import {closeFilterDeveloperDemand,filterSaveDeveloperDemand} from "../../actions/DemandAction"
 import InputField from "../SelfComponent/InputField";
 import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect";
