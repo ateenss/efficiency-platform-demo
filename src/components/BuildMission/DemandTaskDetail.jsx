@@ -79,9 +79,10 @@ const styles = {
         color: "#FFFFFF"
     },
     taskStatus: {
-        margin: "5px 0",
         color: "#4caf50",
         fontWeight: "700",
+        padding:"10px 0 10px 0",
+        margin:"0"
 
     },
     cardHeaderTitle: {
@@ -95,11 +96,11 @@ const styles = {
         // marginBottom: "15px"
     },
     taskStatusGroup:{
-        background:"#f5f5f5",
         marginBottom:"10px;"
     },
     taskGroup:{
-        background:"#f5f5f5",
+        // background:"#f5f5f5",
+
     },
     slideContainer:{
         textAlign:"center"
@@ -109,6 +110,12 @@ const styles = {
     },
     taskFlow:{
         background:"#111111"
+    },
+    taskWidth:{
+        maxWidth:"18%",
+        flexBasis:"18%",
+        margin:"0 1% 0 1%",
+        background:"#f5f5f5"
     }
 
 };
@@ -220,14 +227,15 @@ class DemandTaskDetail extends React.Component {
                 <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                     <Grid container spacing={0} className={classes.taskFlowStatus}>
                         <Grid container spacing={0} className={classes.taskStatusGroup}>
-                            <Grid item xs={2} sm={12} md={2}><h5 align="center" className={classes.taskStatus}>方案</h5></Grid>
-                            <Grid item xs={2} sm={12} md={2}><h5 align="center" className={classes.taskStatus}>开发</h5></Grid>
-                            <Grid item xs={2} sm={12} md={2}><h5 align="center" className={classes.taskStatus}>走查</h5></Grid>
-                            <Grid item xs={2} sm={12} md={2}><h5 align="center" className={classes.taskStatus}>持续集成</h5></Grid>
-                            <Grid item xs={2} sm={12} md={2}><h5 align="center" className={classes.taskStatus}>完成</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>方案</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>开发</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>走查</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>持续集成</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>完成</h5></Grid>
                         </Grid>
                         <Grid container spacing={0} className={classes.taskGroup}>
-                            <Grid xs={2} sm={12} md={2} item>
+
+                            <Grid xs={2} sm={12} md={2} item className={classes.taskWidth}>
 
                                 {!plan ? "" : plan.map((prop, key) => {
                                     return (
@@ -238,7 +246,7 @@ class DemandTaskDetail extends React.Component {
 
                             </Grid>
 
-                            <Grid xs={2} sm={12} md={2} item>
+                            <Grid xs={2} sm={12} md={2} item className={classes.taskWidth} >
 
                                 {!develop ? "" : develop.map((prop, key) => {
                                     return (
@@ -248,7 +256,7 @@ class DemandTaskDetail extends React.Component {
 
                             </Grid>
 
-                            <Grid xs={2} sm={12} md={2} item>
+                            <Grid xs={2} sm={12} md={2} item className={classes.taskWidth}>
                                 {console.log(goTest)}
                                 {!goTest ? "" : goTest.map((prop, key) => {
                                     return (
@@ -257,7 +265,7 @@ class DemandTaskDetail extends React.Component {
                                 })}
 
                             </Grid>
-                            <Grid xs={2} sm={12} md={2} item>
+                            <Grid xs={2} sm={12} md={2} item className={classes.taskWidth}>
                                 {!integration ? "" : integration.map((prop, key) => {
                                     return (
                                         <Task group="integration" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
@@ -265,7 +273,7 @@ class DemandTaskDetail extends React.Component {
                                 })}
 
                             </Grid>
-                            <Grid xs={2} sm={12} md={2} item>
+                            <Grid xs={2} sm={12} md={2} item className={classes.taskWidth}>
                                 {!finish ? "" : finish.map((prop, key) => {
                                     return (
                                         <Task group="finish" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
