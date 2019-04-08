@@ -25,6 +25,7 @@ import {
 } from "../../actions/BuildProjectAction"
 import {BUILD_SAVE_PROJECT} from "../../actions/types";
 import {getProjectMembers} from "../../actions/CommonAction";
+import permProcessor from "../../constants/PermProcessor";
 
 const styles = theme => ({
     root: {
@@ -63,11 +64,14 @@ class Project extends React.Component {
     constructor(props) {
         super(props);
         pullBuildProjectInitial();
+
+
+
         getProjectMembers();
         this.state = {
             expanded: false,
             value: 0,
-
+            perm: permProcessor.init('project')
         };
     }
 
@@ -105,10 +109,10 @@ class Project extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        if(nextProps.action === BUILD_SAVE_PROJECT){
+        if (nextProps.action === BUILD_SAVE_PROJECT) {
             let projectList = this.state.projectList;
             projectList.push(nextProps.newProject);
-            this.setState({projectList : projectList})
+            this.setState({projectList: projectList})
         }
     }
 
@@ -120,14 +124,18 @@ class Project extends React.Component {
         if (!!this.state.projectList) {
             showProjects = this.state.projectList.map((content, key) => {
                 return (
-                    <Grid key={key} xs={3} item><ProjectPanel editable={content.editableProject} name={content.projectName} desc={key} handleEdit={this.handleEdit.bind(this, content.id)}/></Grid>
+                    <Grid key={key} xs={3} item><ProjectPanel editable={content.editableProject}
+                                                              name={content.projectName} desc={key}
+                                                              handleEdit={this.handleEdit.bind(this, content.id)}/></Grid>
                 )
             });
 
             currentProject = this.state.projectList.map((content, key) => {
                 if (content.currentProject) {
                     return (
-                        <Grid key={key} xs={3} item><ProjectPanel editable={content.editableProject} name={content.projectName} desc={key} handleEdit={this.handleEdit.bind(this, content.id)}/></Grid>
+                        <Grid key={key} xs={3} item><ProjectPanel editable={content.editableProject}
+                                                                  name={content.projectName} desc={key}
+                                                                  handleEdit={this.handleEdit.bind(this, content.id)}/></Grid>
                     )
                 }
 
@@ -143,15 +151,17 @@ class Project extends React.Component {
                     <ExpansionPanelDetails>
                         <Grid spacing={40} container>
                             {currentProject}
-                            <Grid xs={3} item>
-                                <Tooltip title="创建新项目" aria-label="创建新项目" placement="right-start">
+                            {permProcessor.bingo('save', this.state.perm) ?
+                                <Grid xs={3} item>
+                                    <Tooltip title="创建新项目" aria-label="创建新项目" placement="right-start">
 
-                                    <Button variant="fab" className={classes.createProject}
-                                            onClick={this.handleClickOpen}>
-                                        <AddIcon className={classes.addIcon}/>
-                                    </Button>
-                                </Tooltip>
-                            </Grid>
+                                        <Button variant="fab" className={classes.createProject}
+                                                onClick={this.handleClickOpen}>
+                                            <AddIcon className={classes.addIcon}/>
+                                        </Button>
+                                    </Tooltip>
+                                </Grid> : ""
+                            }
                         </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
@@ -167,12 +177,12 @@ class Project extends React.Component {
                 </ExpansionPanel>
 
                 <EditProject projectMembers={this.props.projectMembers}
-                    open={editProjectShow}
+                             open={editProjectShow}
                 />
 
                 <BuildProject projectMembers={this.props.projectMembers}
-                    open={buildProjectShow}
-                    onClose={this.handleClickClose}
+                              open={buildProjectShow}
+                              onClose={this.handleClickClose}
                 />
                 {/* <NativeTable/>*/}
             </div>
@@ -189,9 +199,9 @@ const mapStateToProps = (state) => {
     return {
         newProject: state.reducer.buildProject.newProject,
         buildProjectShow: state.reducer.buildProject.buildProjectShow,
-        editProjectShow:state.reducer.buildProject.editProjectShow,
-        action : state.reducer.buildProject.action,
-        projectMembers : state.reducer.common.projectMembers
+        editProjectShow: state.reducer.buildProject.editProjectShow,
+        action: state.reducer.buildProject.action,
+        projectMembers: state.reducer.common.projectMembers
     }
 };
 

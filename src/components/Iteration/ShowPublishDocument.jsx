@@ -16,7 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
-import {closeDevelopPlan} from "../../actions/IterationAction";
+import {closeDevelopPlan, closePublishTestCase} from "../../actions/IterationAction";
 import {CLOSE_DEVELOP_PLAN, GET_DEVELOP_PLAN, GET_PUBLISH_TEST_CASE} from "../../actions/types";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -88,7 +88,7 @@ class ShowPublishDocument extends React.Component {
     // };
 
     handleClose = () => {
-        closeDevelopPlan()
+        closePublishTestCase()
     };
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {

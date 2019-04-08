@@ -44,6 +44,7 @@ export function loginUser({username, password}) {
 
             // store JWT token
             localStorage.setItem('token', response.data.data.accessToken);
+            localStorage.setItem('permInfo', JSON.stringify(response.data.data.permInfo));
             // redirect to the route '/recordings'
             history.push('/');
         })

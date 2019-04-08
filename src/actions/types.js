@@ -23,6 +23,7 @@ export const SELECT_ITERATION="select_iteration";
 
 export const ITERATION_INIT="init_iteration";
 export const GET_PUBLISH_TEST_CASE="get_publish_test_case";
+export const CLOSE_PUBLISH_TEST_CASE="close_publish_test_case";
 export const CLOSE_DEVELOP_PLAN="close_develop_plan";
 export const GET_DEVELOP_PLAN="get_develop_plan";
 export const ADD_ITERATION="add_iteration";

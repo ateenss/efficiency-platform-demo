@@ -5,7 +5,7 @@ import MUIDataTable from "mui-datatables";
 // import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import Typography from "@material-ui/core/Typography";
 import CustomToolBar4DemandList from '../Iteration/CustomToolBar4DemandList';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 
 const styles = theme => ({});
 /**
@@ -13,20 +13,18 @@ const styles = theme => ({});
  * @type {*[]}
  */
 
-
+// ["2019-04-00004", "234", "周之豪", 1, "评审通过", "周之豪", 1, null, null, "否"]
 const columns = [
     {name: "需求编号", options: {filter: false}},
     {name: "需求名称", options: {filter: false}},
     {name: "需求负责人", options: {filter: true}},
-    {name: "需求状态", options: {filter: true,customBodyRender:(value,tableMeta, updateValue) => {
-                return (
-                    <Typography>{value}</Typography>
-
-                )}}},
+    {name: "负责人ID", options: {display: false}},
+    {name: "需求状态",options: {filter: false}},
     {name: "开发负责人", options: {filter: false}},
+    {name: "开发负责人", options: {filter: false, display: false}},
     {name: "需求来源", options: {filter: false}},
     {name: "评审时间", options: {filter: false}},
-    {name: "UAT", options: {filter: false}}, ];
+    {name: "UAT", options: {filter: false}},];
 
 function Empty() {
     return null;
@@ -34,7 +32,7 @@ function Empty() {
 
 const options = {
     filterType: 'checkbox',
-    sort:false,
+    sort: false,
     // search:false,
     // filter:false,
     // download:false,
@@ -47,7 +45,8 @@ const options = {
         console.log(333);
     },
     customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
-        <CustomToolBar4DemandList selectedRows={selectedRows} displayData={displayData} setSelectedRows={setSelectedRows}/>
+        <CustomToolBar4DemandList selectedRows={selectedRows} displayData={displayData}
+                                  setSelectedRows={setSelectedRows}/>
     ),
     customToolbar: () => {
         return (
@@ -78,9 +77,7 @@ const options = {
 
 
 class DemandsList extends React.Component {
-    state = {
-
-    };
+    state = {};
 
 
     getMuiTheme = () => createMuiTheme({
@@ -104,6 +101,7 @@ class DemandsList extends React.Component {
 
     render() {
         const {classes, data} = this.props;
+        console.log("########"+JSON.stringify(data));
         return (
             <MuiThemeProvider theme={this.getMuiTheme()}>
                 <MUIDataTable

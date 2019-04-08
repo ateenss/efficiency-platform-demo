@@ -65,15 +65,43 @@ const styles = theme => ({
     toolbar: {
         alignItems: 'center',
         justifyContent: 'space-between',
-        position:"absolute",
-        right:0
+        position: "absolute",
+        right: 0
     },
-    chip:{
-        border:"1px solid #cecece"
+    chip: {
+        border: "1px solid #cecece"
+    },
+    taskFlowStatus: {
+        padding: "5px 15px 15px 15px"
+    },
+    taskStatusGroup:{
+        // marginBottom:"10px;"
+    },
+    taskStatus: {
+        color: "#4caf50",
+        fontWeight: "700",
+        padding:"10px 0 10px 0",
+        margin:"0"
+
+    },
+    taskWidthStatus:{
+        maxWidth:"31%",
+        flexBasis:"31%",
+        margin:"0 1% 0 1%",
+        background:"#f5f5f5",
+        marginTop:theme.spacing.unit*2
+    },
+    taskWidth:{
+        maxWidth:"31%",
+        flexBasis:"31%",
+        margin:"0 1% 0 1%",
+        background:"#f5f5f5",
+        marginTop:theme.spacing.unit*2,
+        marginBottom:theme.spacing.unit*2
+    },
+    taskGroup:{
     }
 });
-
-
 
 
 class TaskBoard extends React.Component {
@@ -111,44 +139,43 @@ class TaskBoard extends React.Component {
 
     };
 
-   /* componentWillMount() {
-        pullBuildMissionInitial();
-        // getDemandTasks();
+    /* componentWillMount() {
+         pullBuildMissionInitial();
+         // getDemandTasks();
 
-    }*/
+     }*/
 
 
-
-    openMissionPanel=()=>{
+    openMissionPanel = () => {
         store.dispatch(openBuildMission());
     };
 
 
-    handleClickClose=()=>{
+    handleClickClose = () => {
         store.dispatch(closeBuildMission())
     };
 
-    filterUnderWay=()=>{
+    filterUnderWay = () => {
         store.dispatch(filterDoUnderWay())
     };
 
-    filterFinish=()=>{
+    filterFinish = () => {
         store.dispatch(filterDoFinish())
     };
 
-    filterDemandMission=()=>{
+    filterDemandMission = () => {
         store.dispatch(filterDoDemandMission())
     };
 
-    filterDevMission=()=>{
+    filterDevMission = () => {
         store.dispatch(filterDoDevMission());
     };
 
-    filterOwnMission=()=>{
+    filterOwnMission = () => {
         store.dispatch(filterDoOwnMission())
     };
 
-    goBack=()=>{
+    goBack = () => {
         store.dispatch(filterReset());
     };
 
@@ -158,48 +185,68 @@ class TaskBoard extends React.Component {
 
 
     render() {
-        const {classes,buildMissionShow,addTask,initialData,filterJudge,finished,unfinished} = this.props;
+        const {classes, buildMissionShow, addTask, initialData, filterJudge, finished, unfinished} = this.props;
         /*let taskComponents = addTask.map((prop, key) => {
             return (
                 <Task key={prop.taskId} taskNo={prop.taskNo} taskName={prop.taskName} taskStatus={prop.taskStatus}
                       taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, prop.taskId)}} detailFunc={(e) => {this.handleDetail(e, prop.taskId)}}/>
             )
         });*/
-        let tempContent=[];
-        if (filterJudge.switch==="1"){
-            addTask.map((content,key)=>{
-                if(filterJudge.keyArray.indexOf(key)>=0){
+        let tempContent = [];
+        if (filterJudge.switch === "1") {
+            addTask.map((content, key) => {
+                if (filterJudge.keyArray.indexOf(key) >= 0) {
                     tempContent.push(content)
                 }
             })
-        }else{
-            tempContent=addTask
+        } else {
+            tempContent = addTask
         }
 
-        let newTaskComponents=tempContent.map((prop,key)=>{
-            return (
-                <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus}
-                        taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>
-
-            )
+        let newTaskComponents = tempContent.map((prop, key) => {
+            let content = "";
+            if(prop.taskStatus === "待处理"){
+                content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+            }
+            return content;
+        });
+        let processingTaskComponents = tempContent.map((prop, key) => {
+            let content = "";
+            if(prop.taskStatus != "待处理" && prop.taskStatus != "完成"){
+                content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+            }
+            return content;
+        });
+        let finishTaskComponents = tempContent.map((prop, key) => {
+            let content = "";
+            if(prop.taskStatus === "完成"){
+                content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+            }
+            return content;
         });
 
         const sideList = (
             <div className={classes.list}>
                 <List>
-                    {[{text:'进行中',func:this.filterUnderWay}, {text:'已完成',func:this.filterFinish}].map((contennt, index) => (
+                    {[{text: '进行中', func: this.filterUnderWay}, {
+                        text: '已完成',
+                        func: this.filterFinish
+                    }].map((contennt, index) => (
                         <ListItem button key={index} onClick={contennt.func}>
-                            <ListItemIcon >{index % 2 === 0 ? <InboxIcon/> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={contennt.text}  />
+                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+                            <ListItemText primary={contennt.text}/>
                         </ListItem>
                     ))}
                 </List>
                 <Divider/>
                 <List>
-                    {[{text:'需求任务',func:this.filterDemandMission}, {text:'开发任务',func:this.filterDevMission},{ text:'个人任务',func:this.filterOwnMission}].map((content, index) => (
+                    {[{text: '需求任务', func: this.filterDemandMission}, {
+                        text: '开发任务',
+                        func: this.filterDevMission
+                    }, {text: '个人任务', func: this.filterOwnMission}].map((content, index) => (
                         <ListItem button key={index} onClick={content.func}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={content.text} />
+                            <ListItemText primary={content.text}/>
                         </ListItem>
                     ))}
                 </List>
@@ -207,7 +254,7 @@ class TaskBoard extends React.Component {
                 <List>
                     <ListItem button onClick={this.goBack}>
                         <ListItemIcon> <MailIcon/></ListItemIcon>
-                        <ListItemText primary="重置" />
+                        <ListItemText primary="重置"/>
                     </ListItem>
                 </List>
             </div>
@@ -242,9 +289,25 @@ class TaskBoard extends React.Component {
                     </AppBar>
                 </Grid>
 
-                <Grid container spacing={16}>
-                        {/*{taskComponents}*/}
-                        {newTaskComponents}
+                <Grid container spacing={0} style={{background:"#FFFFFF", paddingBottom:"15px"}}>
+                    <Grid container spacing={0} className={classes.taskStatusGroup}>
+                        <Grid item xs={4} sm={12} md={4} className={classes.taskWidthStatus}><h5 align="center" className={classes.taskStatus}>待处理</h5></Grid>
+                        <Grid item xs={4} sm={12} md={4} className={classes.taskWidthStatus}><h5 align="center" className={classes.taskStatus}>进行中</h5></Grid>
+                        <Grid item xs={4} sm={12} md={4} className={classes.taskWidthStatus}><h5 align="center" className={classes.taskStatus}>已完成</h5></Grid>
+                    </Grid>
+                    <Grid container spacing={0} className={classes.taskGroup}>
+
+                        <Grid xs={4} sm={12} md={4} item className={classes.taskWidth}>
+                            {newTaskComponents}
+                        </Grid>
+                        <Grid xs={4} sm={12} md={4} item className={classes.taskWidth}>
+                            {processingTaskComponents}
+                        </Grid>
+                        <Grid xs={4} sm={12} md={4} item className={classes.taskWidth}>
+                            {finishTaskComponents}
+                        </Grid>
+                    </Grid>
+
                 </Grid>
                 <div>
 

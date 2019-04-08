@@ -10,6 +10,7 @@ import {
     GET_DEVELOP_PLAN,
     CLOSE_DEVELOP_PLAN,
     GET_PUBLISH_TEST_CASE,
+    CLOSE_PUBLISH_TEST_CASE,
     SHOW_NOTIFICATION
 } from './types';
 
@@ -312,6 +313,12 @@ export function getDevelopPlan(id) {
         payload: data
     })
 
+}
+
+export function closePublishTestCase(){
+    store.dispatch({
+        type:CLOSE_PUBLISH_TEST_CASE
+    })
 }
 
 

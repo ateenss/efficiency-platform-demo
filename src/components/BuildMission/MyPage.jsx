@@ -4,7 +4,6 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from '@material-ui/core/Button';
 import Demand from './DemandTaskDetail';
-import {getDemandTasks} from '../../actions/DemandTasksAction';
 import {connect} from "react-redux";
 
 import Tabs from '@material-ui/core/Tabs';
@@ -37,7 +36,6 @@ class MyPage extends React.Component {
 
    /* componentDidMount() {
 
-        getDemandTasks();
 
     }*/
 

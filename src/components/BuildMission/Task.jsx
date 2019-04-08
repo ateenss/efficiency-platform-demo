@@ -37,7 +37,6 @@ import store from "../../stores";
 import MissionDetailMain from "./MissionDetailMain"
 
 
-
 const styles = theme => ({
     card: {
         maxWidth: 400,
@@ -93,6 +92,22 @@ const styles = theme => ({
 });
 
 
+/*const options = [
+        {
+            name: "编辑",
+            func: function (id) {
+                editTask(id)
+            }
+        },
+        {
+            name: "完成",
+            func: function (id) {
+                changeTaskStatus(id);
+            }
+        }
+
+    ]
+;*/
 
 
 class Task extends React.Component {
@@ -104,7 +119,7 @@ class Task extends React.Component {
         };
     }
 
-    openDetailPanel=(keyNote,taskType)=>{
+    openDetailPanel = (keyNote, taskType) => {
         switch (taskType) {
             case "走查任务":
                 store.dispatch(openGoTestDetail(keyNote));
@@ -129,52 +144,60 @@ class Task extends React.Component {
 
     render() {
 
-        const {classes,taskNo,keyNote,missionItem,taskType} = this.props;
+        const {classes, taskNo, keyNote, missionItem, taskType} = this.props;
         const MyLink = props => <Link to="/task/my" {...props}/>
         return (
-            <Grid xs={3} item>
-                <Card className={classes.taskCard}>
-                    <CardHeader
-                        avatar={
-                            <Avatar aria-label="Recipe" className={classes.taskType}>
-                                {this.props.taskType} - {this.props.keyNote}
-                            </Avatar>
-                        }
-                        className={classes.taskHeader}
-                        action={
-                            <Avatar aria-label="Recipe" className={classes.taskStatus}>
-                                {this.props.taskStatus}
-                            </Avatar>
-                        }
-                    />
-                    <CardContent className={classes.taskContent}>
+            <Grid container spacing={0} style={{marginTop :"15px",marginBottom:"15px"}}>
+                <Grid xs={1} item></Grid>
+                <Grid xs={10} item>
+                    <Card className={classes.taskCard}>
+                        <CardHeader
+                            avatar={
+                                <Avatar aria-label="Recipe" className={classes.taskType}>
+                                    {this.props.taskType} - {this.props.keyNote}
+                                </Avatar>
+                            }
+                            className={classes.taskHeader}
+                            // action={
+                            //     <Avatar aria-label="Recipe" className={classes.taskStatus}>
+                            //         {this.props.taskStatus}
+                            //     </Avatar>
+                            // }
+                        />
+                        <CardContent className={classes.taskContent}>
 
-                        <h4>
-                            {this.props.taskName}
-                        </h4>
+                            <h4>
+                                {this.props.taskName}
+                            </h4>
 
-                    </CardContent>
-                    <CardActions className={classes.actions} disableActionSpacing>
-                        <Grid container justify="flex-start">
+                        </CardContent>
+                        <CardActions className={classes.actions} disableActionSpacing>
+                            <Grid container justify="flex-start">
 
-                        <Grid item>
-                            <Typography style={{marginLeft:"10px",color:"#b94947", fontSize:"12px"}}>{this.props.taskDeadline} 截止</Typography>
-                        </Grid>
-                        </Grid>
-                        <Grid container justify="flex-end">
-
-
-                            <Grid item>
-                                <IconButton aria-label="详情" taskid="1" onClick={this.openDetailPanel.bind(this,keyNote,taskType)}>
-                                    <ShareIcon/>
-                                </IconButton>
+                                <Grid item>
+                                    <Typography style={{
+                                        marginLeft: "10px",
+                                        color: "#b94947",
+                                        fontSize: "12px"
+                                    }}>{this.props.taskDeadline} 截止</Typography>
+                                </Grid>
                             </Grid>
-                        </Grid>
+                            <Grid container justify="flex-end">
 
-                    </CardActions>
-                </Card>
+
+                                <Grid item>
+                                    <IconButton aria-label="详情" taskid="1"
+                                                onClick={this.openDetailPanel.bind(this, keyNote, taskType)}>
+                                        <ShareIcon/>
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+
+                        </CardActions>
+                    </Card>
+                </Grid>
+                <Grid xs={1} item></Grid>
             </Grid>
-
         );
     }
 }

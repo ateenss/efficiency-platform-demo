@@ -85,16 +85,16 @@ class CustomToolbarSelect extends React.Component {
 
         return (
             <div className={"custom-toolbar-select"}>
-                <Tooltip title={"Deselect ALL"}>
-                    <IconButton className={classes.iconButton} onClick={this.handleClickDeselectAll}>
-                        <IndeterminateCheckBoxIcon className={classes.icon}/>
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={"Inverse selection"}>
-                    <IconButton className={classes.iconButton} onClick={this.handleClickInverseSelection}>
-                        <CompareArrowsIcon className={[classes.icon, classes.inverseIcon].join(" ")}/>
-                    </IconButton>
-                </Tooltip>
+                {/*<Tooltip title={"Deselect ALL"}>*/}
+                    {/*<IconButton className={classes.iconButton} onClick={this.handleClickDeselectAll}>*/}
+                        {/*<IndeterminateCheckBoxIcon className={classes.icon}/>*/}
+                    {/*</IconButton>*/}
+                {/*</Tooltip>*/}
+                {/*<Tooltip title={"Inverse selection"}>*/}
+                    {/*<IconButton className={classes.iconButton} onClick={this.handleClickInverseSelection}>*/}
+                        {/*<CompareArrowsIcon className={[classes.icon, classes.inverseIcon].join(" ")}/>*/}
+                    {/*</IconButton>*/}
+                {/*</Tooltip>*/}
                 <Tooltip title={"编辑"}>
                     <IconButton className={classes.iconButton} onClick={this.handleEdit}>
                         <EditIcon className={classes.icon}/>
@@ -102,13 +102,13 @@ class CustomToolbarSelect extends React.Component {
                 </Tooltip>
                 <Tooltip title={"评审"}>
                     <IconButton className={classes.iconButton} onClick={this.openReviewDemand}>
-                        <EditIcon className={classes.icon}/>
+                        <DemandGuihuaIcon className={classes.icon}/>
                     </IconButton>
                 </Tooltip>
-                <Tooltip title={"变更迭代"} id="3333">
-                    <IterationListMenu options={this.props.iteration} display="inline" buttonClass={classes.iconButton} id="234"
-                                    icon={<DemandGuihuaIcon className={classes.icon}/>} demandId={this.props.displayData[this.props.selectedRows.data[0].dataIndex].data[0]}/>
-                </Tooltip>
+                {/*<Tooltip title={"变更迭代"} id="3333">*/}
+                    {/*<IterationListMenu options={this.props.iteration} display="inline" buttonClass={classes.iconButton} id="234"*/}
+                                    {/*icon={<DemandGuihuaIcon className={classes.icon}/>} demandId={this.props.displayData[this.props.selectedRows.data[0].dataIndex].data[0]}/>*/}
+                {/*</Tooltip>*/}
 
             </div>
         );
