@@ -1,7 +1,7 @@
 import {
     SHOW_NOTIFICATION,
     CLOSE_NOTIFICATION,
-    SINGLE_SELECT_VALUE, INIT_PROJECT_MEMBERS
+    SINGLE_SELECT_VALUE, INIT_PROJECT_MEMBERS, START_LOADING, STOP_LOADING
 } from '../actions/types';
 
 export const INITIAL_STATE = {
@@ -23,6 +23,10 @@ export default function (state = INITIAL_STATE, action) {
             return singleSelectState;
         case INIT_PROJECT_MEMBERS:
             return {...state, projectMembers : action.payload};
+        case START_LOADING:
+            return {...state, doLoading : true, action : START_LOADING};
+        case STOP_LOADING:
+            return {...state, doLoading : false, action : STOP_LOADING};
         default:
             return state;
     }

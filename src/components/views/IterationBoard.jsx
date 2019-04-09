@@ -28,10 +28,10 @@ import red from '@material-ui/core/colors/red';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
-import {getProjectMembers} from "../../actions/CommonAction";
+import {getProjectMembers, startLoading, stopLoading} from "../../actions/CommonAction";
 import {pullBuildProjectInitial} from "../../actions/BuildProjectAction";
 import permProcessor from "../../constants/PermProcessor";
-
+import AwesomeComponent from "../common/AwesomeComponent"
 
 const drawerWidth = 240;
 
@@ -137,12 +137,16 @@ class IterationBoard extends React.Component {
     //
     // };
 
+    componentWillMount() {
+
+        startLoading();
+    }
 
     componentDidMount() {
 
+
         let self = this;
         init(function (ret) {
-console.log("#####"+JSON.stringify(ret))
             let iterationState = [];
             for (let i in ret) {
                 let iter = ret[i];
@@ -154,10 +158,13 @@ console.log("#####"+JSON.stringify(ret))
                     if (i == 0 && j == 0) {
                         selected = true;
                     }
-                    iterationChildren.push({iter: iter.children[j].name, selected: true, id : iter.children[j].id});
+                    iterationChildren.push({iter: iter.children[j].name, selected: true, id: iter.children[j].id});
 
                     if (i == 0 && j == 0) {
-                        selectIteration(iter.children[j].id);
+                        selectIteration(iter.children[j].id, function () {
+                            stopLoading();
+
+                        });
                     }
                 }
 
@@ -167,11 +174,6 @@ console.log("#####"+JSON.stringify(ret))
             }
 
             self.setState({iterationState: iterationState});
-
-            setTimeout(function(){
-                getProjectMembers();
-
-            }, 2000)
 
 
         });
@@ -254,7 +256,6 @@ console.log("#####"+JSON.stringify(ret))
                             {tabValue === 0 &&
 
                             <Grid container spacing={8}>
-
                                 <Grid xs={12} style={{marginTop: "16px"}} item>
 
                                     <Card className={classes.card}>
@@ -347,7 +348,6 @@ console.log("#####"+JSON.stringify(ret))
                     <AddIteration
                         open={!!this.props.openAddIteration ? this.props.openAddIteration : false}
                         onClose={this.handleClickClose}
-                        projectMembers={this.props.projectMembers}
                     />
                     <ShowDevelopPlan/>
 
@@ -372,14 +372,13 @@ IterationBoard.propTypes = {
  */
 const
     mapStateToProps = (state) => {
-    console.log("!!!!"+JSON.stringify(state.reducer.iteration.iteration));
+        console.log("!!!!" + JSON.stringify(state.reducer.iteration.iteration));
         if (!state.reducer.iteration.iteration) {
             return {
                 openAddIteration: state.reducer.iteration.openAddIteration,
                 iterationCode: state.reducer.iteration.iterationCode,
                 action: state.reducer.iteration.action,
-                initIterationList: state.reducer.iteration.initIterationList,
-                projectMembers : state.reducer.common.projectMembers
+                initIterationList: state.reducer.iteration.initIterationList
 
             };
         }
@@ -388,8 +387,7 @@ const
             iterationCode: state.reducer.iteration.iteration.iterationCode,
             openAddIteration: state.reducer.iteration.openAddIteration,
             action: state.reducer.iteration.action,
-            initIterationList: state.reducer.iteration.initIterationList,
-            projectMembers : state.reducer.common.projectMembers
+            initIterationList: state.reducer.iteration.initIterationList
 
 
         }

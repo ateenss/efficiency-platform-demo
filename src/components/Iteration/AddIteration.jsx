@@ -243,7 +243,8 @@ const mapStateToProps = (state) => {
     return {
         initialData: state.reducer.iteration.initialData,
         editData: !!state.reducer.iteration.editData ? state.reducer.iteration.editData : "",
-        action: state.reducer.iteration.action
+        action: state.reducer.iteration.action,
+        projectMembers : state.reducer.common.projectMembers
     }
 };
 

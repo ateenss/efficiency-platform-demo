@@ -33,6 +33,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {addDemand, getRecentIteration, init, nextPage} from "../../actions/DemandAction";
 import {ADD_DEMAND, SAVE_ADD_DEMAND, SAVE_EDIT_DEMAND, SAVE_REVIEW_DEMAND, UPDATE_ROW} from "../../actions/types";
+import {startLoading, stopLoading} from "../../actions/CommonAction";
 
 const styles = theme => ({
     root: {
@@ -85,6 +86,13 @@ class TaskBoard extends React.Component {
         };
     }
 
+
+    componentWillMount() {
+
+        startLoading();
+    }
+
+
     componentDidMount() {
 
         let self = this;
@@ -96,6 +104,8 @@ class TaskBoard extends React.Component {
             self.setState({assembleTable: result, pageSize : demands.pageSize, totalPages : demands.totalPages, raw : demands.result});
 
             self.setState({iteration : iteration});
+
+            stopLoading();
 
         });
 

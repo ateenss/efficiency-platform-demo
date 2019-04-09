@@ -21,6 +21,7 @@ import dashboardStyle from "../../assets/jss/material-dashboard-react/layouts/da
 
 import logo from "../../assets/img/reactlogo.png";
 import Reminder from "../common/Reminder"
+import AwesomeComponent from "../common/AwesomeComponent";
 
 const switchRoutes = (
   <Switch>
@@ -91,7 +92,9 @@ class App extends React.Component {
             {...rest}
           />
           { (
-            <div className={classes.content}>
+            <div className={classes.content} style={{position:"relative"}}>
+              <AwesomeComponent/>
+
               <div className={classes.container}>{switchRoutes}</div>
             </div>
           ) }

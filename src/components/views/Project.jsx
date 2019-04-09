@@ -24,7 +24,7 @@ import {
     addProject, openProject
 } from "../../actions/BuildProjectAction"
 import {BUILD_SAVE_PROJECT} from "../../actions/types";
-import {getProjectMembers} from "../../actions/CommonAction";
+import {getProjectMembers, startLoading, stopLoading} from "../../actions/CommonAction";
 import permProcessor from "../../constants/PermProcessor";
 
 const styles = theme => ({
@@ -75,6 +75,11 @@ class Project extends React.Component {
     }
 
 
+    componentWillMount() {
+
+        startLoading();
+    }
+
     handleClickClose = () => {
         this.setState({popUpOpen: false});
     };
@@ -92,6 +97,8 @@ class Project extends React.Component {
         init(function (projects, members, teams) {
 
             self.setState({projectList: projects, projectMembers : members, teams: teams});
+
+            stopLoading();
 
         });
 

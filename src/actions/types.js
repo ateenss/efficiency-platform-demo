@@ -20,7 +20,8 @@ export const SAVE_TASK="save_task";
 export const GET_DEMAND="get_demand";
 export const OPEN_PROJECT="open_project";
 export const SELECT_ITERATION="select_iteration";
-
+export const START_LOADING = "start_loading";
+export const STOP_LOADING = "stop_loading";
 export const ITERATION_INIT="init_iteration";
 export const GET_PUBLISH_TEST_CASE="get_publish_test_case";
 export const CLOSE_PUBLISH_TEST_CASE="close_publish_test_case";

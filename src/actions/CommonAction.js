@@ -1,7 +1,7 @@
 import {
     SHOW_NOTIFICATION,
     SINGLE_SELECT_VALUE,
-    INIT_PROJECT_MEMBERS
+    INIT_PROJECT_MEMBERS, START_LOADING, STOP_LOADING
 } from './types';
 import axios from "axios";
 import store from "../stores";
@@ -26,7 +26,18 @@ export const GET_ALL_MEMBERS = 'http://localhost:8080/tiger-admin/member/getAllM
 
 export const GET_BY_CODE = 'http://localhost:8080/tiger-admin/iteration/get';
 export const SAVE = 'http://localhost:8080/tiger-admin/iteration/save';
-
+export function startLoading(){
+    store.dispatch({
+        type: START_LOADING
+    });
+}
+export function stopLoading(){
+    setTimeout(function(){
+        store.dispatch({
+            type: STOP_LOADING
+        });
+    }, 1000);
+}
 
 export function getProjectMembers(doAfterInit) {
 

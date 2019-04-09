@@ -11,10 +11,11 @@ import {
     CLOSE_DEVELOP_PLAN,
     GET_PUBLISH_TEST_CASE,
     CLOSE_PUBLISH_TEST_CASE,
-    SHOW_NOTIFICATION
+    SHOW_NOTIFICATION, INIT_PROJECT_MEMBERS
 } from './types';
 
 import React from "react";
+import {GET_PROJECT_MEMBERS} from "./CommonAction";
 
 //axios配置
 const config = {
@@ -31,62 +32,62 @@ export const SAVE = 'http://127.0.0.1:8080/tiger-admin/iteration/save';
 export function init(doAfterInit) {
     console.log("init");
 
-    let accessToken = localStorage.getItem("accessToken");
+    let accessToken = localStorage.getItem("token");
 
+    function getProjectMembers() {
+        return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
+    }
 
-    return axios.post(GET_RECENT, {"version": "1.0"}, config)
-        .then(response => {
+    function getRecentIteration() {
+        return axios.post(GET_RECENT, {"version": "1.0", accessToken: accessToken}, config);
+    }
 
-            if (response.data.respCode !== "00") {
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: response.data.msg
-                });
-                return false;
-            }
+    axios.all([getProjectMembers(), getRecentIteration()]).then(axios.spread(function (members, iterations) {
 
-            let group = [];
-            for (let i in response.data.data) {
-                let unit = response.data.data[i];
-
-                let unitChild = {id: unit.id, name : unit.iterationCode};
-
-                let inGroup = false;
-
-                for(let j in group){
-
-                    if(unit.group === group[j].iteration){
-                        inGroup = true;
-                        group[j].children.push(unitChild);
-                    }
-
-                }
-
-                if(!inGroup){
-                    let newUnit = {
-                        iteration : unit.group,
-                        children : []
-                    };
-                    newUnit.children.push(unitChild);
-                    group.push(newUnit);
-                }
-
-            }
-
-            doAfterInit(group);
-
-        })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        store.dispatch({
+            type: INIT_PROJECT_MEMBERS,
+            payload: members.data.data
 
         });
+
+        let group = [];
+        for (let i in iterations.data.data) {
+            let unit = iterations.data.data[i];
+
+            let unitChild = {id: unit.id, name : unit.iterationCode};
+
+            let inGroup = false;
+
+            for(let j in group){
+
+                if(unit.group === group[j].iteration){
+                    inGroup = true;
+                    group[j].children.push(unitChild);
+                }
+
+            }
+
+            if(!inGroup){
+                let newUnit = {
+                    iteration : unit.group,
+                    children : []
+                };
+                newUnit.children.push(unitChild);
+                group.push(newUnit);
+            }
+
+        }
+
+        doAfterInit(group);
+
+
+    }));
+
 }
 
 //这里是登录验证的actions，名字需要更改
 // LOGIN ACTION
-export function selectIteration(id) {
+export function selectIteration(id, callback) {
     console.log("selectIteration被调用" + id);
 
     let accessToken = localStorage.getItem("accessToken");
@@ -101,9 +102,6 @@ export function selectIteration(id) {
                 });
                 return false;
             }
-
-
-
 
 
             let demandList = response.data.data.demandList;
@@ -135,12 +133,14 @@ export function selectIteration(id) {
             data.iterationInfo.unCi = response.data.data.unCi;
             data.iterationInfo.finished = response.data.data.finished;
 
-            console.log("!!!!!"+JSON.stringify(data));
 
             store.dispatch({
                 type: SELECT_ITERATION,
                 payload: data
             });
+
+
+            callback();
 
         })
         .catch(error => {
