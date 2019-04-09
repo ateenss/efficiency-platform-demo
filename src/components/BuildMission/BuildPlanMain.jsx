@@ -11,10 +11,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import store from '../../stores/index';
-import {closeBuildPlan, submitAndPlan} from "../../actions/BuildMissionAction"
+import {closeBuildPlan, init, submitAndPlan} from "../../actions/BuildMissionAction"
 import Grid from '@material-ui/core/Grid';
 import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
+import permProcessor from "../../constants/PermProcessor";
 
 
 const styles = theme => ({
@@ -69,7 +70,8 @@ function Transition(props) {
 class BuildPlanMain extends React.Component {
     state = {
         open: false,
-        planContent: "11"
+        planContent: "11",
+        perm: permProcessor.init('task')
     };
 
 
@@ -83,14 +85,20 @@ class BuildPlanMain extends React.Component {
         let tempContent=this.state.planContent;
         tempContent["taskId"]=this.props.tempBoardToDetail.taskId;
         tempContent["saveOrSubmit"]=0;
-        submitAndPlan(tempContent);
+        if (permProcessor.bingo('submitAndSavePlan', this.state.perm)) {
+
+            submitAndPlan(tempContent);
+        }
     };
 
     submitPlan=()=>{
         let tempContent=this.state.planContent;
         tempContent["taskId"]=this.props.tempBoardToDetail.taskId;
         tempContent["saveOrSubmit"]=1;
-        submitAndPlan(tempContent);
+        if (permProcessor.bingo('submitAndSavePlan', this.state.perm)) {
+
+            submitAndPlan(tempContent);
+        }
     };
 
     getContent = e => {

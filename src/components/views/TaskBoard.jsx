@@ -24,6 +24,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Badge from "@material-ui/core/Badge";
 import Chip from "@material-ui/core/Chip";
 import {editTask} from "../../actions/DemandTasksAction";
+import permProcessor from "../../constants/PermProcessor";
 import {
     openBuildMission,
     closeBuildMission,
@@ -33,7 +34,8 @@ import {
     filterDoDevMission,
     filterDoOwnMission,
     filterReset,
-    init
+    init,
+    filterDoGoTestMission
 } from "../../actions/BuildMissionAction"
 import MissionDetailMain from "../BuildMission/MissionDetailMain"
 import IntegrationPage from "../BuildMission/IntegrationPage"
@@ -109,7 +111,8 @@ class TaskBoard extends React.Component {
         super(props);
         this.state = {
             expanded: false,
-            value: 0
+            value: 0,
+            perm: permProcessor.init('task')
         };
     }
 
@@ -139,36 +142,19 @@ class TaskBoard extends React.Component {
 
     };
 
-    /* componentWillMount() {
-         pullBuildMissionInitial();
-         // getDemandTasks();
-
-     }*/
-
-
-    openMissionPanel = () => {
-        store.dispatch(openBuildMission());
-    };
-
 
     handleClickClose = () => {
         store.dispatch(closeBuildMission())
     };
 
-    filterUnderWay = () => {
-        store.dispatch(filterDoUnderWay())
-    };
-
-    filterFinish = () => {
-        store.dispatch(filterDoFinish())
-    };
 
     filterDemandMission = () => {
         store.dispatch(filterDoDemandMission())
     };
 
-    filterDevMission = () => {
-        store.dispatch(filterDoDevMission());
+
+    filterTestMission=()=>{
+        store.dispatch(filterDoGoTestMission())
     };
 
     filterOwnMission = () => {
@@ -180,7 +166,9 @@ class TaskBoard extends React.Component {
     };
 
     componentDidMount() {
-        init()
+        if (permProcessor.bingo('getDemandTaskDetail', this.state.perm)) {
+            init()
+        }
     }
 
 
@@ -212,14 +200,14 @@ class TaskBoard extends React.Component {
         });
         let processingTaskComponents = tempContent.map((prop, key) => {
             let content = "";
-            if(prop.taskStatus != "待处理" && prop.taskStatus != "完成"){
+            if(prop.taskStatus != "待处理" && prop.taskStatus != "完成"&& prop.taskStatus != "已走查"){
                 content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
             }
             return content;
         });
         let finishTaskComponents = tempContent.map((prop, key) => {
             let content = "";
-            if(prop.taskStatus === "完成"){
+            if(prop.taskStatus === "完成"||prop.taskStatus === "已走查"){
                 content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
             }
             return content;
@@ -228,22 +216,9 @@ class TaskBoard extends React.Component {
         const sideList = (
             <div className={classes.list}>
                 <List>
-                    {[{text: '进行中', func: this.filterUnderWay}, {
-                        text: '已完成',
-                        func: this.filterFinish
-                    }].map((contennt, index) => (
-                        <ListItem button key={index} onClick={contennt.func}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={contennt.text}/>
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider/>
-                <List>
-                    {[{text: '需求任务', func: this.filterDemandMission}, {
-                        text: '开发任务',
-                        func: this.filterDevMission
-                    }, {text: '个人任务', func: this.filterOwnMission}].map((content, index) => (
+                    {[{text: '需求任务', func: this.filterDemandMission},
+                        {text: '个人任务', func: this.filterOwnMission},
+                        {text:'走查任务',func:this.filterTestMission}].map((content, index) => (
                         <ListItem button key={index} onClick={content.func}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
                             <ListItemText primary={content.text}/>
@@ -274,12 +249,12 @@ class TaskBoard extends React.Component {
                                           style={{background: "#FFFFFF", color: "#121212"}}/>
                                 </Badge>
                             </Grid>
-                            <Grid item xs={1}>
+                            {/*<Grid item xs={1}>
                                 <Badge className={classes.margin} badgeContent={finished} color="secondary">
                                     <Chip label="已完成" className={classes.chip} variant="default"
                                           style={{background: "#FFFFFF", color: "#121212"}}/>
                                 </Badge>
-                            </Grid>
+                            </Grid>*/}
                             <Grid item xs={2}>
                                 <Toolbar variant="regular" className={classes.toolbar}>
                                     <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>

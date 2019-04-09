@@ -6,10 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import store from '../../stores';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-
 import Divider from "@material-ui/core/Divider"
-
-
 import {
     cardTitle,
     cardSubtitle,
@@ -26,10 +23,9 @@ import {connect} from "react-redux";
 import {
     openTaskEdit,
     openAssignGoTest,
-    changeStatusToDev,
-    changeStatusToIntegration, changeStatusToFinish,doAssignGoTest
+   meetRequirements,
 } from "../../actions/BuildMissionAction"
-import TaskEditor from "./DevTaskEditor";
+import permProcessor from "../../constants/PermProcessor";
 
 
 const styles = {
@@ -66,36 +62,33 @@ class DemandTask extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            expanded: false
+            expanded: false,
+            perm: permProcessor.init('task')
         };
     }
-    funcOptions=()=>{
+    funcOptions=(perm)=>()=>{
         let tempOptions=[{
             name: "编辑",
             func: function (id) {
                 store.dispatch(openTaskEdit(id))
             }
         }];
-        /*if (this.props.group==="plan") {
-            tempOptions.push({
-                name: "进行开发",
-                func: function (id) {
-                    store.dispatch(changeStatusToDev(id))
-                }
-            })
-        }*/
         if (this.props.group==="develop") {
+
             tempOptions.push({
                 name: "进行走查",
                 func: function (id) {
                     store.dispatch(openAssignGoTest(id))
                 }
             })
-        }else if(this.props.group==="integration"){
+        }else if(this.props.group==="goTest"){
             tempOptions.push({
-                name: "任务完成",
+                name: "具备集成测试条件",
                 func: function (id) {
-                    store.dispatch(changeStatusToFinish(id))
+                    if (permProcessor.bingo('meetRequirements', perm)) {
+                        meetRequirements(id)
+                    }
+                    meetRequirements(id)
                 }
             })
         }else if(this.props.group==="finish"){
@@ -110,6 +103,16 @@ class DemandTask extends React.Component {
         return tempOptions
     };
 
+    idMap2Name=()=>{
+        let members=this.props.projectMembers;
+        let idNumber=this.props.taskOwner;
+        let nameString="";
+        members.map((item,index)=>{
+            item.id===idNumber&&(nameString=item.name)
+        });
+        return nameString
+    };
+
     render() {
         const {classes} = this.props;
         return (
@@ -117,7 +120,7 @@ class DemandTask extends React.Component {
             <Card className={classes.taskCard}>
                 <CardHeader className={classes.taskHeader}
                             action={
-                                <SimpleListMenu icon={<MoreVertIcon/>} options={this.funcOptions()}
+                                <SimpleListMenu icon={<MoreVertIcon/>} options={this.funcOptions(this.state.perm)()}
                                                 id={this.props.group+"-taskId-" + this.props.taskId}/>
                             }
                             title={<h6 className={classes.cardTitle}>{this.props.taskName}</h6>}
@@ -130,7 +133,7 @@ class DemandTask extends React.Component {
                     </p>
 
                     <p href="#pablo" className={classes.cardLink}
-                       onClick={e => e.preventDefault()}>周之豪</p>
+                       onClick={e => e.preventDefault()}>{this.idMap2Name()}</p>
                 </CardContent>
             </Card>
             </Grid>
@@ -141,7 +144,8 @@ class DemandTask extends React.Component {
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
     return {
-        demands: state.reducer.task.demands
+        demands: state.reducer.task.demands,
+        projectMembers: state.reducer.common.projectMembers
     }
 };
 

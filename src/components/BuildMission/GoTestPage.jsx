@@ -2,13 +2,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import MultiSelect from "../SelfComponent/MultiSelect";
 import Dialog from '@material-ui/core/Dialog';
 import store from "../../stores";
-import {closeAssignGoTest, doAssignGoTest,goToTest} from "../../actions/BuildMissionAction";
+import {closeAssignGoTest, doAssignGoTest, goToTest, init} from "../../actions/BuildMissionAction";
 import React from "react";
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
+import permProcessor from "../../constants/PermProcessor";
 
 
 
@@ -24,13 +25,19 @@ class GoTestPage extends React.Component{
         super(props);
         this.state = {
             assignContent:null,
-            errorList: {}
+            errorList: {},
+            perm: permProcessor.init('task')
         };
     }
     openAssignGoTest=()=>{
         let temp=this.props.tempAssignGoTest;
         temp["goTestMan"]=this.state.assignContent.goTestMan[0];
-        goToTest(temp);
+        if (permProcessor.bingo('goToTest', this.state.perm)) {
+            goToTest(temp,this.props.demands.taskId);
+        }else{
+            console.log("您没有此项权限");
+        }
+
     };
 
     getContent=e=>{

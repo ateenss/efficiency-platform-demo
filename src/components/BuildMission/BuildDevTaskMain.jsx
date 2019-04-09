@@ -10,10 +10,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
 import DatePicker from "../SelfComponent/DatePicker"
-import {closeBuildModule,saveBuildModule} from "../../actions/BuildMissionAction"
+import {closeBuildModule, init, saveBuildModule} from "../../actions/BuildMissionAction"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
+import permProcessor from "../../constants/PermProcessor";
 
 
 const styles = {
@@ -51,7 +52,8 @@ class BuildDevTaskMain extends React.Component {
             moduleContent:{
 
             },
-            errorList: {}
+            errorList: {},
+            perm: permProcessor.init('task')
         }
     }
 
@@ -64,7 +66,11 @@ class BuildDevTaskMain extends React.Component {
     handleSave=()=>{
         let saveContent=this.state.moduleContent;
         saveContent["taskId"]=this.props.demands.taskId;
-        saveBuildModule(saveContent,this.props.demands.taskId);
+        if (permProcessor.bingo('saveNewDevTask', this.state.perm)) {
+            saveBuildModule(saveContent,this.props.demands.taskId);
+        }else{
+            console.log("您没有此项权限");
+        }
         store.dispatch(closeBuildModule());
     };
 
@@ -118,7 +124,7 @@ class BuildDevTaskMain extends React.Component {
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="开发人员" validate={this.validate} nameIn="ownerId" nameArray={projectMembers}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="开发人员" validate={this.validate} nameIn="taskOwner" nameArray={projectMembers}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="taskDeadline" InputLabelName="任务截至时间"  onDateChange={this.getContent}/>

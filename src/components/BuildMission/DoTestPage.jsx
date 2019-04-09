@@ -20,6 +20,7 @@ import CardContent from '@material-ui/core/CardContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import permProcessor from "../../constants/PermProcessor";
 
 
 
@@ -102,7 +103,8 @@ class MissionDetailMain extends React.Component {
         this.state = {
             openTask: false,
             data: {},
-            openAlert:false
+            openAlert:false,
+            perm: permProcessor.init('task')
         }
     }
 
@@ -132,7 +134,13 @@ class MissionDetailMain extends React.Component {
     }
 
     handleChangeAndClose=()=>{
-        finishTest(this.props.tempBoardToDetail.taskId);
+        if (permProcessor.bingo('finishTest', this.state.perm)) {
+            finishTest(this.props.tempBoardToDetail.taskId);
+        }else{
+            console.log("您没有此权限");
+        }
+
+
         this.setState({
             openAlert:false
         })

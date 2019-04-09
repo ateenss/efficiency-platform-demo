@@ -84,11 +84,6 @@ class MissionDetailMain extends React.Component {
                 data: {taskName: nextProps.task.taskName, taskContent: nextProps.task.taskContent}
             });
         }
-        /* if(nextProps.keyNote>-1){
-             this.setState({
-                 projectContent:nextProps.addProjects[nextProps.keyNote]
-             })
-         }*/
 
     }
 
@@ -97,22 +92,14 @@ class MissionDetailMain extends React.Component {
         store.dispatch(closeDetailMission());
     };
 
-    handleInput = (e) => {
-        const key = e.target.name;
-        this.state.data[key] = e.target.value;
-        this.setState(this.state.data);
-    };
 
     onSubmit = () => {
-        // saveTask(this.state.data);
         init();
         store.dispatch(closeDetailMission());
     };
 
     componentDidMount() {
-        /*if (this.props.tempBoardToDetail) {
-            getDemandTaskDetail(this.props.tempBoardToDetail.keyNote)
-        }*/
+
         getProjectMembers();
     }
 

@@ -13,13 +13,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Grid from "@material-ui/core/Grid";
 import store from "../../stores";
 import EditQuill from "../SelfComponent/EditQuill"
-import {closeTaskEdit,
+import {
+    closeTaskEdit,
     submitAndChange2Dev,
-    saveDevPlan,
-    } from "../../actions/BuildMissionAction"
+    saveDevPlan, init,
+} from "../../actions/BuildMissionAction"
 import InputField from "../SelfComponent/InputField"
 import DatePicker from "../SelfComponent/DatePicker"
 import SingleSelect from "../SelfComponent/SingleSelect"
+import permProcessor from "../../constants/PermProcessor";
 
 
 const styles = {
@@ -73,7 +75,8 @@ class DevTaskEditor extends React.Component {
             taskContent:"11",
             errorList: {},
             tempTaskId:null,
-            taskEditorContent:null
+            taskEditorContent:null,
+            perm: permProcessor.init('task')
         }
     }
 
@@ -116,12 +119,19 @@ class DevTaskEditor extends React.Component {
 
 
     save=()=>{
-        saveDevPlan(this.state.taskContent,this.props.demands.taskId);
+        if (permProcessor.bingo('saveTaskEditor', this.state.perm)) {
+            saveDevPlan(this.state.taskContent,this.props.demands.taskId);
+        }
     };
 
 
     onSubmit = () => {
-        submitAndChange2Dev(this.state.tempTaskId,this.state.taskContent,this.props.demands.taskId);
+        if (permProcessor.bingo('getDemandTaskDetail', this.state.perm)) {
+
+            submitAndChange2Dev(this.state.tempTaskId,this.state.taskContent,this.props.demands.taskId);
+        }else{
+            console.log("您无此项权限");
+        }
     };
     validate = (keyValue) => {
 
@@ -173,9 +183,9 @@ class DevTaskEditor extends React.Component {
                                     onChange={this.getContent}
                                     InputLabelName="开发人员"
                                     validate={this.validate}
-                                    nameIn="ownerId"
+                                    nameIn="taskOwner"
                                     nameArray={projectMembers}
-                                    defaultValue={taskContent.ownerId}
+                                    defaultValue={taskContent.taskOwner}
                                 />
 
                             </Grid>

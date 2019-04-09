@@ -31,10 +31,11 @@ import {
     openIntegrationDetail,
     openDevMissionDetail,
     openOtherMissionDetail,
-    getDemandTaskDetail
+    getDemandTaskDetail, init
 } from "../../actions/BuildMissionAction"
 import store from "../../stores";
 import MissionDetailMain from "./MissionDetailMain"
+import permProcessor from "../../constants/PermProcessor";
 
 
 const styles = theme => ({
@@ -92,22 +93,6 @@ const styles = theme => ({
 });
 
 
-/*const options = [
-        {
-            name: "编辑",
-            func: function (id) {
-                editTask(id)
-            }
-        },
-        {
-            name: "完成",
-            func: function (id) {
-                changeTaskStatus(id);
-            }
-        }
-
-    ]
-;*/
 
 
 class Task extends React.Component {
@@ -115,7 +100,8 @@ class Task extends React.Component {
         super(props);
         this.btnRef = React.createRef();
         this.state = {
-            expanded: false
+            expanded: false,
+            perm: permProcessor.init('task')
         };
     }
 
@@ -125,8 +111,10 @@ class Task extends React.Component {
                 store.dispatch(openGoTestDetail(keyNote));
                 return;
             case "需求开发任务":
-                /*store.dispatch(openDetailMission(keyNote));*/
-                getDemandTaskDetail(keyNote);
+                if (permProcessor.bingo('getMyTaskInfo', this.state.perm)) {
+                    getDemandTaskDetail(keyNote);
+                    return ;
+                }
                 return;
             case "开发任务":
                 store.dispatch(openDevMissionDetail(keyNote));

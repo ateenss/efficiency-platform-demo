@@ -49,7 +49,8 @@ import {
     INIT_TASK_MEMBERS,
     CHANGE_PLAN2_DEV,
     ADD_TEST_TASK_PANEL,
-    MODIFY_AFTER_TASKEDITOR
+    MODIFY_AFTER_TASKEDITOR,
+    FILTER_TEST_TASK
 } from "../actions/types"
 /*import {taskStatusChange} from "../actions/TaskStatusChangeFunc"*/
 
@@ -155,9 +156,13 @@ export default function (state = INITIAL_STATE, action) {
             changTestView.develop.splice(tempIndex,1);
             return {...state, assignGoTestShow: false,demands:{...state.demands,changTestView}};
         case ADD_TEST_TASK_PANEL:
-            let tempData=state.addTask;
-            tempData.push(action.value);
-            return {...state,addTask:tempData};
+            let addTaskTemp=state.addTask;
+            addTaskTemp.map((item,index)=>{
+                if (item.taskId===action.value) {
+                    addTaskTemp.splice(index,1)
+                }
+            });
+            return {...state,addTask:addTaskTemp};
         case GET_MYTASK_INFO:
             return {...state,addTask:action.value.taskList,finished:action.value.finished,unfinished:action.value.underWay};
         case GET_TASK_DETAIL_INFO:
@@ -171,7 +176,6 @@ export default function (state = INITIAL_STATE, action) {
             tempSaveContent["taskType"]="开发任务";
             let tempState=JSON.parse(JSON.stringify(state));
             tempState.demands.taskDetailList.plan.push(tempSaveContent);
-            //todo:应该是只改变局部数据的
             return {...tempState};
         case CLOSE_ASSIGN_GOTEST:
             return {...state, assignGoTestShow: false};
@@ -218,39 +222,6 @@ export default function (state = INITIAL_STATE, action) {
             let filterJudge = state.filterJudge;
                 filterJudge.switch = "0";
             return {...state,filterJudge:filterJudge};
-        case FILTER_UNDERWAY:
-            const filterUnderWayState=JSON.parse(JSON.stringify(state));
-            filterUnderWayState.addTask.map((content,key)=>{
-               if (content.taskStatus === "进行中"){
-                   counter.push(key)
-               }
-            });
-            let tempUnderWay=state.filterJudge;
-            tempUnderWay.switch="1";
-            tempUnderWay.keyArray=counter;
-            return {...state, filterJudge: tempUnderWay};
-        case FILTER_FINISH:
-            const filterFinishState=JSON.parse(JSON.stringify(state));
-            filterFinishState.addTask.map((content,key)=>{
-                if (content.taskStatus === "已完成"){
-                    counter.push(key)
-                }
-            });
-            let tempFinish=state.filterJudge;
-            tempFinish.switch="1";
-            tempFinish.keyArray=counter;
-            return {...state, filterJudge: tempFinish};
-        case FILTER_DEV_MISSION:
-            const filterDevMissionState=JSON.parse(JSON.stringify(state));
-            filterDevMissionState.addTask.map((content,key)=>{
-                if (content.taskType === "开发任务"){
-                    counter.push(key)
-                }
-            });
-            let tempDev=state.filterJudge;
-            tempDev.switch="1";
-            tempDev.keyArray=counter;
-            return {...state, filterJudge: tempDev};
         case FILTER_OWN_MISSION:
             const filterOwnMissionState=JSON.parse(JSON.stringify(state));
             filterOwnMissionState.addTask.map((content,key)=>{
@@ -265,7 +236,7 @@ export default function (state = INITIAL_STATE, action) {
         case FILTER_DEMAND_MISSION:
             const filterDemandMissionState=JSON.parse(JSON.stringify(state));
             filterDemandMissionState.addTask.map((content,key)=>{
-                if (content.taskType === "需求任务"){
+                if (content.taskType === "需求开发任务"){
                     counter.push(key)
                 }
             });
@@ -273,6 +244,17 @@ export default function (state = INITIAL_STATE, action) {
             tempDemand.switch="1";
             tempDemand.keyArray=counter;
             return {...state, filterJudge: tempDemand};
+        case FILTER_TEST_TASK:
+            const filterTestMissionState=JSON.parse(JSON.stringify(state));
+            filterTestMissionState.addTask.map((content,key)=>{
+                if (content.taskType === "走查任务"){
+                    counter.push(key)
+                }
+            });
+            let tempTask=state.filterJudge;
+            tempTask.switch="1";
+            tempTask.keyArray=counter;
+            return {...state, filterJudge: tempTask};
         case OPEN_BUILD_PLAN:
             if (action.value==="000"){
                 return {...state, buildPlanShow: true,action:"OPEN_BUILD_PLAN"};

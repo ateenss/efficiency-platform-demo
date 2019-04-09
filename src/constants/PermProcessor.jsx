@@ -5,6 +5,8 @@ const permProcessor = {
 
         let permInfo = JSON.parse(localStorage.getItem("permInfo"));
         let ret = {};
+        console.log("权限管理");
+        console.log(permInfo);
         let projectItem = permInfo[currentResource].perms;
 
         for (let j in projectItem) {

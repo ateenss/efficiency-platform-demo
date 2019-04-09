@@ -54,7 +54,8 @@ import {
     INIT_TASK_MEMBERS,
     CHANGE_PLAN2_DEV,
     ADD_TEST_TASK_PANEL,
-    MODIFY_AFTER_TASKEDITOR
+    MODIFY_AFTER_TASKEDITOR,
+    FILTER_TEST_TASK
 } from './types';
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
 
@@ -66,7 +67,12 @@ import {GET_PROJECT_MEMBERS} from "./CommonAction";
 export const addTestTask2Panel=value=>({
     type:ADD_TEST_TASK_PANEL,
     value
-})
+});
+
+export const filterDoGoTestMission=value=>({
+    type:FILTER_TEST_TASK,
+    value
+});
 
 export const getMyTaskInfo=value=>({
     type:GET_MYTASK_INFO,
@@ -402,19 +408,19 @@ export function submitAndChange2Dev(id,content,parentTaskId){
 
 }
 
-
-export function finishTest(content) {
-    const finish_test = 'http://127.0.0.1:8080/tiger-admin/task/finishTest';
+export function meetRequirements(content) {
+    let ret =content.split("-");
+    let taskId =parseInt( ret[2]);
+    const url = 'http://127.0.0.1:8080/tiger-admin/task/meetRequirements';
     const config = {
         method: 'post'
     };
     let accessToken = localStorage.getItem("token");
-    let request = RequestBuilder.parseRequest(accessToken,content);
-    return axios.post(finish_test, request,config)
+    let request = RequestBuilder.parseRequest(accessToken,taskId);
+    return axios.post(url, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
-                let data = response.data.data;
-                store.dispatch(addTestTask2Panel(data));
+                getDemandTaskDetail(taskId);
                 console.log("拉取数据成功")
             }else{
 
@@ -427,9 +433,31 @@ export function finishTest(content) {
 }
 
 
-export function goToTest(content){
-    console.log("这里是去检测了1");
-    console.log(content.goTestMan);
+export function finishTest(content) {
+    const finish_test = 'http://127.0.0.1:8080/tiger-admin/task/finishTest';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,content);
+    return axios.post(finish_test, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                //关闭删除功能
+                /*store.dispatch(addTestTask2Panel(content));*/
+                console.log("拉取数据成功")
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+}
+
+
+export function goToTest(content,taskId){
     store.dispatch(doAssignGoTest(content.taskCode));
     const go_to_test = 'http://127.0.0.1:8080/tiger-admin/task/goToTest';
     const config = {
@@ -441,6 +469,9 @@ export function goToTest(content){
         .then(response => {
             if (response.data.respCode === "00") {
                 /*let data = response.data.data;*/
+                console.log("这里到底发射了什么");
+                console.log(content);
+                getDemandTaskDetail(taskId);
                 console.log("存储数据成功")
             }else{
 
@@ -512,6 +543,13 @@ export function init() {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                /*let allowGetArray=[];
+                data.taskList.map((item,index)=>{
+                    if(item.recSt===1){
+                        allowGetArray.push(item);
+                    }
+                });
+                data.taskList=allowGetArray;*/
                 store.dispatch(getMyTaskInfo(data));
             }else{
 
@@ -536,7 +574,18 @@ export function getDemandTaskDetail(taskId) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                /*if (data.recSt===1) {
+                    Object.keys(data.taskDetailList).map((item)=>{
+                        data.taskDetailList[item].map((item,index)=>{
+                            if (item.recSt===0){
+                                data.taskDetailList.item.splice(index,1);
+                            }
+                        })
+                    });
+
+                }*/
                 store.dispatch(getDemandTaskDetailInfo(data));
+
             }else{
                 console.log("没能拿到数据")
             }
@@ -548,26 +597,4 @@ export function getDemandTaskDetail(taskId) {
 }
 
 
-export function pullBuildMissionInitial(){
-    //以下是mock数据
-
-    const InitialData={
-        belongProject:["项目1","项目2","项目3","项目4"],
-        taskType:["需求评审任务","需求开发任务","上线任务","个人其他任务"],
-        missionLevel:["总任务","子任务"],
-        missionHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
-        missionPriority:["高","普通","默认","低"],
-        associatedVersion:["49.1","49.2","49.3","49.4"],
-        involveModule:["模块1","模块2","模块3","模块4"],
-        associatedDemand:["需求1","需求2","需求3","需求4"],
-        associatedMission:["任务1","任务2","任务3","任务4"],
-        modulePushHead:["员工A","员工B","员工C","员工D","员工E","员工F","员工G","员工H"],
-        taskStatus:["进行中","已完成"],
-
-    };
-    store.dispatch({
-        type:PULL_INITIAL_MISSION,
-        payload:InitialData
-    })
-}
 
