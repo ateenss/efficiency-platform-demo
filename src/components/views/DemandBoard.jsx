@@ -334,8 +334,8 @@ class TaskBoard extends React.Component {
                     open={editDemandShow}
                     iteration={this.state.iteration}
                 />
-                <FilterDemandManager/>
-                <FilterDemandDeveloper/>
+                <FilterDemandManager  iteration={this.state.iteration}/>
+                {/*<FilterDemandDeveloper/>*/}
             </Grid>
 
         )

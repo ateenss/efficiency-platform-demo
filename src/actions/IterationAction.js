@@ -49,7 +49,7 @@ export function init(doAfterInit) {
             for (let i in response.data.data) {
                 let unit = response.data.data[i];
 
-                let unitChild = {id: unit.id, name : unit.iterationName};
+                let unitChild = {id: unit.id, name : unit.iterationCode};
 
                 let inGroup = false;
 
@@ -87,7 +87,7 @@ export function init(doAfterInit) {
 //这里是登录验证的actions，名字需要更改
 // LOGIN ACTION
 export function selectIteration(id) {
-    console.log("selectIteration被调用");
+    console.log("selectIteration被调用" + id);
 
     let accessToken = localStorage.getItem("accessToken");
 
@@ -126,7 +126,7 @@ export function selectIteration(id) {
             const data = {
                 iterationInfo: response.data.data.iteration,
                 demandList: parsedDemandList,
-                iterationName: id
+                iterationCode: response.data.data.iteration.iterationCode
 
             };
 
@@ -158,10 +158,7 @@ export function selectIteration(id) {
 export function addIteration(id) {
 
 
-    const data = ["员工B", "周泊仰", "员工D", "员工E", "员工F", "员工G", "员工H"];
-
     let ret = {
-        initData: data,
         editData: {},
         action: ""
     };
@@ -218,7 +215,8 @@ export function closeAddIteration() {
 export function saveIteration(action, iterationData) {
 
     // TODO post here, use iterationData to post
-    let data = iterationData;
+    let data = {};
+    data.iterationInfo = iterationData;
     console.log("inSaveIteration" + JSON.stringify(data));
     let type = "";
     if (action == ADD_ITERATION) {
@@ -240,7 +238,7 @@ export function saveIteration(action, iterationData) {
 
             if(action === ADD_ITERATION){
                 data.demandList = [];
-                data.id = response.data.data.id;
+                data.iterationInfo.id = response.data.data.id;
             }
             store.dispatch({
                 type: type,

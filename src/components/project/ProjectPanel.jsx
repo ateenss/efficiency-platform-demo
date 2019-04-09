@@ -9,7 +9,6 @@ import Button from '@material-ui/core/Button';
 import {Link, NavLink, Route} from 'react-router-dom'
 import store from '../../stores/index';
 import {connect} from "react-redux";
-import {openProject} from "../../actions/ProjectPanelAction";
 // import BuildProject from "../BuildProject/BuildProjectMain";
 import EditProject from "../BuildProject/EditProjectMain";
 import EditIcon from "@material-ui/icons/Edit"
@@ -163,11 +162,6 @@ class ProjectPanel extends React.Component {
         };
     }
 
-    handleClick = (e) => {
-        e.preventDefault();
-        console.log(this.btnRef.current.props.proejctid);
-        openProject(this.btnRef.current.props.proejctid);
-    };
     handleClickOpen = (e, id) => {
         e.stopPropagation();
         e.preventDefault();
@@ -177,10 +171,10 @@ class ProjectPanel extends React.Component {
 
     render() {
         const {classes, name, desc, onClick, keyNote} = this.props;
-        const MyLink = props => <Link to="/taskboard" {...props}/>
+        // const MyLink = props => <Link to="/taskboard" {...props}/>
         return (
             <div className={classes.wrapperDiv}>
-                <ButtonBase  component={MyLink}
+                <ButtonBase  //component={MyLink}
                     ref={this.btnRef}
                     focusRipple
                     key={image.title}
@@ -189,10 +183,7 @@ class ProjectPanel extends React.Component {
                     style={{
                         width: image.width,
                     }}
-                    onClick={onClick}
-                    name="1"
-                    /*onClick={this.handleClick}*/
-                    projectid="1"
+                    onClick={this.props.handleOpen}
                 >
                   <span
                       className={classes.imageSrc}

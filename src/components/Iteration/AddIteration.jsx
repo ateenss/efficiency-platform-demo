@@ -118,12 +118,24 @@ class AddIteration extends React.Component {
                     <Grid container spacing={8}>
                         <Grid item xs={8}>
                             <InputField
+                                nameIn="iterationCode"
+                                onChange={this.getContent}
+                                InputLabelName="版本编号"
+                                defaultValue={this.state.iterationContent.iterationCode}
+                                required
+                                expr={GlobalValidateRegex.projectCodeRegex}
+                                maxLength="10"
+                                validate={this.validate}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <InputField
                                 nameIn="iterationName"
                                 onChange={this.getContent}
                                 InputLabelName="版本名称"
                                 defaultValue={this.state.iterationContent.iterationName}
                                 required
-                                expr={GlobalValidateRegex.projectCodeRegex}
+                                expr={GlobalValidateRegex.strRegex}
                                 maxLength="10"
                                 validate={this.validate}
                             />

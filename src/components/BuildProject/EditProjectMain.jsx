@@ -38,12 +38,16 @@ const styles = {
 
 };
 
+const projectType = [{name: "业务需求项目", id: 1}, {name: "系统架构优化", id: 2}];
+const projectStatus = [{name: "进行中", id: 1}, {name: "已完成", id: 2}];
+
 class EditProjectMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             openTask: false,
-            projectContent:{}
+            projectContent:{},
+            errorList:{}
         }
     }
 
@@ -69,7 +73,7 @@ class EditProjectMain extends React.Component {
             const keyNote=e.keyNote;
             const value=e.value;
             let data = Object.assign({}, this.state.projectContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 projectContent:data
@@ -78,12 +82,20 @@ class EditProjectMain extends React.Component {
             const keyNote=e.target.name;
             const value=e.target.value;
             let data = Object.assign({}, this.state.projectContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 projectContent:data
             })
         }
+    };
+
+    validate = (keyValue) => {
+
+        let errorList = this.state.errorList;
+        errorList[keyValue.name] = keyValue.hasError;
+
+        this.setState({errorList: errorList});
     };
 
 
@@ -108,12 +120,12 @@ class EditProjectMain extends React.Component {
                             <InputField InputLabelName="项目编号" nameIn="projectCode" defaultValue={projectContent.projectCode} disabled={true}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="类型" nameIn="projectType" defaultValue={projectContent.projectType} nameArray={initialData.projectType} />
+                            <SingleSelect onChange={this.getContent} InputLabelName="类型" nameIn="projectType" defaultValue={projectContent.projectType} nameArray={projectType} />
                         </Grid>
-                        {/*<Grid item xs={4} className={classes.gridStyle}>*/}
-                            {/*<MultipleSelect onChange={this.getContent} InputLabelName="成员" nameIn="ProjectMembers" defaultValue={projectContent}*/}
-                                         {/*nameArray={initialData.ProjectMembers} />*/}
-                        {/*</Grid>*/}
+                        <Grid item xs={4} className={classes.gridStyle}>
+                            <SingleSelect onChange={this.getContent} InputLabelName="团队" nameIn="teamId"
+                                          nameArray={this.props.teams}/>
+                        </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="负责人" nameIn="projectOwnerId" defaultValue={projectContent.projectOwnerId}
                                          nameArray={this.props.projectMembers} />
@@ -124,11 +136,9 @@ class EditProjectMain extends React.Component {
                         <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent} defaultValue={projectContent.endTime}/>
                         </Grid>
+
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="createTime" InputLabelName="创建时间" onDateChange={this.getContent} disabled={true} defaultValue={projectContent.createTime}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status" defaultValue={projectContent.status}  nameArray={initialData.projectStatus}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status" defaultValue={projectContent.status}  nameArray={projectStatus}/>
                         </Grid>
                         {/*<Grid item xs={12} className={classes.gridStyle}>*/}
                             {/*<DesciptionInput onChange={this.getContent} nameIn="ProjectDescription" defaultValue={projectContent.ProjectDescription}/>*/}

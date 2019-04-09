@@ -62,7 +62,7 @@ const styles = theme => ({
         transform: 'rotate(180deg)',
     },
     taskType: {
-        backgroundColor: "#e4e4e4",
+        backgroundColor: "#f7f7f7",
         color: "#121212",
         width: "auto",
         borderRadius: "2px",

@@ -115,14 +115,14 @@ class ReviewDemand extends React.Component {
             let unit = this.props.iteration[i];
             let ret = {
                 id : unit.id,
-                name : unit.iterationName
+                name : unit.iterationCode
             }
             iterationSelect.push(ret);
         }
 
         const labelArray=["是","否"];
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.openReviewDemand}>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={!!this.props.openReviewDemand ? this.props.openReviewDemand : false}>
                 <DialogTitle id="simple-dialog-title">评审需求 - {this.state.defaultContent["demandCode"]}</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >

@@ -21,7 +21,7 @@ import {
     openBuildProject,
     init,
     openEditProject,
-    addProject
+    addProject, openProject
 } from "../../actions/BuildProjectAction"
 import {BUILD_SAVE_PROJECT} from "../../actions/types";
 import {getProjectMembers} from "../../actions/CommonAction";
@@ -67,7 +67,6 @@ class Project extends React.Component {
 
 
 
-        getProjectMembers();
         this.state = {
             expanded: false,
             value: 0,
@@ -76,9 +75,6 @@ class Project extends React.Component {
     }
 
 
-    handleChange = (event, newValue) => {
-        this.setState({value: newValue});
-    }
     handleClickClose = () => {
         this.setState({popUpOpen: false});
     };
@@ -93,9 +89,9 @@ class Project extends React.Component {
     componentDidMount() {
 
         let self = this;
-        init(function (ret) {
+        init(function (projects, members, teams) {
 
-            self.setState({projectList: ret})
+            self.setState({projectList: projects, projectMembers : members, teams: teams});
 
         });
 
@@ -105,6 +101,13 @@ class Project extends React.Component {
 
         console.log(id);
         openEditProject(id)
+
+    };
+
+    handleOpen = (id) =>{
+
+        openProject(id);
+
 
     }
 
@@ -126,7 +129,7 @@ class Project extends React.Component {
                 return (
                     <Grid key={key} xs={3} item><ProjectPanel editable={content.editableProject}
                                                               name={content.projectName} desc={key}
-                                                              handleEdit={this.handleEdit.bind(this, content.id)}/></Grid>
+                                                              handleEdit={this.handleEdit.bind(this, content.id)} handleOpen={this.handleOpen.bind(this, content.id)}/></Grid>
                 )
             });
 
@@ -135,7 +138,7 @@ class Project extends React.Component {
                     return (
                         <Grid key={key} xs={3} item><ProjectPanel editable={content.editableProject}
                                                                   name={content.projectName} desc={key}
-                                                                  handleEdit={this.handleEdit.bind(this, content.id)}/></Grid>
+                                                                  handleEdit={this.handleEdit.bind(this, content.id)} handleOpen={this.handleOpen.bind(this, content.id)}/></Grid>
                     )
                 }
 
@@ -176,11 +179,11 @@ class Project extends React.Component {
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
 
-                <EditProject projectMembers={this.props.projectMembers}
+                <EditProject projectMembers={this.state.projectMembers} teams={this.state.teams}
                              open={editProjectShow}
                 />
 
-                <BuildProject projectMembers={this.props.projectMembers}
+                <BuildProject projectMembers={this.state.projectMembers} teams={this.state.teams}
                               open={buildProjectShow}
                               onClose={this.handleClickClose}
                 />

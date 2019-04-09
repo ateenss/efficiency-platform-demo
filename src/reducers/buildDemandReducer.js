@@ -40,9 +40,7 @@ export const INITIAL_STATE = {
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case FILTER_DEMAND_OPEN_MANAGER:
-            const openFilterDemandState=JSON.parse(JSON.stringify(state));
-            openFilterDemandState.filterManagerDemandShow=true;
-            return openFilterDemandState;
+            return {...state, filterManagerDemandShow:true, action : FILTER_DEMAND_OPEN_MANAGER};
         case FILTER_DEMAND_CLOSE_MANAGER:
             const closeFilterManagerDemandState=JSON.parse(JSON.stringify(state));
             closeFilterManagerDemandState.filterManagerDemandShow=false;

@@ -308,28 +308,7 @@ export function init(pageNo, doAfterInit) {
         doAfterInit(demands.data.data, members.data.data, iterations.data.data);
 
     }));
-    //
-    //
-    // return axios.post(GET_DEMANDS, {"version": "1.0", accessToken:accessToken, data : pageNo}, config)
-    //     .then(response => {
-    //
-    //         if (response.data.respCode !== "00") {
-    //             store.dispatch({
-    //                 type: SHOW_NOTIFICATION,
-    //                 payload: response.data.msg
-    //             });
-    //             return false;
-    //         }
-    //
-    //         doAfterInit(response.data.data);
-    //
-    //     })
-    //     .catch(error => {
-    //         // If request fails
-    //         console.log("!!!!!!!调用失败" + JSON.stringify(error));
-    //         // update state to show error to user
-    //
-    //     });
+
 }
 
 export function nextPage(pageNo, doAfterInit) {

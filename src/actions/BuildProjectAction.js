@@ -1,5 +1,4 @@
 import axios from 'axios';
-import history from '../history/history';
 import store from '../stores/index';
 import {
     PULL_INITIAL_PROJECT,
@@ -12,8 +11,9 @@ import {
     OPEN_EDIT_PROJECT,
     CLOSE_BUILD_PROJECT,
     CLOSE_EDIT_PROJECT,
-    SHOW_NOTIFICATION,
+    SHOW_NOTIFICATION, INIT_PROJECT_MEMBERS,
 } from "./types"
+import history from "../history/history";
 //axios配置
 const config = {
     method: 'post',
@@ -25,15 +25,50 @@ const config = {
 export const GET_MY_PROJECTS = 'http://localhost:8080/tiger-admin/project/getMyProjects';
 export const GET_BY_ID = 'http://localhost:8080/tiger-admin/project/get';
 export const SAVE = 'http://localhost:8080/tiger-admin/project/save';
+export const OPEN_PROJECT = 'http://localhost:8080/tiger-admin/project/openProject';
+
+export const GET_TEAMS = 'http://localhost:8080/tiger-admin/member/getTeams';
+export const GET_PROJECT_MEMBERS = 'http://localhost:8080/tiger-admin/member/getProjectMembers';
 
 
 export function init(doAfterInit) {
-
     console.log("init");
 
     let accessToken = localStorage.getItem("token");
 
-    return axios.post(GET_MY_PROJECTS, {"version": "1.0", "accessToken": accessToken}, config)
+    function getProjects() {
+        return axios.post(GET_MY_PROJECTS, {"version": "1.0", accessToken: accessToken}, config);
+    }
+
+    function getProjectMembers() {
+        return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
+    }
+
+    function getTeams() {
+        return axios.post(GET_TEAMS, {"version": "1.0", accessToken: accessToken}, config);
+    }
+
+    axios.all([getProjects(), getProjectMembers(), getTeams()]).then(axios.spread(function (projects, members, teams) {
+
+        store.dispatch({
+            type: INIT_PROJECT_MEMBERS,
+            payload: members.data.data
+        });
+
+        doAfterInit(projects.data.data, members.data.data, teams.data.data);
+
+    }));
+
+}
+
+export function openProject(id) {
+    console.log("openProject被调用");
+
+
+    let accessToken = localStorage.getItem("token");
+
+    // POST username and password to API endpoint
+    return axios.post(OPEN_PROJECT, {"version": "1.0","accessToken": accessToken, "data": id}, config)
         .then(response => {
 
             if (response.data.respCode !== "00") {
@@ -44,16 +79,14 @@ export function init(doAfterInit) {
                 return false;
             }
 
-            doAfterInit(response.data.data);
-
+            // redirect to the route '/recordings'
+            history.push('/taskboard');
         })
         .catch(error => {
             // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+            console.log("调用失败");
 
         });
-
 
 }
 

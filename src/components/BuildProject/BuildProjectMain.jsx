@@ -21,25 +21,27 @@ const styles = {
         backgroundColor: blue[100],
         color: blue[600],
     },
-    buttonStyle:{
+    buttonStyle: {
         textAlign: 'center',
         position: 'absolute',
         right: 0,
     },
-    gridStyle:{
-        marginTop:"15px"
+    gridStyle: {
+        marginTop: "15px"
     },
 
 };
+
+const projectType = [{name: "业务需求项目", id: 1}, {name: "系统架构优化", id: 2}];
+const projectStatus = [{name: "进行中", id: 1}, {name: "已完成", id: 2}];
 
 class BuildProjectMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             openTask: false,
-            projectContent:{
-
-            }
+            projectContent: {},
+            errorList: {}
         }
     }
 
@@ -53,106 +55,81 @@ class BuildProjectMain extends React.Component {
     handleClose = () => {
         store.dispatch(closeBuildProject());
     };
-    handleSave=()=>{
+    handleSave = () => {
         saveProject(this.state.projectContent)
     };
 
 
-
-    getContent=e=>{
-        if (e.keyNote){
-            const keyNote=e.keyNote;
-            const value=e.value;
+    getContent = e => {
+        if (e.keyNote) {
+            const keyNote = e.keyNote;
+            const value = e.value;
             let data = Object.assign({}, this.state.projectContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
-                projectContent:data
+                projectContent: data
             })
-        }else{
-            const keyNote=e.target.name;
-            const value=e.target.value;
+        } else {
+            const keyNote = e.target.name;
+            const value = e.target.value;
             let data = Object.assign({}, this.state.projectContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
-                projectContent:data
+                projectContent: data
             })
         }
     };
-    
+
+
+    validate = (keyValue) => {
+
+        let errorList = this.state.errorList;
+        errorList[keyValue.name] = keyValue.hasError;
+
+        this.setState({errorList: errorList});
+    };
+
 
     render() {
-        const {classes, onClose, selectedValue,initialData,buttonStyle,hintMessage,randomNum} = this.props;
-        //todo:这里无法有效解决error公用问题，只能采用直接根据页面罗列写死的方法，毕竟一个界面的输入框不是很多
-        /*let error2=false;
-        let hintLabel2="任务名称";
-        let error1=false;
-        let hintLabel1="项目名称";*/
-       /* if (hintMessage.name) {
-            error1 = true;
-            hintLabel1 = hintMessage.name
-        } else {
-            error1 = false;
-            hintLabel1 = "项目名称"
-        }
-
-        if (hintMessage.username) {
-            error2 = true;
-            hintLabel2 = hintMessage.username
-        } else {
-            error2 = false;
-            hintLabel2 = "任务名称"
-        }*/
-
+        const {classes, onClose, selectedValue, initialData, buttonStyle, hintMessage, randomNum} = this.props;
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open}>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={8} >
+                    <Grid container spacing={8}>
                         <Grid item xs={8} className={classes.gridStyle}>
                             <InputField
                                 nameIn="projectName"
                                 onChange={this.getContent}
                                 InputLabelName="项目名称"
-                                />
+                                validate={this.validate}
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <InputField InputLabelName="项目编号" nameIn="projectCode"  disabled={true}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="类型" nameIn="projectType"
+                                          defaultValue={projectType[0].id} nameArray={projectType}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="类型" nameIn="projectType" defaultValue={1} nameArray={initialData.projectType}/>
-                        </Grid>
-                        {/*<Grid item xs={4} className={classes.gridStyle}>*/}
-                            {/*<MultiSelect onChange={this.getContent} InputLabelName="成员" nameIn="ProjectMembers" nameArray={initialData.ProjectMembers}/>*/}
-                        {/*</Grid>*/}
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="负责人" nameIn="projectOwnerId" defaultValue={1} nameArray={this.props.projectMembers}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="团队" nameIn="teamId"
+                                          nameArray={this.props.teams}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="负责人" nameIn="projectOwnerId"
+                                          nameArray={this.props.projectMembers}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent}/>
+                            <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent} defaultValue={new Date()}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="createTime" InputLabelName="创建时间" disable={true} onDateChange={this.getContent}/>
+                            <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent} defaultValue={new Date()}/>
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status" defaultValue={1} nameArray={initialData.projectStatus}/>
-                        </Grid>
-                        {/*/!*<Grid item xs={4}>*/}
-                            {/*<InputField nameIn="username" InputLabelName="任务名称" onChange={this.getContent} />*/}
-                        {/*</Grid>*!/*/}
 
-                        {/*<Grid item xs={12} className={classes.gridStyle}>*/}
-                            {/*<DesciptionInput onChange={this.getContent} nameIn="ProjectDescription"/>*/}
-                        {/*</Grid>*/}
-                        {/*<Grid item xs={4}>*/}
-                            {/*<Typography color="error">{hintMessage}</Typography>*/}
-                        {/*</Grid>*/}
-
-
+                        <Grid item xs={4} className={classes.gridStyle}>
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status"
+                                          defaultValue={projectStatus[0].id} nameArray={projectStatus}/>
+                        </Grid>
 
                     </Grid>
                 </DialogContent>
@@ -179,8 +156,8 @@ BuildProjectMain.propTypes = {
 const mapStateToProps = (state) => {
     // console.log("map数据:"+state.reducer.buildProject.initialData.head);
     return {
-        initialData:state.reducer.buildProject.initialData,
-        action : state.reducer.buildProject.action
+        initialData: state.reducer.buildProject.initialData,
+        action: state.reducer.buildProject.action
     }
 };
 

@@ -30,6 +30,7 @@ import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import {getProjectMembers} from "../../actions/CommonAction";
 import {pullBuildProjectInitial} from "../../actions/BuildProjectAction";
+import permProcessor from "../../constants/PermProcessor";
 
 
 const drawerWidth = 240;
@@ -84,7 +85,8 @@ class IterationBoard extends React.Component {
             open: false,
             iterationInfo: {},
             tabValue: 0,
-            hide: true
+            hide: true,
+            perm: permProcessor.init('project')
         };
     }
 
@@ -129,9 +131,9 @@ class IterationBoard extends React.Component {
     //
     // handleEditPerson = () =>{
     //
-    //     //this.state.iterationName;
+    //     //this.state.iterationCode;
     //
-    //     addIterationPerson(this.state.iterationName);
+    //     addIterationPerson(this.state.iterationCode);
     //
     // };
 
@@ -140,7 +142,7 @@ class IterationBoard extends React.Component {
 
         let self = this;
         init(function (ret) {
-
+console.log("#####"+JSON.stringify(ret))
             let iterationState = [];
             for (let i in ret) {
                 let iter = ret[i];
@@ -163,6 +165,7 @@ class IterationBoard extends React.Component {
                 parent.iteration = {name: iter.iteration, selected: false};
                 iterationState.push(parent);
             }
+
             self.setState({iterationState: iterationState});
 
             setTimeout(function(){
@@ -185,12 +188,13 @@ class IterationBoard extends React.Component {
         let iterationState = JSON.parse(JSON.stringify(this.state.iterationState));
         // 这里会返回新建后的版本号，这个版本号需要有一定的归类
         if (nextProps.action === SAVE_ADD_ITERATION) {
-            let newIteration = nextProps.iterationName.split(".");
+
+            let newIteration = nextProps.iteration.iterationInfo.iterationCode.split(".");
             let needNew = true;
             for (let i in iterationState) {
                 if (iterationState[i].iteration.name === newIteration[0]) {
                     let unit = {
-                        iter: nextProps.iterationName,
+                        iter: nextProps.iterationInfo.iterationCode,
                         selected: false
                     }
                     iterationState[i].children.push(unit);
@@ -198,12 +202,12 @@ class IterationBoard extends React.Component {
                 }
             }
             if (needNew) {
-                let newIteration = nextProps.iterationName.split(".")[0];
+                let newIteration = nextProps.iteration.iterationInfo.iterationCode.split(".")[0];
                 let ret = {
                     iteration: {name: newIteration, selected: true},
                     children: [
                         {
-                            iter: nextProps.iterationName,
+                            iter: nextProps.iterationCode,
                             selected: false
                         }
 
@@ -238,7 +242,7 @@ class IterationBoard extends React.Component {
                     <Grid item xs={2}>
                         <IterationList iterations={this.state.iterationState} handleAdd={this.handleAdd}
                                        handleEdit={this.handleEdit} handleSelected={this.handleSelected}
-                                       handleSearch={this.handleSearch}/>
+                                       handleSearch={this.handleSearch} perm={this.state.perm}/>
                     </Grid>
                     <Grid item xs={10}>
                         <Paper style={{padding: "10px"}}>
@@ -368,11 +372,11 @@ IterationBoard.propTypes = {
  */
 const
     mapStateToProps = (state) => {
-    console.log("!!!!"+JSON.stringify(state.reducer.iteration.iteration))
+    console.log("!!!!"+JSON.stringify(state.reducer.iteration.iteration));
         if (!state.reducer.iteration.iteration) {
             return {
                 openAddIteration: state.reducer.iteration.openAddIteration,
-                iterationName: state.reducer.iteration.iterationName,
+                iterationCode: state.reducer.iteration.iterationCode,
                 action: state.reducer.iteration.action,
                 initIterationList: state.reducer.iteration.initIterationList,
                 projectMembers : state.reducer.common.projectMembers
@@ -381,7 +385,7 @@ const
         }
         return {
             iteration: state.reducer.iteration.iteration,
-            iterationName: state.reducer.iteration.iteration.iterationName,
+            iterationCode: state.reducer.iteration.iteration.iterationCode,
             openAddIteration: state.reducer.iteration.openAddIteration,
             action: state.reducer.iteration.action,
             initIterationList: state.reducer.iteration.initIterationList,

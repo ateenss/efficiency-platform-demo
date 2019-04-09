@@ -16,6 +16,7 @@ import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import {ADD_DEMAND} from "../../actions/types";
+import AssociationInputField from "../SelfComponent/AssociationInputField";
 
 const priority = [
     {id : 0,  name : "默认"},{id : 1,  name : "低"},{id : 2,  name : "普通"},{id : 3,  name : "高"},
@@ -80,7 +81,7 @@ class BuildDemandMain extends React.Component {
                     uatRequired: 0,
                     demandDevOwnerId: this.props.projectMembers[0].id,
                     demandOwnerId: this.props.projectMembers[0].id,
-                    iterationId : this.props.iteration[0].id
+                    iterationId : !!this.props.iteration && this.props.iteration.length>0 ? this.props.iteration[0].id : ""
                 }
             })
         }
@@ -129,12 +130,12 @@ class BuildDemandMain extends React.Component {
     render() {
         const {classes, buttonStyle} = this.props;
         let iterationSelect = [];
-
+console.log("111##############"+JSON.stringify(this.props.iteration))
         for (let i in this.props.iteration) {
             let unit = this.props.iteration[i];
             let ret = {
                 id: unit.id,
-                name: unit.iterationName
+                name: unit.iterationCode
             }
             iterationSelect.push(ret);
         }

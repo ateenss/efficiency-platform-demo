@@ -75,7 +75,7 @@ class SingleIteration extends React.Component {
 
 
                         <ListItemText inset primary={prop.iter + "版"} className={classes.itemText}/>
-                        <IterationMenuList icon={<MoreVertIcon/>} handleEdit={this.props.handleEdit.bind(this, prop.id)}/>
+                        <IterationMenuList icon={<MoreVertIcon/>} handleEdit={this.props.handleEdit.bind(this, prop.id)} perm={this.props.perm}/>
                     </ListItem>
                 )
             }

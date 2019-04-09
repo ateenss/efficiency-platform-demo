@@ -2,6 +2,7 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import permProcessor from "../../constants/PermProcessor";
 
 
 const ITEM_HEIGHT = 48;
@@ -54,12 +55,7 @@ class IterationMenuList extends React.Component {
                         },
                     }}
                 >
-                    <MenuItem onClick={this.handleEdit}>
-                        编辑
-                    </MenuItem>
-                    <MenuItem >
-                        生成上线检查表
-                    </MenuItem>
+                    {permProcessor.bingo('save', this.props.perm) ? <MenuItem onClick={this.handleEdit}>编辑</MenuItem> :""}
                 </Menu>
             </div>
         );

@@ -23,6 +23,7 @@ import {selectIteration} from "../../actions/IterationAction";
 import {TextField} from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchTextField from "./SearchTextField"
+import permProcessor from "../../constants/PermProcessor";
 const styles = theme => ({
     root: {
         width: '100%',
@@ -53,17 +54,14 @@ class IterationList extends React.Component {
                 return (
                     <SingleIteration key={key} handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit}
                                      iterationList={prop.children} iteration={prop.iteration.name}
-                                     defaultExpand={idx++ == 1 ? true : prop.iteration.selected}/>
+                                     defaultExpand={idx++ == 1 ? true : prop.iteration.selected} perm={this.props.perm}/>
                 )
             }
         );
         return (
             <List
                 component="nav"
-                subheader={<ListSubheader component="div">版本列表<IconButton onClick={this.props.handleAdd} style={{
-                    float: "right",
-                    marginRight: "-12px"
-                }}><AddIcon/></IconButton></ListSubheader>}
+                subheader={<ListSubheader component="div">版本列表 {permProcessor.bingo('save', this.props.perm)?  <IconButton onClick={this.props.handleAdd} style={{float: "right", marginRight: "-12px"}}><AddIcon/></IconButton> : ""}</ListSubheader>}
                 className={classes.root}
             >
                 <SearchTextField handleSearch={this.props.handleSearch} clearInput={this.state.clearInput}/>

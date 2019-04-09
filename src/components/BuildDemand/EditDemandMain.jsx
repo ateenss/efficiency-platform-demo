@@ -126,7 +126,7 @@ class EditDemandMain extends React.Component {
             let unit = this.props.iteration[i];
             let ret = {
                 id : unit.id,
-                name : unit.iterationName
+                name : unit.iterationCode
             }
             iterationSelect.push(ret);
         }
