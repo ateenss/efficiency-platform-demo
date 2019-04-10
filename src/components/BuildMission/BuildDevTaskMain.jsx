@@ -124,7 +124,12 @@ class BuildDevTaskMain extends React.Component {
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="开发人员" validate={this.validate} nameIn="taskOwner" nameArray={projectMembers}/>
+                            <SingleSelect
+                                onChange={this.getContent}
+                                InputLabelName="开发人员"
+                                validate={this.validate}
+                                nameIn="taskOwner"
+                                nameArray={projectMembers}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="taskDeadline" InputLabelName="任务截至时间"  onDateChange={this.getContent}/>

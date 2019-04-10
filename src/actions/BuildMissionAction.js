@@ -58,6 +58,7 @@ import {
     FILTER_TEST_TASK
 } from './types';
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
+import {GET_DEMANDS} from "./DemandAction";
 
 
 /*!!this.props.funcArray&&this.props.funcArray.map((value,key)=>{
@@ -514,6 +515,8 @@ export function saveBuildModule(saveContent,parentTaskId) {
     };
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,saveContent);
+    console.log("新建開發任务");
+    console.log(saveContent);
     return axios.post(save_module_data, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
@@ -533,23 +536,29 @@ export function saveBuildModule(saveContent,parentTaskId) {
 
 export function init() {
     const send_edit_data = 'http://127.0.0.1:8080/tiger-admin/task/getMyTaskInfo';
+    const getMyTaskInfoUrl = 'http://127.0.0.1:8080/tiger-admin/task/getMyTaskInfo';
+    const GET_PROJECT_MEMBERS = 'http://localhost:8080/tiger-admin/member/getProjectMembers';
     const config = {
         method: 'post'
     };
-
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken);
+    //下面是新修改的区
+    /*function getMyTask() {
+        return axios.post(getMyTaskInfoUrl, {"version": "1.0", accessToken: accessToken}, config);
+    }
+
+    function getProjectMembers() {
+        return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
+    }
+
+    axios.all([getProjectMembers(),getMyTask()]).then(axios.spread((myTask,)));
+*/
+    //上面是试验区
     return axios.post(send_edit_data, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                /*let allowGetArray=[];
-                data.taskList.map((item,index)=>{
-                    if(item.recSt===1){
-                        allowGetArray.push(item);
-                    }
-                });
-                data.taskList=allowGetArray;*/
                 store.dispatch(getMyTaskInfo(data));
             }else{
 
