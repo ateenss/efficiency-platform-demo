@@ -98,10 +98,6 @@ class MissionDetailMain extends React.Component {
         store.dispatch(closeDetailMission());
     };
 
-    componentDidMount() {
-
-        getProjectMembers();
-    }
 
     render() {
         const {classes, detailMissionShow, tempBoardToDetail} = this.props;

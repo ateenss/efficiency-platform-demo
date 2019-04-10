@@ -2,6 +2,7 @@ import store from '../stores/index';
 import axios from 'axios';
 import UrlConf from '../constants/UrlConf'
 import RequestBuilder from '../constants/RequestBuilder'
+import {startLoading, stopLoading} from "../actions/CommonAction";
 import {
     OPEN_BUILD_MISSION,
     CLOSE_BUILD_MISSION,
@@ -55,7 +56,7 @@ import {
     CHANGE_PLAN2_DEV,
     ADD_TEST_TASK_PANEL,
     MODIFY_AFTER_TASKEDITOR,
-    FILTER_TEST_TASK
+    FILTER_TEST_TASK, INIT_PROJECT_MEMBERS
 } from './types';
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
 import {GET_DEMANDS} from "./DemandAction";
@@ -535,7 +536,6 @@ export function saveBuildModule(saveContent,parentTaskId) {
 
 
 export function init() {
-    const send_edit_data = 'http://127.0.0.1:8080/tiger-admin/task/getMyTaskInfo';
     const getMyTaskInfoUrl = 'http://127.0.0.1:8080/tiger-admin/task/getMyTaskInfo';
     const GET_PROJECT_MEMBERS = 'http://localhost:8080/tiger-admin/member/getProjectMembers';
     const config = {
@@ -543,8 +543,8 @@ export function init() {
     };
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken);
-    //下面是新修改的区
-    /*function getMyTask() {
+
+    function getMyTask() {
         return axios.post(getMyTaskInfoUrl, {"version": "1.0", accessToken: accessToken}, config);
     }
 
@@ -552,22 +552,20 @@ export function init() {
         return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
     }
 
-    axios.all([getProjectMembers(),getMyTask()]).then(axios.spread((myTask,)));
-*/
-    //上面是试验区
-    return axios.post(send_edit_data, request,config)
-        .then(response => {
-            if (response.data.respCode === "00") {
-                let data = response.data.data;
-                store.dispatch(getMyTaskInfo(data));
-            }else{
 
-                console.log("没能拿到数据")
-            }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+
+    axios.all([getProjectMembers(),getMyTask()]).then(axios.spread(function(members,myTask){
+        store.dispatch(getMyTaskInfo(myTask.data.data));
+        store.dispatch({
+            type: INIT_PROJECT_MEMBERS,
+            payload: members.data.data
 
         });
+        console.log("任务主面板初始化数据拉取成功");
+        stopLoading();
+    }));
+
+
 
 }
 
@@ -583,16 +581,6 @@ export function getDemandTaskDetail(taskId) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                /*if (data.recSt===1) {
-                    Object.keys(data.taskDetailList).map((item)=>{
-                        data.taskDetailList[item].map((item,index)=>{
-                            if (item.recSt===0){
-                                data.taskDetailList.item.splice(index,1);
-                            }
-                        })
-                    });
-
-                }*/
                 store.dispatch(getDemandTaskDetailInfo(data));
 
             }else{

@@ -41,6 +41,7 @@ import MissionDetailMain from "../BuildMission/MissionDetailMain"
 import IntegrationPage from "../BuildMission/IntegrationPage"
 import GoTestPage from "../BuildMission/DoTestPage";
 import OtherMissionPage from "../BuildMission/OtherTaskPage"
+import {startLoading} from "../../actions/CommonAction";
 
 const styles = theme => ({
     root: {
@@ -164,6 +165,11 @@ class TaskBoard extends React.Component {
     goBack = () => {
         store.dispatch(filterReset());
     };
+
+    componentWillMount() {
+
+        startLoading();
+    }
 
     componentDidMount() {
         if (permProcessor.bingo('getDemandTaskDetail', this.state.perm)) {
