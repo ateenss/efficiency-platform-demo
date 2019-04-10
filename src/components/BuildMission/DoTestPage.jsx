@@ -190,9 +190,6 @@ class MissionDetailMain extends React.Component {
                             <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
                                 走查任务详情
                             </Typography>
-                            <Button color="inherit" onClick={this.onSubmit}>
-                                保存
-                            </Button>
                         </Toolbar>
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>
@@ -207,7 +204,7 @@ class MissionDetailMain extends React.Component {
                                     任务类型：{!!tempBoardToDetail?tempBoardToDetail.taskType:""}
                                 </Typography>
                                 <Typography variant="h5" component="h2">
-                                    任务截止时间：{!!tempBoardToDetail?tempBoardToDetail.taskDeadLine:""}
+                                    任务截止时间：{!!tempBoardToDetail?tempBoardToDetail.taskDeadline:""}
                                 </Typography>
                                 <Typography variant="h5" component="h2">
                                     任务ID号： {!!tempBoardToDetail?tempBoardToDetail.taskCode:""}

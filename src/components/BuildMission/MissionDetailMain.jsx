@@ -114,9 +114,9 @@ class MissionDetailMain extends React.Component {
                             <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
                                 需求任务详情
                             </Typography>
-                            <Button color="inherit" onClick={this.onSubmit}>
+                            {/*<Button color="inherit" onClick={this.onSubmit}>
                                 保存
-                            </Button>
+                            </Button>*/}
                         </Toolbar>
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>

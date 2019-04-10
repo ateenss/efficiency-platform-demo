@@ -140,6 +140,19 @@ class DevTaskEditor extends React.Component {
 
         this.setState({errorList: errorList});
     };
+    
+    isOrNotSubmit=()=>{
+        let show=(<Button color="inherit" onClick={this.onSubmit}>
+            提交
+        </Button>);
+        if (this.props.tempTask.content!=null) {
+            if (this.props.tempTask.content.taskStatus==="待处理") {
+                return show
+            }
+        }
+        return ""
+        
+    };
 
 
 
@@ -157,14 +170,12 @@ class DevTaskEditor extends React.Component {
                                 <CloseIcon/>
                             </IconButton>
                             <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
-                                编辑任务
+                                编辑开发任务
                             </Typography>
                             <Button color="inherit" onClick={this.save}>
                                 保存
                             </Button>
-                            <Button color="inherit" onClick={this.onSubmit}>
-                                提交
-                            </Button>
+                            {this.isOrNotSubmit()}
                         </Toolbar>
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>
