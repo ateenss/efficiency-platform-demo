@@ -36,7 +36,7 @@ export function stopLoading(){
         store.dispatch({
             type: STOP_LOADING
         });
-    }, 1000);
+    }, 500);
 }
 
 export function getProjectMembers(doAfterInit) {

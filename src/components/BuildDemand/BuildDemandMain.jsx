@@ -141,7 +141,7 @@ console.log("111##############"+JSON.stringify(this.props.iteration))
         }
         const labelArray = ["是", "否"];
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open}>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="xl">
                 <DialogTitle id="simple-dialog-title">创建新需求</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>

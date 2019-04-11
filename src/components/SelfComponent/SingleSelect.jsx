@@ -30,14 +30,9 @@ class SingleSelect extends React.Component {
 
     componentDidMount() {
 
-        console.log( this.props.nameIn + "!!!!!!"+ this.props.defaultValue);
-
         let value = this.props.defaultValue;
 
-        if(value === undefined){
-            return;
-        }
-
+        // 如果有这个key，但是没有默认值，则设置默认值？
         if (!this.props.defaultValue) {
             if(this.props.nameArray.length > 0){
                 value = this.props.nameArray[0].id;
@@ -48,6 +43,9 @@ class SingleSelect extends React.Component {
         this.setState({
             value: value
         })
+        // console.log("^^^^^^"+ this.props.nameIn +"|" +value);
+
+        this.props.onChange({keyNote: this.props.nameIn, value: value})
 
     }
 

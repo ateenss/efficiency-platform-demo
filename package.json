@@ -86,7 +86,8 @@
     "@date-io/date-fns": "^1.1.0",
     "mui-datatables": "^2.0.0-beta.56",
     "halogen": "^0.2.0",
-    "react-spinners": "^0.5.4"
+    "react-spinners": "^0.5.4",
+    "@kenshooui/react-multi-select": "^1.0.71"
   },
   "scripts": {
     "start": "node scripts/start.js",

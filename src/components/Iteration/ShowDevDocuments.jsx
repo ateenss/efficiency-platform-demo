@@ -153,10 +153,6 @@ class ShowDevDocuments extends React.Component {
                 >
 
                     <AppBar className={classes.appBar}>
-                        {/*<IconButton color="inherit" onClick={this.handleClose} aria-label="Close"*/}
-                        {/*style={{position: "absolute", right: "0", top: "0", "zIndex": "9999"}}>*/}
-                        {/*<MoreVertIcon/>*/}
-                        {/*</IconButton>*/}
                         <DevelopPlanMenuList icon={<MoreVertIcon/>}
                                              useId={this.state.demandId}
                                              handleProvePlan={this.handleProvePlan}

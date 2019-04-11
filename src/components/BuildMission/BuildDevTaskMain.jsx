@@ -111,7 +111,7 @@ class BuildDevTaskMain extends React.Component {
     render() {
         const {classes, onClose, selectedValue,initialData,buttonStyle,randomNum,hintMessage,projectMembers, ...other} = this.props;
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth minW="xl">
                 <DialogTitle id="simple-dialog-title">创建开发任务</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >

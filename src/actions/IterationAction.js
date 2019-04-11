@@ -119,9 +119,9 @@ export function init(doAfterInit) {
 export function selectIteration(id, callback) {
     console.log("selectIteration被调用" + id);
 
-    let accessToken = localStorage.getItem("accessToken");
+    let accessToken = localStorage.getItem("token");
 
-    return axios.post(GET_BY_ID, {"version": "1.0", "data": id}, config)
+    return axios.post(GET_BY_ID, {"version": "1.0", accessToken:accessToken, "data": id}, config)
         .then(response => {
 
             if (response.data.respCode !== "00") {
@@ -169,6 +169,11 @@ export function selectIteration(id, callback) {
             });
 
 
+            data.iterationInfo.deliveryPersons.map((content, key) =>{
+                console.log("!!!!!!####!!!!!"+JSON.stringify(content));
+
+            })
+
             callback();
 
         })
@@ -185,6 +190,7 @@ export function selectIteration(id, callback) {
  * 这里要区分到底是新增还是编辑
  */
 export function addIteration(id) {
+    let accessToken = localStorage.getItem("token");
 
 
     let ret = {
@@ -194,7 +200,7 @@ export function addIteration(id) {
 
     if (!!id) {
         // TODO post here use iterationData in saveIteration
-        return axios.post(GET_BY_ID, {"version": "1.0", "data": id}, config)
+        return axios.post(GET_BY_ID, {"version": "1.0", accessToken:accessToken,"data": id}, config)
             .then(response => {
 
                 if (response.data.respCode !== "00") {
@@ -243,6 +249,9 @@ export function closeAddIteration() {
  */
 export function saveIteration(action, iterationData) {
 
+    let accessToken = localStorage.getItem("token");
+
+
     // TODO post here, use iterationData to post
     let data = {};
     data.iterationInfo = iterationData;
@@ -254,7 +263,7 @@ export function saveIteration(action, iterationData) {
         type = SAVE_EDIT_ITERATION
     }
 
-    return axios.post(SAVE, {"version": "1.0", "data": iterationData}, config)
+    return axios.post(SAVE, {"version": "1.0", accessToken:accessToken,"data": iterationData}, config)
         .then(response => {
 
             if (response.data.respCode !== "00") {

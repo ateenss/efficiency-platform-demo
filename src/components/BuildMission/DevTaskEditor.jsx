@@ -46,7 +46,7 @@ const styles = {
     },
     quillContainer: {
         marginTop: "10px",
-        height:"300px"
+        height:"500px"
     },
     quillLabel: {
         fontSize: "16px",
@@ -54,7 +54,7 @@ const styles = {
         marginTop: "15px"
     },
     quillIn:{
-        height:"300px"
+        height:"400px"
     },
 
 };
@@ -163,7 +163,7 @@ class DevTaskEditor extends React.Component {
         return (
 
             <div>
-                <Dialog   open={taskEditorShow}  TransitionComponent={Transition}>
+                <Dialog   open={taskEditorShow}  TransitionComponent={Transition}  fullWidth maxWidth="xl">
                     <AppBar className={classes.appBar} color="default">
                         <Toolbar variant="dense">
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">

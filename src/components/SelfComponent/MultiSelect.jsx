@@ -54,7 +54,7 @@ class MultipleSelect extends React.Component {
 
         if (this.props.defaultValue) {
             let array = [];
-            array = this.props.defaultValue.split(",");
+            array = this.props.defaultValue;
             this.setState({
                 name: array
             })

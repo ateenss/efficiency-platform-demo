@@ -17,7 +17,8 @@ import SingleSelect from "../SelfComponent/SingleSelect"
 import {closeAddIteration, saveIteration} from "../../actions/IterationAction";
 import MultiSelect from "../SelfComponent/MultiSelect"
 import GlobalValidateRegex from "../../constants/GlobalValidateRegex";
-import {ADD_ITERATION, SAVE_ADD_ITERATION, SHOW_NOTIFICATION} from "../../actions/types";
+import {ADD_ITERATION, EDIT_ITERATION, SAVE_ADD_ITERATION, SHOW_NOTIFICATION} from "../../actions/types";
+import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 
 
 const styles = {
@@ -29,7 +30,10 @@ const styles = {
         textAlign: 'center',
         position: 'absolute',
         right: 0,
-    }
+    },
+    gridStyle: {
+        marginTop: "15px"
+    },
 
 };
 
@@ -44,6 +48,21 @@ class AddIteration extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
+
+        if (nextProps.action === ADD_ITERATION) {
+
+            let iterationContnet = {
+                iterationOwnerId: this.props.projectMembers[0].id,
+                deliveryPersonInChargeId: this.props.projectMembers[0].id
+            };
+
+
+            this.setState({
+                iterationContent: iterationContnet
+            })
+        }
+
+
         this.setState({iterationContent: nextProps.editData, action: nextProps.action});
 
     }
@@ -81,7 +100,7 @@ class AddIteration extends React.Component {
             const keyNote = e.keyNote;
             const value = e.value;
             let data = Object.assign({}, this.state.iterationContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 iterationContent: data
@@ -90,7 +109,7 @@ class AddIteration extends React.Component {
             const keyNote = e.target.name;
             const value = e.target.value;
             let data = Object.assign({}, this.state.iterationContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 iterationContent: data
@@ -109,14 +128,30 @@ class AddIteration extends React.Component {
 
 
     render() {
-        const {initialData, buttonStyle} = this.props;
+        const {initialData, buttonStyle, classes} = this.props;
+        let projectMember4MultiSelect = [];
+        for (let i in this.props.projectMembers) {
+
+            let unit = this.props.projectMembers[i];
+
+            let ret = {
+                id: unit.name,
+                label: unit.name,
+                group:unit.deptName
+
+            }
+
+            projectMember4MultiSelect.push(ret);
+        }
+
 
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open}>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth
+                    maxWidth="xl">
                 <DialogTitle id="simple-dialog-title">新增版本</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
-                        <Grid item xs={8}>
+                        <Grid item xs={8} className={classes.gridStyle}>
                             <InputField
                                 nameIn="iterationCode"
                                 onChange={this.getContent}
@@ -128,7 +163,7 @@ class AddIteration extends React.Component {
                                 validate={this.validate}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
                                 nameIn="iterationName"
                                 onChange={this.getContent}
@@ -140,41 +175,41 @@ class AddIteration extends React.Component {
                                 validate={this.validate}
                             />
                         </Grid>
-                        <Grid item xs={4}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="版本负责人" nameIn="iterationOwner"
+                        <Grid item xs={4} className={classes.gridStyle}>
+                            <SingleSelect onChange={this.getContent} InputLabelName="版本负责人" nameIn="iterationOwnerId"
                                           nameArray={this.props.projectMembers}
-                                          defaultValue={this.state.iterationContent.iterationOwner}
+                                          defaultValue={this.state.iterationContent.iterationOwnerId}
 
                             />
 
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="testDate" InputLabelName="提测时间" onDateChange={this.getContent}
                                         defaultValue={this.state.iterationContent.testDate}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="publishDate" InputLabelName="发布时间" onDateChange={this.getContent}
                                         defaultValue={this.state.iterationContent.publishDate}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="deliveryDate" InputLabelName="上线时间" onDateChange={this.getContent}
                                         defaultValue={this.state.iterationContent.deliveryDate}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="developPlanSubmitDate" InputLabelName="开发方案提交时间"
                                         onDateChange={this.getContent}
                                         defaultValue={this.state.iterationContent.developPlanSubmitDate}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="codeReviewDate" InputLabelName="代码走查时间" onDateChange={this.getContent}
                                         defaultValue={this.state.iterationContent.codeReviewDate}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="ciDate" InputLabelName="持续集成执行时间" onDateChange={this.getContent}
                                         defaultValue={this.state.iterationContent.ciDate}/>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField onChange={this.getContent} InputLabelName="Bugzilla" nameIn="bugzillaId"
                                         nameArray={initialData}
                                         defaultValue={this.state.iterationContent.bugzillaId}
@@ -184,38 +219,50 @@ class AddIteration extends React.Component {
 
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="上线负责人"
-                                          nameIn="deliveryPersonInCharge"
+                                          nameIn="deliveryPersonInChargeId"
                                           nameArray={this.props.projectMembers}
-                                          defaultValue={this.state.iterationContent.deliveryPersonInCharge}
+                                          defaultValue={this.state.iterationContent.deliveryPersonInChargeId}
 
                             />
 
                         </Grid>
-                        <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="上线检查人" nameIn="deliveryCheckers"
-                                         nameArray={this.props.projectMembers}
-                                         defaultValue={this.state.iterationContent.deliveryCheckers}
-                                         required
-                                         validate={this.validate}
+                        {/*<Grid item xs={4} className={classes.gridStyle}>*/}
+                        {/*<MultiSelect onChange={this.getContent} InputLabelName="上线检查人" nameIn="deliveryCheckers"*/}
+                        {/*nameArray={projectMember4MultiSelect}*/}
+                        {/*defaultValue={this.state.iterationContent.deliveryCheckers}*/}
+                        {/*required*/}
+                        {/*validate={this.validate}*/}
 
 
+                        {/*/>*/}
+
+                        {/*</Grid>*/}
+                        {/*<Grid item xs={4} className={classes.gridStyle}>*/}
+                        {/*<MultiSelect onChange={this.getContent} InputLabelName="上线人" nameIn="deliveryPersons"*/}
+                        {/*nameArray={projectMember4MultiSelect}*/}
+                        {/*defaultValue={this.state.iterationContent.deliveryPersons}*/}
+                        {/*required*/}
+                        {/*validate={this.validate}*/}
+
+                        {/*/>*/}
+
+                        {/*</Grid>*/}
+                        <Grid item xs={6} className={classes.gridStyle}>
+                            <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
+                                             nameIn="deliveryCheckers"
+                                             defaultValue={this.state.iterationContent.deliveryCheckers}
+                                             label="上线检查人"
                             />
-
                         </Grid>
-                        <Grid item xs={4}>
-                            <MultiSelect onChange={this.getContent} InputLabelName="上线人" nameIn="deliveryPersons"
-                                         nameArray={this.props.projectMembers}
-                                         defaultValue={this.state.iterationContent.deliveryPersons}
-                                         required
-                                         validate={this.validate}
-
+                        <Grid item xs={6} className={classes.gridStyle}>
+                            <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
+                                             nameIn="deliveryPersons"
+                                             defaultValue={this.state.iterationContent.deliveryPersons}
+                                             label="上线人"
                             />
-
                         </Grid>
-
-
                     </Grid>
                 </DialogContent>
                 <DialogActions>
@@ -244,7 +291,7 @@ const mapStateToProps = (state) => {
         initialData: state.reducer.iteration.initialData,
         editData: !!state.reducer.iteration.editData ? state.reducer.iteration.editData : "",
         action: state.reducer.iteration.action,
-        projectMembers : state.reducer.common.projectMembers
+        projectMembers: state.reducer.common.projectMembers
     }
 };
 

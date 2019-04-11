@@ -32,6 +32,8 @@ import {getProjectMembers, startLoading, stopLoading} from "../../actions/Common
 import {pullBuildProjectInitial} from "../../actions/BuildProjectAction";
 import permProcessor from "../../constants/PermProcessor";
 import AwesomeComponent from "../common/AwesomeComponent"
+import Chip from "@material-ui/core/Chip";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const drawerWidth = 240;
 
@@ -58,7 +60,7 @@ const styles = theme => ({
         height: "32px"
     },
     cardHeader: {
-        padding: theme.spacing.unit
+        padding: theme.spacing.unit,
     },
     cardContent: {
         padding: theme.spacing.unit,
@@ -73,6 +75,12 @@ const styles = theme => ({
     },
     editIcon: {
         marginRight: "15px"
+    },
+    chipStyle:{
+        background:"#f5f5f5",
+        color:"#232323",
+        margin:"5px",
+        fontSize:"14px"
     }
 });
 
@@ -128,6 +136,12 @@ class IterationBoard extends React.Component {
             }
         }
     };
+
+    handleMultiSelect = (id) =>{
+        // openMultiSelect(id);
+    };
+
+
     //
     // handleEditPerson = () =>{
     //
@@ -190,13 +204,12 @@ class IterationBoard extends React.Component {
         let iterationState = JSON.parse(JSON.stringify(this.state.iterationState));
         // 这里会返回新建后的版本号，这个版本号需要有一定的归类
         if (nextProps.action === SAVE_ADD_ITERATION) {
-
             let newIteration = nextProps.iteration.iterationInfo.iterationCode.split(".");
             let needNew = true;
             for (let i in iterationState) {
                 if (iterationState[i].iteration.name === newIteration[0]) {
                     let unit = {
-                        iter: nextProps.iterationInfo.iterationCode,
+                        iter: nextProps.iteration.iterationInfo.iterationCode,
                         selected: false
                     }
                     iterationState[i].children.push(unit);
@@ -277,25 +290,35 @@ class IterationBoard extends React.Component {
                                             <Avatar aria-label="Recipe" className={classes.avatar}>
                                                 P
                                             </Avatar>
-                                        } title="版本人员信息" className={classes.cardHeader}/>
+                                        } title="版本人员信息" className={classes.cardHeader} />
 
                                         <CardContent className={classes.cardContent}>
                                             <Grid container spacing={8}>
                                                 <Grid xs={6} item>
                                                     <Typography
-                                                        className={classes.textInfo}>版本负责人：{this.state.iterationInfo.iterationOwner}</Typography>
+                                                        className={classes.textInfo}>版本负责人：<Chip label={this.state.iterationInfo.iterationOwner} className={classes.chipStyle}/>{}</Typography>
                                                 </Grid>
                                                 <Grid xs={6} item>
                                                     <Typography
-                                                        className={classes.textInfo}>上线负责人：{this.state.iterationInfo.deliveryPersonInCharge}</Typography>
+                                                        className={classes.textInfo}>上线负责人：<Chip label={this.state.iterationInfo.deliveryPersonInCharge} className={classes.chipStyle}/></Typography>
                                                 </Grid>
                                                 <Grid xs={6} item>
                                                     <Typography
-                                                        className={classes.textInfo}>上线人员：{this.state.iterationInfo.deliveryPersonInCharge}</Typography>
+                                                        className={classes.textInfo}>上线人员：
+                                                        {!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryPersons ? this.state.iterationInfo.deliveryPersons.map((value, index) =>{
+                                                                return <Chip label={value} className={classes.chipStyle} key={index}/>
+                                                            }
+                                                        ) : ""}
+                                                    </Typography>
                                                 </Grid>
                                                 <Grid xs={6} item>
                                                     <Typography
-                                                        className={classes.textInfo}>检查人员：{this.state.iterationInfo.deliveryPersonInCharge}</Typography>
+                                                        className={classes.textInfo}>上线人员：
+                                                        {!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryCheckers ? this.state.iterationInfo.deliveryCheckers.map((value, index) =>{
+                                                            return <Chip label={value} className={classes.chipStyle} key={index}/>
+                                                            }
+                                                        ) : ""}
+                                                    </Typography>
                                                 </Grid>
                                             </Grid>
                                         </CardContent>
@@ -315,19 +338,19 @@ class IterationBoard extends React.Component {
                                             <Grid container spacing={8}>
                                                 <Grid xs={6} item>
                                                     <Typography
-                                                        className={classes.textInfo}>未提交方案：{this.state.iterationInfo.unPlanningCnt}</Typography>
+                                                        className={classes.textInfo}>未提交方案：<Chip label={this.state.iterationInfo.unPlanningCnt} className={classes.chipStyle}/></Typography>
                                                 </Grid>
                                                 <Grid xs={6} item>
                                                     <Typography
-                                                        className={classes.textInfo}>待走查方案：{this.state.iterationInfo.unCodeReviewCnt}</Typography>
+                                                        className={classes.textInfo}>待走查方案：<Chip label={this.state.iterationInfo.unCodeReviewCnt} className={classes.chipStyle}/></Typography>
                                                 </Grid>
                                                 <Grid xs={6} item>
                                                     <Typography
-                                                        className={classes.textInfo}>待持续集成：{this.state.iterationInfo.unCi}</Typography>
+                                                        className={classes.textInfo}>待持续集成：<Chip label={this.state.iterationInfo.unCi} className={classes.chipStyle}/></Typography>
                                                 </Grid>
                                                 <Grid xs={6} item>
                                                     <Typography
-                                                        className={classes.textInfo}>已完成：{this.state.iterationInfo.finished}</Typography>
+                                                        className={classes.textInfo}>已完成：<Chip label={this.state.iterationInfo.finished} className={classes.chipStyle}/></Typography>
                                                 </Grid>
                                             </Grid>
                                         </CardContent>

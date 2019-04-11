@@ -28,12 +28,21 @@ const styles = theme => ({
 
 
 class TextFields extends React.Component {
-    state = {
-        name: 'Cat in the Hat',
-        age: '',
-        message: "",
-        error: false
-    };
+
+    constructor(props){
+        super(props);
+        this.state = {
+            name: 'Cat in the Hat',
+            age: '',
+            message: "",
+            error: false
+        };
+        this.setTextInputRef = element =>{
+            this.textInput = element;
+        }
+    }
+
+
 
 
 
@@ -105,6 +114,7 @@ class TextFields extends React.Component {
                     fullWidth
                     type="email"
                     error={this.state.error}
+                    ref={this.setTextInputRef}
                 />
                 <Typography color="error">{this.state.message}</Typography>
             </form>
