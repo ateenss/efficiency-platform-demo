@@ -122,7 +122,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={12} className={classes.quillWrapper}>
                             <EditQuill
                                 classStyle={classes.quillIn}
-                                nameIn="OverallSchemeDescription"
+                                nameIn="overallPlan"
                                 placeholder="请输入整体方案描述"
                                 onChange={this.getContent}
 
@@ -131,7 +131,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={3}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="外部系统接口调整"
-                                            nameIn="externalSystemPortAdjust"
+                                            nameIn="outerSysInterfaceChange"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -139,7 +139,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={3}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="是否支持灰度功能"
-                                            nameIn="IsOrNotSupportGrayScale"
+                                            nameIn="supportGrayEnv"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -147,7 +147,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={3}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="灾备影响性评估"
-                                            nameIn="DisasterImpactAssessment"
+                                            nameIn="disasterRecoveryAssessment"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -155,7 +155,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={3}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="生产影响性评估"
-                                            nameIn="ProductImpactAssessment"
+                                            nameIn="productEnvAssessment"
                                             onChange={this.getContent}
                                             content={content}
 
@@ -168,7 +168,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="外部系统配套改造"
-                                            nameIn="externalSystemSetTransform"
+                                            nameIn="outerSysChange"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -176,7 +176,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="模块上线顺序要求"
-                                            nameIn="ModuleOnLineSequenceRequire"
+                                            nameIn="moduleDeploySequence"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -184,7 +184,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="内部子系统间接口调整"
-                                            nameIn="InternalSubSystemPortAdjust"
+                                            nameIn="innerSysInterfaceChange"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -192,7 +192,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="安全相关"
-                                            nameIn="SafetyRelated"
+                                            nameIn="safety"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -200,7 +200,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="数据库修改点"
-                                            nameIn="DatabaseModifyPoint"
+                                            nameIn="dbChange"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -208,7 +208,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="参数配置要求"
-                                            nameIn="ParamConfigRequire"
+                                            nameIn="config"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -216,7 +216,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="接口规范变更"
-                                            nameIn="PortSpecificationChange"
+                                            nameIn="interfaceChange"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -224,7 +224,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="运维信息变更"
-                                            nameIn="MaintenanceInfoChange"
+                                            nameIn="operationChange"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -232,7 +232,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="部署需求调整"
-                                            nameIn="DeploymentRequireAdjust"
+                                            nameIn="deploymentChange"
                                             onChange={this.getContent}
                                             content={content}
                             />
@@ -240,7 +240,7 @@ class DevelopPlan extends React.Component {
                         <Grid item xs={6}>
                             <MultiLineInput fullWidth disabled
                                             InputLabelName="五高影响性"
-                                            nameIn="FiveHighImpact"
+                                            nameIn="high5Assessment"
                                             onChange={this.getContent}
                                             content={content}
                             />

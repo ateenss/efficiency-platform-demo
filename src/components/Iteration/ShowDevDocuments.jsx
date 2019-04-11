@@ -16,7 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
-import {closeDevelopPlan} from "../../actions/IterationAction";
+import {closeDevelopPlan,ProvePlan} from "../../actions/IterationAction";
 import {CLOSE_DEVELOP_PLAN, GET_DEVELOP_PLAN} from "../../actions/types";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -24,6 +24,7 @@ import DevelopPlan from "./DevelopPlan";
 import TestCase from "./TestCase";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DevelopPlanMenuList from "./DevelopPlanMenuList";
+
 
 const styles = theme => ({
     appBar: {
@@ -92,7 +93,8 @@ class ShowDevDocuments extends React.Component {
         closeDevelopPlan()
     };
 
-    handleProvePlan = (id, e) => {
+    handleProvePlan = (id) => {
+        ProvePlan(id);
         console.log("developPlanProved" + id);
     };
 
@@ -156,7 +158,8 @@ class ShowDevDocuments extends React.Component {
                         {/*<MoreVertIcon/>*/}
                         {/*</IconButton>*/}
                         <DevelopPlanMenuList icon={<MoreVertIcon/>}
-                                             handleProvePlan={this.handleProvePlan.bind(this, this.state.demandId)}
+                                             useId={this.state.demandId}
+                                             handleProvePlan={this.handleProvePlan}
                                              handleClosePlan={this.handleClose}/>
 
                         <Tabs value={tabValue} onChange={this.handleChange}>

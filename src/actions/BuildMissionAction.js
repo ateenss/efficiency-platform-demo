@@ -305,6 +305,31 @@ export const modifyAfterEditor=value=>({
     value
 });
 
+
+export function demandTaskGoToIntegration(saveContent) {
+    const url = 'http://127.0.0.1:8080/tiger-admin/task/goToIntegeration';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,saveContent);
+    return axios.post(url, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                /*store.dispatch(saveModule(saveContent));*/
+                // getDemandTaskDetail(parentTaskId);
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+}
+
+
 export function getDemandTaskPlan(content){
     const send_edit_data = 'http://127.0.0.1:8080/tiger-admin/task/getDemandTaskPlan';
     const config = {
@@ -516,8 +541,6 @@ export function saveBuildModule(saveContent,parentTaskId) {
     };
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,saveContent);
-    console.log("新建開發任务");
-    console.log(saveContent);
     return axios.post(save_module_data, request,config)
         .then(response => {
             if (response.data.respCode === "00") {

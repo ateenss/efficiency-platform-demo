@@ -155,6 +155,9 @@ class DemandTaskDetail extends React.Component {
             {
                 name: "进行持续集成测试",
                 func: function (id) {
+                    if (permProcessor.bingo('getDemandTaskPlan', perm)) {
+                        getDemandTaskPlan(id)
+                    }
                     console.log("进行持续集成测试");
                 }
             }

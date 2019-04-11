@@ -31,12 +31,12 @@ class DevelopPlanMenuList extends React.Component {
     handleClosePlan = () =>{
         this.props.handleClosePlan();
         this.setState({anchorEl: null});
-    }
+    };
 
-    handleProvePlan = (id, e) =>{
-        this.props.handleProvePlan(id, e);
+    handleProvePlan = (id) =>()=>{
+        this.props.handleProvePlan(id);
         this.setState({anchorEl: null});
-    }
+    };
 
     render() {
         const {anchorEl} = this.state;
@@ -67,7 +67,7 @@ class DevelopPlanMenuList extends React.Component {
                     <MenuItem onClick={this.handleClosePlan}>
                         关闭
                     </MenuItem>
-                    <MenuItem onClick={this.handleProvePlan}>
+                    <MenuItem onClick={this.handleProvePlan(this.props.useId)}>
                         评审通过并关闭
                     </MenuItem>
                 </Menu>

@@ -16,6 +16,8 @@ import {
 
 import React from "react";
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
+import RequestBuilder from "../constants/RequestBuilder";
+import {getDemandTaskDetail, saveModule} from "./BuildMissionAction";
 
 //axios配置
 const config = {
@@ -27,6 +29,33 @@ const config = {
 export const GET_RECENT = 'http://127.0.0.1:8080/tiger-admin/iteration/getRecentIterations';
 export const GET_BY_ID = 'http://127.0.0.1:8080/tiger-admin/iteration/get';
 export const SAVE = 'http://127.0.0.1:8080/tiger-admin/iteration/save';
+
+//审核通过
+export function ProvePlan(id,e) {
+    const url = 'http://127.0.0.1:8080/tiger-admin/iteration/proveplan';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,id);
+    return axios.post(url, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                store.dispatch(saveModule(id));
+                getDemandTaskDetail(id);
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+
+
+
+}
 
 
 export function init(doAfterInit) {
