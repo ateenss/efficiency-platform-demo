@@ -11,7 +11,8 @@ import {
     CLOSE_DEVELOP_PLAN,
     GET_PUBLISH_TEST_CASE,
     CLOSE_PUBLISH_TEST_CASE,
-    SHOW_NOTIFICATION, INIT_PROJECT_MEMBERS
+    SHOW_NOTIFICATION, INIT_PROJECT_MEMBERS,
+    GET_DEVPLAN_DETAIL
 } from './types';
 
 import React from "react";
@@ -78,6 +79,7 @@ export function init(doAfterInit) {
             payload: members.data.data
 
         });
+
 
         let group = [];
         for (let i in iterations.data.data) {
@@ -294,62 +296,79 @@ export function saveIteration(action, iterationData) {
 
 export function getDevelopPlan(id) {
 
-    let data = {};
-
-    const columns = [
-        {name: "案例描述", options: {filter: false}},
-        {name: "前置条件", options: {filter: false}},
-        {name: "测试环境描述", options: {filter: true}},
-        {name: "涉及子系统", options: {filter: true}},
-        {name: "输入", options: {filter: false}},
-        {name: "测试步骤", options: {filter: false}},
-        {name: "预期结果", options: {filter: false}},
-        {name: "实际结果", options: {filter: false}},];
+    let datatemp = {};
 
 
-    data.developPlan = {
-        DatabaseModifyPoint: "2443",
-        DeploymentRequireAdjust: "4",
-        DisasterImpactAssessment: "43",
-        externalSystemPortAdjust: "234",
-        externalSystemSetTransform: "342",
-        FiveHighImpact: "234",
-        InternalSubSystemPortAdjust: "34",
-        IsOrNotSupportGrayScale: "34",
-        MaintenanceInfoChange: "3",
-        ModuleOnLineSequenceRequire: "4324",
-        OverallSchemeDescription: "<p>324322234324</p>",
-        ParamConfigRequire: "24",
-        PortSpecificationChange: "24",
-        ProductImpactAssessment: "4",
-        SafetyRelated: "4"
-    };
-
-    data.testCase = [
+    datatemp.testCase = [
         ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"],
         ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"],
         ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"],
         ["你的大可爱", "none", "testEnv", "front", "aaaaa", "openBrowser, test", "success", "success"]
     ];
 
-    data.demandId = id;
-    // data.testCase=[{
-    //     caseDesc : "你的大可爱",
-    //     preCondition : "无",
-    //     envDesc : "测试环境",
-    //     modules : "前台",
-    //     inputData : "AAAA",
-    //     steps : "打开浏览器，测试",
-    //     expectedResult:"成功",
-    //     actualResult : "成功"
-    // }]
+    datatemp.demandId = id;
 
-    store.dispatch({
+   /* store.dispatch({
         type: GET_DEVELOP_PLAN,
-        payload: data
+        payload: datatemp
     })
+*/
+    //这里的data只有数据方案了，之后还要和其他初始数据融合
+    const url = 'http://127.0.0.1:8080/tiger-admin/iteration/getDemandTaskPlanInfo';
+    const config = {
+        method: 'post'
+    };
+
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken, id);
+    return axios.post(url, request, config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+
+                store.dispatch({
+                    type: GET_DEVELOP_PLAN,
+                    payload: data
+                })
+            } else {
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题" + error);
+
+        });
 
 }
+
+
+export function getModuleInfo(taskId){
+    const url = 'http://127.0.0.1:8080/tiger-admin/iteration/getModuleInfo';
+    const config = {
+        method: 'post'
+    };
+
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken, taskId);
+    return axios.post(url, request, config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+
+                store.dispatch({
+                    type: GET_DEVPLAN_DETAIL,
+                    payload: data
+                })
+            } else {
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题" + error);
+
+        });
+}
+
 
 export function closePublishTestCase(){
     store.dispatch({

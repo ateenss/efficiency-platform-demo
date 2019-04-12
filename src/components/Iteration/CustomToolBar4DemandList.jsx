@@ -12,6 +12,7 @@ import SimpleListMenu from "../common/SimpleListMenu";
 import store from '../../stores/index';
 import {openEditDemand} from "../../actions/DemandAction"
 import {getDevelopPlan, getPublishDocuments} from "../../actions/IterationAction";
+import {GET_PUBLISH_TEST_CASE,SAVE_KEY} from "../../actions/types";
 
 const defaultToolbarSelectStyles = {
     iconButton: {
@@ -82,10 +83,11 @@ class CustomToolBar4DemandList extends React.Component {
      */
     handlePlan = () => {
         let key = this.getDemand();
-
-        // post data to fetch
-        getDevelopPlan(key.demandId);
-
+        store.dispatch({
+            type: SAVE_KEY,
+            payload: key
+        });
+        getDevelopPlan(key);
         console.log(JSON.stringify(this.props.selectedRows.data[0].dataIndex));
     };
 
@@ -98,6 +100,7 @@ class CustomToolBar4DemandList extends React.Component {
     };
 
     getDemand = () =>{
+
         let idx = this.props.selectedRows.data[0].dataIndex;
         let tableData = this.props.displayData;
         let key = "";
@@ -109,7 +112,7 @@ class CustomToolBar4DemandList extends React.Component {
             }
         }
         return key;
-    }
+    };
 
     handleClickBlockSelected = () => {
         console.log(`block users with dataIndexes: ${this.props.selectedRows.data.map(row => row.dataIndex)}`);

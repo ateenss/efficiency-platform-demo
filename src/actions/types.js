@@ -132,3 +132,5 @@ export const CHANGE_PLAN2_DEV="change_plan2_dev";
 //编辑任务方案后实时对前端数据修改
 export const MODIFY_AFTER_TASKEDITOR="modify_after_taskeditor";
 export const FILTER_TEST_TASK="filter_test_task";
+export const GET_DEVPLAN_DETAIL="get_devplan_detail";
+export const SAVE_KEY="save_key";

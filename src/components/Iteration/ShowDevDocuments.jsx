@@ -16,7 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
-import {closeDevelopPlan,ProvePlan} from "../../actions/IterationAction";
+import {closeDevelopPlan, getDevelopPlan, ProvePlan} from "../../actions/IterationAction";
 import {CLOSE_DEVELOP_PLAN, GET_DEVELOP_PLAN} from "../../actions/types";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -24,6 +24,14 @@ import DevelopPlan from "./DevelopPlan";
 import TestCase from "./TestCase";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DevelopPlanMenuList from "./DevelopPlanMenuList";
+import Drawer from '@material-ui/core/Drawer';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
 
 
 const styles = theme => ({
@@ -73,6 +81,8 @@ const styles = theme => ({
 function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
+
+
 
 class ShowDevDocuments extends React.Component {
     state = {
@@ -140,6 +150,8 @@ class ShowDevDocuments extends React.Component {
         }
     };
 
+
+
     render() {
         const {classes, openDevelopPlan} = this.props;
         const {tabValue} = this.state;
@@ -164,6 +176,9 @@ class ShowDevDocuments extends React.Component {
                             <Tab label="问题记录"/>
                         </Tabs>
                     </AppBar>
+                    {/*{tabValue === 0 &&
+                    <DevelopPlan content={this.state.planContent}/>
+                    }*/}
                     {tabValue === 0 &&
                     <DevelopPlan content={this.state.planContent}/>
                     }
@@ -205,7 +220,8 @@ const mapStateToProps = (state) => {
         testCase: state.reducer.iteration.testCase,
         demandId: state.reducer.iteration.demandId,
         action: state.reducer.iteration.action,
-        openDevelopPlan: state.reducer.iteration.openDevelopPlan
+        openDevelopPlan: state.reducer.iteration.openDevelopPlan,
+        wantKey: state.reducer.iteration.wantKey,
     }
 };
 

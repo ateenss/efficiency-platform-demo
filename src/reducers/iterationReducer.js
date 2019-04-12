@@ -9,7 +9,9 @@ import {
     CLOSE_DEVELOP_PLAN,
     GET_PUBLISH_TEST_CASE,
     ITERATION_INIT,
-    CLOSE_PUBLISH_TEST_CASE
+    GET_DEVPLAN_DETAIL,
+    CLOSE_PUBLISH_TEST_CASE,
+    SAVE_KEY
 } from '../actions/types';
 
 export const INITIAL_STATE = {
@@ -20,10 +22,14 @@ export const INITIAL_STATE = {
 //专门用来登录验证的reducer
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
+        case SAVE_KEY:
+            return {...state,wantKey:action.payload};
         case SELECT_ITERATION:
             return {...state, iteration: action.payload, action: SELECT_ITERATION};
         case ADD_ITERATION:
-            return {...state, openAddIteration: true, initialData: action.payload.initData, action: ADD_ITERATION, editData : {}};
+            return {...state, openAddIteration: true,
+                initialData: action.payload.initData,
+                action: ADD_ITERATION, editData : {}};
         case CLOSE_ADD_ITERATION:
             return {...state, openAddIteration: false, action: CLOSE_ADD_ITERATION};
         case SAVE_ADD_ITERATION:
@@ -39,11 +45,25 @@ export default function (state = INITIAL_STATE, action) {
                 initialData: action.payload.initData
             };
         case GET_DEVELOP_PLAN:
-            return {...state, action:GET_DEVELOP_PLAN, openDevelopPlan:true, developPlan:action.payload.developPlan, testCase : action.payload.testCase, demandId : action.payload.demandId};
+            let tempTaskIdList=[];
+            action.payload.moduleList.map((item,index)=>{
+                tempTaskIdList.push(item.taskId)
+            });
+            return {...state,
+                action:GET_DEVELOP_PLAN,
+                openDevelopPlan:true,
+                developPlan:action.payload.demandTaskPlan,
+                moduleList:action.payload.moduleList,
+                taskIdList:tempTaskIdList
+                };
+        case GET_DEVPLAN_DETAIL:
+            return {...state,action:GET_DEVPLAN_DETAIL,devPlanContent:action.payload};
         case CLOSE_DEVELOP_PLAN:
             return {...state, action:CLOSE_DEVELOP_PLAN, openDevelopPlan:false};
         case GET_PUBLISH_TEST_CASE:
-            return {...state, action:GET_PUBLISH_TEST_CASE, openPublishTestCase:true, publishTestCase:action.payload.publishTestCase};
+            return {...state, action:GET_PUBLISH_TEST_CASE,
+                openPublishTestCase:true,
+                publishTestCase:action.payload.publishTestCase};
         case CLOSE_PUBLISH_TEST_CASE:
             return {...state, action:CLOSE_PUBLISH_TEST_CASE, openPublishTestCase:false};
         default:

@@ -16,8 +16,8 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
-import {closeDevelopPlan} from "../../actions/IterationAction";
-import {CLOSE_DEVELOP_PLAN, GET_DEVELOP_PLAN} from "../../actions/types";
+import {closeDevelopPlan, getDevelopPlan, getModuleInfo} from "../../actions/IterationAction";
+import {CLOSE_DEVELOP_PLAN, GET_DEVELOP_PLAN, GET_DEVPLAN_DETAIL} from "../../actions/types";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -32,6 +32,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import {devPlan,demandplan} from './planDetailContent'
 const drawerWidth = 200;
 
 
@@ -143,6 +144,7 @@ const styles = theme => ({
     noneBorder:{
         borderRight:"0"
     }
+
 });
 
 function Transition(props) {
@@ -152,8 +154,12 @@ function Transition(props) {
 class DevelopPlan extends React.Component {
     state = {
         open: false,
-        planContent: {},
-        tabValue: 0
+        planContent:this.props.content,
+        moduleList:this.props.moduleList,
+        taskIdList:this.props.taskIdList,
+        tabValue: 0,
+        showValue:0,
+        devPlanContent:""
     };
 
 
@@ -162,14 +168,18 @@ class DevelopPlan extends React.Component {
         return true;
     }
 
-    // savePlan = () => {
-    //     store.dispatch(saveBuildPlan(this.state.planContent));
-    //     store.dispatch(closeBuildPlan());
-    // };
 
     componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.action === GET_DEVELOP_PLAN) {
-            this.setState({planContent: nextProps.developPlan});
+        if(nextProps.action===GET_DEVPLAN_DETAIL){
+
+            this.setState({
+                devPlanContent:nextProps.devPlanContent.planContent
+            })
+        }
+        if (nextProps.action===GET_DEVELOP_PLAN) {
+            this.setState({
+                planContent:nextProps.content
+            })
         }
     }
 
@@ -203,31 +213,32 @@ class DevelopPlan extends React.Component {
         }
     };
 
+    change2Module=(taskId)=>{
+        this.setState({
+            showValue:1
+        });
+        getModuleInfo(taskId);
+    };
+
+    change2DemandTask=()=>{
+        getDevelopPlan(this.props.wantKey);
+        this.setState({
+            showValue:0
+        });
+    };
+
+    demandTaskLabel=()=>{return (
+        <ListItem button onClick={this.change2DemandTask} >
+            <ListItemIcon><MailIcon /></ListItemIcon>
+            <ListItemText primary="需求任务方案" />
+        </ListItem>
+    )};
+
     render() {
         const {classes, content, theme} = this.props;
+        const {planContent}=this.state;
         return (
             <div className={classes.root}>
-                {/*<AppBar style={{top:"50px",color:"#cecece", background:"#FFFFFF"}}*/}
-                    {/*className={classNames(classes.appBar, {*/}
-                        {/*[classes.appBarShift]: this.state.open,*/}
-                    {/*})}*/}
-                {/*>*/}
-                    {/*<Toolbar disableGutters={!this.state.open}>*/}
-                        {/*<IconButton*/}
-                            {/*color="inherit"*/}
-                            {/*aria-label="Open drawer"*/}
-                            {/*onClick={this.handleDrawerOpen}*/}
-                            {/*className={classNames(classes.menuButton, {*/}
-                                {/*[classes.hide]: this.state.open,*/}
-                            {/*})}*/}
-                        {/*>*/}
-                            {/*<MenuIcon />*/}
-                        {/*</IconButton>*/}
-                        {/*<Typography variant="h6" color="inherit" noWrap>*/}
-                            {/*Mini variant drawer*/}
-                        {/*</Typography>*/}
-                    {/*</Toolbar>*/}
-                {/*</AppBar>*/}
                 <Drawer
                     variant="permanent"
                     className={classNames(classes.drawer, {
@@ -251,60 +262,67 @@ class DevelopPlan extends React.Component {
                             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     </div>
+                    {this.demandTaskLabel()}
                     <Divider />
                     <List>
-                        {['开发方案', '模块1', '模块2', '模块3'].map((text, index) => (
-                            <ListItem button key={text}>
+                        {this.state.moduleList.map((text, index) => (
+                            <ListItem button onClick={this.change2Module.bind(this,text.taskId)} key={index}>
                                 <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemText primary={text.moduleName} />
                             </ListItem>
                         ))}
+                        <Divider />
+
                     </List>
                 </Drawer>
                 <main className={classes.content}>
+                    {/*{this.state.showValue===0&&demandplan(classes,planContent,this.getContent)}*/}
+                    {this.state.showValue===0&&(
                         <Grid container spacing={8}>
                             <Grid item xs={12}>
                                 <Grid container spacing={8}>
                                     <Grid item xs={12} className={classes.quillWrapper}>
                                         <EditQuill
                                             classStyle={classes.quillIn}
-                                            nameIn="OverallSchemeDescription"
+                                            nameIn="overallPlan"
                                             placeholder="请输入整体方案描述"
                                             onChange={this.getContent}
-
+                                            defaultValue={planContent.overallPlan}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="外部系统接口调整"
-                                                        nameIn="externalSystemPortAdjust"
+                                                        nameIn="outerSysInterfaceChange"
                                                         onChange={this.getContent}
-                                                        content={content}
+                                                        defaultValue={planContent.outerSysInterfaceChange}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="是否支持灰度功能"
-                                                        nameIn="IsOrNotSupportGrayScale"
+                                                        nameIn="supportGrayEnv"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.supportGrayEnv}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="灾备影响性评估"
-                                                        nameIn="DisasterImpactAssessment"
+                                                        nameIn="disasterRecoveryAssessment"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.disasterRecoveryAssessment}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="生产影响性评估"
-                                                        nameIn="ProductImpactAssessment"
+                                                        nameIn="productEnvAssessment"
                                                         onChange={this.getContent}
                                                         content={content}
-
+                                                        defaultValue={planContent.productEnvAssessment}
                                         />
                                     </Grid>
                                 </Grid>
@@ -314,86 +332,110 @@ class DevelopPlan extends React.Component {
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="外部系统配套改造"
-                                                        nameIn="externalSystemSetTransform"
+                                                        nameIn="outerSysChange"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.outerSysChange}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="模块上线顺序要求"
-                                                        nameIn="ModuleOnLineSequenceRequire"
+                                                        nameIn="moduleDeploySequence"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.moduleDeploySequence}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="内部子系统间接口调整"
-                                                        nameIn="InternalSubSystemPortAdjust"
+                                                        nameIn="innerSysInterfaceChange"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.innerSysInterfaceChange}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="安全相关"
-                                                        nameIn="SafetyRelated"
+                                                        nameIn="safety"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.safety}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="数据库修改点"
-                                                        nameIn="DatabaseModifyPoint"
+                                                        nameIn="dbChange"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.dbChange}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="参数配置要求"
-                                                        nameIn="ParamConfigRequire"
+                                                        nameIn="config"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.config}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="接口规范变更"
-                                                        nameIn="PortSpecificationChange"
+                                                        nameIn="interfaceChange"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.interfaceChange}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="运维信息变更"
-                                                        nameIn="MaintenanceInfoChange"
+                                                        nameIn="operationChange"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.operationChange}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="部署需求调整"
-                                                        nameIn="DeploymentRequireAdjust"
+                                                        nameIn="deploymentChange"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.deploymentChange}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="五高影响性"
-                                                        nameIn="FiveHighImpact"
+                                                        nameIn="high5Assessment"
                                                         onChange={this.getContent}
                                                         content={content}
+                                                        defaultValue={planContent.high5Assessment}
                                         />
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
+                    )}
+                    {this.state.showValue===1&&(
+                        <Grid container spacing={8}>
+                            <Grid item xs={12} className={classes.quillWrapper}>
+                                <EditQuill
+                                    classStyle={classes.quillIn}
+                                    nameIn="overallPlan"
+                                    placeholder="请输入整体方案描述"
+                                    onChange={this.getContent}
+                                    defaultValue={this.state.devPlanContent}
+                                />
+                            </Grid>
+                        </Grid>
+                    )}
                 </main>
             </div>
 
@@ -408,4 +450,17 @@ DevelopPlan.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles,{withTheme: true})(DevelopPlan);
+
+const mapStateToProps = (state) => {
+    console.log("%%%%%%%"+JSON.stringify(state.reducer.iteration.devPlanContent))
+    return {
+        developPlan: state.reducer.iteration.developPlan,
+        action: state.reducer.iteration.action,
+        moduleList: state.reducer.iteration.moduleList,
+        taskIdList: state.reducer.iteration.taskIdList,
+        devPlanContent: state.reducer.iteration.devPlanContent,
+        wantKey: state.reducer.iteration.wantKey,
+    }
+};
+// export default withStyles(styles,{withTheme: true})(DevelopPlan);
+export default connect(mapStateToProps)(withStyles(styles,{withTheme: true})(DevelopPlan));

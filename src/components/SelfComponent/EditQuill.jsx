@@ -26,6 +26,11 @@ class EditQuill extends React.Component {
         this.props.onChange({keyNote:this.props.nameIn,value:html})
     }
 
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({editorHtml : nextProps.defaultValue})
+    }
+
     handleThemeChange (newTheme) {
         if (newTheme === "core") newTheme = null;
         this.setState({ theme: newTheme })
@@ -39,6 +44,7 @@ class EditQuill extends React.Component {
 
     render () {
         const { classes,classStyle ,placeholder} = this.props;
+
         return (
             <div className={classes.wrapper}>
                 <ReactQuill
