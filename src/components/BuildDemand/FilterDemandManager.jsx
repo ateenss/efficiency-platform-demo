@@ -15,6 +15,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import {ADD_DEMAND, FILTER_DEMAND_OPEN_MANAGER} from "../../actions/types";
+import SearchIcon from '@material-ui/icons/Search';
+import IconButton from "@material-ui/core/IconButton";
 
 
 const styles = {
@@ -151,6 +153,12 @@ class FilterDemandManager extends React.Component {
         return (
             <div>
                 <Drawer anchor="top" open={filterManagerDemandShow} onClose={this.closeFilter}>
+                    <IconButton style={{position:"absolute",right:"10px", top:"8px",zIndex:"9999", background:"#4DAF7C", color:"#FFFFFF"}} onClick={this.saveFilter}
+                        aria-label="More"
+                        aria-haspopup="true"
+                    >
+                        <SearchIcon/>
+                    </IconButton>
                     <div tabIndex={0} role="button">
                         <div>
                             <Grid container spacing={16}>
@@ -328,10 +336,6 @@ class FilterDemandManager extends React.Component {
                                     {/*</Grid>*/}
                                     <Grid item xs={12}>
 
-                                        <Button fullWidth variant="contained" color="primary" onClick={this.saveFilter}
-                                                className={classes.searchButton}>
-                                            筛选
-                                        </Button>
                                     </Grid>
                                 </Grid>
                             </div>

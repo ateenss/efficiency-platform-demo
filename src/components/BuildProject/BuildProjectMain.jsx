@@ -14,6 +14,7 @@ import {hintDelete, buildSaveProjectDispatch, closeBuildProject, saveProject} fr
 import {connect} from "react-redux";
 import SingleSelect from "../SelfComponent/SingleSelect"
 import InputField from "../SelfComponent/InputField"
+import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 
 
 const styles = {
@@ -94,8 +95,22 @@ class BuildProjectMain extends React.Component {
 
     render() {
         const {classes, onClose, selectedValue, initialData, buttonStyle, hintMessage, randomNum} = this.props;
+        let projectMember4MultiSelect = [];
+        for (let i in this.props.projectMembers) {
+
+            let unit = this.props.projectMembers[i];
+
+            let ret = {
+                id: unit.id,
+                label: unit.name,
+                group:unit.deptName
+
+            };
+
+            projectMember4MultiSelect.push(ret);
+        }
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open}>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} maxWidth="xl" fullWidth>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
@@ -112,10 +127,6 @@ class BuildProjectMain extends React.Component {
                                           defaultValue={projectType[0].id} nameArray={projectType}/>
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="团队" nameIn="teamId"
-                                          nameArray={this.props.teams}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="负责人" nameIn="projectOwnerId"
                                           nameArray={this.props.projectMembers}/>
                         </Grid>
@@ -129,6 +140,12 @@ class BuildProjectMain extends React.Component {
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status"
                                           defaultValue={projectStatus[0].id} nameArray={projectStatus}/>
+                        </Grid>
+                        <Grid item xs={4} className={classes.gridStyle}>
+                            <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
+                                             nameIn="projectMembers"
+                                             label="项目参与人"
+                            />
                         </Grid>
 
                     </Grid>

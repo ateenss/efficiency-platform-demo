@@ -99,7 +99,7 @@ class CustomToolBar4DemandList extends React.Component {
 
     getDemand = () =>{
         let idx = this.props.selectedRows.data[0].dataIndex;
-        let tableData = this.props.selectedRows.displayData;
+        let tableData = this.props.displayData;
         let key = "";
         for(let i in tableData){
             let row = tableData[i];

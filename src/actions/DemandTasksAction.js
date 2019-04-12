@@ -27,11 +27,11 @@
 //     inCharset: "utf-8",
 //     outCharset: "utf-8"
 // };
-// export const GET_DEMANDS = 'http://127.0.0.1:8080/tiger-admin/demand/getDemands';
-// export const GET_RECENT = 'http://127.0.0.1:8080/tiger-admin/iteration/getRecentIterations';
-// export const DETERMIND_ITERATION = 'http://127.0.0.1:8080/tiger-admin/demand/determineIteration';
-// export const GET_DEMAND = 'http://127.0.0.1:8080/tiger-admin/demand/getDemand';
-// export const SAVE = 'http://127.0.0.1:8080/tiger-admin/demand/save';
+// export const GET_DEMANDS = 'http://172.20.182.141:8080/tiger-admin/demand/getDemands';
+// export const GET_RECENT = 'http://172.20.182.141:8080/tiger-admin/iteration/getRecentIterations';
+// export const DETERMIND_ITERATION = 'http://172.20.182.141:8080/tiger-admin/demand/determineIteration';
+// export const GET_DEMAND = 'http://172.20.182.141:8080/tiger-admin/demand/getDemand';
+// export const SAVE = 'http://172.20.182.141:8080/tiger-admin/demand/save';
 //
 //
 // export function addDemand() {

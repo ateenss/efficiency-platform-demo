@@ -15,6 +15,7 @@ const styles = theme => ({});
 
 // ["2019-04-00004", "234", "周之豪", 1, "评审通过", "周之豪", 1, null, null, "否"]
 const columns = [
+    {name: "id", options: {filter: false,display:false}},
     {name: "需求编号", options: {filter: false}},
     {name: "需求名称", options: {filter: false}},
     {name: "需求负责人", options: {filter: true}},

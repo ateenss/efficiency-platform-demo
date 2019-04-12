@@ -18,6 +18,7 @@ import {connect} from "react-redux";
 import SingleSelect from "../SelfComponent/SingleSelect"
 import InputField from "../SelfComponent/InputField"
 import {OPEN_EDIT_PROJECT} from "../../actions/types";
+import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 
 const styles = {
     avatar: {
@@ -103,6 +104,23 @@ class EditProjectMain extends React.Component {
     render() {
         const {classes, onClose, selectedValue,keyNote,buttonStyle, initialData} = this.props;
         const {projectContent}=this.state;
+
+
+        let muiSelectMembers = [];
+        let projectMembers4muiSelect = [];
+        for(let j in this.props.projectMembers) {
+            let member = this.props.projectMembers[j];
+            projectMembers4muiSelect.push({id : member.id, label : member.name, group : member.deptName});
+            for(let idx in projectContent.projectMembers){
+                let unit = projectContent.projectMembers[idx];
+                if(unit  === member.id){
+
+                    muiSelectMembers.push({id : member.id, label : member.name, group : member.deptName})
+                }
+
+            }
+
+        }
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open}>
                 <DialogTitle id="simple-dialog-title">编辑项目</DialogTitle>
@@ -122,10 +140,7 @@ class EditProjectMain extends React.Component {
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="类型" nameIn="projectType" defaultValue={projectContent.projectType} nameArray={projectType} />
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="团队" nameIn="teamId"
-                                          nameArray={this.props.teams}/>
-                        </Grid>
+
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="负责人" nameIn="projectOwnerId" defaultValue={projectContent.projectOwnerId}
                                          nameArray={this.props.projectMembers} />
@@ -140,10 +155,13 @@ class EditProjectMain extends React.Component {
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status" defaultValue={projectContent.status}  nameArray={projectStatus}/>
                         </Grid>
-                        {/*<Grid item xs={12} className={classes.gridStyle}>*/}
-                            {/*<DesciptionInput onChange={this.getContent} nameIn="ProjectDescription" defaultValue={projectContent.ProjectDescription}/>*/}
-                        {/*</Grid>*/}
-
+                        <Grid item xs={12} className={classes.gridStyle}>
+                            <TrueMuitiSelect data={projectMembers4muiSelect} onChange={this.getContent}
+                                             nameIn="projectMembers"
+                                             label="项目参与人"
+                                             defaultValue={muiSelectMembers}
+                            />
+                        </Grid>
 
 
                     </Grid>

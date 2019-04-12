@@ -20,12 +20,12 @@ const config = {
     inCharset: "utf-8",
     outCharset: "utf-8"
 };
-export const GET_PROJECT_MEMBERS = 'http://localhost:8080/tiger-admin/member/getProjectMembers';
-export const GET_ALL_MEMBERS = 'http://localhost:8080/tiger-admin/member/getAllMembers';
+export const GET_PROJECT_MEMBERS = 'http://172.20.182.141:8080/tiger-admin/member/getProjectMembers';
+export const GET_ALL_MEMBERS = 'http://172.20.182.141:8080/tiger-admin/member/getAllMembers';
 
 
-export const GET_BY_CODE = 'http://localhost:8080/tiger-admin/iteration/get';
-export const SAVE = 'http://localhost:8080/tiger-admin/iteration/save';
+export const GET_BY_CODE = 'http://172.20.182.141:8080/tiger-admin/iteration/get';
+export const SAVE = 'http://172.20.182.141:8080/tiger-admin/iteration/save';
 export function startLoading(){
     store.dispatch({
         type: START_LOADING

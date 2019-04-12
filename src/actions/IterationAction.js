@@ -26,13 +26,13 @@ const config = {
     inCharset: "utf-8",
     outCharset: "utf-8"
 };
-export const GET_RECENT = 'http://127.0.0.1:8080/tiger-admin/iteration/getRecentIterations';
-export const GET_BY_ID = 'http://127.0.0.1:8080/tiger-admin/iteration/get';
-export const SAVE = 'http://127.0.0.1:8080/tiger-admin/iteration/save';
+export const GET_RECENT = 'http://172.20.182.141:8080/tiger-admin/iteration/getRecentIterations';
+export const GET_BY_ID = 'http://172.20.182.141:8080/tiger-admin/iteration/get';
+export const SAVE = 'http://172.20.182.141:8080/tiger-admin/iteration/save';
 
 //审核通过
 export function ProvePlan(id,e) {
-    const url = 'http://127.0.0.1:8080/tiger-admin/iteration/proveplan';
+    const url = 'http://172.20.182.141:8080/tiger-admin/iteration/proveplan';
     const config = {
         method: 'post'
     };

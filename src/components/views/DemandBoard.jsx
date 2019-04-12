@@ -112,7 +112,7 @@ class TaskBoard extends React.Component {
     }
 
     /**
-     * 'http://127.0.0.1:8080/tiger-admin/iteration/save';
+     * 'http://172.20.182.141:8080/tiger-admin/iteration/save';
      * @param page
      */
     changePage = (page) => {

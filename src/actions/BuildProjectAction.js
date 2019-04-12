@@ -22,13 +22,13 @@ const config = {
     outCharset: "utf-8"
 };
 
-export const GET_MY_PROJECTS = 'http://localhost:8080/tiger-admin/project/getMyProjects';
-export const GET_BY_ID = 'http://localhost:8080/tiger-admin/project/get';
-export const SAVE = 'http://localhost:8080/tiger-admin/project/save';
-export const OPEN_PROJECT = 'http://localhost:8080/tiger-admin/project/openProject';
+export const GET_MY_PROJECTS = 'http://172.20.182.141:8080/tiger-admin/project/getMyProjects';
+export const GET_BY_ID = 'http://172.20.182.141:8080/tiger-admin/project/get';
+export const SAVE = 'http://172.20.182.141:8080/tiger-admin/project/save';
+export const OPEN_PROJECT = 'http://172.20.182.141:8080/tiger-admin/project/openProject';
 
-export const GET_TEAMS = 'http://localhost:8080/tiger-admin/member/getTeams';
-export const GET_PROJECT_MEMBERS = 'http://localhost:8080/tiger-admin/member/getProjectMembers';
+export const GET_TEAMS = 'http://172.20.182.141:8080/tiger-admin/member/getTeams';
+export const GET_PROJECT_MEMBERS = 'http://172.20.182.141:8080/tiger-admin/member/getProjectMembers';
 
 
 export function init(doAfterInit) {

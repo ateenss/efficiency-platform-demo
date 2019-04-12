@@ -15,7 +15,7 @@ const config = {
 };
 
 
-export const LOGIN_ENDPOINT = 'http://127.0.0.1:8080/tiger-admin/user/login';
+export const LOGIN_ENDPOINT = 'http://172.20.182.141:8080/tiger-admin/user/login';
 //这里是登录验证的actions，名字需要更改
 // LOGIN ACTION
 export function loginUser({username, password}) {

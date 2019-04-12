@@ -130,21 +130,38 @@ class AddIteration extends React.Component {
     render() {
         const {initialData, buttonStyle, classes} = this.props;
         let projectMember4MultiSelect = [];
+
+        let defaultCheckers = [];
+        let defaultPersons = [];
         for (let i in this.props.projectMembers) {
 
-            let unit = this.props.projectMembers[i];
+            let member = this.props.projectMembers[i];
 
             let ret = {
-                id: unit.name,
-                label: unit.name,
-                group:unit.deptName
+                id: member.name,
+                label: member.name,
+                group:member.deptName
+
+            };
+            for(let idx in this.state.iterationContent.deliveryCheckers){
+                let unit = this.state.iterationContent.deliveryCheckers[idx];
+                if(unit  === member.name){
+                    defaultCheckers.push({id : member.name, label : member.name, group : member.deptName})
+                }
 
             }
 
+            for(let idx in this.state.iterationContent.deliveryPersons){
+                let unit = this.state.iterationContent.deliveryPersons[idx];
+                if(unit  === member.name){
+                    defaultPersons.push({id : member.name, label : member.name, group : member.deptName})
+                }
+
+            }
+
+
             projectMember4MultiSelect.push(ret);
         }
-
-
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth
                     maxWidth="xl">
@@ -252,14 +269,14 @@ class AddIteration extends React.Component {
                         <Grid item xs={6} className={classes.gridStyle}>
                             <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
                                              nameIn="deliveryCheckers"
-                                             defaultValue={this.state.iterationContent.deliveryCheckers}
+                                             defaultValue={defaultCheckers}
                                              label="上线检查人"
                             />
                         </Grid>
                         <Grid item xs={6} className={classes.gridStyle}>
                             <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
                                              nameIn="deliveryPersons"
-                                             defaultValue={this.state.iterationContent.deliveryPersons}
+                                             defaultValue={defaultPersons}
                                              label="上线人"
                             />
                         </Grid>
