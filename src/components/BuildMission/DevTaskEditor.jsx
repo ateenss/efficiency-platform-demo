@@ -22,6 +22,7 @@ import InputField from "../SelfComponent/InputField"
 import DatePicker from "../SelfComponent/DatePicker"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import permProcessor from "../../constants/PermProcessor";
+import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 
 
 const styles = {
@@ -140,7 +141,7 @@ class DevTaskEditor extends React.Component {
 
         this.setState({errorList: errorList});
     };
-    
+
     isOrNotSubmit=()=>{
         let show=(<Button color="inherit" onClick={this.onSubmit}>
             提交
@@ -151,7 +152,7 @@ class DevTaskEditor extends React.Component {
             }
         }
         return ""
-        
+
     };
 
 
@@ -160,6 +161,16 @@ class DevTaskEditor extends React.Component {
 
         const{taskContent}=this.state;
         const {classes,taskEditorShow,projectMembers} = this.props;
+        let defaultModules = [];
+        for(let j in this.props.modules){
+            let unit = this.props.modules[j];
+            if(taskContent.involveModule === unit.id){
+                defaultModules.push({id : unit.id, label : unit.label, group : unit.group})
+            }
+
+
+        }
+
         return (
 
             <div>
@@ -225,6 +236,14 @@ class DevTaskEditor extends React.Component {
                                 />
                             </Grid>
                         </Grid>
+                        <Grid item xs={12} className={classes.gridStyle}>
+                            <TrueMuitiSelect data={this.props.modules} onChange={this.getContent}
+                                             nameIn="involveModule"
+                                             label="涉及模块"
+                                             singleSelect
+                                             defaultValue={defaultModules}
+                            />
+                        </Grid>
                         <Typography className={classes.quillLabel}>开发方案</Typography>
                                     <EditQuill
                                         classStyle={classes.quillContainer}
@@ -252,6 +271,7 @@ const mapStateToProps = (state) => {
         projectMembers:state.reducer.common.projectMembers,
         demands:state.reducer.buildMission.demands,
         action:state.reducer.buildMission.action,
+        modules : state.reducer.buildMission.modules
     }
 };
 

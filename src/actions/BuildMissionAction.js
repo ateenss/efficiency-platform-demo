@@ -56,7 +56,7 @@ import {
     CHANGE_PLAN2_DEV,
     ADD_TEST_TASK_PANEL,
     MODIFY_AFTER_TASKEDITOR,
-    FILTER_TEST_TASK, INIT_PROJECT_MEMBERS
+    FILTER_TEST_TASK, INIT_PROJECT_MEMBERS,INIT_MODULES
 } from './types';
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
 import {GET_DEMANDS} from "./DemandAction";
@@ -561,6 +561,8 @@ export function saveBuildModule(saveContent,parentTaskId) {
 export function init() {
     const getMyTaskInfoUrl = 'http://172.20.182.141:8080/tiger-admin/task/getMyTaskInfo';
     const GET_PROJECT_MEMBERS = 'http://172.20.182.141:8080/tiger-admin/member/getProjectMembers';
+    const GET_MODULES = 'http://172.20.182.141:8080/tiger-admin/modules/getModules';
+
     const config = {
         method: 'post'
     };
@@ -575,15 +577,21 @@ export function init() {
         return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
     }
 
+    function getModules() {
+        return axios.post(GET_MODULES, {"version": "1.0", accessToken: accessToken}, config);
+    }
 
-
-    axios.all([getProjectMembers(),getMyTask()]).then(axios.spread(function(members,myTask){
+    axios.all([getProjectMembers(),getMyTask(), getModules()]).then(axios.spread(function(members,myTask, modules){
         store.dispatch(getMyTaskInfo(myTask.data.data));
         store.dispatch({
             type: INIT_PROJECT_MEMBERS,
             payload: members.data.data
 
         });
+        store.dispatch({
+            type:INIT_MODULES,
+            payload : modules.data.data
+        })
         console.log("任务主面板初始化数据拉取成功");
         stopLoading();
     }));

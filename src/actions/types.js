@@ -6,7 +6,7 @@ export const REVIEW_DEMAND="review_demand";
 export const CLOSE_REVIEW_DEMAND="close_review_demand";
 export const SAVE_REVIEW_DEMAND="save_review_demand";
 //所有的action公用名字在这里拾取
-
+export const INIT_MODULES="init_modules";
 export const AUTH_USER = 'auth_user';
 export const SENT_AUTH = 'sent_auth';
 export const SHOW_NOTIFICATION = 'show_notification';

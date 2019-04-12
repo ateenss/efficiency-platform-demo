@@ -49,12 +49,17 @@ class TrueMuitiSelect extends Component {
             ret.push(selectedItems[i].id);
         }
 
-        this.props.onChange({keyNote: this.props.nameIn, value: ret})
+        if(this.props.singleSelect === true){
+            this.props.onChange({keyNote: this.props.nameIn, value: selectedItems[0].id})
+        }else{
+            this.props.onChange({keyNote: this.props.nameIn, value: ret})
+        }
+
     }
 
     render() {
         const {items, selectedItems} = this.state;
-        const {classes} = this.props;
+        const {classes, ...others} = this.props;
         return (
             <ExpansionPanel className={classes.root}>
                 <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon/>} style={{minHeight: "40px", padding: "0 0 0 2px", margin:"0"}}>
@@ -73,6 +78,7 @@ class TrueMuitiSelect extends Component {
                                          itemHeight={35}
                                          messages={{searchPlaceholder: ""}}
                                          withGrouping
+                                         maxSelectedItems={this.props.singleSelect === true ? 1 : 9999}
                             />
                         </Grid>
                     </Grid>

@@ -50,7 +50,8 @@ import {
     CHANGE_PLAN2_DEV,
     ADD_TEST_TASK_PANEL,
     MODIFY_AFTER_TASKEDITOR,
-    FILTER_TEST_TASK
+    FILTER_TEST_TASK,
+    INIT_MODULES
 } from "../actions/types"
 /*import {taskStatusChange} from "../actions/TaskStatusChangeFunc"*/
 
@@ -356,6 +357,8 @@ export default function (state = INITIAL_STATE, action) {
                 }
             });
             return saveEditMissionState;
+        case INIT_MODULES:
+            return {...state, modules : action.payload}
         default:
             return state;
     }
