@@ -314,7 +314,7 @@ export function getDevelopPlan(id) {
     })
 */
     //这里的data只有数据方案了，之后还要和其他初始数据融合
-    const url = 'http://127.0.0.1:8080/tiger-admin/iteration/getDemandTaskPlanInfo';
+    const url = 'http://172.20.182.141:8080/tiger-admin/iteration/getDemandTaskPlanInfo';
     const config = {
         method: 'post'
     };
@@ -343,7 +343,7 @@ export function getDevelopPlan(id) {
 
 
 export function getModuleInfo(taskId){
-    const url = 'http://127.0.0.1:8080/tiger-admin/iteration/getModuleInfo';
+    const url = 'http://172.20.182.141:8080/tiger-admin/iteration/getModuleInfo';
     const config = {
         method: 'post'
     };

@@ -581,7 +581,7 @@ export function init() {
         return axios.post(GET_MODULES, {"version": "1.0", accessToken: accessToken}, config);
     }
 
-    axios.all([getProjectMembers(),getMyTask(), getModules()]).then(axios.spread(function(members,myTask, modules){
+    axios.all([getProjectMembers(),getMyTask(),getModules()]).then(axios.spread(function(members,myTask, modules){
         store.dispatch(getMyTaskInfo(myTask.data.data));
         store.dispatch({
             type: INIT_PROJECT_MEMBERS,

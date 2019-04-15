@@ -236,7 +236,8 @@ class DevelopPlan extends React.Component {
 
     render() {
         const {classes, content, theme} = this.props;
-        const {planContent}=this.state;
+        let planContent="";
+        !!this.state.planContent&&(planContent=this.state.planContent);
         return (
             <div className={classes.root}>
                 <Drawer
