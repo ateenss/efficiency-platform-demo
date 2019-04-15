@@ -17,8 +17,6 @@ import Button from "@material-ui/core/Button";
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 import {
-    pullBuildProjectInitial,
-    openBuildProject,
     init,
     openEditProject,
     addProject, openProject
@@ -60,10 +58,11 @@ const styles = theme => ({
     }
 });
 
+const projectType = [{name: "业务需求项目", id: 1}, {name: "系统架构优化", id: 2}];
+const projectStatus = [{name: "进行中", id: 1}, {name: "已完成", id: 2}];
 class Project extends React.Component {
     constructor(props) {
         super(props);
-        pullBuildProjectInitial();
 
 
 
@@ -94,9 +93,9 @@ class Project extends React.Component {
     componentDidMount() {
 
         let self = this;
-        init(function (projects, members, teams) {
+        init(function (projects, members) {
 
-            self.setState({projectList: projects, projectMembers : members, teams: teams});
+            self.setState({projectList: projects, projectMembers : members});
 
             stopLoading();
 
@@ -119,8 +118,9 @@ class Project extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
+        console.log("*******"+nextProps.action);
         if (nextProps.action === BUILD_SAVE_PROJECT) {
-            let projectList = this.state.projectList;
+            let projectList = JSON.parse(JSON.stringify(this.state.projectList));
             projectList.push(nextProps.newProject);
             this.setState({projectList: projectList})
         }
@@ -132,13 +132,7 @@ class Project extends React.Component {
         let showProjects = [];
         let currentProject = [];
         if (!!this.state.projectList) {
-            showProjects = this.state.projectList.map((content, key) => {
-                return (
-                    <Grid key={key} xs={3} item><ProjectPanel editable={content.editableProject}
-                                                              name={content.projectName} desc={key}
-                                                              handleEdit={this.handleEdit.bind(this, content.id)} handleOpen={this.handleOpen.bind(this, content.id)}/></Grid>
-                )
-            });
+
 
             currentProject = this.state.projectList.map((content, key) => {
                 if (content.currentProject) {
@@ -150,6 +144,18 @@ class Project extends React.Component {
                 }
 
             });
+
+            showProjects = this.state.projectList.map((content, key) => {
+                if(!content.currentProject){
+
+                return (
+                    <Grid key={key} xs={3} item><ProjectPanel editable={content.editableProject}
+                                                              name={content.projectName} desc={key}
+                                                              handleEdit={this.handleEdit.bind(this, content.id)} handleOpen={this.handleOpen.bind(this, content.id)}/></Grid>
+                )
+                }
+            });
+
         }
         return (
 
@@ -210,8 +216,7 @@ const mapStateToProps = (state) => {
         newProject: state.reducer.buildProject.newProject,
         buildProjectShow: state.reducer.buildProject.buildProjectShow,
         editProjectShow: state.reducer.buildProject.editProjectShow,
-        action: state.reducer.buildProject.action,
-        projectMembers: state.reducer.common.projectMembers
+        action: state.reducer.buildProject.action
     }
 };
 

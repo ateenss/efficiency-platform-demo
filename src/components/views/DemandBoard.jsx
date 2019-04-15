@@ -77,7 +77,6 @@ let editInitialData = null;
 class TaskBoard extends React.Component {
     constructor(props) {
         super(props);
-        // pullBuildDemandInitial();
         this.state = {
             randomNum: 0,
             assembleTable: [],
@@ -112,7 +111,7 @@ class TaskBoard extends React.Component {
     }
 
     /**
-     * 'http://172.20.182.141:8080/tiger-admin/iteration/save';
+     * UrlConf.base + 'iteration/save';
      * @param page
      */
     changePage = (page) => {
@@ -298,6 +297,9 @@ class TaskBoard extends React.Component {
                 }
             }
         };
+
+        console.log(JSON.stringify("%%%%%%%%%"+this.state.assembleTable));
+
         //todo:结果都在这个result里面，选取值去定位这个result里面的数组（被选取的索引值和result里面是保持一致的）
         return (
             <Grid container spacing={16}>
@@ -310,12 +312,12 @@ class TaskBoard extends React.Component {
                                 </Typography>
                                 <Button color="inherit" className={classes.newBuildButton}
                                         onClick={this.openDemand}><Avatar className={classes.avatar}><AddIcon/></Avatar></Button>
-                                <Button color="inherit" className={classes.newBuildButton}
-                                        onClick={this.openFilterManager}><Avatar
-                                    className={classes.orangeAvatar}><SearchIcon/></Avatar></Button>
-                                <Button color="inherit" className={classes.newBuildButton}
-                                        onClick={this.openFilterDeveloper}><Avatar
-                                    className={classes.purpleAvatar}><SearchIcon/></Avatar></Button>
+                                {/*<Button color="inherit" className={classes.newBuildButton}*/}
+                                        {/*onClick={this.openFilterManager}><Avatar*/}
+                                    {/*className={classes.orangeAvatar}><SearchIcon/></Avatar></Button>*/}
+                                {/*<Button color="inherit" className={classes.newBuildButton}*/}
+                                        {/*onClick={this.openFilterDeveloper}><Avatar*/}
+                                    {/*className={classes.purpleAvatar}><SearchIcon/></Avatar></Button>*/}
                             </Toolbar>
                         </AppBar>
                     </div>

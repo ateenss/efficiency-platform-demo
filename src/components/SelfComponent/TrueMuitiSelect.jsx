@@ -2,12 +2,11 @@ import React, {Component} from 'react';
 import MultiSelect from "@kenshooui/react-multi-select";
 import customStyle from "../../assets/css/multiSelect.css";
 import {withStyles} from "@material-ui/styles";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
+import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from '@material-ui/icons/ArrowDropDown';
-import GridContainer from "../Grid/GridContainer";
 import Grid from "@material-ui/core/Grid";
 
 const styles = {
@@ -19,9 +18,40 @@ const styles = {
     },
     heading: {
         color: "#0000008a"
+    },
+    iconRoot:{
+        right:"0"
     }
 
 };
+
+
+const ExpansionPanel = withStyles({
+    root: {
+        borderRadius:"none",
+        "&:(:first-child)":{
+            borderRadius:"none"
+        },
+        "&:(:last-child)":{
+            borderRadius:"none"
+        }
+    },
+})(props => <MuiExpansionPanel {...props} />);
+
+
+const ExpansionPanelSummary = withStyles({
+    root: {
+
+    },
+    content: {
+      marginBottom:"0px"
+    },
+    expandIcon : {right:"2px",padding:"0"},
+    expanded: {},
+})(props => <MuiExpansionPanelSummary {...props} />);
+
+
+ExpansionPanelSummary.muiName = 'ExpansionPanelSummary';
 
 class TrueMuitiSelect extends Component {
     constructor(props) {
@@ -50,7 +80,11 @@ class TrueMuitiSelect extends Component {
         }
 
         if(this.props.singleSelect === true){
-            this.props.onChange({keyNote: this.props.nameIn, value: selectedItems[0].id})
+            let id = "";
+            if(!!selectedItems && selectedItems.length > 0){
+                id = selectedItems[0].id;
+            }
+            this.props.onChange({keyNote: this.props.nameIn, value: id})
         }else{
             this.props.onChange({keyNote: this.props.nameIn, value: ret})
         }
@@ -60,10 +94,26 @@ class TrueMuitiSelect extends Component {
     render() {
         const {items, selectedItems} = this.state;
         const {classes, ...others} = this.props;
+        let ret = "";
+        if(!!this.state.selectedItems && selectedItems.length > 0){
+
+            for(let idx in this.state.selectedItems){
+
+                ret = ret + this.state.selectedItems[idx].label + ", ";
+
+                if(idx >= 3){
+                    ret = ret.substring(0, ret.length - 2) + "......";
+                    break;
+                }
+
+            }
+
+        }
+
         return (
             <ExpansionPanel className={classes.root}>
-                <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon/>} style={{minHeight: "40px", padding: "0 0 0 2px", margin:"0"}}>
-                    <Typography className={classes.heading}>{this.props.label}</Typography>
+                <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon className={classes.iconRoot}/>} style={{minHeight: "44px", padding: "0 0 0 2px", margin:"0"}}>
+                    <Typography className={classes.heading}>{this.props.label }{!!ret ? ": "+ ret : ""}</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails style={{padding: "0", margin: "0"}}>
                     <Grid container spacing={0}>
@@ -78,7 +128,8 @@ class TrueMuitiSelect extends Component {
                                          itemHeight={35}
                                          messages={{searchPlaceholder: ""}}
                                          withGrouping
-                                         maxSelectedItems={this.props.singleSelect === true ? 1 : 9999}
+                                         maxSelectedItems={this.props.singleSelect === true ? 1 : ""}
+                                         showSelectAll
                             />
                         </Grid>
                     </Grid>

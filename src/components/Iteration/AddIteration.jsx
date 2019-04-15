@@ -1,24 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import blue from '@material-ui/core/colors/blue';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
 import DatePicker from "../SelfComponent/DatePicker"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import {closeAddIteration, saveIteration} from "../../actions/IterationAction";
-import MultiSelect from "../SelfComponent/MultiSelect"
 import GlobalValidateRegex from "../../constants/GlobalValidateRegex";
-import {ADD_ITERATION, EDIT_ITERATION, SAVE_ADD_ITERATION, SHOW_NOTIFICATION} from "../../actions/types";
+import {ADD_ITERATION} from "../../actions/types";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
+import {Rules, validating} from "../../actions/validateAction";
+import {error} from "../../actions/NotificationAction";
 
 
 const styles = {
@@ -52,8 +51,6 @@ class AddIteration extends React.Component {
         if (nextProps.action === ADD_ITERATION) {
 
             let iterationContnet = {
-                iterationOwnerId: this.props.projectMembers[0].id,
-                deliveryPersonInChargeId: this.props.projectMembers[0].id
             };
 
 
@@ -72,23 +69,11 @@ class AddIteration extends React.Component {
     };
 
     handleSave = () => {
-        if (this.props.action === ADD_ITERATION) {
-            if (JSON.stringify(this.state.errorList) === "{}") {
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: {type: "error", message: "诶。。好像有错你也要提交"}
-                });
-                return false;
-            }
-        }
-        for (let i in this.state.errorList) {
-            if (this.state.errorList[i] === true) {
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: {type: "error", message: "诶。。好像有错你也要提交"}
-                });
-                return false;
-            }
+
+        let ret = validating(this.state.iterationContent, "iterationProps");
+        if(!ret.result){
+            error(ret.message);
+            return false;
         }
 
         saveIteration(this.state.action, this.state.iterationContent);
@@ -116,14 +101,6 @@ class AddIteration extends React.Component {
             })
         }
 
-    };
-
-    validate = (keyValue) => {
-
-        let errorList = this.state.errorList;
-        errorList[keyValue.name] = keyValue.hasError;
-
-        this.setState({errorList: errorList});
     };
 
 
@@ -164,7 +141,7 @@ class AddIteration extends React.Component {
         }
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth
-                    maxWidth="xl">
+                    maxWidth="lg">
                 <DialogTitle id="simple-dialog-title">新增版本</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
@@ -174,10 +151,8 @@ class AddIteration extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="版本编号"
                                 defaultValue={this.state.iterationContent.iterationCode}
-                                required
-                                expr={GlobalValidateRegex.projectCodeRegex}
-                                maxLength="10"
-                                validate={this.validate}
+                                validateEl={Rules.iterationProps.iterationCode}
+
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
@@ -186,17 +161,14 @@ class AddIteration extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="版本名称"
                                 defaultValue={this.state.iterationContent.iterationName}
-                                required
-                                expr={GlobalValidateRegex.strRegex}
-                                maxLength="10"
-                                validate={this.validate}
+                                validateEl={Rules.iterationProps.iterationName}
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="版本负责人" nameIn="iterationOwnerId"
                                           nameArray={this.props.projectMembers}
                                           defaultValue={this.state.iterationContent.iterationOwnerId}
-
+                                          validateEl={Rules.iterationProps.iterationOwnerId}
                             />
 
                         </Grid>

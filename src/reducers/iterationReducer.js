@@ -11,7 +11,7 @@ import {
     ITERATION_INIT,
     GET_DEVPLAN_DETAIL,
     CLOSE_PUBLISH_TEST_CASE,
-    SAVE_KEY
+    SAVE_KEY,
 } from '../actions/types';
 
 export const INITIAL_STATE = {

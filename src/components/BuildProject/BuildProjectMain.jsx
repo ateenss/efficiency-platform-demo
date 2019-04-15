@@ -15,6 +15,8 @@ import {connect} from "react-redux";
 import SingleSelect from "../SelfComponent/SingleSelect"
 import InputField from "../SelfComponent/InputField"
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
+import {Rules, validating} from "../../actions/validateAction";
+import {error} from "../../actions/NotificationAction";
 
 
 const styles = {
@@ -57,6 +59,15 @@ class BuildProjectMain extends React.Component {
         store.dispatch(closeBuildProject());
     };
     handleSave = () => {
+
+
+        let ret = validating(this.state.projectContent, "projectProps");
+        if(!ret.result){
+            error(ret.message);
+            return false;
+        }
+
+
         saveProject(this.state.projectContent)
     };
 
@@ -84,13 +95,6 @@ class BuildProjectMain extends React.Component {
     };
 
 
-    validate = (keyValue) => {
-
-        let errorList = this.state.errorList;
-        errorList[keyValue.name] = keyValue.hasError;
-
-        this.setState({errorList: errorList});
-    };
 
 
     render() {
@@ -119,32 +123,49 @@ class BuildProjectMain extends React.Component {
                                 nameIn="projectName"
                                 onChange={this.getContent}
                                 InputLabelName="项目名称"
-                                validate={this.validate}
+                                validateEl={Rules.projectProps.projectName}
+
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="类型" nameIn="projectType"
-                                          defaultValue={projectType[0].id} nameArray={projectType}/>
+                                          nameArray={projectType}
+                                          validateEl={Rules.projectProps.projectType}
+
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="负责人" nameIn="projectOwnerId"
-                                          nameArray={this.props.projectMembers}/>
+                                          nameArray={this.props.projectMembers}
+                                          validateEl={Rules.projectProps.projectOwnerId}
+
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent} defaultValue={new Date()}/>
+                            <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent}
+                                        validateEl={Rules.projectProps.startTime}
+
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent} defaultValue={new Date()}/>
+                            <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent}
+                                        validateEl={Rules.projectProps.endTime}
+
+                            />
                         </Grid>
 
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status"
-                                          defaultValue={projectStatus[0].id} nameArray={projectStatus}/>
+                                          nameArray={projectStatus}
+                                          validateEl={Rules.projectProps.status}
+
+                            />
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
+                        <Grid item xs={8} className={classes.gridStyle}>
                             <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
                                              nameIn="projectMembers"
                                              label="项目参与人"
+
                             />
                         </Grid>
 

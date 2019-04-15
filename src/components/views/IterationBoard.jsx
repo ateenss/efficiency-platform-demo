@@ -51,8 +51,10 @@ const styles = theme => ({
         boxShadow: "none"
     },
     textInfo: {
-        margin: theme.spacing.unit * 2
-
+        margin: theme.spacing.unit * 2,
+        color: "#121212",
+        fontSize: "14px",
+        fontWeight: "400"
     },
     avatar: {
         backgroundColor: red[500],
@@ -76,11 +78,11 @@ const styles = theme => ({
     editIcon: {
         marginRight: "15px"
     },
-    chipStyle:{
-        background:"#f5f5f5",
-        color:"#232323",
-        margin:"5px",
-        fontSize:"14px"
+    chipStyle: {
+        background: "#f5f5f5",
+        color: "#232323",
+        margin: "5px",
+        fontSize: "14px"
     }
 });
 
@@ -137,7 +139,7 @@ class IterationBoard extends React.Component {
         }
     };
 
-    handleMultiSelect = (id) =>{
+    handleMultiSelect = (id) => {
         // openMultiSelect(id);
     };
 
@@ -158,10 +160,11 @@ class IterationBoard extends React.Component {
 
     componentDidMount() {
 
-
         let self = this;
         init(function (ret) {
             let iterationState = [];
+
+            let selectId = "";
             for (let i in ret) {
                 let iter = ret[i];
 
@@ -171,15 +174,10 @@ class IterationBoard extends React.Component {
                     let selected = false;
                     if (i == 0 && j == 0) {
                         selected = true;
+                        selectId = iter.children[j].id;
                     }
-                    iterationChildren.push({iter: iter.children[j].name, selected: true, id: iter.children[j].id});
+                    iterationChildren.push({iter: iter.children[j].name, selected: selected, id: iter.children[j].id});
 
-                    if (i == 0 && j == 0) {
-                        selectIteration(iter.children[j].id, function () {
-                            stopLoading();
-
-                        });
-                    }
                 }
 
                 parent.children = iterationChildren;
@@ -188,7 +186,12 @@ class IterationBoard extends React.Component {
             }
 
             self.setState({iterationState: iterationState});
+            console.log("&&&&^^^^" + JSON.stringify(iterationState));
 
+            selectIteration(selectId, function () {
+                stopLoading();
+
+            });
 
         });
 
@@ -209,6 +212,7 @@ class IterationBoard extends React.Component {
             for (let i in iterationState) {
                 if (iterationState[i].iteration.name === newIteration[0]) {
                     let unit = {
+                        id : nextProps.iteration.iterationInfo.id,
                         iter: nextProps.iteration.iterationInfo.iterationCode,
                         selected: false
                     }
@@ -222,7 +226,8 @@ class IterationBoard extends React.Component {
                     iteration: {name: newIteration, selected: true},
                     children: [
                         {
-                            iter: nextProps.iterationCode,
+                            id :nextProps.iteration.iterationInfo.id,
+                            iter: nextProps.iteration.iterationInfo.iterationCode,
                             selected: false
                         }
 
@@ -232,18 +237,29 @@ class IterationBoard extends React.Component {
             }
         }
 
+
+
         for (let i in iterationState) {
             let iter = iterationState[i];
+            let selectedId = "";
             for (let j in iter.children) {
                 if (iter.children[j].id === nextProps.iteration.iterationInfo.id) {
                     iter.children[j].selected = true;
+                    selectedId = j;
                 } else {
                     iter.children[j].selected = false;
                 }
             }
+            if (!!selectedId && iter.iteration.name === iter.children[selectedId].iter.split(".")[0]) {
+                iter.iteration.selected = true;
+            }else{
+                iter.iteration.selected = false;
+            }
         }
 
+
         this.setState({iterationState: iterationState});
+        console.log("&&&&" + JSON.stringify(iterationState));
 
     }
 
@@ -290,35 +306,41 @@ class IterationBoard extends React.Component {
                                             <Avatar aria-label="Recipe" className={classes.avatar}>
                                                 P
                                             </Avatar>
-                                        } title="版本人员信息" className={classes.cardHeader} />
+                                        } title="版本人员信息" className={classes.cardHeader}/>
 
                                         <CardContent className={classes.cardContent}>
                                             <Grid container spacing={8}>
                                                 <Grid xs={6} item>
-                                                    <Typography
-                                                        className={classes.textInfo}>版本负责人：<Chip label={this.state.iterationInfo.iterationOwner} className={classes.chipStyle}/>{}</Typography>
+                                                    <div
+                                                        className={classes.textInfo}>版本负责人：<Chip
+                                                        label={this.state.iterationInfo.iterationOwner}
+                                                        className={classes.chipStyle}/>{}</div>
                                                 </Grid>
                                                 <Grid xs={6} item>
-                                                    <Typography
-                                                        className={classes.textInfo}>上线负责人：<Chip label={this.state.iterationInfo.deliveryPersonInCharge} className={classes.chipStyle}/></Typography>
+                                                    <div
+                                                        className={classes.textInfo}>上线负责人：<Chip
+                                                        label={this.state.iterationInfo.deliveryPersonInCharge}
+                                                        className={classes.chipStyle}/></div>
                                                 </Grid>
                                                 <Grid xs={6} item>
-                                                    <Typography
+                                                    <div
+                                                        className={classes.textInfo}>
+                                                        上线人员：{!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryPersons ? this.state.iterationInfo.deliveryPersons.map((value, index) => {
+                                                            return <Chip label={value} className={classes.chipStyle}
+                                                                         key={index}/>
+                                                        }
+                                                    ) : ""}
+                                                    </div>
+                                                </Grid>
+                                                <Grid xs={6} item>
+                                                    <div
                                                         className={classes.textInfo}>上线人员：
-                                                        {!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryPersons ? this.state.iterationInfo.deliveryPersons.map((value, index) =>{
-                                                                return <Chip label={value} className={classes.chipStyle} key={index}/>
+                                                        {!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryCheckers ? this.state.iterationInfo.deliveryCheckers.map((value, index) => {
+                                                                return <Chip label={value} className={classes.chipStyle}
+                                                                             key={index}/>
                                                             }
                                                         ) : ""}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid xs={6} item>
-                                                    <Typography
-                                                        className={classes.textInfo}>上线人员：
-                                                        {!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryCheckers ? this.state.iterationInfo.deliveryCheckers.map((value, index) =>{
-                                                            return <Chip label={value} className={classes.chipStyle} key={index}/>
-                                                            }
-                                                        ) : ""}
-                                                    </Typography>
+                                                    </div>
                                                 </Grid>
                                             </Grid>
                                         </CardContent>
@@ -337,20 +359,28 @@ class IterationBoard extends React.Component {
                                         <CardContent className={classes.cardContent}>
                                             <Grid container spacing={8}>
                                                 <Grid xs={6} item>
-                                                    <Typography
-                                                        className={classes.textInfo}>未提交方案：<Chip label={this.state.iterationInfo.unPlanningCnt} className={classes.chipStyle}/></Typography>
+                                                    <div
+                                                        className={classes.textInfo}>未提交方案：<Chip
+                                                        label={this.state.iterationInfo.unPlanningCnt}
+                                                        className={classes.chipStyle}/></div>
                                                 </Grid>
                                                 <Grid xs={6} item>
-                                                    <Typography
-                                                        className={classes.textInfo}>待走查方案：<Chip label={this.state.iterationInfo.unCodeReviewCnt} className={classes.chipStyle}/></Typography>
+                                                    <div
+                                                        className={classes.textInfo}>待走查方案：<Chip
+                                                        label={this.state.iterationInfo.unCodeReviewCnt}
+                                                        className={classes.chipStyle}/></div>
                                                 </Grid>
                                                 <Grid xs={6} item>
-                                                    <Typography
-                                                        className={classes.textInfo}>待持续集成：<Chip label={this.state.iterationInfo.unCi} className={classes.chipStyle}/></Typography>
+                                                    <div
+                                                        className={classes.textInfo}>待持续集成：<Chip
+                                                        label={this.state.iterationInfo.unCi}
+                                                        className={classes.chipStyle}/></div>
                                                 </Grid>
                                                 <Grid xs={6} item>
-                                                    <Typography
-                                                        className={classes.textInfo}>已完成：<Chip label={this.state.iterationInfo.finished} className={classes.chipStyle}/></Typography>
+                                                    <div
+                                                        className={classes.textInfo}>已完成：<Chip
+                                                        label={this.state.iterationInfo.finished}
+                                                        className={classes.chipStyle}/></div>
                                                 </Grid>
                                             </Grid>
                                         </CardContent>

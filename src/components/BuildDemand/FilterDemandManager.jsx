@@ -353,7 +353,6 @@ FilterDemandManager.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    console.log("########"+JSON.stringify(state.reducer.common.projectMembers))
     return {
         filterManagerDemandShow: state.reducer.buildDemand.filterManagerDemandShow,
         initialData: state.reducer.buildDemand.initialData,

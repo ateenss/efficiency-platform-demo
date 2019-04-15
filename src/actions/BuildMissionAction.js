@@ -307,7 +307,7 @@ export const modifyAfterEditor=value=>({
 
 
 export function demandTaskGoToIntegration(saveContent) {
-    const url = 'http://172.20.182.141:8080/tiger-admin/task/goToIntegeration';
+    const url = UrlConf.base + 'task/goToIntegeration';
     const config = {
         method: 'post'
     };
@@ -331,7 +331,7 @@ export function demandTaskGoToIntegration(saveContent) {
 
 
 export function getDemandTaskPlan(content){
-    const send_edit_data = 'http://172.20.182.141:8080/tiger-admin/task/getDemandTaskPlan';
+    const send_edit_data = UrlConf.base + 'task/getDemandTaskPlan';
     const config = {
         method: 'post'
     };
@@ -357,7 +357,7 @@ export function getDemandTaskPlan(content){
 
 export function submitAndPlan(content) {
     store.dispatch(closeBuildPlan());
-    const submit_plan = 'http://172.20.182.141:8080/tiger-admin/task/submitAndSavePlan';
+    const submit_plan = UrlConf.base + 'task/submitAndSavePlan';
     const config = {
         method: 'post'
     };
@@ -380,7 +380,7 @@ export function submitAndPlan(content) {
 
 
 export function saveDevPlan(content,taskId) {
-    const submit_task_edit = 'http://172.20.182.141:8080/tiger-admin/task/saveTaskEditor';
+    const submit_task_edit = UrlConf.base + 'task/saveTaskEditor';
     const config = {
         method: 'post'
     };
@@ -408,7 +408,7 @@ export function saveDevPlan(content,taskId) {
 
 export function submitAndChange2Dev(id,content,parentTaskId){
    /* store.dispatch(modifyAfterEditor(content));*/
-    const submit_task_edit = 'http://172.20.182.141:8080/tiger-admin/task/submitTaskEditor';
+    const submit_task_edit = UrlConf.base + 'task/submitTaskEditor';
     const config = {
         method: 'post'
     };
@@ -438,7 +438,7 @@ export function submitAndChange2Dev(id,content,parentTaskId){
 export function meetRequirements(content) {
     let ret =content.split("-");
     let taskId =parseInt( ret[2]);
-    const url = 'http://172.20.182.141:8080/tiger-admin/task/meetRequirements';
+    const url = UrlConf.base + 'task/meetRequirements';
     const config = {
         method: 'post'
     };
@@ -461,7 +461,7 @@ export function meetRequirements(content) {
 
 
 export function finishTest(content) {
-    const finish_test = 'http://172.20.182.141:8080/tiger-admin/task/finishTest';
+    const finish_test = UrlConf.base + 'task/finishTest';
     const config = {
         method: 'post'
     };
@@ -486,7 +486,7 @@ export function finishTest(content) {
 
 export function goToTest(content,taskId){
     store.dispatch(doAssignGoTest(content.taskCode));
-    const go_to_test = 'http://172.20.182.141:8080/tiger-admin/task/goToTest';
+    const go_to_test = UrlConf.base + 'task/goToTest';
     const config = {
         method: 'post'
     };
@@ -512,7 +512,7 @@ export function goToTest(content,taskId){
 
 
 export function savePlanContent(content) {
-    const save_module_data = 'http://172.20.182.141:8080/tiger-admin/task/savePlanContent';
+    const save_module_data = UrlConf.base + 'task/savePlanContent';
     const config = {
         method: 'post'
     };
@@ -535,7 +535,7 @@ export function savePlanContent(content) {
 
 
 export function saveBuildModule(saveContent,parentTaskId) {
-    const save_module_data = 'http://172.20.182.141:8080/tiger-admin/task/saveNewDevTask';
+    const save_module_data = UrlConf.base + 'task/saveNewDevTask';
     const config = {
         method: 'post'
     };
@@ -559,9 +559,9 @@ export function saveBuildModule(saveContent,parentTaskId) {
 
 
 export function init() {
-    const getMyTaskInfoUrl = 'http://172.20.182.141:8080/tiger-admin/task/getMyTaskInfo';
-    const GET_PROJECT_MEMBERS = 'http://172.20.182.141:8080/tiger-admin/member/getProjectMembers';
-    const GET_MODULES = 'http://172.20.182.141:8080/tiger-admin/modules/getModules';
+    const getMyTaskInfoUrl = UrlConf.base + 'task/getMyTaskInfo';
+    const GET_PROJECT_MEMBERS = UrlConf.base + 'member/getProjectMembers';
+    const GET_MODULES = UrlConf.base + 'modules/getModules';
 
     const config = {
         method: 'post'
@@ -601,7 +601,7 @@ export function init() {
 }
 
 export function getDemandTaskDetail(taskId) {
-    const send_edit_data = 'http://172.20.182.141:8080/tiger-admin/task/getDemandTaskDetail';
+    const send_edit_data = UrlConf.base + 'task/getDemandTaskDetail';
     const config = {
         method: 'post'
     };

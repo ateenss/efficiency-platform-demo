@@ -7,6 +7,7 @@ import {
     UNAUTH_USER,
     AUTH_ERROR, SHOW_NOTIFICATION
 } from './types';
+import UrlConf from "../constants/UrlConf";
 
 //axios配置
 const config = {
@@ -15,12 +16,11 @@ const config = {
 };
 
 
-export const LOGIN_ENDPOINT = 'http://172.20.182.141:8080/tiger-admin/user/login';
+export const LOGIN_ENDPOINT = UrlConf.base + 'user/login';
 //这里是登录验证的actions，名字需要更改
 // LOGIN ACTION
 export function loginUser({username, password}) {
     console.log("loginuser被调用");
-    console.log({username, password});
 
     store.dispatch({type: SENT_AUTH});
     // POST username and password to API endpoint
@@ -35,17 +35,14 @@ export function loginUser({username, password}) {
                 return false;
             }
 
-            // If request is successful:
-            // update state to authenticate user
             if (response.data.data.accessToken !== "" && response.data.data.accessToken !== undefined) {
                 store.dispatch({type: AUTH_USER});
             }
             console.log("调用成功");
 
-            // store JWT token
             localStorage.setItem('token', response.data.data.accessToken);
             localStorage.setItem('permInfo', JSON.stringify(response.data.data.permInfo));
-            // redirect to the route '/recordings'
+
             history.push('/');
         })
         .catch(error => {

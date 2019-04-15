@@ -12,12 +12,10 @@ import CardBody from "../Card/CardBody.jsx";
 import CardHeader from "../Card/CardHeader.jsx";
 import Button from "../CustomButtons/Button.jsx";
 
-import GlobalValidateRegex from "../../constants/GlobalValidateRegex.jsx"
-
-import store from "../../stores";
-import {SHOW_NOTIFICATION} from "../../actions/types";
 import Reminder from "../common/Reminder";
-import TigerInput from "../Input/TigerInput"
+import {Rules, validating} from "../../actions/validateAction";
+import {error} from "../../actions/NotificationAction";
+import InputField from "../SelfComponent/InputField";
 
 //组件内部显示css
 const styles = {
@@ -72,54 +70,42 @@ class SimpleCard extends React.Component {
         super(props);
         this.state = {
             message: "",
-            data: {}
+            defaultContent: {},
         };
-    }
-
-    // 订阅你需要验证的元素
-    getValidateEl = () => {
-
-        return [{
-            key: 'username',
-            require: true
-        }, {
-            key: 'password',
-            require: true
-        }
-        ]
-
-    };
-
-    onChange = e => {
-        // 为他赋值
-        const key = e.target.name;
-        this.state.data[key] = e.target.value;
-        this.setState(this.state.data);
     }
 
     onSubmit = () => {
 
-        let validateEl = this.getValidateEl();
-        let ok = false;
-        let message = "";
-
-        for (let idx in validateEl) {
-            let el = validateEl[idx];
-            if (el.require) {
-                console.log(this.state.data[el.key]);
-                const regex = GlobalValidateRegex[el.key];
-                ok = regex.ok(this.state.data[el.key]);
-                if (!ok) {
-                    message = regex.message;
-                    break;
-                }
-            }
-        }
-        if (!ok) {
-            store.dispatch({type: SHOW_NOTIFICATION, payload: message});
+        let ret = validating(this.state.defaultContent, "loginProps");
+        if(!ret.result){
+            error(ret.message);
             return false;
         }
-        loginUser(this.state.data);
+        loginUser(this.state.defaultContent);
+    };
+
+
+    getContent = e => {
+
+        if (e.keyNote) {
+            const keyNote = e.keyNote;
+            const value = e.value;
+            let data = Object.assign({}, this.state.defaultContent, {
+                [keyNote]: value
+            });
+            this.setState({
+                defaultContent: data
+            })
+        } else {
+            const keyNote = e.target.name;
+            const value = e.target.value;
+            let data = Object.assign({}, this.state.defaultContent, {
+                [keyNote]: value
+            });
+            this.setState({
+                defaultContent: data
+            })
+        }
     };
 
 
@@ -137,22 +123,21 @@ class SimpleCard extends React.Component {
                             <p className={classes.subTilte}>welcome</p>
                         </CardHeader>
                         <CardBody>
-                            <TigerInput
-                                id="regular"
-                                placeholder="用户名"
-                                name="username"
-                                className={classes.textField}
-                                fullWidth
-                                onChange={this.onChange}
+
+                            <InputField
+                                nameIn="username"
+                                onChange={this.getContent}
+                                InputLabelName="用户名"
+                                validateEl={Rules.loginProps.username}
                             />
-                            <TigerInput
-                                id="regular"
-                                placeholder="密码"
-                                name="password"
-                                className={classes.textField}
-                                fullWidth
-                                onChange={this.onChange}
+                            <InputField
+                                nameIn="password"
+                                onChange={this.getContent}
+                                InputLabelName="密码"
+                                validateEl={Rules.loginProps.password}
+                                password
                             />
+
                             <GridItem xs={12} sm={12} md={12} item>
                                 <Button className={classes.loginButton} size="lg" fullWidth
                                         color="transparent"

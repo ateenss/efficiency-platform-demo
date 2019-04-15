@@ -9,12 +9,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
-import DatePicker from "../SelfComponent/DatePicker"
 import {closeEditDemand,saveEditDemand} from "../../actions/DemandAction"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import {EDIT_DEMAND} from "../../actions/types";
+import {Rules, validate, validating} from "../../actions/validateAction";
+import {error} from "../../actions/NotificationAction";
+import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 
 
 const styles = {
@@ -70,7 +72,6 @@ class EditDemandMain extends React.Component {
                 defaultContent:nextProps.editData
             });
 
-            console.log(JSON.stringify(nextProps.editData))
         }
 
     }
@@ -80,6 +81,12 @@ class EditDemandMain extends React.Component {
         store.dispatch(closeEditDemand());
     };
     handleSave=()=>{
+
+        let ret = validating(this.state.defaultContent, "demandProps");
+        if(!ret.result){
+            error(ret.message);
+            return false;
+        }
 
         saveEditDemand(this.state.defaultContent);
 
@@ -109,14 +116,6 @@ class EditDemandMain extends React.Component {
         }
     };
 
-    validate = (keyValue) => {
-
-        let errorList = this.state.errorList;
-        errorList[keyValue.name] = keyValue.hasError;
-
-        this.setState({errorList: errorList});
-    };
-
 
     render() {
         const {classes,buttonStyle} = this.props;
@@ -131,6 +130,29 @@ class EditDemandMain extends React.Component {
             iterationSelect.push(ret);
         }
 
+        let projectMember4MultiSelect = []
+        let demandDevOwnerIdSelect = [];
+        let demandOwnerIdSelect = [];
+        for (let i in this.props.projectMembers) {
+
+            let member = this.props.projectMembers[i];
+
+            let ret = {
+                id: member.id,
+                label: member.name,
+                group:member.deptName
+
+            };
+            if(this.state.defaultContent.demandDevOwnerId  === member.id){
+                demandDevOwnerIdSelect.push({id : member.id, label : member.name, group : member.deptName})
+            }
+
+            if(this.state.defaultContent.demandOwnerId  === member.id){
+                demandOwnerIdSelect.push({id : member.id, label : member.name, group : member.deptName})
+            }
+
+            projectMember4MultiSelect.push(ret);
+        }
         const labelArray=["是","否"];
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="xl">
@@ -143,9 +165,7 @@ class EditDemandMain extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="需求名称"
                                 defaultValue={this.state.defaultContent["demandName"]}
-                                validate={this.validate}
-                                required
-                                maxLength="10"
+                                validateEl={Rules.demandProps.demandName}
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
@@ -154,7 +174,9 @@ class EditDemandMain extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="需求类型"
                                 nameIn="demandType"
-                                nameArray={type}/>
+                                nameArray={type}
+                                validateEl={Rules.demandProps.demandType}
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
@@ -162,7 +184,9 @@ class EditDemandMain extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="需求状态"
                                 nameIn="status"
-                                nameArray={status}/>
+                                nameArray={status}
+                                validateEl={Rules.demandProps.status}
+                            />
                         </Grid>
 
                         <Grid item xs={4} className={classes.gridStyle}>
@@ -171,26 +195,28 @@ class EditDemandMain extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="需求来源部门"
                                 defaultValue={this.state.defaultContent["demandSourceDept"]}
-                                validate={this.validate}
+                                validateEl={Rules.demandProps.demandSourceDept}
 
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect
-                                defaultValue={this.state.defaultContent["demandDevOwnerId"]}
-                                onChange={this.getContent}
-                                InputLabelName="需求分派开发负责人"
-                                nameIn="demandDevOwnerId"
-                                nameArray={this.props.projectMembers}/>
+                            <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
+                                             nameIn="demandDevOwnerId"
+                                             label="需求分派开发负责人"
+                                             singleSelect
+                                             defaultValue={demandDevOwnerIdSelect}
+
+                            />
                         </Grid>
 
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect
-                                defaultValue={this.state.defaultContent["demandOwnerId"]}
-                                onChange={this.getContent}
-                                InputLabelName="需求人员"
-                                nameIn="demandOwnerId"
-                                nameArray={this.props.projectMembers}/>
+                            <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
+                                             nameIn="demandOwnerId"
+                                             label="需求人员"
+                                             singleSelect
+                                             defaultValue={demandOwnerIdSelect}
+
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
@@ -225,7 +251,9 @@ class EditDemandMain extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="是否涉及BM控制台"
                                 nameIn="bmRequired"
-                                nameArray={bmRequired}/>
+                                nameArray={bmRequired}
+                                validateEl={Rules.demandProps.bmRequired}
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect
@@ -233,14 +261,15 @@ class EditDemandMain extends React.Component {
                                 InputLabelName="是否需要UAT"
                                 onChange={this.getContent}
                                 defaultValue={this.state.defaultContent["uatRequired"]}
-                                nameArray={uatRequired}/>
+                                nameArray={uatRequired}
+                                validateEl={Rules.demandProps.uatRequired}
+                            />
                         </Grid>
                         <Grid item xs={8} className={classes.gridStyle}>
                             <InputField
                                 InputLabelName="关联外部系统"
                                 nameIn="relatedOuterSys"
                                 defaultValue={this.state.defaultContent["relatedOuterSys"]}
-                                validate={this.validate}
                                 onChange={this.getContent}
                             />
                         </Grid>

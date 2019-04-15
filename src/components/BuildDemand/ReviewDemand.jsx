@@ -7,14 +7,14 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
-import DatePicker from "../SelfComponent/DatePicker"
 import {saveReviewDemand, closeReviewDemand} from "../../actions/DemandAction"
 import {connect} from "react-redux";
-import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import {EDIT_DEMAND, REVIEW_DEMAND} from "../../actions/types";
+import {Rules, validating} from "../../actions/validateAction";
+import {error} from "../../actions/NotificationAction";
+import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 
 
 const styles = {
@@ -52,8 +52,7 @@ class ReviewDemand extends React.Component {
         if (nextProps.action === REVIEW_DEMAND) {
             this.setState({
                 defaultContent:{
-                    status: 0,
-                    demandDevOwnerId: this.props.projectMembers[0].id,
+                    status: 2,
                     iterationId : this.props.iteration[0].id,
                     id:nextProps.editData.id
                 }
@@ -69,6 +68,12 @@ class ReviewDemand extends React.Component {
         closeReviewDemand()
     };
     handleSave=()=>{
+
+        let ret = validating(this.state.defaultContent, "reviewDemandProps");
+        if(!ret.result){
+            error(ret.message);
+            return false;
+        }
 
         saveReviewDemand(this.state.defaultContent);
 
@@ -98,14 +103,6 @@ class ReviewDemand extends React.Component {
         }
     };
 
-    validate = (keyValue) => {
-
-        let errorList = this.state.errorList;
-        errorList[keyValue.name] = keyValue.hasError;
-
-        this.setState({errorList: errorList});
-    };
-
 
     render() {
         const {classes,buttonStyle} = this.props;
@@ -119,7 +116,21 @@ class ReviewDemand extends React.Component {
             }
             iterationSelect.push(ret);
         }
+        let projectMember4MultiSelect = []
+        for (let i in this.props.projectMembers) {
 
+            let member = this.props.projectMembers[i];
+
+            let ret = {
+                id: member.id,
+                label: member.name,
+                group:member.deptName
+
+            };
+
+
+            projectMember4MultiSelect.push(ret);
+        }
         const labelArray=["是","否"];
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={!!this.props.openReviewDemand ? this.props.openReviewDemand : false}>
@@ -127,12 +138,12 @@ class ReviewDemand extends React.Component {
                 <DialogContent>
                     <Grid container spacing={8} >
                         <Grid item xs={12} className={classes.gridStyle}>
-                            <SingleSelect
-                                defaultValue={this.state.defaultContent["demandDevOwnerId"]}
-                                onChange={this.getContent}
-                                InputLabelName="需求分派开发负责人"
-                                nameIn="demandDevOwnerId"
-                                nameArray={this.props.projectMembers}/>
+
+                            <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
+                                             nameIn="demandDevOwnerId"
+                                             label="需求分派开发负责人"
+                                             singleSelect
+                            />
                         </Grid>
                         <Grid item xs={12} className={classes.gridStyle}>
                             <SingleSelect
@@ -140,15 +151,19 @@ class ReviewDemand extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="关联版本"
                                 nameIn="iterationId"
-                                nameArray={iterationSelect}/>
+                                nameArray={iterationSelect}
+                                validateEl={Rules.reviewDemandProps.iterationId}
+                            />
                         </Grid>
                         <Grid item xs={12} className={classes.gridStyle}>
                             <SingleSelect
-                                defaultValue={this.state.defaultContent["status"]}
+                                defaultValue={2}
                                 onChange={this.getContent}
                                 InputLabelName="需求状态"
                                 nameIn="status"
-                                nameArray={status}/>
+                                nameArray={status}
+                                validateEl={Rules.reviewDemandProps.status}
+                            />
                         </Grid>
                     </Grid>
                 </DialogContent>

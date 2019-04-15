@@ -19,6 +19,8 @@ import SingleSelect from "../SelfComponent/SingleSelect"
 import InputField from "../SelfComponent/InputField"
 import {OPEN_EDIT_PROJECT} from "../../actions/types";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
+import {Rules, validating} from "../../actions/validateAction";
+import {error} from "../../actions/NotificationAction";
 
 const styles = {
     avatar: {
@@ -64,6 +66,13 @@ class EditProjectMain extends React.Component {
         store.dispatch(closeEditProject());
     };
     handleEditSave=()=>{
+
+        let ret = validating(this.state.projectContent, "projectProps");
+        if(!ret.result){
+            error(ret.message);
+            return false;
+        }
+
         saveProject(this.state.projectContent)
     };
 
@@ -122,8 +131,8 @@ class EditProjectMain extends React.Component {
 
         }
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open}>
-                <DialogTitle id="simple-dialog-title">编辑项目</DialogTitle>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="xl">
+                <DialogTitle id="simple-dialog-title">编辑项目 - {this.props.projectCode}</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
                         <Grid item xs={8} className={classes.gridStyle}>
@@ -132,30 +141,44 @@ class EditProjectMain extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="项目名称"
                                 defaultValue={projectContent.projectName}
+                                validateEl={Rules.projectProps.projectName}
+
                             />
                         </Grid>
+
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <InputField InputLabelName="项目编号" nameIn="projectCode" defaultValue={projectContent.projectCode} disabled={true}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="类型" nameIn="projectType" defaultValue={projectContent.projectType} nameArray={projectType} />
+                            <SingleSelect onChange={this.getContent} InputLabelName="类型" nameIn="projectType" defaultValue={projectContent.projectType} nameArray={projectType}
+                                          validateEl={Rules.projectProps.projectType}
+
+                            />
                         </Grid>
 
                         <Grid item xs={4} className={classes.gridStyle}>
                             <SingleSelect onChange={this.getContent} InputLabelName="负责人" nameIn="projectOwnerId" defaultValue={projectContent.projectOwnerId}
-                                         nameArray={this.props.projectMembers} />
+                                         nameArray={this.props.projectMembers}
+                                          validateEl={Rules.projectProps.projectOwnerId}
+
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent} defaultValue={projectContent.startTime}/>
+                            <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent} defaultValue={projectContent.startTime}
+                                        validateEl={Rules.projectProps.startTime}
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent} defaultValue={projectContent.endTime}/>
+                            <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent} defaultValue={projectContent.endTime}
+                                        validateEl={Rules.projectProps.endTime}
+
+                            />
                         </Grid>
 
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status" defaultValue={projectContent.status}  nameArray={projectStatus}/>
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status" defaultValue={projectContent.status}  nameArray={projectStatus}
+                                          validateEl={Rules.projectProps.status}
+
+                            />
                         </Grid>
-                        <Grid item xs={12} className={classes.gridStyle}>
+                        <Grid item xs={8} className={classes.gridStyle}>
                             <TrueMuitiSelect data={projectMembers4muiSelect} onChange={this.getContent}
                                              nameIn="projectMembers"
                                              label="项目参与人"

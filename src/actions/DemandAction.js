@@ -22,6 +22,7 @@ import {
 } from './types';
 import axios from "axios";
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
+import UrlConf from "../constants/UrlConf";
 
 //axios配置
 const config = {
@@ -31,12 +32,12 @@ const config = {
     outCharset: "utf-8"
 };
 
-export const GET_DEMANDS = 'http://172.20.182.141:8080/tiger-admin/demand/getDemands';
-export const GET_RECENT = 'http://172.20.182.141:8080/tiger-admin/iteration/getRecentIterations';
-export const DETERMIND_ITERATION = 'http://172.20.182.141:8080/tiger-admin/demand/determineIteration';
-export const GET_DEMAND = 'http://172.20.182.141:8080/tiger-admin/demand/getDemand';
-export const SAVE = 'http://172.20.182.141:8080/tiger-admin/demand/save';
-export const SAVE_REVIEW = 'http://172.20.182.141:8080/tiger-admin/demand/saveReview';
+export const GET_DEMANDS = UrlConf.base + 'demand/getDemands';
+export const GET_RECENT = UrlConf.base + 'iteration/getRecentIterations';
+export const DETERMIND_ITERATION = UrlConf.base + 'demand/determineIteration';
+export const GET_DEMAND = UrlConf.base + 'demand/getDemand';
+export const SAVE = UrlConf.base + 'demand/save';
+export const SAVE_REVIEW = UrlConf.base + 'demand/saveReview';
 
 
 

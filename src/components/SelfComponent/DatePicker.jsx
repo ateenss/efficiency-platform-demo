@@ -63,7 +63,7 @@ class MaterialUIPickers extends React.Component {
     render() {
         const { classes ,nameIn,InputLabelName} = this.props;
         const { data } = this.state;
-        const dateFormat = "yyyy/MM/dd";
+        const dateFormat = "yyyy-MM-dd";
         return (
             <MuiPickersUtilsProvider utils={LocalizedUtils} locale={cnLocale} className={classes.provider}>
                         <DatePicker

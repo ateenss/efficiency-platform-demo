@@ -14,6 +14,7 @@ import {
     SHOW_NOTIFICATION, INIT_PROJECT_MEMBERS,
 } from "./types"
 import history from "../history/history";
+import UrlConf from "../constants/UrlConf";
 //axios配置
 const config = {
     method: 'post',
@@ -22,13 +23,13 @@ const config = {
     outCharset: "utf-8"
 };
 
-export const GET_MY_PROJECTS = 'http://172.20.182.141:8080/tiger-admin/project/getMyProjects';
-export const GET_BY_ID = 'http://172.20.182.141:8080/tiger-admin/project/get';
-export const SAVE = 'http://172.20.182.141:8080/tiger-admin/project/save';
-export const OPEN_PROJECT = 'http://172.20.182.141:8080/tiger-admin/project/openProject';
+export const GET_MY_PROJECTS = UrlConf.base + "project/getMyProjects";
+export const GET_BY_ID = UrlConf.base + 'project/get';
+export const SAVE = UrlConf.base + 'project/save';
+export const OPEN_PROJECT = UrlConf.base + 'project/openProject';
 
-export const GET_TEAMS = 'http://172.20.182.141:8080/tiger-admin/member/getTeams';
-export const GET_PROJECT_MEMBERS = 'http://172.20.182.141:8080/tiger-admin/member/getProjectMembers';
+export const GET_TEAMS = UrlConf.base + 'member/getTeams';
+export const GET_PROJECT_MEMBERS = UrlConf.base + 'member/getProjectMembers';
 
 
 export function init(doAfterInit) {
@@ -44,18 +45,9 @@ export function init(doAfterInit) {
         return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
     }
 
-    function getTeams() {
-        return axios.post(GET_TEAMS, {"version": "1.0", accessToken: accessToken}, config);
-    }
+    axios.all([getProjects(), getProjectMembers()]).then(axios.spread(function (projects, members, teams) {
 
-    axios.all([getProjects(), getProjectMembers(), getTeams()]).then(axios.spread(function (projects, members, teams) {
-
-        store.dispatch({
-            type: INIT_PROJECT_MEMBERS,
-            payload: members.data.data
-        });
-
-        doAfterInit(projects.data.data, members.data.data, teams.data.data);
+        doAfterInit(projects.data.data, members.data.data);
 
     }));
 
@@ -158,7 +150,7 @@ export function saveProject(data) {
 
             store.dispatch({
                 type: BUILD_SAVE_PROJECT,
-                payload: data
+                payload: response.data.data
             })
         })
         .catch(error => {
@@ -171,108 +163,6 @@ export function saveProject(data) {
 }
 
 
-//提交保存填写的项目内容
-export function buildSave(value) {
-    const send_save_data = '需要填写后台地址';
-    store.dispatch(buildSaveProjectDispatch(value));
-    const config = {
-        method: 'post'
-    };
-
-    let accessToken = localStorage.getItem("token");
-
-
-    return axios.post(send_save_data, {"version": "1.0", "accessToken": accessToken, "data": {actionName: "buildProject", data: value}}, config)
-        .then(response => {
-            if (response.data.respCode === "00") {
-                store.dispatch({
-                    type: PROJECT_SAVE_SUCCESS,
-                });
-            } else {
-                store.dispatch({
-                    type: PROJECT_SAVE_FAIL,
-                });
-            }
-        }).catch(error => {
-            console.log("发送数据到后台出现问题" + error);
-            store.dispatch({
-                type: PROJECT_SAVE_ERROR,
-            });
-        });
-}
-
-//提交再次编辑修改的内容
-export function editSave(value) {
-    const send_edit_data = '需要填写后台地址';
-    store.dispatch(editSaveDispatch(value));
-    const config = {
-        method: 'post'
-    };
-
-    let accessToken = localStorage.getItem("token");
-
-
-    return axios.post(send_edit_data, {"version": "1.0", "accessToken": accessToken, "data": {actionName: "editProject", data: value}}, config)
-        .then(response => {
-            if (response.data.respCode === "00") {
-                store.dispatch({
-                    type: PROJECT_SAVE_SUCCESS,
-                });
-            } else {
-                store.dispatch({
-                    type: PROJECT_SAVE_FAIL,
-                });
-            }
-        }).catch(error => {
-            console.log("发送数据到后台出现问题" + error);
-            store.dispatch({
-                type: PROJECT_SAVE_ERROR,
-            });
-        });
-}
-
-
-export function pullBuildProjectInitial() {
-    const send_edit_data = '需要填写后台地址';
-    const config = {
-        method: 'post'
-    };
-    //todo:正常向后台要数据的时候，才把这些数据写进去，目前这个初始化调用是放在Project里面
-    /*axios.post(send_edit_data, {"version": "1.0", "data": "BuildProjectInitial"},config)
-        .then(response => {
-            if (response.data.respCode === "00") {
-                store.dispatch({
-                    type: "save_success",
-                });
-                store.dispatch({
-                    type:"pull_initial_project",
-                    payload:InitialData
-                })
-            }else{
-                store.dispatch({
-                    type: "save_fail",
-                });
-            }
-        }).catch(error => {
-        console.log("后台提取数据出现问题"+error);
-        store.dispatch({
-            type: "save_error",
-        });
-    });*/
-    //以下是mock数据
-    const rand = Math.floor(Math.random() * 40) + 1;
-    const InitialData = {
-        ProjectID: rand,
-        projectType: [{name: "业务需求项目", id: 1}, {name: "系统架构优化", id: 2}],
-        projectMembers: [{name: "周之豪", id: 1}, {name: "长泽雅美", id: 2}],
-        projectStatus: [{name: "进行中", id: 1}, {name: "已完成", id: 2}]
-    };
-    store.dispatch({
-        type: PULL_INITIAL_PROJECT,
-        payload: InitialData
-    })
-}
-
 
 //todo:注意正常使用的时候，把方法切换成上面的真正发送请求的action
 export const editSaveDispatch = (value) => ({
@@ -282,10 +172,6 @@ export const editSaveDispatch = (value) => ({
 export const buildSaveProjectDispatch = (value) => ({
     type: BUILD_SAVE_PROJECT,
     value
-});
-
-export const openBuildProject = () => ({
-    type: OPEN_BUILD_PROJECT,
 });
 
 export const closeBuildProject = () => ({
