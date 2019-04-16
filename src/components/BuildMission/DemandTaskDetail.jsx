@@ -203,8 +203,8 @@ class DemandTaskDetail extends React.Component {
     render() {
         const {classes, develop, plan, goTest,integration, demands,assignGoTestShow,finish,editMissionShow,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
         let detailInfo=tempBoardToDetail;
-        if (!tempBoardToDetail){
-            tempBoardToDetail=""
+        if (!detailInfo){
+            detailInfo=""
         }
         return (
             <Card className={classes.demand}>
@@ -214,11 +214,11 @@ class DemandTaskDetail extends React.Component {
                             }
 
                             title={
-                                <div className={classes.cardHeaderTitle}><span>{tempBoardToDetail.taskName}</span>
-                                    <Chip label={tempBoardToDetail.taskStatus} className={classes.chip}/>
+                                <div className={classes.cardHeaderTitle}><span>{detailInfo.taskName}</span>
+                                    <Chip label={detailInfo.taskStatus} className={classes.chip}/>
                                 </div>
                             }
-                            subheader={tempBoardToDetail.taskDeadLine}
+                            subheader={detailInfo.taskDeadLine}
                 >
                 </CardHeader>
                 <CardActions className={classes.actions} disableActionSpacing>
