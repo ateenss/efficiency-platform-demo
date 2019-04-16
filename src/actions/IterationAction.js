@@ -269,6 +269,14 @@ export function saveIteration(action, iterationData) {
                 data.demandList = [];
                 data.iterationInfo.id = response.data.data.id;
             }
+
+            data.iterationInfo = response.data.data.iteration;
+            data.iterationInfo.unPlanningCnt = response.data.data.unPlanningCnt;
+            data.iterationInfo.unCodeReviewCnt = response.data.data.unCodeReviewCnt;
+            data.iterationInfo.unCi = response.data.data.unCi;
+            data.iterationInfo.finished = response.data.data.finished;
+
+
             store.dispatch({
                 type: type,
                 payload: data
