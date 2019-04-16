@@ -171,35 +171,35 @@ export function openReviewDemand(demandId) {
 
     let accessToken = localStorage.getItem("accessToken");
 
-    store.dispatch({
-        type: REVIEW_DEMAND,
-        payload : {id : demandId}
-    });
-    // return axios.post(GET_DEMAND, {"version": "1.0", accessToken: accessToken, data: demandId}, config)
-    //     .then(response => {
-    //
-    //         if (response.data.respCode !== "00") {
-    //
-    //         }
-    //
-    //         let data = response.data.data;
-    //
-    //         store.dispatch({
-    //             type: REVIEW_DEMAND,
-    //             payload: data
-    //         });
-    //
-    //
-    //     })
-    //     .catch(error => {
-    //         // If request fails
-    //         console.log("调用失败");
-    //         // update state to show error to user
-    //         // store.dispatch({
-    //         //     type: AUTH_ERROR,
-    //         //     payload: 'Invalid credentials.'
-    //         // });
-    //     });
+    // store.dispatch({
+    //     type: REVIEW_DEMAND,
+    //     payload : {id : demandId}
+    // });
+    return axios.post(GET_DEMAND, {"version": "1.0", accessToken: accessToken, data: demandId}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+
+            }
+
+            let data = response.data.data;
+
+            store.dispatch({
+                type: REVIEW_DEMAND,
+                payload: data
+            });
+
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("调用失败");
+            // update state to show error to user
+            // store.dispatch({
+            //     type: AUTH_ERROR,
+            //     payload: 'Invalid credentials.'
+            // });
+        });
 }
 
 

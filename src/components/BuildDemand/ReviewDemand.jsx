@@ -52,8 +52,8 @@ class ReviewDemand extends React.Component {
         if (nextProps.action === REVIEW_DEMAND) {
             this.setState({
                 defaultContent:{
-                    status: 2,
-                    iterationId : this.props.iteration[0].id,
+                    status: !!nextProps.editData.status ? nextProps.editData.status : "",
+                    demandDevOwnerId:!!nextProps.editData.demandDevOwnerId ? nextProps.editData.demandDevOwnerId : "",
                     id:nextProps.editData.id
                 }
             });
@@ -86,7 +86,7 @@ class ReviewDemand extends React.Component {
             const keyNote=e.keyNote;
             const value=e.value;
             let data = Object.assign({}, this.state.defaultContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 defaultContent:data
@@ -95,7 +95,7 @@ class ReviewDemand extends React.Component {
             const keyNote=e.target.name;
             const value=e.target.value;
             let data = Object.assign({}, this.state.defaultContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 defaultContent:data
@@ -108,6 +108,10 @@ class ReviewDemand extends React.Component {
         const {classes,buttonStyle} = this.props;
         let iterationSelect = [];
 
+        let reviewDemand = {};
+        if(!!this.props.editData){
+            reviewDemand = this.props.editData;
+        }
         for(let i in this.props.iteration){
             let unit = this.props.iteration[i];
             let ret = {
@@ -116,7 +120,8 @@ class ReviewDemand extends React.Component {
             }
             iterationSelect.push(ret);
         }
-        let projectMember4MultiSelect = []
+        let projectMember4MultiSelect = [];
+        let defualtValue4MultiSelect = [];
         for (let i in this.props.projectMembers) {
 
             let member = this.props.projectMembers[i];
@@ -128,13 +133,17 @@ class ReviewDemand extends React.Component {
 
             };
 
+            if(reviewDemand.demandDevOwnerId === member.id){
+                defualtValue4MultiSelect.push(ret);
+            }
+
 
             projectMember4MultiSelect.push(ret);
         }
         const labelArray=["是","否"];
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={!!this.props.openReviewDemand ? this.props.openReviewDemand : false}>
-                <DialogTitle id="simple-dialog-title">评审需求 - {this.state.defaultContent["demandCode"]}</DialogTitle>
+                <DialogTitle id="simple-dialog-title">评审需求 - {reviewDemand["demandCode"]}</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
                         <Grid item xs={12} className={classes.gridStyle}>
@@ -143,21 +152,23 @@ class ReviewDemand extends React.Component {
                                              nameIn="demandDevOwnerId"
                                              label="需求分派开发负责人"
                                              singleSelect
+                                             defaultValue={defualtValue4MultiSelect}
+
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.gridStyle}>
                             <SingleSelect
-                                defaultValue={this.state.defaultContent["iterationId"]}
                                 onChange={this.getContent}
                                 InputLabelName="关联版本"
                                 nameIn="iterationId"
                                 nameArray={iterationSelect}
                                 validateEl={Rules.reviewDemandProps.iterationId}
+                                defaultValue={reviewDemand.iterationId}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.gridStyle}>
                             <SingleSelect
-                                defaultValue={2}
+                                defaultValue={reviewDemand.status}
                                 onChange={this.getContent}
                                 InputLabelName="需求状态"
                                 nameIn="status"

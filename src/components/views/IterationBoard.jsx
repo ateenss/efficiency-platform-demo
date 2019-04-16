@@ -186,7 +186,6 @@ class IterationBoard extends React.Component {
             }
 
             self.setState({iterationState: iterationState});
-            console.log("&&&&^^^^" + JSON.stringify(iterationState));
 
             selectIteration(selectId, function () {
                 stopLoading();
@@ -259,7 +258,6 @@ class IterationBoard extends React.Component {
 
 
         this.setState({iterationState: iterationState});
-        console.log("&&&&" + JSON.stringify(iterationState));
 
     }
 
