@@ -88,7 +88,8 @@ class ShowDevDocuments extends React.Component {
     state = {
         open: false,
         planContent: {},
-        tabValue: 0
+        tabValue: 0,
+        demandId:""
     };
 
     handleChange = (event, value) => {
@@ -105,7 +106,6 @@ class ShowDevDocuments extends React.Component {
 
     handleProvePlan = (id) => {
         ProvePlan(id);
-        console.log("developPlanProved" + id);
     };
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -122,7 +122,7 @@ class ShowDevDocuments extends React.Component {
             this.setState({
                 planContent: nextProps.developPlan,
                 testCase: nextProps.testCase,
-                demandId: nextProps.demandId
+                demandId: nextProps.wantKey
             });
         }
     }

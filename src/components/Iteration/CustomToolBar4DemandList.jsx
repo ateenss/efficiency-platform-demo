@@ -88,7 +88,6 @@ class CustomToolBar4DemandList extends React.Component {
             payload: key
         });
         getDevelopPlan(key);
-        console.log(JSON.stringify(this.props.selectedRows.data[0].dataIndex));
     };
 
     handlePublishDocuments = () => {

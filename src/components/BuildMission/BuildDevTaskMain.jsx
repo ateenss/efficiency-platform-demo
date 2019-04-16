@@ -15,6 +15,7 @@ import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import permProcessor from "../../constants/PermProcessor";
+import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 
 
 const styles = {
@@ -110,12 +111,33 @@ class BuildDevTaskMain extends React.Component {
 
     render() {
         const {classes, onClose, selectedValue,initialData,buttonStyle,randomNum,hintMessage,projectMembers, ...other} = this.props;
+        let defaultModules = [];
+        const{moduleContent}=this.state;
+        for(let j in this.props.modules){
+            let unit = this.props.modules[j];
+            if(moduleContent.involveModule === unit.id){
+                defaultModules.push({id : unit.id, label : unit.label, group : unit.group})
+            }
+        }
+        let projectMember4MultiSelect = [];
+        for (let i in this.props.projectMembers) {
+
+            let member = this.props.projectMembers[i];
+
+            let ret = {
+                id: member.id,
+                label: member.name,
+                group:member.deptName
+
+            };
+            projectMember4MultiSelect.push(ret);
+        }
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth minW="xl">
                 <DialogTitle id="simple-dialog-title">创建开发任务</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
-                        <Grid item xs={8} className={classes.gridStyle}>
+                        <Grid item xs={12} className={classes.gridStyle}>
                             <InputField
                                 nameIn="taskName"
                                 onChange={this.getContent}
@@ -123,20 +145,32 @@ class BuildDevTaskMain extends React.Component {
                                 validate={this.validate}
                             />
                         </Grid>
+                        <Grid item xs={12} className={classes.gridStyle}>
+                            <TrueMuitiSelect data={this.props.modules} onChange={this.getContent}
+                                             nameIn="involveModule"
+                                             label="涉及模块"
+                                             singleSelect
+                                             defaultValue={defaultModules}
+                            />
+                        </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect
+                            {/*<SingleSelect
                                 onChange={this.getContent}
                                 InputLabelName="开发人员"
                                 validate={this.validate}
                                 nameIn="taskOwner"
-                                nameArray={projectMembers}/>
+                                nameArray={projectMembers}/>*/}
+                            <TrueMuitiSelect data={projectMember4MultiSelect}
+                                             onChange={this.getContent}
+                                             nameIn="taskOwner"
+                                             label="开发人员"
+                                             singleSelect
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="taskDeadline" InputLabelName="任务截至时间"  onDateChange={this.getContent}/>
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <InputField InputLabelName="涉及模块"  nameIn="involveModule"  validate={this.validate} onChange={this.getContent}/>
-                        </Grid>
+
                     </Grid>
                 </DialogContent>
                 <DialogActions>
@@ -165,7 +199,8 @@ const mapStateToProps = (state) => {
         hintMessage:state.reducer.buildDemand.hintMessage,
         buildDemandShow:state.reducer.buildDemand.buildDemandShow,
         demands:state.reducer.buildMission.demands,
-        projectMembers:state.reducer.common.projectMembers
+        projectMembers:state.reducer.common.projectMembers,
+        modules : state.reducer.buildMission.modules
     }
 };
 

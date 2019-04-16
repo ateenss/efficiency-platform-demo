@@ -33,19 +33,21 @@ export const GET_BY_ID = UrlConf.base + 'iteration/get';
 export const SAVE = UrlConf.base + 'iteration/save';
 
 //审核通过
-export function ProvePlan(id,e) {
+export function ProvePlan(id) {
     const url = UrlConf.base + 'iteration/proveplan';
     const config = {
         method: 'post'
     };
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,id);
+    console.log("已经执行到这里面",JSON.stringify(id));
     return axios.post(url, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                store.dispatch(saveModule(id));
-                getDemandTaskDetail(id);
+                //下面这个方法没明白是干嘛的
+                // store.dispatch(saveModule(id));
+                getDemandTaskDetail(data);
             }else{
 
                 console.log("没能拿到数据")
@@ -311,7 +313,7 @@ export function getDevelopPlan(id) {
     })
 */
     //这里的data只有数据方案了，之后还要和其他初始数据融合
-    const url = 'http://172.20.182.141:8080/tiger-admin/iteration/getDemandTaskPlanInfo';
+    const url = 'http://127.0.0.1:8080/tiger-admin/iteration/getDemandTaskPlanInfo';
     const config = {
         method: 'post'
     };
@@ -340,7 +342,7 @@ export function getDevelopPlan(id) {
 
 
 export function getModuleInfo(taskId){
-    const url = 'http://172.20.182.141:8080/tiger-admin/iteration/getModuleInfo';
+    const url = 'http://127.0.0.1:8080/tiger-admin/iteration/getModuleInfo';
     const config = {
         method: 'post'
     };

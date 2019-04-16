@@ -170,6 +170,23 @@ class DevTaskEditor extends React.Component {
 
 
         }
+        let demandDevOwnerIdSelect = [];
+        let projectMember4MultiSelect = [];
+        for (let i in this.props.projectMembers) {
+
+            let member = this.props.projectMembers[i];
+
+            let ret = {
+                id: member.id,
+                label: member.name,
+                group:member.deptName
+
+            };
+            if(this.state.taskContent.taskOwner  === member.id){
+                demandDevOwnerIdSelect.push({id : member.id, label : member.name, group : member.deptName})
+            }
+            projectMember4MultiSelect.push(ret);
+        }
 
         return (
 
@@ -191,7 +208,7 @@ class DevTaskEditor extends React.Component {
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>
                         <Grid container spacing={16}>
-                            <Grid xs={8} item>
+                            <Grid xs={12} item>
                                 <InputField
                                     InputLabelName="任务名称"
                                     onChange={this.getContent}
@@ -200,32 +217,39 @@ class DevTaskEditor extends React.Component {
                                     validate={this.validate}
                                 />
                             </Grid>
-                            <Grid item xs={4} className={classes.gridStyle}>
-                                <SingleSelect
+                            <Grid item xs={6} className={classes.gridStyle}>
+                                <TrueMuitiSelect data={this.props.modules} onChange={this.getContent}
+                                                 nameIn="involveModule"
+                                                 label="涉及模块"
+                                                 singleSelect
+                                                 defaultValue={defaultModules}
+                                />
+                            </Grid>
+                            <Grid item xs={6} className={classes.gridStyle}>
+                               {/* <SingleSelect
                                     onChange={this.getContent}
                                     InputLabelName="开发人员"
                                     validate={this.validate}
                                     nameIn="taskOwner"
                                     nameArray={projectMembers}
                                     defaultValue={taskContent.taskOwner}
+                                />*/}
+                                <TrueMuitiSelect data={projectMember4MultiSelect}
+                                                 onChange={this.getContent}
+                                                 nameIn="taskOwner"
+                                                 label="开发人员"
+                                                 singleSelect
+                                                 defaultValue={demandDevOwnerIdSelect}
                                 />
 
                             </Grid>
-                            <Grid xs={4} item>
+                            <Grid xs={6} item>
                                 <DatePicker nameIn="taskDeadline"
                                             InputLabelName="任务结束时间"
                                             onDateChange={this.getContent}
                                             defaultValue={taskContent.taskDeadline} />
                             </Grid>
-                            <Grid item xs={4} className={classes.gridStyle}>
-                                <InputField InputLabelName="涉及模块"
-                                            nameIn="involveModule"
-                                            validate={this.validate}
-                                            onChange={this.getContent}
-                                            defaultValue={taskContent.involveModule}
-                                />
-                            </Grid>
-                            <Grid xs={4} item>
+                            <Grid xs={6} item>
                                 <InputField
                                     onChange={this.getContent}
                                     InputLabelName="任务状态"
@@ -236,14 +260,7 @@ class DevTaskEditor extends React.Component {
                                 />
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} className={classes.gridStyle}>
-                            <TrueMuitiSelect data={this.props.modules} onChange={this.getContent}
-                                             nameIn="involveModule"
-                                             label="涉及模块"
-                                             singleSelect
-                                             defaultValue={defaultModules}
-                            />
-                        </Grid>
+
                         <Typography className={classes.quillLabel}>开发方案</Typography>
                                     <EditQuill
                                         classStyle={classes.quillContainer}

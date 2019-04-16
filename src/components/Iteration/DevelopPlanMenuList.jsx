@@ -34,7 +34,9 @@ class DevelopPlanMenuList extends React.Component {
     };
 
     handleProvePlan = (id) =>()=>{
+        console.log("查看需求id",JSON.stringify(id));
         this.props.handleProvePlan(id);
+        this.props.handleClosePlan();
         this.setState({anchorEl: null});
     };
 

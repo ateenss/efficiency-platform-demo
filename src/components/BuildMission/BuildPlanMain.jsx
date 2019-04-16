@@ -80,8 +80,6 @@ class BuildPlanMain extends React.Component {
     };
 
     savePlan = () => {
-        console.log("保存方案");
-        console.log(this.state.planContent.overallPlan);
         let tempContent=this.state.planContent;
         tempContent["taskId"]=this.props.tempBoardToDetail.taskId;
         tempContent["saveOrSubmit"]=0;
