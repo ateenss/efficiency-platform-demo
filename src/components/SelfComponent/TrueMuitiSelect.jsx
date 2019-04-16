@@ -110,6 +110,7 @@ class TrueMuitiSelect extends Component {
 
         }
 
+
         return (
             <ExpansionPanel className={classes.root}>
                 <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon className={classes.iconRoot}/>} style={{minHeight: "44px", padding: "0 0 0 2px", margin:"0"}}>

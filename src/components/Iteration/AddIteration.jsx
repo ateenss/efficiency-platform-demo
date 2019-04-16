@@ -14,7 +14,7 @@ import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import {closeAddIteration, saveIteration} from "../../actions/IterationAction";
 import GlobalValidateRegex from "../../constants/GlobalValidateRegex";
-import {ADD_ITERATION} from "../../actions/types";
+import {ADD_ITERATION, EDIT_ITERATION} from "../../actions/types";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 import {Rules, validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
@@ -42,7 +42,8 @@ class AddIteration extends React.Component {
         this.state = {
             openTask: false,
             iterationContent: {},
-            errorList: {}
+            errorList: {},
+            title : "新增版本"
         }
     }
 
@@ -50,13 +51,11 @@ class AddIteration extends React.Component {
 
         if (nextProps.action === ADD_ITERATION) {
 
-            let iterationContnet = {
-            };
-
-
             this.setState({
-                iterationContent: iterationContnet
+                iterationContent: {}
             })
+        }else if(nextProps.action === EDIT_ITERATION){
+            this.setState({title : "编辑版本"})
         }
 
 
@@ -142,7 +141,7 @@ class AddIteration extends React.Component {
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth
                     maxWidth="lg">
-                <DialogTitle id="simple-dialog-title">新增版本</DialogTitle>
+                <DialogTitle id="simple-dialog-title">{this.state.title}</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>
                         <Grid item xs={8} className={classes.gridStyle}>
