@@ -50,7 +50,7 @@ class EditQuill extends React.Component {
                 <ReactQuill
                     theme={this.state.theme}
                     onChange={this.handleChange}
-                    value={this.state.editorHtml}
+                    value={this.state.editorHtml||''}
                     modules={EditQuill.modules}
                     formats={EditQuill.formats}
                     bounds={'.app'}
