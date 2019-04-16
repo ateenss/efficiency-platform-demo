@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
 import IterationList from "../Iteration/IterationList";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import {Paper} from "@material-ui/core";
-import Divider from "@material-ui/core/Divider";
 import {connect} from "react-redux";
 import {selectIteration, addIteration, init} from "../../actions/IterationAction";
 import AddIteration from "../Iteration/AddIteration";
@@ -19,21 +15,14 @@ import IterationStepper from "../Iteration/IterationStepper";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import CardContent from "@material-ui/core/CardContent";
 import red from '@material-ui/core/colors/red';
-import CircularProgress from "@material-ui/core/CircularProgress";
-import IconButton from "@material-ui/core/IconButton";
-import EditIcon from "@material-ui/icons/Edit";
 import {getProjectMembers, startLoading, stopLoading} from "../../actions/CommonAction";
-import {pullBuildProjectInitial} from "../../actions/BuildProjectAction";
 import permProcessor from "../../constants/PermProcessor";
-import AwesomeComponent from "../common/AwesomeComponent"
 import Chip from "@material-ui/core/Chip";
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const drawerWidth = 240;
 
@@ -186,11 +175,13 @@ class IterationBoard extends React.Component {
             }
 
             self.setState({iterationState: iterationState});
-
-            selectIteration(selectId, function () {
+            if(!!selectId){
+                selectIteration(selectId, function () {
+                    stopLoading();
+                });
+            }else{
                 stopLoading();
-
-            });
+            }
 
         });
 
