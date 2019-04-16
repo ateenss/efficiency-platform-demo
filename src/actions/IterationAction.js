@@ -20,6 +20,7 @@ import {GET_PROJECT_MEMBERS} from "./CommonAction";
 import RequestBuilder from "../constants/RequestBuilder";
 import {getDemandTaskDetail, saveModule} from "./BuildMissionAction";
 import UrlConf from "../constants/UrlConf";
+import {error} from "./NotificationAction";
 
 //axios配置
 const config = {
@@ -50,7 +51,7 @@ export function ProvePlan(id) {
                 getDemandTaskDetail(data);
             }else{
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
         }).catch(error => {
             console.log("后台提取数据出现问题"+error);
@@ -130,10 +131,7 @@ export function selectIteration(id, callback) {
         .then(response => {
 
             if (response.data.respCode !== "00") {
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: response.data.msg
-                });
+                error(response.data.msg);
                 return false;
             }
 
@@ -205,10 +203,7 @@ export function addIteration(id) {
             .then(response => {
 
                 if (response.data.respCode !== "00") {
-                    store.dispatch({
-                        type: SHOW_NOTIFICATION,
-                        payload: response.data.msg
-                    });
+                    error(response.data.msg);
                     return false;
                 }
 
@@ -268,10 +263,7 @@ export function saveIteration(action, iterationData) {
         .then(response => {
 
             if (response.data.respCode !== "00") {
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: response.data.msg
-                });
+                error(response.data.msg);
                 return false;
             }
 
@@ -279,6 +271,14 @@ export function saveIteration(action, iterationData) {
                 data.demandList = [];
                 data.iterationInfo.id = response.data.data.id;
             }
+
+            data.iterationInfo = response.data.data.iteration;
+            data.iterationInfo.unPlanningCnt = response.data.data.unPlanningCnt;
+            data.iterationInfo.unCodeReviewCnt = response.data.data.unCodeReviewCnt;
+            data.iterationInfo.unCi = response.data.data.unCi;
+            data.iterationInfo.finished = response.data.data.finished;
+
+
             store.dispatch({
                 type: type,
                 payload: data

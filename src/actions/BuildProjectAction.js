@@ -15,6 +15,7 @@ import {
 } from "./types"
 import history from "../history/history";
 import UrlConf from "../constants/UrlConf";
+import {error} from "../actions/NotificationAction"
 //axios配置
 const config = {
     method: 'post',
@@ -64,10 +65,7 @@ export function openProject(id) {
         .then(response => {
 
             if (response.data.respCode !== "00") {
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: response.data.msg
-                });
+                error(response.data.msg);
                 return false;
             }
 
@@ -91,10 +89,7 @@ export function openEditProject(id) {
         .then(response => {
 
             if (response.data.respCode !== "00") {
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: response.data.msg
-                });
+                error(response.data.msg);
                 return false;
             }
 
@@ -141,10 +136,7 @@ export function saveProject(data) {
         .then(response => {
 
             if (response.data.respCode !== "00") {
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: response.data.msg
-                });
+                error(response.data.msg);
                 return false;
             }
 

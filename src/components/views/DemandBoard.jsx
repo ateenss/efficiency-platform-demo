@@ -16,7 +16,6 @@ import red from '@material-ui/core/colors/red';
 import store from '../../stores/index';
 import {
     closeBuildDemand,
-    openBuildDemand,
     openFilterManagerDemand,
     openFilterDeveloperDemand
 } from "../../actions/DemandAction"
@@ -25,7 +24,6 @@ import ReviewDemand from "../BuildDemand/ReviewDemand"
 
 import EditDemandMain from "../BuildDemand/EditDemandMain"
 import FilterDemandManager from "../BuildDemand/FilterDemandManager"
-import FilterDemandDeveloper from "../BuildDemand/FilterDemandDeveloper"
 import deepOrange from '@material-ui/core/colors/deepOrange';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import SearchIcon from '@material-ui/icons/Search';

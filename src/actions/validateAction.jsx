@@ -59,11 +59,13 @@ export const Rules = {
     loginProps: {
         username: {
             required :true,
-            maxLength: 20
+            maxLength: 20,
+            literal:"用户名"
         },
         password:{
             required :true,
-            maxLength: 20
+            maxLength: 20,
+            literal:"密码"
         }
     },
     demandProps: { // for add and edit
