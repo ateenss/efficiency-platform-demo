@@ -23,7 +23,7 @@ import {
     openBuildModule,
     closeAssignGoTest,
     doAssignGoTest,
-    getDemandTaskPlan, init
+    getDemandTaskPlan, init, openTaskEdit
 } from "../../actions/BuildMissionAction"
 import Divider from "@material-ui/core/Divider"
 import {connect} from "react-redux";
@@ -137,33 +137,32 @@ class DemandTaskDetail extends React.Component {
 
 
     options=(perm)=>()=>{
-        return([
-            {
-                name: "编写方案",
-                func: function (id) {
-                    if (permProcessor.bingo('getDemandTaskPlan', perm)) {
-                        getDemandTaskPlan(id)
-                    }
-                }
-            },
-            {
-                name: "新建开发任务",
-                func: function (id) {
-                    store.dispatch(openBuildModule())
-                }
-            },
-            {
-                name: "进行持续集成测试",
-                func: function (id) {
-                    if (permProcessor.bingo('getDemandTaskPlan', perm)) {
-                        getDemandTaskPlan(id)
-                    }
-                    console.log("进行持续集成测试");
+        let tempList=this.props.demands.taskDetailList;
+        let tempOptions=[{
+            name: "编写方案",
+            func: function (id) {
+                if (permProcessor.bingo('getDemandTaskPlan', perm)) {
+                    getDemandTaskPlan(id)
                 }
             }
-
-        ]);
-
+        },{
+            name: "新建开发任务",
+            func: function (id) {
+                store.dispatch(openBuildModule())
+            }
+        }];
+        if(tempList.finish.length===0&&tempList.develop.length===0&&tempList.plan.length===0&&tempList.goTest.length===0&&tempList.integration.length>0){
+            tempOptions.push({
+                name: "进行持续集成测试",
+                func: function (id) {
+                    // if (permProcessor.bingo('getDemandTaskPlan', perm)) {
+                    //     getDemandTaskPlan(id)
+                    // }
+                    console.log("进行持续集成测试");
+                }
+            });
+        }
+        return tempOptions;
     };
 
 

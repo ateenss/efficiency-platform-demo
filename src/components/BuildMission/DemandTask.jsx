@@ -81,7 +81,7 @@ class DemandTask extends React.Component {
                     store.dispatch(openAssignGoTest(id))
                 }
             })
-        }else if(this.props.group==="goTest"){
+        }else if(this.props.group==="goTest"&&this.props.taskStatus==="已走查"){
             tempOptions.push({
                 name: "具备集成测试条件",
                 func: function (id) {
