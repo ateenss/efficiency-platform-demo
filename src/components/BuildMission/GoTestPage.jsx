@@ -32,7 +32,7 @@ class GoTestPage extends React.Component{
     }
     openAssignGoTest=()=>{
         let temp=this.props.tempAssignGoTest;
-        temp["goTestMan"]=this.state.assignContent.goTestMan[0];
+        temp["goTestMan"]=this.state.assignContent.goTestMan;
         if (permProcessor.bingo('goToTest', this.state.perm)) {
             goToTest(temp,this.props.demands.taskId);
         }else{
@@ -91,7 +91,8 @@ class GoTestPage extends React.Component{
             <Dialog  onClose={()=>store.dispatch(closeAssignGoTest())} aria-labelledby="simple-dialog-title" open={assignGoTestShow} fullWidth maxWidth="sm">
                 <DialogTitle id="simple-dialog-title">创建走查</DialogTitle>
                 <DialogContent>
-                    <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
+                    <TrueMuitiSelect data={projectMember4MultiSelect}
+                                     onChange={this.getContent}
                                      nameIn="goTestMan"
                                      label="指定走查人"
                                      singleSelect

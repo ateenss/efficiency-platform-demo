@@ -134,11 +134,11 @@ class DevTaskEditor extends React.Component {
 
 
     onSubmit = () => {
-        let ret = validating(this.state.taskContent, "taskProps");
+        /*let ret = validating(this.state.taskContent, "taskProps");
         if(!ret.result){
             error(ret.message);
             return false;
-        }
+        }*/
         if (permProcessor.bingo('getDemandTaskDetail', this.state.perm)) {
 
             submitAndChange2Dev(this.state.tempTaskId,this.state.taskContent,this.props.demands.taskId);

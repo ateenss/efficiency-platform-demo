@@ -157,6 +157,7 @@ export default function (state = INITIAL_STATE, action) {
             });
             return {...state,addTask:addTaskTemp};
         case GET_MYTASK_INFO:
+            console.log("更新里面的数据",JSON.stringify(action.value));
             return {...state,addTask:action.value.taskList,finished:action.value.finished,unfinished:action.value.underWay};
         case GET_TASK_DETAIL_INFO:
             return {...state,demands:action.value};

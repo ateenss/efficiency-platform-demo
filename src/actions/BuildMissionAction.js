@@ -609,6 +609,31 @@ export function init() {
 
 }
 
+export function getMyTaskMain() {
+    const getMyTaskInfoUrl = UrlConf.base + 'task/getMyTaskInfo';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken);
+    return axios.post(getMyTaskInfoUrl, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+
+                store.dispatch(getMyTaskInfo(data));
+
+            }else{
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+
+}
+
+
 export function getDemandTaskDetail(taskId) {
     const send_edit_data = UrlConf.base + 'task/getDemandTaskDetail';
     const config = {
