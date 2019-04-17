@@ -274,7 +274,6 @@ AddIteration.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    console.log("map数据:" + JSON.stringify(state.reducer.iteration.editData));
     return {
         initialData: state.reducer.iteration.initialData,
         editData: !!state.reducer.iteration.editData ? state.reducer.iteration.editData : "",

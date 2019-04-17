@@ -17,6 +17,7 @@ export function validating(content, props) {
 
 export function validate(rules, value) {
 
+
     if (!rules) {
         return {result: true}
     }
@@ -30,18 +31,25 @@ export function validate(rules, value) {
 
     if (rules.maxLength && value) {
         let maxLength = parseInt(rules.maxLength);
+
         if (value.length > maxLength) {
             return {result: false, message: rules.literal + "长度超限，最大[" + rules.maxLength + "]"};
 
         }
     }
 
-    if (rules.expr && value) {
+    if(rules.expr && value&&rules.literal==="预计工时"){
+        let regex = new RegExp(rules.expr);
+        if (!regex.test(value)) {
+            return {result: false, message: rules.literal + "填写纯数字或者带小数点数字"};
+        }
+    }else if(rules.expr && value){
         let regex = new RegExp(rules.expr);
         if (!regex.test(value)) {
             return {result: false, message: rules.literal + "格式校验错误"};
         }
     }
+
     return {result: true};
 
 };
@@ -51,7 +59,8 @@ export const Regex = {
     projectCodeRegex: "^(([1-9]{1}\\d*)|(0{1}))(\\.\\d{1,2})$",
     strRegex: "^[0-9a-zA-Z]+$",
     typeRegex: "^([0-9]{1})$",
-    noSpecialSymbol: "^[\u0391-\uFFE5A-Za-z0-9]+$"
+    noSpecialSymbol: "^[\u0391-\uFFE5A-Za-z0-9]+$",
+    testEstimateHours:"^[+-]?(0|([1-9]\\d*))(\\.\\d+)?$"
 };
 
 
@@ -112,6 +121,21 @@ export const Rules = {
             required: true,
             literal:"需求状态"
         }
+    },
+    taskProps:{
+        taskName:{
+            required: true,
+            maxLength: 10,
+            expr: Regex.noSpecialSymbol,
+            literal:"任务名称"
+        },
+        estimateWorkHours:{
+            required: true,
+            maxLength: 4,
+            expr: Regex.testEstimateHours,
+            literal:"预计工时"
+        },
+
     },
     projectProps: {
         projectName: {

@@ -56,7 +56,10 @@ import {
     CHANGE_PLAN2_DEV,
     ADD_TEST_TASK_PANEL,
     MODIFY_AFTER_TASKEDITOR,
-    FILTER_TEST_TASK, INIT_PROJECT_MEMBERS,INIT_MODULES
+    FILTER_TEST_TASK,
+    INIT_PROJECT_MEMBERS,
+    INIT_MODULES,
+    CAL_PERM
 } from './types';
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
 import {GET_DEMANDS} from "./DemandAction";
@@ -66,6 +69,10 @@ import {GET_DEMANDS} from "./DemandAction";
     value.name===event.target.value&&store.dispatch(value.func(this.props.giveContent))
 });*/
 
+export const calPerm=value=>({
+    type:CAL_PERM,
+    value
+});
 export const addTestTask2Panel=value=>({
     type:ADD_TEST_TASK_PANEL,
     value
@@ -595,7 +602,6 @@ export function init() {
             type:INIT_MODULES,
             payload : modules.data.data
         })
-        console.log("任务主面板初始化数据拉取成功");
         stopLoading();
     }));
 

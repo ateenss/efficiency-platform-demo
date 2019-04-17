@@ -20,8 +20,6 @@ export const LOGIN_ENDPOINT = UrlConf.base + 'user/login';
 //这里是登录验证的actions，名字需要更改
 // LOGIN ACTION
 export function loginUser({username, password}) {
-    console.log("loginuser被调用");
-
     store.dispatch({type: SENT_AUTH});
     // POST username and password to API endpoint
     return axios.post(LOGIN_ENDPOINT, {"version": "1.0", "data": {username: username, pwd: password}}, config)
@@ -38,8 +36,7 @@ export function loginUser({username, password}) {
             if (response.data.data.accessToken !== "" && response.data.data.accessToken !== undefined) {
                 store.dispatch({type: AUTH_USER});
             }
-            console.log("调用成功");
-
+            localStorage.setItem('currentUser',response.data.data.currentUser);
             localStorage.setItem('token', response.data.data.accessToken);
             localStorage.setItem('permInfo', JSON.stringify(response.data.data.permInfo));
 

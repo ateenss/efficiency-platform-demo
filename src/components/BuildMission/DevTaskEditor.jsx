@@ -23,6 +23,8 @@ import DatePicker from "../SelfComponent/DatePicker"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import permProcessor from "../../constants/PermProcessor";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
+import {Rules, validating} from "../../actions/validateAction";
+import {error} from "../../actions/NotificationAction";
 
 
 const styles = {
@@ -63,7 +65,7 @@ const styles = {
 function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
-
+let judgeCanEdit=false;
 class DevTaskEditor extends React.Component {
 
     constructor(props) {
@@ -120,6 +122,11 @@ class DevTaskEditor extends React.Component {
 
 
     save=()=>{
+        let ret = validating(this.state.taskContent, "taskProps");
+        if(!ret.result){
+            error(ret.message);
+            return false;
+        }
         if (permProcessor.bingo('saveTaskEditor', this.state.perm)) {
             saveDevPlan(this.state.taskContent,this.props.demands.taskId);
         }
@@ -127,6 +134,11 @@ class DevTaskEditor extends React.Component {
 
 
     onSubmit = () => {
+        let ret = validating(this.state.taskContent, "taskProps");
+        if(!ret.result){
+            error(ret.message);
+            return false;
+        }
         if (permProcessor.bingo('getDemandTaskDetail', this.state.perm)) {
 
             submitAndChange2Dev(this.state.tempTaskId,this.state.taskContent,this.props.demands.taskId);
@@ -147,20 +159,36 @@ class DevTaskEditor extends React.Component {
             提交
         </Button>);
         if (this.props.tempTask.content!=null) {
-            if (this.props.tempTask.content.taskStatus==="待处理") {
+            if (this.props.tempTask.content.taskStatus==="待处理"&&this.props.devEditorCanShow) {
                 return show
             }
         }
         return ""
 
     };
+    isOrNotSave=()=>{
+        let show=(<Button color="inherit" onClick={this.save}>
+            保存
+        </Button>);
+        if (this.props.devEditorCanShow) {
+            return show;
+        }
+        return ""
+    };
 
-
+    componentWillUnmount() {
+        judgeCanEdit = false;
+    }
 
     render() {
 
         const{taskContent}=this.state;
-        const {classes,taskEditorShow,projectMembers} = this.props;
+        const {classes,taskEditorShow,devEditorCanShow} = this.props;
+
+        if (devEditorCanShow) {
+            judgeCanEdit=true;
+        }
+
         let defaultModules = [];
         for(let j in this.props.modules){
             let unit = this.props.modules[j];
@@ -200,21 +228,28 @@ class DevTaskEditor extends React.Component {
                             <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
                                 编辑开发任务
                             </Typography>
-                            <Button color="inherit" onClick={this.save}>
-                                保存
-                            </Button>
+                            {this.isOrNotSave()}
                             {this.isOrNotSubmit()}
                         </Toolbar>
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>
                         <Grid container spacing={16}>
-                            <Grid xs={12} item>
+                            <Grid xs={6} item>
                                 <InputField
                                     InputLabelName="任务名称"
                                     onChange={this.getContent}
                                     nameIn="taskName"
                                     defaultValue={taskContent.taskName}
-                                    validate={this.validate}
+                                    validateEl={Rules.taskProps.taskName}
+                                />
+                            </Grid>
+                            <Grid item xs={6} className={classes.gridStyle}>
+                                <InputField
+                                    nameIn="estimateWorkHours"
+                                    onChange={this.getContent}
+                                    InputLabelName="预估工时"
+                                    validateEl={Rules.taskProps.estimateWorkHours}
+                                    defaultValue={taskContent.estimateWorkTime}
                                 />
                             </Grid>
                             <Grid item xs={6} className={classes.gridStyle}>
@@ -226,14 +261,6 @@ class DevTaskEditor extends React.Component {
                                 />
                             </Grid>
                             <Grid item xs={6} className={classes.gridStyle}>
-                               {/* <SingleSelect
-                                    onChange={this.getContent}
-                                    InputLabelName="开发人员"
-                                    validate={this.validate}
-                                    nameIn="taskOwner"
-                                    nameArray={projectMembers}
-                                    defaultValue={taskContent.taskOwner}
-                                />*/}
                                 <TrueMuitiSelect data={projectMember4MultiSelect}
                                                  onChange={this.getContent}
                                                  nameIn="taskOwner"
@@ -247,7 +274,8 @@ class DevTaskEditor extends React.Component {
                                 <DatePicker nameIn="taskDeadline"
                                             InputLabelName="任务结束时间"
                                             onDateChange={this.getContent}
-                                            defaultValue={taskContent.taskDeadline} />
+                                            defaultValue={taskContent.taskDeadline}
+                                />
                             </Grid>
                             <Grid xs={6} item>
                                 <InputField
@@ -256,7 +284,6 @@ class DevTaskEditor extends React.Component {
                                     nameIn="taskStatus"
                                     defaultValue={taskContent.taskStatus}
                                     disabled={true}
-                                    validate={this.validate}
                                 />
                             </Grid>
                         </Grid>
@@ -279,7 +306,6 @@ class DevTaskEditor extends React.Component {
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
     return {
-        /*action : state.reducer.task.action,*/
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
         detailMissionShow:state.reducer.buildMission.detailMissionShow,
@@ -288,7 +314,8 @@ const mapStateToProps = (state) => {
         projectMembers:state.reducer.common.projectMembers,
         demands:state.reducer.buildMission.demands,
         action:state.reducer.buildMission.action,
-        modules : state.reducer.buildMission.modules
+        modules : state.reducer.buildMission.modules,
+        devEditorCanShow : state.reducer.buildMission.devEditorCanShow,
     }
 };
 

@@ -241,7 +241,6 @@ class MissionDetailMain extends React.Component {
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
-    console.log(state.reducer.buildMission.detailGoTestShow)
     return {
         action : state.reducer.task.action,
         task: state.reducer.task.task,

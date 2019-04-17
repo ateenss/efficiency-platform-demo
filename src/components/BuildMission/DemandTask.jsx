@@ -24,6 +24,7 @@ import {
     openTaskEdit,
     openAssignGoTest,
     meetRequirements,
+    calPerm
 } from "../../actions/BuildMissionAction"
 import permProcessor from "../../constants/PermProcessor";
 import {Typography} from "@material-ui/core";
@@ -90,11 +91,12 @@ class DemandTask extends React.Component {
             perm: permProcessor.init('task')
         };
     }
-    funcOptions=(perm)=>()=>{
+    funcOptions=(perm,taskOwner)=>()=>{
         let tempOptions=[{
             name: "编辑",
             func: function (id) {
-                store.dispatch(openTaskEdit(id))
+                store.dispatch(openTaskEdit(id));
+                store.dispatch(calPerm(taskOwner))
             }
         }];
         if (this.props.group==="develop") {
@@ -137,6 +139,16 @@ class DemandTask extends React.Component {
         return nameString
     };
 
+    moduleId2Name=()=>{
+        let tempModules=this.props.modules;
+        let moduleId=this.props.involveModule;
+        let ret="";
+        tempModules.map((item,index)=>{
+            item.id===moduleId&&(ret=item.label)
+        });
+        return ret;
+    };
+
     render() {
         const {classes} = this.props;
         return (
@@ -144,7 +156,7 @@ class DemandTask extends React.Component {
                 <Card className={classes.taskCard}>
                     <CardHeader className={classes.taskHeader}
                                 action={
-                                    <SimpleListMenu icon={<MoreVertIcon/>} options={this.funcOptions(this.state.perm)()}
+                                    <SimpleListMenu icon={<MoreVertIcon/>} options={this.funcOptions(this.state.perm,this.props.taskOwner)()}
                                                     id={this.props.group + "-taskId-" + this.props.taskId}/>
                                 }
                                 title={<h6 className={classes.cardTitle}>{this.props.taskName}</h6>}
@@ -155,7 +167,7 @@ class DemandTask extends React.Component {
                            onClick={e => e.preventDefault()}>{this.idMap2Name()}</p>
 
                         <p href="#pablo" className={classes.cardLink}
-                           onClick={e => e.preventDefault()}>ACP_GTW_WEB</p>
+                           onClick={e => e.preventDefault()}>{this.moduleId2Name()}</p>
 
                         <Typography style={{
                             marginLeft: "0",
@@ -174,7 +186,8 @@ class DemandTask extends React.Component {
 const mapStateToProps = (state) => {
     return {
         demands: state.reducer.task.demands,
-        projectMembers: state.reducer.common.projectMembers
+        projectMembers: state.reducer.common.projectMembers,
+        modules : state.reducer.buildMission.modules
     }
 };
 

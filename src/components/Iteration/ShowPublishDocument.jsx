@@ -166,7 +166,6 @@ ShowPublishDocument.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    console.log("map数据111:" + JSON.stringify(state.reducer.iteration.publishTestCase));
     return {
         publishTestCase: state.reducer.iteration.publishTestCase,
         action: state.reducer.iteration.action,

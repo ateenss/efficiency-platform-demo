@@ -199,7 +199,6 @@ ReviewDemand.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    console.log("map数据:"+JSON.stringify(state.reducer.buildDemand.editData));
     return {
         openReviewDemand:state.reducer.buildDemand.openReviewDemand,
         editData : state.reducer.buildDemand.editData,

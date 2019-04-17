@@ -414,7 +414,6 @@ IterationBoard.propTypes = {
  */
 const
     mapStateToProps = (state) => {
-        console.log("!!!!" + JSON.stringify(state.reducer.iteration.iteration));
         if (!state.reducer.iteration.iteration) {
             return {
                 openAddIteration: state.reducer.iteration.openAddIteration,

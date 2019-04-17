@@ -258,7 +258,7 @@ class DemandTaskDetail extends React.Component {
 
                                 {!plan ? "" : plan.map((prop, key) => {
                                     return (
-                                        <Task taskOwner={prop.taskOwner} group="plan" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task taskOwner={prop.taskOwner} involveModule={prop.involveModule} group="plan" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -269,17 +269,16 @@ class DemandTaskDetail extends React.Component {
 
                                 {!develop ? "" : develop.map((prop, key) => {
                                     return (
-                                        <Task taskOwner={prop.taskOwner} group="develop" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task taskOwner={prop.taskOwner} involveModule={prop.involveModule} group="develop" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
                             </Grid>
 
                             <Grid xs={2} sm={12} md={2} item className={classes.taskWidth}>
-                                {console.log(goTest)}
                                 {!goTest ? "" : goTest.map((prop, key) => {
                                     return (
-                                        <Task  taskOwner={prop.taskOwner} group="goTest" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task  taskOwner={prop.taskOwner} involveModule={prop.involveModule} group="goTest" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -287,7 +286,7 @@ class DemandTaskDetail extends React.Component {
                             <Grid xs={2} sm={12} md={2} item className={classes.taskWidth}>
                                 {!integration ? "" : integration.map((prop, key) => {
                                     return (
-                                        <Task taskOwner={prop.taskOwner} group="integration" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task taskOwner={prop.taskOwner} involveModule={prop.involveModule} group="integration" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -295,7 +294,7 @@ class DemandTaskDetail extends React.Component {
                             <Grid xs={2} sm={12} md={2} item className={classes.taskWidth}>
                                 {!finish ? "" : finish.map((prop, key) => {
                                     return (
-                                        <Task taskOwner={prop.taskOwner} group="finish" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task taskOwner={prop.taskOwner} involveModule={prop.involveModule} group="finish" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 

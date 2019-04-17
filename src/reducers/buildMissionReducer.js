@@ -42,7 +42,8 @@ import {
     ADD_TEST_TASK_PANEL,
     MODIFY_AFTER_TASKEDITOR,
     FILTER_TEST_TASK,
-    INIT_MODULES
+    INIT_MODULES,
+    CAL_PERM
 } from "../actions/types"
 /*import {taskStatusChange} from "../actions/TaskStatusChangeFunc"*/
 
@@ -184,6 +185,14 @@ export default function (state = INITIAL_STATE, action) {
             return {...state, demands: taskStatusChange(state.demands,action,"integration")};
         case CHANGE_STATUS_TO_TEST:
             return {...state, demands: taskStatusChange(state.demands,action,"goTest")};
+        case CAL_PERM:
+            let result=false;
+            if ((localStorage.getItem("currentUser")-action.value)==0){
+                result=true;
+            }else{
+                result=false;
+            }
+            return {...state,devEditorCanShow:result};
         case OPEN_TASK_EDITOR:
             let ret =action.value.split("-");
             let curGroup = ret[0];

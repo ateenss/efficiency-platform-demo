@@ -134,3 +134,4 @@ export const MODIFY_AFTER_TASKEDITOR="modify_after_taskeditor";
 export const FILTER_TEST_TASK="filter_test_task";
 export const GET_DEVPLAN_DETAIL="get_devplan_detail";
 export const SAVE_KEY="save_key";
+export const CAL_PERM="cal_perm";
