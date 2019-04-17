@@ -81,7 +81,7 @@ const styles = theme => ({
         // marginBottom:"10px;"
     },
     taskStatus: {
-        color: "#4caf50",
+        color: "#484848",
         fontWeight: "700",
         padding:"10px 0 10px 0",
         margin:"0"
@@ -99,7 +99,6 @@ const styles = theme => ({
         flexBasis:"31%",
         margin:"0 1% 0 1%",
         background:"#f5f5f5",
-        marginTop:theme.spacing.unit*2,
         marginBottom:theme.spacing.unit*2
     },
     taskGroup:{
@@ -197,10 +196,14 @@ class TaskBoard extends React.Component {
             tempContent = addTask
         }
 
+
+        let newTaskCnt = 0,inProgressTaskCnt=0,finishTaskCnt=0;
+
         let newTaskComponents = tempContent.map((prop, key) => {
             let content = "";
             if(prop.taskStatus === "待处理"){
                 content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                ++newTaskCnt;
             }
             return content;
         });
@@ -208,6 +211,7 @@ class TaskBoard extends React.Component {
             let content = "";
             if(prop.taskStatus != "待处理" && prop.taskStatus != "完成"&& prop.taskStatus != "已走查"){
                 content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                ++inProgressTaskCnt;
             }
             return content;
         });
@@ -215,6 +219,7 @@ class TaskBoard extends React.Component {
             let content = "";
             if(prop.taskStatus === "完成"||prop.taskStatus === "已走查"){
                 content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                ++finishTaskCnt;
             }
             return content;
         });
@@ -249,20 +254,9 @@ class TaskBoard extends React.Component {
                 <Grid item xs={12}>
                     <AppBar className={classes.header} position="static" color="default">
                         <Grid container spacing={16}>
-                            <Grid item xs={1}>
-                                <Badge className={classes.margin} badgeContent={unfinished} color="secondary">
-                                    <Chip label="进行中" className={classes.chip} variant="default"
-                                          style={{background: "#FFFFFF", color: "#121212"}}/>
-                                </Badge>
-                            </Grid>
-                            {/*<Grid item xs={1}>
-                                <Badge className={classes.margin} badgeContent={finished} color="secondary">
-                                    <Chip label="已完成" className={classes.chip} variant="default"
-                                          style={{background: "#FFFFFF", color: "#121212"}}/>
-                                </Badge>
-                            </Grid>*/}
+
                             <Grid item xs={2}>
-                                <Toolbar variant="regular" className={classes.toolbar}>
+                                <Toolbar variant="regular">
                                     <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>
                                 </Toolbar>
                             </Grid>
@@ -272,9 +266,11 @@ class TaskBoard extends React.Component {
 
                 <Grid container spacing={0} style={{background:"#FFFFFF", paddingBottom:"15px"}}>
                     <Grid container spacing={0} className={classes.taskStatusGroup}>
-                        <Grid item xs={4} sm={12} md={4} className={classes.taskWidthStatus}><h5 align="center" className={classes.taskStatus}>待处理</h5></Grid>
-                        <Grid item xs={4} sm={12} md={4} className={classes.taskWidthStatus}><h5 align="center" className={classes.taskStatus}>进行中</h5></Grid>
-                        <Grid item xs={4} sm={12} md={4} className={classes.taskWidthStatus}><h5 align="center" className={classes.taskStatus}>已完成</h5></Grid>
+                        <Grid item xs={4} sm={12} md={4} className={classes.taskWidthStatus}>
+                                <h5 align="center" className={classes.taskStatus}>待处理 <Chip label={newTaskCnt} style={{width:"20px",height:"20px"}}></Chip></h5>
+                        </Grid>
+                        <Grid item xs={4} sm={12} md={4} className={classes.taskWidthStatus}><h5 align="center" className={classes.taskStatus}>进行中 <Chip label={inProgressTaskCnt} style={{width:"20px",height:"20px"}}></Chip></h5></Grid>
+                        <Grid item xs={4} sm={12} md={4} className={classes.taskWidthStatus}><h5 align="center" className={classes.taskStatus}>已完成 <Chip label={finishTaskCnt} style={{width:"20px",height:"20px"}}></Chip></h5></Grid>
                     </Grid>
                     <Grid container spacing={0} className={classes.taskGroup}>
 

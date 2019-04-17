@@ -11,7 +11,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
 import classnames from 'classnames';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import CardHeader from '@material-ui/core/CardHeader';
+import MuiCardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Chip from '@material-ui/core/Chip';
@@ -46,6 +46,8 @@ import {
 import TableCell from "../Table/Table";
 import {changeTaskStatus, editTask} from "../../actions/DemandTasksAction";
 import permProcessor from "../../constants/PermProcessor";
+import Typography from "@material-ui/core/Typography";
+import MuiExpansionPanel from "../SelfComponent/TrueMuitiSelect";
 
 
 const styles = {
@@ -81,7 +83,7 @@ const styles = {
         color: "#FFFFFF"
     },
     taskStatus: {
-        color: "#4caf50",
+        color: "#484848",
         fontWeight: "700",
         padding:"10px 0 10px 0",
         margin:"0"
@@ -89,16 +91,16 @@ const styles = {
     },
     cardHeaderTitle: {
         margin: "0",
-        fontWeight:"700"
+        fontWeight:"700",
+        padding:"7px"
     },
     demandHeader: {
-        paddingBottom: "0"
     },
     taskCard: {
         // marginBottom: "15px"
     },
     taskStatusGroup:{
-        marginBottom:"10px;"
+        marginBottom:"0"
     },
     taskGroup:{
         // background:"#f5f5f5",
@@ -108,7 +110,8 @@ const styles = {
         textAlign:"center"
     },
     demand:{
-        marginBottom:"10px"
+        marginBottom:"10px",
+        boxShadow:"none"
     },
     taskFlow:{
         background:"#111111"
@@ -121,6 +124,13 @@ const styles = {
     }
 
 };
+
+const CardHeader = withStyles({
+    action:{
+        marginRight:"0",
+        marginTop:"0"
+    }
+})(props => <MuiCardHeader {...props} />);
 
 
 
@@ -202,8 +212,8 @@ class DemandTaskDetail extends React.Component {
     render() {
         const {classes, develop, plan, goTest,integration, demands,assignGoTestShow,finish,editMissionShow,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
         let detailInfo=tempBoardToDetail;
-        if (!detailInfo){
-            detailInfo=""
+        if (!tempBoardToDetail){
+            tempBoardToDetail=""
         }
         return (
             <Card className={classes.demand}>
@@ -213,25 +223,26 @@ class DemandTaskDetail extends React.Component {
                             }
 
                             title={
-                                <div className={classes.cardHeaderTitle}><span>{detailInfo.taskName}</span>
+                                <div className={classes.cardHeaderTitle}>
+                                    <span>{detailInfo.taskName}</span>
                                     <Chip label={detailInfo.taskStatus} className={classes.chip}/>
                                 </div>
                             }
-                            subheader={detailInfo.taskDeadLine}
+                            subheader={tempBoardToDetail.taskDeadLine}
                 >
                 </CardHeader>
-                <CardActions className={classes.actions} disableActionSpacing>
-                            <IconButton
-                                className={classnames(classes.expand, {
-                                    [classes.expandOpen]: this.state.expanded,
-                                })}
-                                onClick={this.handleExpandClick}
-                                aria-expanded={this.state.expanded}
-                                aria-label="Show more"
-                            >
-                                <ExpandMoreIcon/>
-                            </IconButton>
-                </CardActions>
+                {/*<CardActions className={classes.actions} disableActionSpacing>*/}
+                            {/*<IconButton*/}
+                                {/*className={classnames(classes.expand, {*/}
+                                    {/*[classes.expandOpen]: this.state.expanded,*/}
+                                {/*})}*/}
+                                {/*onClick={this.handleExpandClick}*/}
+                                {/*aria-expanded={this.state.expanded}*/}
+                                {/*aria-label="Show more"*/}
+                            {/*>*/}
+                                {/*<ExpandMoreIcon/>*/}
+                            {/*</IconButton>*/}
+                {/*</CardActions>*/}
                 <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                     <Grid container spacing={0} className={classes.taskFlowStatus}>
                         <Grid container spacing={0} className={classes.taskStatusGroup}>

@@ -2,7 +2,7 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import CardContent from '@material-ui/core/CardContent';
+import MuiCardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import Green from '@material-ui/core/colors/green';
 import Grid from "@material-ui/core/Grid";
@@ -13,7 +13,7 @@ import {editTask} from "../../actions/DemandTasksAction";
 
 import {Link, NavLink, Route} from 'react-router-dom'
 
-import CardHeader from "@material-ui/core/CardHeader";
+import MuiCardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
 
 import Avatar from '@material-ui/core/Avatar';
@@ -36,6 +36,7 @@ import {
 import store from "../../stores";
 import MissionDetailMain from "./MissionDetailMain"
 import permProcessor from "../../constants/PermProcessor";
+import Chip from "./DemandTaskDetail";
 
 
 const styles = theme => ({
@@ -62,7 +63,7 @@ const styles = theme => ({
         transform: 'rotate(180deg)',
     },
     taskType: {
-        backgroundColor: "#f7f7f7",
+        backgroundColor: "#FFFFFF",
         color: "#121212",
         width: "auto",
         borderRadius: "2px",
@@ -88,10 +89,32 @@ const styles = theme => ({
         position: "relative"
     },
     taskContent: {
-        paddingBottom: "0px"
-    }
+        // paddingBottom: "0px"
+    },
+    cardHeaderTitle: {
+        fontSize:"16px"
+    },
 });
 
+
+const CardHeader = withStyles({
+    root:{
+        padding:"0px 10px 0px 10px",
+        fontSize:"14px"
+    },
+    action:{
+        marginRight:"-10px",
+        marginTop:"0"
+    }
+})(props => <MuiCardHeader {...props} />);
+
+
+const CardContent = withStyles({
+    root:{
+        paddingLeft:"10px",
+        paddingTop:"5px"
+    }
+})(props => <MuiCardContent {...props} />);
 
 
 
@@ -140,21 +163,28 @@ class Task extends React.Component {
                 <Grid xs={10} item>
                     <Card className={classes.taskCard}>
                         <CardHeader
-                            avatar={
-                                <Avatar aria-label="Recipe" className={classes.taskType}>
-                                    {this.props.taskType} - {this.props.keyNote}
-                                </Avatar>
-                            }
-                            className={classes.taskHeader}
-                            // action={
-                            //     <Avatar aria-label="Recipe" className={classes.taskStatus}>
-                            //         {this.props.taskStatus}
+                            // avatar={
+                            //     <Avatar aria-label="Recipe" className={classes.taskType}>
+                            //         {this.props.taskType} - {this.props.keyNote}
                             //     </Avatar>
                             // }
+                            className={classes.taskHeader}
+                            title={
+                                <div className={classes.cardHeaderTitle}>
+                                    <span>{this.props.taskType} - {this.props.keyNote}</span>
+                                </div>
+                            }
+                            action={
+                                <IconButton aria-label="详情" taskid="1"
+                                            onClick={this.openDetailPanel.bind(this, keyNote, taskType)}>
+                                    <ShareIcon/>
+                                </IconButton>
+                            }
+
                         />
                         <CardContent className={classes.taskContent}>
 
-                            <h4>
+                            <h4 style={{margin:"0", fontWeight:"700"}}>
                                 {this.props.taskName}
                             </h4>
 
@@ -166,20 +196,21 @@ class Task extends React.Component {
                                     <Typography style={{
                                         marginLeft: "10px",
                                         color: "#b94947",
-                                        fontSize: "12px"
+                                        fontSize: "12px",
+                                        marginBottom:"10px"
                                     }}>{this.props.taskDeadline} 截止</Typography>
                                 </Grid>
                             </Grid>
-                            <Grid container justify="flex-end">
+                            {/*<Grid container justify="flex-end">*/}
 
 
-                                <Grid item>
-                                    <IconButton aria-label="详情" taskid="1"
-                                                onClick={this.openDetailPanel.bind(this, keyNote, taskType)}>
-                                        <ShareIcon/>
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
+                                {/*<Grid item>*/}
+                                    {/*<IconButton aria-label="详情" taskid="1"*/}
+                                                {/*onClick={this.openDetailPanel.bind(this, keyNote, taskType)}>*/}
+                                        {/*<ShareIcon/>*/}
+                                    {/*</IconButton>*/}
+                                {/*</Grid>*/}
+                            {/*</Grid>*/}
 
                         </CardActions>
                     </Card>

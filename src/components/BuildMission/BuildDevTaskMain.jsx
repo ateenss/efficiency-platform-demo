@@ -133,11 +133,11 @@ class BuildDevTaskMain extends React.Component {
             projectMember4MultiSelect.push(ret);
         }
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth minW="xl">
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="lg">
                 <DialogTitle id="simple-dialog-title">创建开发任务</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
-                        <Grid item xs={12} className={classes.gridStyle}>
+                        <Grid item xs={8} className={classes.gridStyle}>
                             <InputField
                                 nameIn="taskName"
                                 onChange={this.getContent}
@@ -145,7 +145,11 @@ class BuildDevTaskMain extends React.Component {
                                 validate={this.validate}
                             />
                         </Grid>
-                        <Grid item xs={12} className={classes.gridStyle}>
+                        <Grid item xs={4} className={classes.gridStyle}>
+                            <DatePicker nameIn="taskDeadline" InputLabelName="任务截至时间"  onDateChange={this.getContent}/>
+                        </Grid>
+
+                        <Grid item xs={6} className={classes.gridStyle}>
                             <TrueMuitiSelect data={this.props.modules} onChange={this.getContent}
                                              nameIn="involveModule"
                                              label="涉及模块"
@@ -153,22 +157,13 @@ class BuildDevTaskMain extends React.Component {
                                              defaultValue={defaultModules}
                             />
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            {/*<SingleSelect
-                                onChange={this.getContent}
-                                InputLabelName="开发人员"
-                                validate={this.validate}
-                                nameIn="taskOwner"
-                                nameArray={projectMembers}/>*/}
+                        <Grid item xs={6} className={classes.gridStyle}>
                             <TrueMuitiSelect data={projectMember4MultiSelect}
                                              onChange={this.getContent}
                                              nameIn="taskOwner"
                                              label="开发人员"
                                              singleSelect
                             />
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="taskDeadline" InputLabelName="任务截至时间"  onDateChange={this.getContent}/>
                         </Grid>
 
                     </Grid>

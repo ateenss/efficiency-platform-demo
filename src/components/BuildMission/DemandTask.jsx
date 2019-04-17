@@ -16,45 +16,69 @@ import {changeTaskStatus} from "../../actions/DemandTasksAction";
 import {editTask} from "../../actions/DemandTasksAction";
 
 
-import CardHeader from "@material-ui/core/CardHeader";
+import MuiCardHeader from "@material-ui/core/CardHeader";
 import SimpleListMenu from "../common/SimpleListMenu";
 import Grid from "@material-ui/core/Grid";
 import {connect} from "react-redux";
 import {
     openTaskEdit,
     openAssignGoTest,
-   meetRequirements,
+    meetRequirements,
 } from "../../actions/BuildMissionAction"
 import permProcessor from "../../constants/PermProcessor";
+import {Typography} from "@material-ui/core";
+import CardActions from "@material-ui/core/CardActions";
+import IconButton from "@material-ui/core/IconButton";
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
 const styles = {
-    cardTitle,
+    cardTitle: {
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        margin:"0",
+        fontSize:"22px"
+    },
     cardSubtitle: {
         float: "left"
     },
-    cardLink:{
-      color:"#4caf50",
-        fontWeight:"700",
-        margin:"0"
+    cardLink: {
+        color: "#484848",
+        fontWeight: "700",
+        margin: "15px 0 15px 0"
     },
 
     taskCard: {
         margin: "15px"
     },
-    taskHeader:{
-        padding:"10px 15px 0 15px",
+    taskHeader: {
+        padding: "10px 15px 0 15px"
     },
-    taskDeadline:{
-        padding:"0 15px 10px 15px",
-        paddingBottom:"15px !important"
+    taskDeadline: {
+        padding: "0 15px 15px 15px",
+        paddingBottom: "10px !important",
+        marginTop:"-10px"
     },
-    root:{
-        width:"100%"
+    root: {
+        width: "100%"
     }
 
 
 };
+
+
+
+const CardHeader = withStyles({
+    action:{
+        marginRight:"-15px",
+        marginTop:"0"
+    },
+    content:{
+        width:"85%"
+
+    }
+})(props => <MuiCardHeader {...props} />);
 
 
 
@@ -117,25 +141,30 @@ class DemandTask extends React.Component {
         const {classes} = this.props;
         return (
             <Grid className={classes.root}>
-            <Card className={classes.taskCard}>
-                <CardHeader className={classes.taskHeader}
-                            action={
-                                <SimpleListMenu icon={<MoreVertIcon/>} options={this.funcOptions(this.state.perm)()}
-                                                id={this.props.group+"-taskId-" + this.props.taskId}/>
-                            }
-                            title={<h6 className={classes.cardTitle}>{this.props.taskName}</h6>}
-                />
-                <CardContent className={classes.taskDeadline}>
+                <Card className={classes.taskCard}>
+                    <CardHeader className={classes.taskHeader}
+                                action={
+                                    <SimpleListMenu icon={<MoreVertIcon/>} options={this.funcOptions(this.state.perm)()}
+                                                    id={this.props.group + "-taskId-" + this.props.taskId}/>
+                                }
+                                title={<h6 className={classes.cardTitle}>{this.props.taskName}</h6>}
+                    />
+                    <CardContent className={classes.taskDeadline}>
 
-                    <Divider/>
-                    <p>
-                        {this.props.taskDeadline}
-                    </p>
+                        <p href="#pablo" className={classes.cardLink}
+                           onClick={e => e.preventDefault()}>{this.idMap2Name()}</p>
 
-                    <p href="#pablo" className={classes.cardLink}
-                       onClick={e => e.preventDefault()}>{this.idMap2Name()}</p>
-                </CardContent>
-            </Card>
+                        <p href="#pablo" className={classes.cardLink}
+                           onClick={e => e.preventDefault()}>ACP_GTW_WEB</p>
+
+                        <Typography style={{
+                            marginLeft: "0",
+                            color: "#b94947",
+                            fontSize: "12px"
+                        }}>{this.props.taskDeadline} 截止</Typography>
+
+                    </CardContent>
+                </Card>
             </Grid>
         );
     }
