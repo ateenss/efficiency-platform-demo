@@ -28,7 +28,8 @@ const styles = {
         flex: 1,
     },
     dialogContainer: {
-        margin: "24px"
+        margin: "24px 0 24px 0",
+        padding: "0 12px 0 12px"
     },
     taskInput: {
         fontSize: 20,

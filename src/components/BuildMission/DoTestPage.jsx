@@ -14,13 +14,15 @@ import Grid from "@material-ui/core/Grid";
 import store from "../../stores";
 import {closeGoTestDetail,finishTest,init} from "../../actions/BuildMissionAction"
 import {SHOW_NOTIFICATION} from "../../actions/types";
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import permProcessor from "../../constants/PermProcessor";
+import Chip from "@material-ui/core/Chip";
+import MuiSlider from '@material-ui/lab/Slider';
+import MuiExpansionPanel from "../SelfComponent/TrueMuitiSelect";
+import {Tooltip} from "@material-ui/core";
+import {success} from "../../actions/NotificationAction";
 
 
 
@@ -52,12 +54,39 @@ const styles = {
         color: "rgba(0, 0, 0, 0.54)",
         marginTop: "15px"
     },
-    cardStyle:{
-        margin:"100px",
-        marginLeft:"400px"
+    show:{
+        display:"block"
+    },
+    hide:{
+        display:"none"
     }
 
 };
+
+
+const Slider = withStyles({
+    root:{
+    },
+    track:{
+        height:"30px",
+        background:"#ababab"
+    },
+    trackBefore:{
+        height:"30px",
+        background:"#4DAF7C"
+    },
+    thumb:{
+        height:"30px !important",
+        borderRadius:"0",
+        background:"#4DAF7C",
+    },
+
+
+
+})(props => <MuiSlider {...props} />);
+
+
+
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
@@ -104,33 +133,10 @@ class MissionDetailMain extends React.Component {
             openTask: false,
             data: {},
             openAlert:false,
-            perm: permProcessor.init('task')
+            perm: permProcessor.init('task'),
+            confirm:false,
+            progress:0
         }
-    }
-
-    componentWillReceiveProps(nextProps, nextStatus) {
-        if(nextProps.action === "saveTask"){
-            this.setState({
-                openTask: nextProps.openTask
-            });
-            setTimeout(function(){
-
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: "保存成功"
-                });
-
-            }, 500);
-
-            return false;
-        }
-        if (!!nextProps.task) {
-            this.setState({
-                openTask: nextProps.openTask,
-                data: {taskName: nextProps.task.taskName, taskContent: nextProps.task.taskContent}
-            });
-        }
-
     }
 
     handleChangeAndClose=()=>{
@@ -147,9 +153,14 @@ class MissionDetailMain extends React.Component {
     };
 
    openAlert=()=>{
-        this.setState({
-            openAlert:true
-        })
+
+       this.setState({
+           confirm : true
+       })
+
+        // this.setState({
+        //     openAlert:true
+        // })
    };
 
     closeAlert=()=>{
@@ -174,55 +185,55 @@ class MissionDetailMain extends React.Component {
         store.dispatch(closeGoTestDetail());
     };
 
+    handleChange = (event, progress) => {
+        this.setState({ progress });
+
+        if(progress === 100) {
+            if (permProcessor.bingo('finishTest', this.state.perm)) {
+
+                finishTest(this.props.tempBoardToDetail.taskId);
+
+            }
+        }
+    };
+
     render() {
         const {classes,demands,detailGoTestShow,tempBoardToDetail} = this.props;
 
+        const { progress } = this.state;
 
         return (
 
             <div>
-                <Dialog  fullScreen open={detailGoTestShow} onClose={this.handleClose} TransitionComponent={Transition}>
-                    <AppBar className={classes.appBar} color="default">
-                        <Toolbar variant="dense">
-                            <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
-                                <CloseIcon/>
-                            </IconButton>
-                            <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
-                                走查任务详情
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <DialogContent className={classes.dialogContainer}>
-                        {/*<MyPage tempBoardToDetail={tempBoardToDetail}/>*/}
-                        <Grid item xs={6} className={classes.cardStyle}>
-                        <Card className={classes.card}>
-                            <CardContent>
-                                <Typography variant="h5" component="h2">
-                                    任务名称：{!!tempBoardToDetail?tempBoardToDetail.taskName:""}
-                                </Typography>
-                                <Typography variant="h5" component="h2">
-                                    任务类型：{!!tempBoardToDetail?tempBoardToDetail.taskType:""}
-                                </Typography>
-                                <Typography variant="h5" component="h2">
-                                    任务截止时间：{!!tempBoardToDetail?tempBoardToDetail.taskDeadline:""}
-                                </Typography>
-                                <Typography variant="h5" component="h2">
-                                    任务ID号： {!!tempBoardToDetail?tempBoardToDetail.taskCode:""}
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small" onClick={this.openAlert}>完成走查</Button>
-                            </CardActions>
-                            <AlertDialogSlide handleClickOpen={this.openAlert}
-                                              handleClose={this.closeAlert}
-                                              openAlert={this.state.openAlert}
-                                              handleChangeAndClose={this.handleChangeAndClose}
-                            />
-                        </Card>
-                        </Grid>
-                    </DialogContent>
-                </Dialog>
+                <Dialog fullWidth maxWidth="xs" open={detailGoTestShow} onClose={this.handleClose} TransitionComponent={Transition}>
+                    <DialogTitle id="simple-dialog-title">走查任务 - {!!tempBoardToDetail?tempBoardToDetail.taskCode:""}</DialogTitle>
 
+                    <DialogContent style={{paddingBottom:"0"}}>
+                        <Typography variant="subheading" style={{marginBottom:"15px"}}>
+                            {!!tempBoardToDetail?tempBoardToDetail.taskName:""}
+                        </Typography>
+                        <Typography variant="subheading">
+                            {!!tempBoardToDetail?tempBoardToDetail.taskDeadline:""} 截止
+                        </Typography>
+                    </DialogContent>
+                    <DialogActions style={{padding:"24px 12px 24px 12px"}}>
+                        <Tooltip title="滑动以确认走查" placement="top-start">
+                            <Slider
+                                value={progress}
+                                aria-labelledby="label"
+                                onChange={this.handleChange}
+                                // disabled={this.state.disabled}
+
+                            />
+                        </Tooltip>
+                    </DialogActions>
+
+                </Dialog>
+                <AlertDialogSlide handleClickOpen={this.openAlert}
+                                  handleClose={this.closeAlert}
+                                  openAlert={this.state.openAlert}
+                                  handleChangeAndClose={this.handleChangeAndClose}
+                />
             </div>
         )
     };
@@ -230,6 +241,7 @@ class MissionDetailMain extends React.Component {
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
+    console.log(state.reducer.buildMission.detailGoTestShow)
     return {
         action : state.reducer.task.action,
         task: state.reducer.task.task,

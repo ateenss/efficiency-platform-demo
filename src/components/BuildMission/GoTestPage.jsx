@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import permProcessor from "../../constants/PermProcessor";
+import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 
 
 
@@ -70,20 +71,35 @@ class GoTestPage extends React.Component{
     };
     render() {
         const {classes,projectMembers,assignGoTestShow } = this.props;
+
+
+        let projectMember4MultiSelect = []
+        for (let i in this.props.projectMembers) {
+
+            let member = this.props.projectMembers[i];
+
+            let ret = {
+                id: member.id,
+                label: member.name,
+                group:member.deptName
+
+            };
+            projectMember4MultiSelect.push(ret);
+        }
+
         return(
-            <Dialog  onClose={()=>store.dispatch(closeAssignGoTest())} aria-labelledby="simple-dialog-title" open={assignGoTestShow}>
-                <DialogTitle id="simple-dialog-title">走查状态变化</DialogTitle>
+            <Dialog  onClose={()=>store.dispatch(closeAssignGoTest())} aria-labelledby="simple-dialog-title" open={assignGoTestShow} fullWidth maxWidth="sm">
+                <DialogTitle id="simple-dialog-title">创建走查</DialogTitle>
                 <DialogContent>
-                        <MultiSelect
-                            nameArray={projectMembers}
-                            onChange={this.getContent}
-                            InputLabelName="指定走查人"
-                            nameIn="goTestMan"
-                            validate={this.validate}
-                        />
+                    <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
+                                     nameIn="goTestMan"
+                                     label="指定走查人"
+                                     singleSelect
+                    />
+
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.openAssignGoTest}>开始走查</Button>
+                    <Button onClick={this.openAssignGoTest}>确定</Button>
                 </DialogActions>
 
             </Dialog>

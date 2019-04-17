@@ -472,7 +472,10 @@ export function finishTest(content) {
             if (response.data.respCode === "00") {
                 //关闭删除功能
                 /*store.dispatch(addTestTask2Panel(content));*/
-                console.log("拉取数据成功")
+                console.log("拉取数据成功");
+
+                store.dispatch(closeGoTestDetail());
+
             }else{
 
                 console.log("没能拿到数据")
