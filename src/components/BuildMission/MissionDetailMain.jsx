@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,9 +11,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
 import store from "../../stores";
 import MyPage from "./MyPage"
-import {closeDetailMission,getDemandTaskDetail,getTest,init} from "../../actions/BuildMissionAction"
+import {closeDetailMission,  getMyTaskMain,  init} from "../../actions/BuildMissionAction"
 import {SHOW_NOTIFICATION} from "../../actions/types";
-import {getProjectMembers} from "../../actions/CommonAction";
 
 
 const styles = {
@@ -89,15 +87,10 @@ class MissionDetailMain extends React.Component {
     }
 
     handleClose = () => {
-        init();
+        getMyTaskMain();
         store.dispatch(closeDetailMission());
     };
 
-
-    onSubmit = () => {
-        init();
-        store.dispatch(closeDetailMission());
-    };
 
 
     render() {
@@ -115,9 +108,6 @@ class MissionDetailMain extends React.Component {
                             <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
                                 需求任务详情
                             </Typography>
-                            {/*<Button color="inherit" onClick={this.onSubmit}>
-                                保存
-                            </Button>*/}
                         </Toolbar>
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>

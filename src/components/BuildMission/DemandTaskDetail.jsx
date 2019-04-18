@@ -19,11 +19,9 @@ import Card from '@material-ui/core/Card';
 import Task from './DemandTask';
 import Button from '@material-ui/core/Button';
 import {
-    openEditMission,
     openBuildModule,
-    closeAssignGoTest,
     doAssignGoTest,
-    getDemandTaskPlan, init, openTaskEdit
+    getDemandTaskPlan
 } from "../../actions/BuildMissionAction"
 import Divider from "@material-ui/core/Divider"
 import {connect} from "react-redux";

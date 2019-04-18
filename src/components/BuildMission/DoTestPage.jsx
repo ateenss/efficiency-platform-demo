@@ -171,35 +171,30 @@ class MissionDetailMain extends React.Component {
 
 
     handleClose = () => {
-        // init();
-        /*getMyTaskMain();*/
         store.dispatch(closeGoTestDetail());
     };
 
-    handleInput = (e) =>{
+   /* handleInput = (e) =>{
         const key = e.target.name;
         this.state.data[key] = e.target.value;
         this.setState(this.state.data);
-    };
+    };*/
 
-    onSubmit = () => {
+    /*onSubmit = () => {
         store.dispatch(closeGoTestDetail());
-    };
+    };*/
 
     handleChange = (event, progress) => {
         this.setState({ progress });
         if(progress === 100) {
             if (permProcessor.bingo('finishTest', this.state.perm)) {
-
                 finishTest(this.props.tempBoardToDetail.taskId);
-                getMyTaskMain();
-
             }
         }
     };
 
     render() {
-        const {classes,demands,detailGoTestShow,tempBoardToDetail} = this.props;
+        const {classes,detailGoTestShow,tempBoardToDetail} = this.props;
 
         const { progress } = this.state;
 

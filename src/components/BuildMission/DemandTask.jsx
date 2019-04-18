@@ -6,12 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import store from '../../stores';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Divider from "@material-ui/core/Divider"
-import {
-    cardTitle,
-    cardSubtitle,
-    cardLink
-} from "../../assets/jss/material-dashboard-react.jsx";
 import {changeTaskStatus} from "../../actions/DemandTasksAction";
 import {editTask} from "../../actions/DemandTasksAction";
 

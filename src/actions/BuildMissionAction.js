@@ -477,10 +477,8 @@ export function finishTest(content) {
     return axios.post(finish_test, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
-                //关闭删除功能
-                /*store.dispatch(addTestTask2Panel(content));*/
                 console.log("拉取数据成功");
-
+                getMyTaskMain();
                 store.dispatch(closeGoTestDetail());
 
             }else{

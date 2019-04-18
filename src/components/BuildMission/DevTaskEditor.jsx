@@ -65,7 +65,6 @@ const styles = {
 function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
-let judgeCanEdit=false;
 class DevTaskEditor extends React.Component {
 
     constructor(props) {
@@ -122,11 +121,6 @@ class DevTaskEditor extends React.Component {
 
 
     save=()=>{
-        let ret = validating(this.state.taskContent, "taskProps");
-        if(!ret.result){
-            error(ret.message);
-            return false;
-        }
         if (permProcessor.bingo('saveTaskEditor', this.state.perm)) {
             saveDevPlan(this.state.taskContent,this.props.demands.taskId);
         }
@@ -134,11 +128,6 @@ class DevTaskEditor extends React.Component {
 
 
     onSubmit = () => {
-        /*let ret = validating(this.state.taskContent, "taskProps");
-        if(!ret.result){
-            error(ret.message);
-            return false;
-        }*/
         if (permProcessor.bingo('getDemandTaskDetail', this.state.perm)) {
 
             submitAndChange2Dev(this.state.tempTaskId,this.state.taskContent,this.props.demands.taskId);
@@ -176,18 +165,13 @@ class DevTaskEditor extends React.Component {
         return ""
     };
 
-    componentWillUnmount() {
-        judgeCanEdit = false;
-    }
+
 
     render() {
 
         const{taskContent}=this.state;
         const {classes,taskEditorShow,devEditorCanShow} = this.props;
 
-        if (devEditorCanShow) {
-            judgeCanEdit=true;
-        }
 
         let defaultModules = [];
         for(let j in this.props.modules){
@@ -240,7 +224,6 @@ class DevTaskEditor extends React.Component {
                                     onChange={this.getContent}
                                     nameIn="taskName"
                                     defaultValue={taskContent.taskName}
-                                    validateEl={Rules.taskProps.taskName}
                                 />
                             </Grid>
                             <Grid item xs={6} className={classes.gridStyle}>
@@ -248,7 +231,6 @@ class DevTaskEditor extends React.Component {
                                     nameIn="estimateWorkHours"
                                     onChange={this.getContent}
                                     InputLabelName="预估工时"
-                                    validateEl={Rules.taskProps.estimateWorkHours}
                                     defaultValue={taskContent.estimateWorkTime}
                                 />
                             </Grid>
