@@ -99,7 +99,7 @@ class EditDemandMain extends React.Component {
             const keyNote=e.keyNote;
             const value=e.value;
             let data = Object.assign({}, this.state.defaultContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 defaultContent:data
@@ -108,7 +108,7 @@ class EditDemandMain extends React.Component {
             const keyNote=e.target.name;
             const value=e.target.value;
             let data = Object.assign({}, this.state.defaultContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 defaultContent:data
