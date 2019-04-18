@@ -9,13 +9,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
-import DialogContent from '@material-ui/core/DialogContent';
-import Grid from "@material-ui/core/Grid";
-import ReactQuill from "react-quill";
 import {saveTask} from "../../actions/DemandTasksAction";
-import TigerInput from "../Input/TigerInput"
 import store from "../../stores";
-import MyPage from "./MyPage"
 import {closeOtherMissionDetail} from "../../actions/BuildMissionAction"
 import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
 

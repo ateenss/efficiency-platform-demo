@@ -12,7 +12,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from "@material-ui/core/Grid";
 import store from "../../stores";
-import {closeGoTestDetail,finishTest,init,getMyTaskMain} from "../../actions/BuildMissionAction"
+import {closeGoTestDetail,finishTest,getMyTaskMain} from "../../actions/BuildMissionAction"
 import {SHOW_NOTIFICATION} from "../../actions/types";
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';

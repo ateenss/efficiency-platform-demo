@@ -8,6 +8,7 @@ import Select from '@material-ui/core/Select';
 import store from '../../stores/index';
 import {validate} from "../../actions/validateAction";
 import Typography from "@material-ui/core/Typography";
+import TextField from "./InputField";
 
 const styles = theme => ({
     root: {
@@ -76,6 +77,12 @@ class SingleSelect extends React.Component {
         return true;
     };
 
+    selected = (e) =>{
+
+        console.log(e.target.value)
+
+    }
+
     render() {
         const {classes, InputLabelName, nameArray, nameIn, disabled} = this.props;
 
@@ -90,8 +97,9 @@ class SingleSelect extends React.Component {
                         inputProps={{
                             /*name: {nameIn},*/
                             id: 'age-simple',
-                            onBlur: this.onBlur.bind(this)
+                            onBlur: this.onBlur.bind(this),
                         }}
+                        inputRef={this.props.inputRef}
                     >
                         {
                             nameArray.map((value, index) => {
@@ -100,7 +108,6 @@ class SingleSelect extends React.Component {
                                 )
                             })
                         }
-
                     </Select>
                     <Typography color="error">{this.state.message}</Typography>
 

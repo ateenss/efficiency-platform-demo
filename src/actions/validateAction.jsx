@@ -17,7 +17,6 @@ export function validating(content, props) {
 
 export function validate(rules, value) {
 
-
     if (!rules) {
         return {result: true}
     }
@@ -186,8 +185,33 @@ export const Rules = {
             required: true,
             literal:"版本负责人"
         }
-
-    }
+    },
+    testCaseProps:{
+        checker: {
+            required: true,
+            literal:"检查方"
+        },
+        checkTime: {
+            required: true,
+            literal:"检查时间"
+        },
+        checkItem: {
+            required: true,
+            literal:"检查项"
+        },
+        supportGray: {
+            required: true,
+            literal:"是否具备灰度"
+        },
+        expectedResult: {
+            required: true,
+            literal:"预期结果"
+        },
+        steps: {
+            required: true,
+            literal:"是否具备灰度"
+        }
+}
 
 
 };

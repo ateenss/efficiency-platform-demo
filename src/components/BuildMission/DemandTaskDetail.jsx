@@ -21,7 +21,7 @@ import Button from '@material-ui/core/Button';
 import {
     openBuildModule,
     doAssignGoTest,
-    getDemandTaskPlan
+    getDemandTaskPlan, init, openTaskEdit,openTestCaseEditor, getDemandTaskTestCase
 } from "../../actions/BuildMissionAction"
 import Divider from "@material-ui/core/Divider"
 import {connect} from "react-redux";
@@ -46,6 +46,7 @@ import {changeTaskStatus, editTask} from "../../actions/DemandTasksAction";
 import permProcessor from "../../constants/PermProcessor";
 import Typography from "@material-ui/core/Typography";
 import MuiExpansionPanel from "../SelfComponent/TrueMuitiSelect";
+import TestCaseEditor from "./TestCaseEditor";
 
 
 const styles = {
@@ -158,6 +159,15 @@ class DemandTaskDetail extends React.Component {
             func: function (id) {
                 store.dispatch(openBuildModule())
             }
+        },{
+
+            name:"上线案例",
+            func: function(id){
+                if (permProcessor.bingo('getDemandTaskPlan', perm)) {
+                    getDemandTaskTestCase(id)
+                }
+            }
+
         }];
         if(tempList.finish.length===0&&tempList.develop.length===0&&tempList.plan.length===0&&tempList.goTest.length===0&&tempList.integration.length>0){
             tempOptions.push({
@@ -256,7 +266,7 @@ class DemandTaskDetail extends React.Component {
 
                                 {!plan ? "" : plan.map((prop, key) => {
                                     return (
-                                        <Task taskOwner={prop.taskOwner} involveModule={prop.involveModule} group="plan" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task taskOwner={prop.taskOwner} group="plan" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -267,7 +277,7 @@ class DemandTaskDetail extends React.Component {
 
                                 {!develop ? "" : develop.map((prop, key) => {
                                     return (
-                                        <Task taskOwner={prop.taskOwner} involveModule={prop.involveModule} group="develop" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task taskOwner={prop.taskOwner} group="develop" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -276,7 +286,7 @@ class DemandTaskDetail extends React.Component {
                             <Grid xs={2} sm={12} md={2} item className={classes.taskWidth}>
                                 {!goTest ? "" : goTest.map((prop, key) => {
                                     return (
-                                        <Task  taskOwner={prop.taskOwner} involveModule={prop.involveModule} group="goTest" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task  taskOwner={prop.taskOwner} group="goTest" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -284,7 +294,7 @@ class DemandTaskDetail extends React.Component {
                             <Grid xs={2} sm={12} md={2} item className={classes.taskWidth}>
                                 {!integration ? "" : integration.map((prop, key) => {
                                     return (
-                                        <Task taskOwner={prop.taskOwner} involveModule={prop.involveModule} group="integration" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task taskOwner={prop.taskOwner} group="integration" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -292,7 +302,7 @@ class DemandTaskDetail extends React.Component {
                             <Grid xs={2} sm={12} md={2} item className={classes.taskWidth}>
                                 {!finish ? "" : finish.map((prop, key) => {
                                     return (
-                                        <Task taskOwner={prop.taskOwner} involveModule={prop.involveModule} group="finish" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
+                                        <Task taskOwner={prop.taskOwner} group="finish" key={key} taskId={prop.taskId} taskName={prop.taskName} taskDeadline={prop.taskDeadline} taskStatus={prop.taskStatus}/>
                                     );
                                 })}
 
@@ -306,6 +316,7 @@ class DemandTaskDetail extends React.Component {
                     open={buildModuleShow}
                 />
                 <TaskEditor />
+                <TestCaseEditor/>
                 <GotoTest/>
             </Card>
 

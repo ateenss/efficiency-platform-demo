@@ -59,10 +59,24 @@ import {
     FILTER_TEST_TASK,
     INIT_PROJECT_MEMBERS,
     INIT_MODULES,
-    CAL_PERM
+    CAL_PERM,
+    OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR, BUILD_SAVE_PROJECT,
+    SAVE_TEST_CASE, EDIT_DEMAND,
+    EDIT_TEST_CASE,
+    OPEN_ADD_TEST_CASE,
+    CLOSE_ADD_TEST_CASE,
+    SAVE_EDIT_TEST_CASE
 } from './types';
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
-import {GET_DEMANDS} from "./DemandAction";
+import {GET_DEMAND, GET_DEMANDS} from "./DemandAction";
+import {error} from "./NotificationAction";
+import {SAVE} from "./BuildProjectAction";
+const config = {
+    method: 'post',
+    headers: {'Content-Type': 'application/json;charset=utf-8'},
+    inCharset: "utf-8",
+    outCharset: "utf-8"
+};
 
 
 /*!!this.props.funcArray&&this.props.funcArray.map((value,key)=>{
@@ -216,6 +230,13 @@ export const closeBuildModule=()=>({
 });
 
 
+export const openTestCaseEditor=value=>({
+    type: OPEN_TEST_CASE_EDITOR,
+    value
+});
+export const closeTestCaseEditor=()=>({
+    type: CLOSE_TEST_CASE_EDITOR
+});
 
 export const filterReset=()=>({
     type: FILTER_RESET
@@ -350,6 +371,29 @@ export function getDemandTaskPlan(content){
             if (response.data.respCode === "00") {
                 let data = response.data.data;
                 store.dispatch(openBuildPlan(data))
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+}
+
+export function getDemandTaskTestCase(content){
+    const send_edit_data = UrlConf.base + 'task/getDemandTaskTestCase';
+    const config = {
+        method: 'post'
+    };
+
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,content);
+    return axios.post(send_edit_data, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                store.dispatch(openTestCaseEditor(data));
             }else{
 
                 console.log("没能拿到数据")
@@ -600,6 +644,7 @@ export function init() {
             type:INIT_MODULES,
             payload : modules.data.data
         })
+        console.log("任务主面板初始化数据拉取成功");
         stopLoading();
     }));
 
@@ -657,4 +702,93 @@ export function getDemandTaskDetail(taskId) {
 }
 
 
+export const SAVE_TEST_CASE_URL = UrlConf.base + 'task/saveTestCase';
 
+/**
+ * 这里要区分到底是新增还是编辑
+ * @param iterationData
+ */
+export function saveTestCase(action, data) {
+
+    // TODO post here, use iterationData to post
+    console.log("inSaveTestCase" + JSON.stringify(data));
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(SAVE_TEST_CASE_URL, {"version": "1.0", "accessToken": accessToken, "data": data}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+                return false;
+            }
+
+            let type = "";
+            if(action === OPEN_ADD_TEST_CASE){
+                type = SAVE_TEST_CASE
+            }else if(action === EDIT_TEST_CASE){
+                type = SAVE_EDIT_TEST_CASE
+            }
+
+
+            store.dispatch({
+                type: type,
+                payload: response.data.data
+            })
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+
+}
+
+
+export const GET_TEST_CASE = UrlConf.base + 'task/getTestCase';
+export function editTestCase(id) {
+    console.log("editTestCase"+id);
+
+    let accessToken = localStorage.getItem("accessToken");
+    return axios.post(GET_TEST_CASE, {"version": "1.0", accessToken: accessToken, data: id}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+            }
+
+            let data = response.data.data;
+
+            store.dispatch({
+                type: EDIT_TEST_CASE,
+                payload: data
+            });
+
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("调用失败");
+            // update state to show error to user
+            // store.dispatch({
+            //     type: AUTH_ERROR,
+            //     payload: 'Invalid credentials.'
+            // });
+        });
+}
+
+export function handleAddTestCase(){
+    store.dispatch({
+        type: OPEN_ADD_TEST_CASE,
+    });
+
+}
+
+
+
+export function closeAddTestCase(){
+    store.dispatch({
+        type: CLOSE_ADD_TEST_CASE,
+    });
+}

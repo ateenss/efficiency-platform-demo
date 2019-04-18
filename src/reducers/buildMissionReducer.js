@@ -42,8 +42,8 @@ import {
     ADD_TEST_TASK_PANEL,
     MODIFY_AFTER_TASKEDITOR,
     FILTER_TEST_TASK,
-    INIT_MODULES,
-    CAL_PERM
+    INIT_MODULES, OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR,
+    CAL_PERM, SAVE_TEST_CASE, EDIT_TEST_CASE, OPEN_ADD_TEST_CASE, CLOSE_ADD_TEST_CASE, SAVE_EDIT_TEST_CASE
 } from "../actions/types"
 /*import {taskStatusChange} from "../actions/TaskStatusChangeFunc"*/
 
@@ -212,8 +212,22 @@ export default function (state = INITIAL_STATE, action) {
                     ...state.tempTask,
                     content:tempTaskContent,
                     taskID:action.value}};
+        case OPEN_TEST_CASE_EDITOR:
+            return {...state, openTestCaseEditor: true, action:OPEN_TEST_CASE_EDITOR, testCase : action.value.testCase ,demandId : action.value.demandId};
+        case OPEN_ADD_TEST_CASE:
+            return {...state, openAddTestCase: true, action:OPEN_ADD_TEST_CASE};
         case CLOSE_TASK_EDITOR:
             return {...state, taskEditorShow: false,action:"CLOSE_TASK_EDITOR"};
+        case CLOSE_TEST_CASE_EDITOR:
+            return {...state, openTestCaseEditor: false,action:CLOSE_TEST_CASE_EDITOR};
+        case SAVE_TEST_CASE:
+            return {...state, singleTestCase:action.payload, action:SAVE_TEST_CASE, openAddTestCase : false}
+        case SAVE_EDIT_TEST_CASE:
+            return {...state, singleTestCase:action.payload, action:SAVE_EDIT_TEST_CASE, openAddTestCase : false}
+        case EDIT_TEST_CASE:
+            return {...state, editTestCase:action.payload, action:EDIT_TEST_CASE, openAddTestCase : true}
+        case CLOSE_ADD_TEST_CASE:
+            return {...state, action:CLOSE_ADD_TEST_CASE, openAddTestCase : false}
         case OPEN_BUILD_MODULE:
             return {...state, buildModuleShow: true};
         case CLOSE_BUILD_MODULE:

@@ -20,11 +20,7 @@ import Avatar from '@material-ui/core/Avatar';
 import {connect} from "react-redux";
 
 import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
 import ShareIcon from '@material-ui/icons/ArrowForward';
-import history from "../../history/history";
-import MyPage from "./MyPage.jsx";
-import {Home} from "@material-ui/icons";
 import {Typography} from "@material-ui/core";
 import {
     openGoTestDetail,

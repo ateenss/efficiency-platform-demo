@@ -109,6 +109,13 @@ export const SAVE_BUILD_MODULE="save_build_module";
 export const OPEN_TASK_EDITOR="open_task_editor";
 export const CLOSE_TASK_EDITOR="close_task_editor";
 export const SAVE_TASK_EDITOR="save_task_editor";
+export const OPEN_TEST_CASE_EDITOR="open_test_case_editor";
+export const CLOSE_TEST_CASE_EDITOR="close_test_case_editor";
+export const SAVE_TEST_CASE="save_test_case";
+export const EDIT_TEST_CASE="edit_test_case";
+export const CLOSE_ADD_TEST_CASE="close_add_test_case";
+export const OPEN_ADD_TEST_CASE="open_add_test_case";
+export const SAVE_EDIT_TEST_CASE="save_edit_test_case";
 //模块（子任务）状态跃迁
 export const CHANGE_STATUS_TO_PLAN="change_status_to_plan";
 export const CHANGE_STATUS_TO_DEV="change_status_to_dev";

@@ -10,8 +10,6 @@ import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
-import Grid from "@material-ui/core/Grid";
-import ReactQuill from "react-quill";
 import {saveTask} from "../../actions/DemandTasksAction";
 import store from "../../stores";
 import MyPage from "./MyPage"

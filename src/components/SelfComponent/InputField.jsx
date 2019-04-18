@@ -35,7 +35,7 @@ class TextFields extends React.Component {
             name: 'Cat in the Hat',
             age: '',
             message: "",
-            error: false
+            error: false,
         };
     }
 
@@ -44,7 +44,6 @@ class TextFields extends React.Component {
 
 
     handleChange = (e) => {
-        // this.setState({ [name]: event.target.value });
 
         this.props.onChange({keyNote: e.target.name, value: e.target.value})
     };
@@ -62,7 +61,7 @@ class TextFields extends React.Component {
     };
 
     render() {
-        const {classes, InputLabelName, defaultValue, nameIn, disabled, error} = this.props;
+        const {classes, InputLabelName, defaultValue, nameIn, disabled, error, ...others} = this.props;
 
         return (
             <div>
@@ -76,11 +75,12 @@ class TextFields extends React.Component {
                     onChange={this.handleChange.bind(this)}
                     name={nameIn}
                     inputProps={{
-                        onBlur: this.onBlur.bind(this)
+                        onBlur: this.onBlur.bind(this),
                     }}
                     fullWidth
                     type={this.props.password ? "password" : ""}
                     error={this.state.error}
+                    inputRef={this.props.inputRef}
                 />
                 <Typography color="error">{this.state.message}</Typography>
             </div>
