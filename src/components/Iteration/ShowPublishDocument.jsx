@@ -102,9 +102,38 @@ class ShowPublishDocument extends React.Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.action === GET_PUBLISH_TEST_CASE) {
-            this.setState({publishTestCase: nextProps.publishTestCase});
+
+            let testCase = this.mapObjectToArray(nextProps.publishTestCase);
+
+            this.setState({testCase : testCase, raw : nextProps.publishTestCase});
         }
     }
+
+    mapObjectToArray = (result) => {
+
+        let ret = [];
+
+        let demandList = result;
+
+        let parsedDemandList = [];
+
+        for(let idx in demandList){
+
+            let unit = demandList[idx];
+
+            let demand = [];
+
+            for(let i in unit){
+
+                demand.push(unit[i]);
+            }
+
+            parsedDemandList.push(demand);
+        }
+
+        return parsedDemandList;
+
+    };
 
 
     getContent = e => {
@@ -151,7 +180,7 @@ class ShowPublishDocument extends React.Component {
                     </AppBar>
 
                     {tabValue === 0 &&
-                    <PublishTestCase content={this.state.publishTestCase}/>
+                    <PublishTestCase content={this.state.testCase}/>
                     }
 
                 </Dialog>
@@ -169,7 +198,7 @@ const mapStateToProps = (state) => {
     return {
         publishTestCase: state.reducer.iteration.publishTestCase,
         action: state.reducer.iteration.action,
-        openPublishTestCase: state.reducer.iteration.openPublishTestCase
+        openPublishTestCase: state.reducer.iteration.openPublishTestCase,
     }
 };
 

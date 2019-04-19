@@ -23,9 +23,28 @@ import red from '@material-ui/core/colors/red';
 import {getProjectMembers, startLoading, stopLoading} from "../../actions/CommonAction";
 import permProcessor from "../../constants/PermProcessor";
 import Chip from "@material-ui/core/Chip";
+import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Legend,
+    Line,
+    LineChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis
+} from "recharts";
 
 const drawerWidth = 240;
 
+
+const data = [
+    {name: 'ACP_GTW_WEB', uv: 20},
+    {name: 'ACP_GTW_APP', uv: 26},
+    {name: 'ACAOS', uv: 23},
+    {name: 'ACP_GTW_BKE', uv: 12},
+];
 const styles = theme => ({
     root: {
         width: '100%'
@@ -175,11 +194,11 @@ class IterationBoard extends React.Component {
             }
 
             self.setState({iterationState: iterationState});
-            if(!!selectId){
+            if (!!selectId) {
                 selectIteration(selectId, function () {
                     stopLoading();
                 });
-            }else{
+            } else {
                 stopLoading();
             }
 
@@ -202,7 +221,7 @@ class IterationBoard extends React.Component {
             for (let i in iterationState) {
                 if (iterationState[i].iteration.name === newIteration[0]) {
                     let unit = {
-                        id : nextProps.iteration.iterationInfo.id,
+                        id: nextProps.iteration.iterationInfo.id,
                         iter: nextProps.iteration.iterationInfo.iterationCode,
                         selected: false
                     }
@@ -216,7 +235,7 @@ class IterationBoard extends React.Component {
                     iteration: {name: newIteration, selected: true},
                     children: [
                         {
-                            id :nextProps.iteration.iterationInfo.id,
+                            id: nextProps.iteration.iterationInfo.id,
                             iter: nextProps.iteration.iterationInfo.iterationCode,
                             selected: false
                         }
@@ -226,7 +245,6 @@ class IterationBoard extends React.Component {
                 iterationState.push(ret);
             }
         }
-
 
 
         for (let i in iterationState) {
@@ -242,7 +260,7 @@ class IterationBoard extends React.Component {
             }
             if (!!selectedId && iter.iteration.name === iter.children[selectedId].iter.split(".")[0]) {
                 iter.iteration.selected = true;
-            }else{
+            } else {
                 iter.iteration.selected = false;
             }
         }
@@ -269,6 +287,7 @@ class IterationBoard extends React.Component {
                             <Tabs value={tabValue} onChange={this.handleChange}>
                                 <Tab label="版本总览"/>
                                 <Tab label="需求列表"/>
+                                <Tab label="模块信息"/>
                             </Tabs>
 
                             {tabValue === 0 &&
@@ -382,6 +401,26 @@ class IterationBoard extends React.Component {
                             {tabValue === 1 &&
                             <DemandsList data={this.state.demandList}/>
 
+                            }
+                            {tabValue === 2 &&
+
+                            <Grid container spacing={8}>
+                                <Grid item xs={12}>
+                                    <ResponsiveContainer width="100%" height={400}>
+                                        <BarChart
+                                            data={data}
+                                            margin={{ top: 20, right: 20, bottom: 20, left: 100 }}
+                                            layout="vertical"
+                                        >
+                                            <XAxis type="number"/>
+                                            <YAxis dataKey="name" type="category"/>
+                                            <Tooltip/>
+                                            <Legend/>
+                                            <Bar dataKey="uv" name="工作量" fill="#4DAF7C" maxBarSize={20} label={{fill:"#F5F5F5"}}/>
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                </Grid>
+                            </Grid>
                             }
                         </Paper>
 

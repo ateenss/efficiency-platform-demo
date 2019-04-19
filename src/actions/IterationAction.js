@@ -18,7 +18,7 @@ import {
 import React from "react";
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
 import RequestBuilder from "../constants/RequestBuilder";
-import {getDemandTaskDetail, saveModule} from "./BuildMissionAction";
+import {getDemandTaskDetail, openTestCaseEditor, saveModule} from "./BuildMissionAction";
 import UrlConf from "../constants/UrlConf";
 import {error} from "./NotificationAction";
 
@@ -385,44 +385,28 @@ export function closeDevelopPlan() {
 }
 
 
-export function getPublishDocuments() {
+export function getPublishDocuments(demandId) {
+    const send_edit_data = UrlConf.base + 'task/getDemandTaskTestCase';
+console.log("()()()()()"+demandId);
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,demandId);
+    return axios.post(send_edit_data, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                store.dispatch({
+                    type: GET_PUBLISH_TEST_CASE,
+                    payload: data
+                })
+            }else{
 
-    let data = {};
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
 
-    const columns = [
-        {name: "需求ID", options: {filter: false}},
-        {name: "需求名称", options: {filter: false}},
-        {name: "开发负责人", options: {filter: true}},
-        {name: "检查方", options: {filter: true}},
-        {name: "检查时间", options: {filter: false}},
-        {name: "检查项", options: {filter: false}},
-        {name: "步骤或命令", options: {filter: false}},
-        {name: "预期结果", options: {filter: false}},
-        {name: "实际检查结果", options: {filter: false}},
-        {name: "执行状态", options: {filter: false}},];
+        });
 
-    data.publishTestCase = [
-        ["2019-03-13", "你的大可爱", "长泽雅美", "信总", "2019-03-13", "前台", "openBrowser, test", "success", "success", "ok"],
-        ["2019-03-13", "你的大可爱", "长泽雅美", "信总", "2019-03-13", "前台", "openBrowser, test", "success", "success", "ok"],
-        ["2019-03-13", "你的大可爱", "长泽雅美", "信总", "2019-03-13", "前台", "openBrowser, test", "success", "success", "ok"],
-        ["2019-03-13", "你的大可爱", "长泽雅美", "信总", "2019-03-13", "前台", "openBrowser, test", "success", "success", "ok"],
-        ["2019-03-13", "你的大可爱", "长泽雅美", "信总", "2019-03-13", "前台", "openBrowser, test", "success", "success", "ok"]
-    ]
-    // data.testCase=[{
-    //     caseDesc : "你的大可爱",
-    //     preCondition : "无",
-    //     envDesc : "测试环境",
-    //     modules : "前台",
-    //     inputData : "AAAA",
-    //     steps : "打开浏览器，测试",
-    //     expectedResult:"成功",
-    //     actualResult : "成功"
-    // }]
-
-    store.dispatch({
-        type: GET_PUBLISH_TEST_CASE,
-        payload: data
-    })
 
 }
 

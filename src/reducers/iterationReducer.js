@@ -63,7 +63,7 @@ export default function (state = INITIAL_STATE, action) {
         case GET_PUBLISH_TEST_CASE:
             return {...state, action:GET_PUBLISH_TEST_CASE,
                 openPublishTestCase:true,
-                publishTestCase:action.payload.publishTestCase};
+                publishTestCase:action.payload.testCase};
         case CLOSE_PUBLISH_TEST_CASE:
             return {...state, action:CLOSE_PUBLISH_TEST_CASE, openPublishTestCase:false};
         default:
