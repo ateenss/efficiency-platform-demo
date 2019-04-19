@@ -322,7 +322,7 @@ class IterationBoard extends React.Component {
                                                     <div
                                                         className={classes.textInfo}>版本负责人：<Chip
                                                         label={this.state.iterationInfo.iterationOwner}
-                                                        className={classes.chipStyle}/>{}</div>
+                                                        className={classes.chipStyle}/></div>
                                                 </Grid>
                                                 <Grid xs={6} item>
                                                     <div
