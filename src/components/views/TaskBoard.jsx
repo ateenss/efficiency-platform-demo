@@ -18,20 +18,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import AppBar from "@material-ui/core/AppBar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
-import Badge from "@material-ui/core/Badge";
 import Chip from "@material-ui/core/Chip";
 import {editTask} from "../../actions/DemandTasksAction";
 import permProcessor from "../../constants/PermProcessor";
 import {
-    openBuildMission,
     closeBuildMission,
-    filterDoUnderWay,
-    filterDoFinish,
     filterDoDemandMission,
-    filterDoDevMission,
     filterDoOwnMission,
     filterReset,
     init,
@@ -178,13 +171,8 @@ class TaskBoard extends React.Component {
 
 
     render() {
-        const {classes, buildMissionShow, addTask, initialData, filterJudge, finished, unfinished} = this.props;
-        /*let taskComponents = addTask.map((prop, key) => {
-            return (
-                <Task key={prop.taskId} taskNo={prop.taskNo} taskName={prop.taskName} taskStatus={prop.taskStatus}
-                      taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, prop.taskId)}} detailFunc={(e) => {this.handleDetail(e, prop.taskId)}}/>
-            )
-        });*/
+        const {classes, addTask,  filterJudge} = this.props;
+
         let tempContent = [];
         if (filterJudge.switch === "1") {
             addTask.map((content, key) => {
@@ -201,25 +189,39 @@ class TaskBoard extends React.Component {
 
         let newTaskComponents = tempContent.map((prop, key) => {
             let content = "";
-            if(prop.taskStatus === "待处理"){
-                content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
-                ++newTaskCnt;
+            if(prop.taskType!=="开发任务"){
+                if(prop.taskStatus === "待处理"){
+                    content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    ++newTaskCnt;
+                }
             }
+
             return content;
         });
         let processingTaskComponents = tempContent.map((prop, key) => {
             let content = "";
-            if(prop.taskStatus !== "待处理" && prop.taskStatus !== "完成"&& (prop.taskStatus !== "已走查"&&prop.taskType ==="需求开发任务")){
-                content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
-                ++inProgressTaskCnt;
+            if(prop.taskType!=="开发任务"){
+                if (prop.taskStatus==="已走查"&&prop.taskType==="需求开发任务"){
+                    content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    ++inProgressTaskCnt;
+                    return content;
+                }
+                if(prop.taskStatus !== "待处理" && prop.taskStatus !== "完成"&&prop.taskStatus !== "已走查"){
+                    content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    ++inProgressTaskCnt;
+                }
+
             }
+
             return content;
         });
         let finishTaskComponents = tempContent.map((prop, key) => {
             let content = "";
-            if(prop.taskStatus === "完成"||(prop.taskStatus === "已走查"&&prop.taskType!=="需求开发任务")){
-                content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
-                ++finishTaskCnt;
+            if(prop.taskType!=="开发任务"){
+                if(prop.taskStatus === "完成"||(prop.taskStatus === "已走查"&&prop.taskType!=="需求开发任务")){
+                    content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    ++finishTaskCnt;
+                }
             }
             return content;
         });
