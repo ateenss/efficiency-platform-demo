@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
+import {MuiPickersUtilsProvider, DatePicker, InlineDatePicker} from 'material-ui-pickers';
 import cnLocale from "date-fns/locale/zh-CN";
 import format from "date-fns/format";
 
 
 
-const styles = {
+const styles = theme => ({
     grid: {
         width: '100%',
     },
@@ -20,22 +20,21 @@ const styles = {
     body:{
         marginTop:0
     }
-
-};
+});
 
 const s = new Intl.DateTimeFormat('zh-cn');
 const timeInitial= s.format(new Date());
 
 class LocalizedUtils extends DateFnsUtils {
     getDatePickerHeaderText(date) {
-        return format(date, "yyyy MMM d", { locale: cnLocale });
+        return format(date, "yyyy-MM-dd", { locale: cnLocale });
     }
 }
 
 
 class MaterialUIPickers extends React.Component {
     state = {
-        data:timeInitial,
+        data:null,
         locale:"cn",
         setLocale:"cn"
     };
@@ -66,7 +65,7 @@ class MaterialUIPickers extends React.Component {
         const dateFormat = "yyyy-MM-dd";
         return (
             <MuiPickersUtilsProvider utils={LocalizedUtils} locale={cnLocale} className={classes.provider}>
-                        <DatePicker
+                        <InlineDatePicker
                             fullWidth
                             name={nameIn}
                             margin="normal"
@@ -76,6 +75,8 @@ class MaterialUIPickers extends React.Component {
                             format={dateFormat}
                             views={["year", "month", "day"]}
                             className={classes.body}
+                            disablePast
+                            emptyLabel="选择"
                         />
             </MuiPickersUtilsProvider>
         );
@@ -86,4 +87,4 @@ MaterialUIPickers.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MaterialUIPickers);
+export default withStyles(styles, {withTheme:true})(MaterialUIPickers);
