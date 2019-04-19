@@ -92,10 +92,7 @@ class CustomToolBar4DemandList extends React.Component {
 
     handlePublishDocuments = () => {
         let key = this.getDemand();
-        // post data to fetch
-        getPublishDocuments(key.demandId);
-
-        console.log(JSON.stringify(this.props.selectedRows.data[0].dataIndex));
+        getPublishDocuments(key);
     };
 
     getDemand = () =>{

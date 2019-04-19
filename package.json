@@ -89,7 +89,8 @@
     "webpack-dev-server": "3.1.14",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.3",
-    "clsx": "latest"
+    "clsx": "latest",
+    "recharts": "^1.5.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
