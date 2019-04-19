@@ -65,7 +65,7 @@ const styles = theme => ({
         fontWeight: "400"
     },
     avatar: {
-        backgroundColor: red[500],
+        backgroundColor: "#4DAF7C",
         width: "32px",
         height: "32px"
     },
