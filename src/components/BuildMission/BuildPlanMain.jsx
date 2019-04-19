@@ -21,10 +21,10 @@ import permProcessor from "../../constants/PermProcessor";
 const styles = theme => ({
     appBar: {
         position: 'relative',
-        boxShadow:"none",
-        color:"#292929",
-        background:"#f5f5f5",
-        textAlign:"center"
+        boxShadow: "none",
+        color: "#292929",
+        background: "#f5f5f5",
+        textAlign: "center"
     },
     flex: {
         flex: 1,
@@ -80,19 +80,19 @@ class BuildPlanMain extends React.Component {
     };
 
     savePlan = () => {
-        let tempContent=this.state.planContent;
-        tempContent["taskId"]=this.props.tempBoardToDetail.taskId;
-        tempContent["saveOrSubmit"]=0;
+        let tempContent = this.state.planContent;
+        tempContent["taskId"] = this.props.tempBoardToDetail.taskId;
+        tempContent["saveOrSubmit"] = 0;
         if (permProcessor.bingo('submitAndSavePlan', this.state.perm)) {
 
             submitAndPlan(tempContent);
         }
     };
 
-    submitPlan=()=>{
-        let tempContent=this.state.planContent;
-        tempContent["taskId"]=this.props.tempBoardToDetail.taskId;
-        tempContent["saveOrSubmit"]=1;
+    submitPlan = () => {
+        let tempContent = this.state.planContent;
+        tempContent["taskId"] = this.props.tempBoardToDetail.taskId;
+        tempContent["saveOrSubmit"] = 1;
         if (permProcessor.bingo('submitAndSavePlan', this.state.perm)) {
 
             submitAndPlan(tempContent);
@@ -123,10 +123,10 @@ class BuildPlanMain extends React.Component {
 
 
     componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.action==="OPEN_BUILD_PLAN") {
-            if (nextProps.tempDemandTaskPlan){
+        if (nextProps.action === "OPEN_BUILD_PLAN") {
+            if (nextProps.tempDemandTaskPlan) {
                 this.setState({
-                    planContent:nextProps.tempDemandTaskPlan
+                    planContent: nextProps.tempDemandTaskPlan
                 })
             }
         }
@@ -134,8 +134,8 @@ class BuildPlanMain extends React.Component {
 
 
     render() {
-        const {classes, buildPlanShow,tempDemandTaskPlan} = this.props;
-        const {planContent}=this.state;
+        const {classes, buildPlanShow, tempDemandTaskPlan} = this.props;
+        const {planContent} = this.state;
         return (
             <div>
                 <Dialog
@@ -161,7 +161,7 @@ class BuildPlanMain extends React.Component {
                         </Toolbar>
                     </AppBar>
                     <Grid container spacing={8}>
-                        <Grid item xs={8}>
+                        <Grid item xs={12}>
                             <Grid container spacing={8}>
                                 <Grid item xs={12} className={classes.quillWrapper}>
                                     <EditQuill
@@ -195,7 +195,6 @@ class BuildPlanMain extends React.Component {
                                                     onChange={this.getContent}
                                                     defaultValue={planContent.disasterRecoveryAssessment}
                                     />
-                                    />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <MultiLineInput fullWidth
@@ -207,92 +206,92 @@ class BuildPlanMain extends React.Component {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={12}>
                             <Grid container spacing={8}>
-                                <Grid item xs={6}>
-                                    <MultiLineInput
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
                                         InputLabelName="外部系统配套改造"
                                         nameIn="outerSysChange"
                                         onChange={this.getContent}
                                         defaultValue={planContent.outerSysChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <MultiLineInput
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
                                         InputLabelName="模块上线顺序要求"
                                         nameIn="moduleDeploySequence"
                                         onChange={this.getContent}
                                         defaultValue={planContent.moduleDeploySequence}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <MultiLineInput
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
                                         InputLabelName="内部子系统间接口调整"
                                         nameIn="innerSysInterfaceChange"
                                         onChange={this.getContent}
                                         defaultValue={planContent.innerSysInterfaceChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <MultiLineInput
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
                                         InputLabelName="安全相关"
                                         nameIn="safety"
                                         onChange={this.getContent}
                                         defaultValue={planContent.safety}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <MultiLineInput
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
                                         InputLabelName="数据库修改点"
                                         nameIn="dbChange"
                                         onChange={this.getContent}
                                         defaultValue={planContent.dbChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <MultiLineInput
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
                                         InputLabelName="参数配置要求"
                                         nameIn="config"
                                         onChange={this.getContent}
                                         defaultValue={planContent.config}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <MultiLineInput
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
                                         InputLabelName="接口规范变更"
                                         nameIn="interfaceChange"
                                         onChange={this.getContent}
                                         defaultValue={planContent.interfaceChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <MultiLineInput
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
                                         InputLabelName="运维信息变更"
                                         nameIn="operationChange"
                                         onChange={this.getContent}
                                         defaultValue={planContent.operationChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <MultiLineInput
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
                                         InputLabelName="部署需求调整"
                                         nameIn="deploymentChange"
                                         onChange={this.getContent}
                                         defaultValue={planContent.deploymentChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <MultiLineInput
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
                                         InputLabelName="五高影响性"
                                         nameIn="high5Assessment"
                                         onChange={this.getContent}
                                         defaultValue={planContent.high5Assessment}
                                     />
                                 </Grid>
+
                             </Grid>
                         </Grid>
                     </Grid>
-
                 </Dialog>
             </div>
         );
@@ -308,9 +307,9 @@ const mapStateToProps = (state) => {
     return {
         initialData: state.reducer.buildMission.initialData,
         buildPlanShow: state.reducer.buildMission.buildPlanShow,
-        tempBoardToDetail:state.reducer.buildMission.tempBoardToDetail,
-        tempDemandTaskPlan:state.reducer.buildMission.tempDemandTaskPlan,
-        action:state.reducer.buildMission.action,
+        tempBoardToDetail: state.reducer.buildMission.tempBoardToDetail,
+        tempDemandTaskPlan: state.reducer.buildMission.tempDemandTaskPlan,
+        action: state.reducer.buildMission.action,
     }
 };
 

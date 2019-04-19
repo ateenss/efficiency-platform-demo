@@ -20,6 +20,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from '@material-ui/icons/Close';
 import Dialog from "@material-ui/core/Dialog";
 import {EDIT_TEST_CASE} from "../../actions/types";
+import DatePicker from "../SelfComponent/DatePicker";
 
 const styles = theme => ({
         dialogContainer:{
@@ -111,7 +112,7 @@ class AddTestCase extends React.Component {
 
         return (
 
-            <Dialog open={this.props.openAddTestCase}  TransitionComponent={Transition}  fullWidth maxWidth="xl">
+            <Dialog open={this.props.openAddTestCase}  TransitionComponent={Transition}  fullWidth maxWidth="sm">
                 <AppBar className={classes.appBar} color="default">
                     <Toolbar variant="dense">
                         <IconButton color="inherit" onClick={this.handleCancel} aria-label="Close">
@@ -130,19 +131,15 @@ class AddTestCase extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="检查方"
                                 validateEl={Rules.testCaseProps.checker}
-                                inputRef={ref => this.checker = ref}
                                 defaultValue={this.props.editTestCase.checker}
                             />
                         </Grid>
                         <Grid item xs={3} className={classes.gridStyle}>
-                            <InputField
-                                nameIn="checkTime"
-                                onChange={this.getContent}
-                                InputLabelName="检查时间"
-                                validateEl={Rules.testCaseProps.checkTime}
-                                inputRef={ref => this.checkTime = ref}
-                                defaultValue={this.props.editTestCase.checkTime}
-                            />
+                            <DatePicker nameIn="checkTime"
+                                        InputLabelName="检查时间"
+                                        onDateChange={this.getContent}
+                                        defaultValue={this.props.editTestCase.checkTime}
+                                />
                         </Grid>
                         <Grid item xs={3} className={classes.gridStyle}>
                             <InputField
@@ -150,7 +147,6 @@ class AddTestCase extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="检查项"
                                 validateEl={Rules.testCaseProps.checkItem}
-                                inputRef={ref => this.checkItem = ref}
                                 defaultValue={this.props.editTestCase.checkItem}
                             />
                         </Grid>
@@ -158,7 +154,6 @@ class AddTestCase extends React.Component {
                             <SingleSelect onChange={this.getContent} InputLabelName="是否具备灰度" nameIn="supportGray"
                                           nameArray={grayValues}
                                           validateEl={Rules.testCaseProps.supportGray}
-                                          inputRef={ref => this.supportGray = ref}
                                           defaultValue={this.props.editTestCase.supportGray}
                             />
                         </Grid>
@@ -168,7 +163,6 @@ class AddTestCase extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="步骤或命令"
                                 validateEl={Rules.testCaseProps.steps}
-                                inputRef={ref => this.steps = ref}
                                 defaultValue={this.props.editTestCase.steps}
                             />
                         </Grid>
@@ -179,7 +173,6 @@ class AddTestCase extends React.Component {
                                 onChange={this.getContent}
                                 InputLabelName="预期结果"
                                 validateEl={Rules.testCaseProps.expectedResult}
-                                inputRef={ref => this.expectedResult = ref}
                                 defaultValue={this.props.editTestCase.expectedResult}
 
                             />
@@ -200,7 +193,6 @@ class AddTestCase extends React.Component {
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
-    console.log("*&*&^*&^&^"+JSON.stringify(state.reducer.buildMission.editTestCase));
     return {
         editTestCase:!!state.reducer.buildMission.editTestCase ? state.reducer.buildMission.editTestCase : {},
         action:state.reducer.buildMission.action,

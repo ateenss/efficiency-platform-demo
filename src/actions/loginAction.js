@@ -8,7 +8,7 @@ import {
     AUTH_ERROR, SHOW_NOTIFICATION
 } from './types';
 import UrlConf from "../constants/UrlConf";
-
+import {error, success} from "./NotificationAction";
 //axios配置
 const config = {
     method: 'post',
@@ -26,10 +26,7 @@ export function loginUser({username, password}) {
         .then(response => {
 
             if (response.data.respCode !== "00") {
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: response.data.msg
-                });
+                error(response.data.msg);
                 return false;
             }
 
