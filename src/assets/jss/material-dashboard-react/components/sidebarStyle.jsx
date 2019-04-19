@@ -22,12 +22,12 @@ const sidebarStyle = theme => ({
     // ...boxShadow,
     width: drawerWidth,
     background:"#FFFFF",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("lg")]: {
       width: drawerWidth,
       position: "fixed",
       height: "100%"
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: drawerWidth,
       ...boxShadow,
       position: "fixed",

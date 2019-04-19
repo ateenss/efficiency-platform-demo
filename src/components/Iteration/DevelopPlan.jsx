@@ -1,26 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
-import store from '../../stores/index';
-import {closeBuildPlan, saveBuildPlan} from "../../actions/BuildMissionAction"
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
-import {closeDevelopPlan, getDevelopPlan, getModuleInfo} from "../../actions/IterationAction";
-import {CLOSE_DEVELOP_PLAN, GET_DEVELOP_PLAN, GET_DEVPLAN_DETAIL} from "../../actions/types";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import CssBaseline from "@material-ui/core/CssBaseline";
+import {getDevelopPlan, getModuleInfo} from "../../actions/IterationAction";
+import {GET_DEVELOP_PLAN, GET_DEVPLAN_DETAIL} from "../../actions/types";
 import classNames from 'classnames';
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -29,10 +18,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {devPlan,demandplan} from './planDetailContent'
 const drawerWidth = 200;
 
 
@@ -196,7 +183,7 @@ class DevelopPlan extends React.Component {
             const keyNote = e.keyNote;
             const value = e.value;
             let data = Object.assign({}, this.state.planContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 planContent: data
@@ -205,7 +192,7 @@ class DevelopPlan extends React.Component {
             const keyNote = e.target.name;
             const value = e.target.value;
             let data = Object.assign({}, this.state.planContent, {
-                [keyNote]: value.toString()
+                [keyNote]: value
             });
             this.setState({
                 planContent: data

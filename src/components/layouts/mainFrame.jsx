@@ -12,7 +12,6 @@ import 'react-quill/dist/quill.snow.css';
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import Header from "../Header/Header.jsx";
-import Footer from "../Footer/Footer.jsx";
 import Sidebar from "../Sidebar/Sidebar.jsx";
 
 import routesChildren from "../../routes/routesChildren.jsx";

@@ -81,7 +81,7 @@ const Sidebar = ({ ...props }) => {
   );
   return (
     <div>
-      <Hidden mdUp implementation="css">
+      <Hidden lgUp implementation="css">
         <Drawer
           variant="temporary"
           anchor="right"
@@ -107,7 +107,7 @@ const Sidebar = ({ ...props }) => {
           ) : null}
         </Drawer>
       </Hidden>
-      <Hidden smDown implementation="css">
+      <Hidden mdDown implementation="css">
         <Drawer
           anchor="left"
           variant="permanent"

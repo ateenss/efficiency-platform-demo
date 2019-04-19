@@ -32,6 +32,7 @@ import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {addDemand, getRecentIteration, init, nextPage} from "../../actions/DemandAction";
 import {ADD_DEMAND, SAVE_ADD_DEMAND, SAVE_EDIT_DEMAND, SAVE_REVIEW_DEMAND, UPDATE_ROW} from "../../actions/types";
 import {startLoading, stopLoading} from "../../actions/CommonAction";
+import CustomToolbar4Demand from "../demand/CustomToolbar4Demand";
 
 const styles = theme => ({
     root: {
@@ -57,7 +58,7 @@ const styles = theme => ({
 
 
 const columns = [
-    {name: "序号", options: {filter: false, display:false}},
+    {name: "序号", options: {filter: false, display: false}},
     {name: "需求编号", options: {filter: false}},
     {name: "需求名称", options: {filter: false}},
     {name: "需求负责人", options: {filter: false}},
@@ -78,8 +79,8 @@ class TaskBoard extends React.Component {
         this.state = {
             randomNum: 0,
             assembleTable: [],
-            currentPage : 1,
-            totalPages : 1
+            currentPage: 1,
+            totalPages: 1
         };
     }
 
@@ -98,9 +99,14 @@ class TaskBoard extends React.Component {
 
             let result = self.mapObjectToArray(demands.result, members);
 
-            self.setState({assembleTable: result, pageSize : demands.pageSize, totalPages : demands.totalPages, raw : demands.result});
+            self.setState({
+                assembleTable: result,
+                pageSize: demands.pageSize,
+                totalPages: demands.totalPages,
+                raw: demands.result
+            });
 
-            self.setState({iteration : iteration});
+            self.setState({iteration: iteration});
 
             stopLoading();
 
@@ -116,11 +122,11 @@ class TaskBoard extends React.Component {
 
         let self = this;
 
-        nextPage(page+1,function(ret){
+        nextPage(page + 1, function (ret) {
 
             let result = self.mapObjectToArray(ret.result);
 
-            self.setState({assembleTable: result, pageSize : ret.pageSize, totalPages : ret.totalPages, raw : ret.result});
+            self.setState({assembleTable: result, pageSize: ret.pageSize, totalPages: ret.totalPages, raw: ret.result});
 
         })
     };
@@ -136,12 +142,18 @@ class TaskBoard extends React.Component {
             MUIDataTableBodyCell: {
                 root: {
                     backgroundColor: "#FFF",
-                    width: "600px"
+                    padding: "4px 0px 4px 24px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    paddingRight: "14px",
+                    whiteSpace: "nowrap"
                 }
             },
+            MuiDataTableCell:{
+                padding:"4px 0px 4px 24px"
+            }
         }
     });
-
 
 
     openDemand = e => {
@@ -168,13 +180,13 @@ class TaskBoard extends React.Component {
 
         let parsedDemandList = [];
 
-        for(let idx in demandList){
+        for (let idx in demandList) {
 
             let unit = demandList[idx];
 
             let demand = [];
 
-            for(let i in unit){
+            for (let i in unit) {
 
                 demand.push(unit[i]);
             }
@@ -188,12 +200,12 @@ class TaskBoard extends React.Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
 
-        if(nextProps.action === UPDATE_ROW){
+        if (nextProps.action === UPDATE_ROW) {
 
             let rows = this.state.raw;
-            for(let i in rows){
+            for (let i in rows) {
                 let unit = rows[i];
-                if(unit.id === nextProps.updatedRow.id){
+                if (unit.id === nextProps.updatedRow.id) {
                     unit.iterationName = nextProps.updatedRow.iterationName;
                     break;
                 }
@@ -201,14 +213,14 @@ class TaskBoard extends React.Component {
 
             this.setState({
                 assembleTable: this.mapObjectToArray(rows),
-                raw : rows
+                raw: rows
             })
 
-        }else if(nextProps.action === SAVE_EDIT_DEMAND || nextProps.action === SAVE_REVIEW_DEMAND){
+        } else if (nextProps.action === SAVE_EDIT_DEMAND || nextProps.action === SAVE_REVIEW_DEMAND) {
             let rows = this.state.raw;
-            for(let i in rows){
+            for (let i in rows) {
                 let unit = rows[i];
-                if(unit.id === nextProps.updatedRow.id){
+                if (unit.id === nextProps.updatedRow.id) {
                     rows[i] = nextProps.updatedRow;
                     break;
                 }
@@ -216,29 +228,25 @@ class TaskBoard extends React.Component {
 
             this.setState({
                 assembleTable: this.mapObjectToArray(rows),
-                raw : rows
+                raw: rows
             })
 
 
-        }else if(nextProps.action === SAVE_ADD_DEMAND){
+        } else if (nextProps.action === SAVE_ADD_DEMAND) {
 
             let rows = this.state.raw;
             rows.unshift(nextProps.updatedRow);
 
             this.setState({
                 assembleTable: this.mapObjectToArray(rows),
-                raw : rows
+                raw: rows
             })
-
-
 
 
         }
 
 
-
     }
-
 
 
     render() {
@@ -247,9 +255,10 @@ class TaskBoard extends React.Component {
             filterType: 'checkbox',
             print: false,
             sort: false,
-            count : this.state.totalPages,
+            count: this.state.totalPages,
             serverSide: true,
-            rowsPerPage : this.state.pageSize,
+            responsive: "scroll",
+            rowsPerPage: this.state.pageSize,
             rowsPerPageOptions: [this.state.pageSize],
             onRowsSelect: function (currentRowsSelected, allRowsSelected) {
                 console.log(333);
@@ -262,7 +271,12 @@ class TaskBoard extends React.Component {
                                          setSelectedRows={setSelectedRows} iteration={this.state.iteration}/>)
 
             },
-            onChangeRowsPerPage:(numberOfRows)=>{
+            customToolbar: () => {
+                return (
+                    <CustomToolbar4Demand handleAdd={this.openDemand}/>
+                );
+            },
+            onChangeRowsPerPage: (numberOfRows) => {
 
 
             },
@@ -296,30 +310,30 @@ class TaskBoard extends React.Component {
             }
         };
 
-        console.log(JSON.stringify("%%%%%%%%%"+this.state.assembleTable));
+        console.log(JSON.stringify("%%%%%%%%%" + this.state.assembleTable));
 
         //todo:结果都在这个result里面，选取值去定位这个result里面的数组（被选取的索引值和result里面是保持一致的）
         return (
             <Grid container spacing={16}>
-                <Grid item xs={12}>
-                    <div className={classes.root}>
-                        <AppBar position="static" color="default" className={classes.head} style={{boxShadow: "none"}}>
-                            <Toolbar>
-                                <Typography variant="h6" color="inherit">
-                                    筛选
-                                </Typography>
-                                <Button color="inherit" className={classes.newBuildButton}
-                                        onClick={this.openDemand}><Avatar className={classes.avatar}><AddIcon/></Avatar></Button>
-                                {/*<Button color="inherit" className={classes.newBuildButton}*/}
-                                        {/*onClick={this.openFilterManager}><Avatar*/}
-                                    {/*className={classes.orangeAvatar}><SearchIcon/></Avatar></Button>*/}
-                                {/*<Button color="inherit" className={classes.newBuildButton}*/}
-                                        {/*onClick={this.openFilterDeveloper}><Avatar*/}
-                                    {/*className={classes.purpleAvatar}><SearchIcon/></Avatar></Button>*/}
-                            </Toolbar>
-                        </AppBar>
-                    </div>
-                </Grid>
+                {/*<Grid item xs={12}>*/}
+                {/*<div className={classes.root}>*/}
+                {/*<AppBar position="static" color="default" className={classes.head} style={{boxShadow: "none"}}>*/}
+                {/*<Toolbar>*/}
+                {/*<Typography variant="h6" color="inherit">*/}
+                {/*筛选*/}
+                {/*</Typography>*/}
+                {/*<Button color="inherit" className={classes.newBuildButton}*/}
+                {/*onClick={this.openDemand}><Avatar className={classes.avatar}><AddIcon/></Avatar></Button>*/}
+                {/*/!*<Button color="inherit" className={classes.newBuildButton}*!/*/}
+                {/*/!*onClick={this.openFilterManager}><Avatar*!/*/}
+                {/*/!*className={classes.orangeAvatar}><SearchIcon/></Avatar></Button>*!/*/}
+                {/*/!*<Button color="inherit" className={classes.newBuildButton}*!/*/}
+                {/*/!*onClick={this.openFilterDeveloper}><Avatar*!/*/}
+                {/*/!*className={classes.purpleAvatar}><SearchIcon/></Avatar></Button>*!/*/}
+                {/*</Toolbar>*/}
+                {/*</AppBar>*/}
+                {/*</div>*/}
+                {/*</Grid>*/}
                 <Grid item xs={12}>
                     <MuiThemeProvider theme={this.getMuiTheme()}>
                         <MUIDataTable
@@ -344,7 +358,7 @@ class TaskBoard extends React.Component {
                     open={editDemandShow}
                     iteration={this.state.iteration}
                 />
-                <FilterDemandManager  iteration={this.state.iteration}/>
+                <FilterDemandManager iteration={this.state.iteration}/>
                 {/*<FilterDemandDeveloper/>*/}
             </Grid>
 
@@ -362,9 +376,9 @@ const
             filterManagerDemandShow: state.reducer.buildDemand.filterManagerDemandShow,
             tableData: state.reducer.buildDemand.addDemand,
             initialTable: state.reducer.buildDemand.initialData.dataMuiTable,
-            updatedRow : state.reducer.buildDemand.updatedRow,
-            action:state.reducer.buildDemand.action,
-            projectMembers : state.reducer.common.projectMembers,
+            updatedRow: state.reducer.buildDemand.updatedRow,
+            action: state.reducer.buildDemand.action,
+            projectMembers: state.reducer.common.projectMembers,
         }
     };
 

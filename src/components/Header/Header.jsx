@@ -39,10 +39,10 @@ function Header({ ...props }) {
             {makeBrand()}
           </Button>
         </div>
-        <Hidden smDown implementation="css">
+        <Hidden mdDown  implementation="css">
           <HeaderLinks />
         </Hidden>
-        <Hidden mdUp implementation="css">
+        <Hidden lgUp implementation="css">
           <IconButton
             color="inherit"
             aria-label="open drawer"

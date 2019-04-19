@@ -6,31 +6,24 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import AddIcon from '@material-ui/icons/Add';
+
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from "@material-ui/core/Grid";
 import store from "../../stores";
-import EditQuill from "../SelfComponent/EditQuill"
 import {
-    closeTaskEdit,
-    submitAndChange2Dev,
-    saveDevPlan, init, closeTestCaseEditor, handleAddTestCase,
+    closeTestCaseEditor, handleAddTestCase,
 } from "../../actions/BuildMissionAction"
-import InputField from "../SelfComponent/InputField"
-import DatePicker from "../SelfComponent/DatePicker"
-import SingleSelect from "../SelfComponent/SingleSelect"
 import permProcessor from "../../constants/PermProcessor";
-import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
-import {Rules} from "../../actions/validateAction";
 import {EDIT_TEST_CASE, OPEN_TEST_CASE_EDITOR, SAVE_EDIT_TEST_CASE, SAVE_TEST_CASE} from "../../actions/types";
 import AddTestCase from "./AddTestCase";
-import {success} from "../../actions/NotificationAction";
-import CustomToolbarSelect from "../views/DemandBoard";
 import CustomToolBarSelect4DeliveryDoc from "./CustomToolBarSelect4DeliveryDoc";
+import CustomToolbar from "./CustomToolbar4DeliveryDoc";
 
 
 const styles = {
@@ -228,6 +221,11 @@ class DevTestCaseEditor extends React.Component {
                                          setSelectedRows={setSelectedRows}/>)
 
             },
+            customToolbar: () => {
+                return (
+                    <CustomToolbar handleAdd={this.handleAdd}/>
+                );
+            },
             textLabels: {
                 selectedRows: {
                     text: "行 已选定",
@@ -269,12 +267,6 @@ class DevTestCaseEditor extends React.Component {
                             <Grid item xs={12}>
                                 <MuiThemeProvider theme={this.getMuiTheme()}>
                                     <MUIDataTable
-                                        title={
-                                        <IconButton color="inherit" onClick={this.handleAdd} aria-label="Close">
-                                            <CloseIcon/>
-                                            </IconButton>
-
-                                        }
                                         data={this.state.testCase}
                                         columns={columns}
                                         options={options}
