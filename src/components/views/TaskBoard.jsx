@@ -209,7 +209,7 @@ class TaskBoard extends React.Component {
         });
         let processingTaskComponents = tempContent.map((prop, key) => {
             let content = "";
-            if(prop.taskStatus != "待处理" && prop.taskStatus != "完成"&& prop.taskStatus != "已走查"){
+            if(prop.taskStatus !== "待处理" && prop.taskStatus !== "完成"&& (prop.taskStatus !== "已走查"&&prop.taskType ==="需求开发任务")){
                 content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
                 ++inProgressTaskCnt;
             }
@@ -217,7 +217,7 @@ class TaskBoard extends React.Component {
         });
         let finishTaskComponents = tempContent.map((prop, key) => {
             let content = "";
-            if(prop.taskStatus === "完成"||prop.taskStatus === "已走查"){
+            if(prop.taskStatus === "完成"||(prop.taskStatus === "已走查"&&prop.taskType!=="需求开发任务")){
                 content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
                 ++finishTaskCnt;
             }

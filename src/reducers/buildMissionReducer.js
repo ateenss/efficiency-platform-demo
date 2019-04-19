@@ -272,7 +272,7 @@ export default function (state = INITIAL_STATE, action) {
             return {...state, filterJudge: tempTask};
         case OPEN_BUILD_PLAN:
             if (action.value==="000"){
-                return {...state, buildPlanShow: true,action:"OPEN_BUILD_PLAN"};
+                return {...state, tempDemandTaskPlan:"",buildPlanShow: true,action:"OPEN_BUILD_PLAN"};
             }
             return {...state, buildPlanShow: true,tempDemandTaskPlan:action.value,action:"OPEN_BUILD_PLAN"};
         case CLOSE_BUILD_PLAN:
@@ -304,7 +304,7 @@ export default function (state = INITIAL_STATE, action) {
                     tempDetailGotest=value;
                 }
             });
-            return {...state,detailGoTestShow:true,tempBoardToDetail:tempDetailGotest};
+            return {...state,detailGoTestShow:true,tempBoardToDetail:tempDetailGotest, action :OPEN_DETAIL_GOTEST};
         case CLOSE_DETAIL_MISSION:
             return {...state, detailMissionShow: false};
         case CLOSE_DETAIL_GOTEST:

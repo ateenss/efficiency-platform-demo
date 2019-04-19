@@ -13,7 +13,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Grid from "@material-ui/core/Grid";
 import store from "../../stores";
 import {closeGoTestDetail,finishTest,getMyTaskMain} from "../../actions/BuildMissionAction"
-import {SHOW_NOTIFICATION} from "../../actions/types";
+import {OPEN_DETAIL_GOTEST, SHOW_NOTIFICATION} from "../../actions/types";
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -139,6 +139,13 @@ class MissionDetailMain extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps, nextContext) {
+        console.log(nextProps.action)
+        if(nextProps.action ===OPEN_DETAIL_GOTEST ){
+            this.setState({progress : 0})
+        }
+    }
+
     handleChangeAndClose=()=>{
         if (permProcessor.bingo('finishTest', this.state.perm)) {
             finishTest(this.props.tempBoardToDetail.taskId);
@@ -189,15 +196,20 @@ class MissionDetailMain extends React.Component {
         if(progress === 100) {
             if (permProcessor.bingo('finishTest', this.state.perm)) {
                 finishTest(this.props.tempBoardToDetail.taskId);
+                this.setState({progress : 0})
             }
         }
     };
+
+    componentWillUnmount() {
+        console.log("#$$#%#%#$%#");
+        this.setState({progress : 0})
+    }
 
     render() {
         const {classes,detailGoTestShow,tempBoardToDetail} = this.props;
 
         const { progress } = this.state;
-
         return (
 
             <div>
@@ -238,7 +250,7 @@ class MissionDetailMain extends React.Component {
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
     return {
-        action : state.reducer.task.action,
+        action : state.reducer.buildMission.action,
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
         detailGoTestShow:state.reducer.buildMission.detailGoTestShow,

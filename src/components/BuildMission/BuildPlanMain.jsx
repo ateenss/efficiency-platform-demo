@@ -195,7 +195,6 @@ class BuildPlanMain extends React.Component {
                                                     onChange={this.getContent}
                                                     defaultValue={planContent.disasterRecoveryAssessment}
                                     />
-                                    />
                                 </Grid>
                                 <Grid item xs={3}>
                                     <MultiLineInput fullWidth
