@@ -17,7 +17,7 @@ import {connect} from "react-redux";
 import {
     openTaskEdit,
     openAssignGoTest,
-    meetRequirements, openTestCaseEditor,
+    meetRequirements,
     calPerm
 } from "../../actions/BuildMissionAction"
 import permProcessor from "../../constants/PermProcessor";

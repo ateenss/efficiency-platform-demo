@@ -440,7 +440,6 @@ DevelopPlan.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    console.log("%%%%%%%"+JSON.stringify(state.reducer.iteration.devPlanContent))
     return {
         developPlan: state.reducer.iteration.developPlan,
         action: state.reducer.iteration.action,

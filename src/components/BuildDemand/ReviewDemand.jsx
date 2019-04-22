@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import {saveReviewDemand, closeReviewDemand} from "../../actions/DemandAction"
 import {connect} from "react-redux";
 import SingleSelect from "../SelfComponent/SingleSelect"
-import {EDIT_DEMAND, REVIEW_DEMAND} from "../../actions/types";
+import { REVIEW_DEMAND} from "../../actions/types";
 import {Rules, validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
@@ -140,7 +140,6 @@ class ReviewDemand extends React.Component {
 
             projectMember4MultiSelect.push(ret);
         }
-        const labelArray=["是","否"];
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={!!this.props.openReviewDemand ? this.props.openReviewDemand : false}>
                 <DialogTitle id="simple-dialog-title">评审需求 - {reviewDemand["demandCode"]}</DialogTitle>

@@ -10,13 +10,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
 import DatePicker from "../SelfComponent/DatePicker"
-import {closeBuildModule, init, saveBuildModule} from "../../actions/BuildMissionAction"
+import {closeBuildModule, saveBuildModule} from "../../actions/BuildMissionAction"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
-import SingleSelect from "../SelfComponent/SingleSelect"
 import permProcessor from "../../constants/PermProcessor";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
-import {Rules, Regex, validate, validating} from "../../actions/validateAction";
+import {Rules, validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
 
 
@@ -117,7 +116,7 @@ class BuildDevTaskMain extends React.Component {
 
 
     render() {
-        const {classes, onClose, selectedValue,initialData,buttonStyle,randomNum,hintMessage,projectMembers, ...other} = this.props;
+        const {classes,buttonStyle, ...other} = this.props;
         let defaultModules = [];
         const{moduleContent}=this.state;
         for(let j in this.props.modules){
@@ -204,8 +203,6 @@ BuildDevTaskMain.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        initialData:state.reducer.buildDemand.initialData,
-        hintMessage:state.reducer.buildDemand.hintMessage,
         buildDemandShow:state.reducer.buildDemand.buildDemandShow,
         demands:state.reducer.buildMission.demands,
         projectMembers:state.reducer.common.projectMembers,

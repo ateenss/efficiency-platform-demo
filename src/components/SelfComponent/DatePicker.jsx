@@ -44,8 +44,6 @@ class MaterialUIPickers extends React.Component {
         // this.setState({ data: date });
         console.log(s.format(date));
         this.setState({ data: s.format(date) });
-        // this.props.onStartChange(date);
-        // console.log(this.props.nameIn);
         this.props.onDateChange({keyNote:this.props.nameIn,value:s.format(date)})
     };
 

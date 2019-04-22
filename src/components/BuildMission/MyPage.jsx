@@ -2,13 +2,9 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import Button from '@material-ui/core/Button';
 import Demand from './DemandTaskDetail';
 import {connect} from "react-redux";
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid'
 
 const styles = theme => ({
@@ -21,7 +17,6 @@ const styles = theme => ({
 class MyPage extends React.Component {
     constructor(props) {
         super(props);
-        // console.log("afterGetDemandTasks");
         this.state = {
             expanded: false,
             value: 0
@@ -32,12 +27,9 @@ class MyPage extends React.Component {
 
     handleChange = (event, newValue) => {
         this.setState({value: newValue});
-    }
-
-   /* componentDidMount() {
+    };
 
 
-    }*/
 
     render() {
         const {classes, demands,tempBoardToDetail} = this.props;

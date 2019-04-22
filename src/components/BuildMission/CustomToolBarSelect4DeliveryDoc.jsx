@@ -60,9 +60,6 @@ class CustomToolBarSelect4DeliveryDoc extends React.Component {
         console.log(`block users with dataIndexes: ${this.props.selectedRows.data.map(row => row.dataIndex)}`);
     };
 
-    // handleDemand = () =>{
-    //     return <ChooseDemandBox open={true}/>
-    // };
     handleDemand = () => {
         this.setState({open: true})
     };

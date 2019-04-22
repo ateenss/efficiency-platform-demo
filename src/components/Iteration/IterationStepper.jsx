@@ -4,7 +4,6 @@ import {withStyles} from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
 import Chip from "@material-ui/core/Chip";
 import StepConnector from "@material-ui/core/StepConnector";
 
@@ -51,17 +50,7 @@ class IterationStepper extends React.Component {
         }));
     };
 
-    handleBack = () => {
-        this.setState(state => ({
-            activeStep: state.activeStep - 1,
-        }));
-    };
 
-    handleReset = () => {
-        this.setState({
-            activeStep: 0,
-        });
-    };
 
     render() {
         const {classes, steppers} = this.props;

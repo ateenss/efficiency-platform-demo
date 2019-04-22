@@ -1,8 +1,7 @@
 import DialogTitle from '@material-ui/core/DialogTitle';
-import MultiSelect from "../SelfComponent/MultiSelect";
 import Dialog from '@material-ui/core/Dialog';
 import store from "../../stores";
-import {closeAssignGoTest, doAssignGoTest, goToTest, init} from "../../actions/BuildMissionAction";
+import {closeAssignGoTest,goToTest} from "../../actions/BuildMissionAction";
 import React from "react";
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -70,7 +69,7 @@ class GoTestPage extends React.Component{
         this.setState({errorList: errorList});
     };
     render() {
-        const {classes,projectMembers,assignGoTestShow } = this.props;
+        const {classes,assignGoTestShow } = this.props;
 
 
         let projectMember4MultiSelect = []

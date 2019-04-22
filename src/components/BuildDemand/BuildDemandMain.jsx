@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import blue from '@material-ui/core/colors/blue';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,13 +9,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
-import DatePicker from "../SelfComponent/DatePicker"
 import {closeBuildDemand,saveDemand} from "../../actions/DemandAction"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import {ADD_DEMAND} from "../../actions/types";
-import AssociationInputField from "../SelfComponent/AssociationInputField";
 import {Rules, Regex, validate, validating} from "../../actions/validateAction";
 import {error, success} from "../../actions/NotificationAction";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
@@ -281,7 +278,6 @@ BuildDemandMain.propTypes = {
 
 
 const mapStateToProps = (state) => {
-    // console.log("map数据:"+state.reducer.buildProject.addProjects);
     return {
         buildDemandShow: state.reducer.buildDemand.buildDemandShow,
         projectMembers: state.reducer.common.projectMembers,

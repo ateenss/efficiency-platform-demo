@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
@@ -17,22 +15,17 @@ const styles = theme => ({
     dense: {
         marginTop: 16,
     },
-    // menu: {
-    //     width: 200,
-    // },
+
 });
 
 
 class MultiLineInput extends React.Component {
     state = {
-        /*name: 'Cat in the Hat',
-        age: '',*/
+
         multiline: 'Controlled',
     };
 
-    /*handleChange = event => {
-        this.props.onChange({keyNote:event.target.name,value:event.target.value})
-    };*/
+
 
     onBLUR=event=>{
         this.props.onChange({keyNote:event.target.name,value:event.target.value})
@@ -59,9 +52,7 @@ class MultiLineInput extends React.Component {
                     inputProps={{
                         onBlur: this.onBLUR
                     }}
-                    /*defaultValue={this.judgeDefaultValue(nameIn,content)}*/
                     defaultValue={!!defaultValue ? defaultValue : ""}
-                    /*onChange={this.handleChange}*/
                     {...others}
                 />
 

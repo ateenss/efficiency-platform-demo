@@ -45,7 +45,6 @@ import {
     INIT_MODULES, OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR,
     CAL_PERM, SAVE_TEST_CASE, EDIT_TEST_CASE, OPEN_ADD_TEST_CASE, CLOSE_ADD_TEST_CASE, SAVE_EDIT_TEST_CASE
 } from "../actions/types"
-/*import {taskStatusChange} from "../actions/TaskStatusChangeFunc"*/
 
 export const INITIAL_STATE = {
     detailGoTestShow:false,
@@ -187,7 +186,7 @@ export default function (state = INITIAL_STATE, action) {
             return {...state, demands: taskStatusChange(state.demands,action,"goTest")};
         case CAL_PERM:
             let result=false;
-            if ((localStorage.getItem("currentUser")-action.value)==0){
+            if ((localStorage.getItem("currentUser")-action.value)===0){
                 result=true;
             }else{
                 result=false;

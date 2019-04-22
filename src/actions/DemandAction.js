@@ -185,11 +185,6 @@ export function openReviewDemand(demandId) {
         .catch(error => {
             // If request fails
             console.log("调用失败");
-            // update state to show error to user
-            // store.dispatch({
-            //     type: AUTH_ERROR,
-            //     payload: 'Invalid credentials.'
-            // });
         });
 }
 
@@ -344,11 +339,7 @@ export function editDemand(demandId) {
         .catch(error => {
             // If request fails
             console.log("调用失败");
-            // update state to show error to user
-            // store.dispatch({
-            //     type: AUTH_ERROR,
-            //     payload: 'Invalid credentials.'
-            // });
+
         });
 }
 

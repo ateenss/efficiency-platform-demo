@@ -6,18 +6,15 @@ import MuiCardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import Green from '@material-ui/core/colors/green';
 import Grid from "@material-ui/core/Grid";
-import classnames from 'classnames';
 
 import {changeTaskStatus} from "../../actions/DemandTasksAction";
 import {editTask} from "../../actions/DemandTasksAction";
 
-import {Link, NavLink, Route} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 import MuiCardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
 
-import Avatar from '@material-ui/core/Avatar';
-import {connect} from "react-redux";
 
 import IconButton from '@material-ui/core/IconButton';
 import ShareIcon from '@material-ui/icons/ArrowForward';
@@ -27,12 +24,10 @@ import {
     openIntegrationDetail,
     openDevMissionDetail,
     openOtherMissionDetail,
-    getDemandTaskDetail, init
+    getDemandTaskDetail
 } from "../../actions/BuildMissionAction"
 import store from "../../stores";
-import MissionDetailMain from "./MissionDetailMain"
 import permProcessor from "../../constants/PermProcessor";
-import Chip from "./DemandTaskDetail";
 
 
 const styles = theme => ({
@@ -151,19 +146,13 @@ class Task extends React.Component {
 
     render() {
 
-        const {classes, taskNo, keyNote, missionItem, taskType} = this.props;
-        const MyLink = props => <Link to="/task/my" {...props}/>
+        const {classes, keyNote,  taskType} = this.props;
         return (
             <Grid container spacing={0} style={{marginTop :"15px",marginBottom:"15px"}}>
                 <Grid xs={1} item></Grid>
                 <Grid xs={10} item>
                     <Card className={classes.taskCard}>
                         <CardHeader
-                            // avatar={
-                            //     <Avatar aria-label="Recipe" className={classes.taskType}>
-                            //         {this.props.taskType} - {this.props.keyNote}
-                            //     </Avatar>
-                            // }
                             className={classes.taskHeader}
                             title={
                                 <div className={classes.cardHeaderTitle}>
@@ -197,16 +186,7 @@ class Task extends React.Component {
                                     }}>{this.props.taskDeadline} 截止</Typography>
                                 </Grid>
                             </Grid>
-                            {/*<Grid container justify="flex-end">*/}
 
-
-                                {/*<Grid item>*/}
-                                    {/*<IconButton aria-label="详情" taskid="1"*/}
-                                                {/*onClick={this.openDetailPanel.bind(this, keyNote, taskType)}>*/}
-                                        {/*<ShareIcon/>*/}
-                                    {/*</IconButton>*/}
-                                {/*</Grid>*/}
-                            {/*</Grid>*/}
 
                         </CardActions>
                     </Card>

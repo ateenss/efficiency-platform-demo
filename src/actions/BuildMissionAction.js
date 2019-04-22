@@ -2,75 +2,49 @@ import store from '../stores/index';
 import axios from 'axios';
 import UrlConf from '../constants/UrlConf'
 import RequestBuilder from '../constants/RequestBuilder'
-import {startLoading, stopLoading} from "../actions/CommonAction";
+import { stopLoading} from "../actions/CommonAction";
 import {
-    OPEN_BUILD_MISSION,
     CLOSE_BUILD_MISSION,
-    BUILD_SAVE_MISSION,
-    OPEN_EDIT_MISSION,
-    CLOSE_EDIT_MISSION,
-    EDIT_SAVE_MISSION,
-    PULL_INITIAL_MISSION,
     OPEN_DETAIL_MISSION,
     CLOSE_DETAIL_MISSION,
-    SAVE_DETAIL_MISSION,
     OPEN_BUILD_PLAN,
     CLOSE_BUILD_PLAN,
     SAVE_BUILD_PLAN,
-    FILTER_UNDERWAY,
-    FILTER_FINISH,
     FILTER_DEMAND_MISSION,
-    FILTER_DEV_MISSION,
     FILTER_OWN_MISSION,
     FILTER_RESET,
     OPEN_BUILD_MODULE,
     CLOSE_BUILD_MODULE,
     OPEN_TASK_EDITOR,
     CLOSE_TASK_EDITOR,
-    CHANGE_STATUS_TO_PLAN,
-    CHANGE_STATUS_TO_DEV,
-    CHANGE_STATUS_TO_INTEGRATION,
-    CHANGE_STATUS_TO_TEST,
     SAVE_TASK_EDITOR,
-    CHANGE_STATUS_TO_FINISH,
     OPEN_DETAIL_GOTEST,
     CLOSE_DETAIL_GOTEST,
-    SAVE_DETIAL_GOTEST,
     OPEN_DETAIL_INTEGRATION,
     CLOSE_DETAIL_INTEGRATION,
-    SAVE_DETIAL_INTEGRATION,
     OPEN_DETAIL_OTHERMISSION,
     CLOSE_DETAIL_OTHERMISSION,
-    SAVE_DETAIL_OTHERMISSION,
     OPEN_DETAIL_DEVMISSION,
-    CLOSE_DETAIL_DEVMISSION,
-    SAVE_DETAIL_DEVMISSION,
     OPEN_ASSIGN_GOTEST,
     CLOSE_ASSIGN_GOTEST,
     DO_ASSIGN_GOTEST,
     GET_MYTASK_INFO,
     GET_TASK_DETAIL_INFO,
     SAVE_BUILD_MODULE,
-    SHOW_NOTIFICATION,
-    INIT_TASK_MEMBERS,
     CHANGE_PLAN2_DEV,
-    ADD_TEST_TASK_PANEL,
     MODIFY_AFTER_TASKEDITOR,
     FILTER_TEST_TASK,
     INIT_PROJECT_MEMBERS,
     INIT_MODULES,
     CAL_PERM,
-    OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR, BUILD_SAVE_PROJECT,
-    SAVE_TEST_CASE, EDIT_DEMAND,
+    OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR,
+    SAVE_TEST_CASE,
     EDIT_TEST_CASE,
     OPEN_ADD_TEST_CASE,
     CLOSE_ADD_TEST_CASE,
     SAVE_EDIT_TEST_CASE
 } from './types';
-import {GET_PROJECT_MEMBERS} from "./CommonAction";
-import {GET_DEMAND, GET_DEMANDS} from "./DemandAction";
 import {error} from "./NotificationAction";
-import {SAVE} from "./BuildProjectAction";
 const config = {
     method: 'post',
     headers: {'Content-Type': 'application/json;charset=utf-8'},
@@ -79,16 +53,9 @@ const config = {
 };
 
 
-/*!!this.props.funcArray&&this.props.funcArray.map((value,key)=>{
-    value.name===event.target.value&&store.dispatch(value.func(this.props.giveContent))
-});*/
 
 export const calPerm=value=>({
     type:CAL_PERM,
-    value
-});
-export const addTestTask2Panel=value=>({
-    type:ADD_TEST_TASK_PANEL,
     value
 });
 
@@ -135,13 +102,6 @@ export const openDevMissionDetail=value=>({
     value
 });
 
-export const closeDevMissionDetail=()=>({
-    type: CLOSE_DETAIL_DEVMISSION
-});
-
-export const saveDevMissionDetail=()=>({
-    type: SAVE_DETAIL_DEVMISSION
-});
 
 
 export const openOtherMissionDetail=value=>({
@@ -153,9 +113,7 @@ export const closeOtherMissionDetail=()=>({
     type: CLOSE_DETAIL_OTHERMISSION
 });
 
-export const saveOtherMissionDetail=()=>({
-    type: SAVE_DETAIL_OTHERMISSION
-});
+
 
 export const openGoTestDetail=value=>({
     type: OPEN_DETAIL_GOTEST,
@@ -166,9 +124,7 @@ export const closeGoTestDetail=()=>({
     type: CLOSE_DETAIL_GOTEST
 });
 
-export const saveGoTestDetail=()=>({
-    type: SAVE_DETIAL_GOTEST
-});
+
 
 export const openIntegrationDetail=value=>({
     type: OPEN_DETAIL_INTEGRATION,
@@ -179,38 +135,12 @@ export const closeIntegrationDetail=()=>({
     type: CLOSE_DETAIL_INTEGRATION
 });
 
-export const saveIntegrationDetail=()=>({
-    type: SAVE_DETIAL_INTEGRATION
-});
+
 
 const saveEditorSelf=()=>({
     type: SAVE_TASK_EDITOR
 });
 
-export const changeStatusToFinish=value=>({
-    type:CHANGE_STATUS_TO_FINISH,
-    value
-});
-
-export const changeStatusToPlan=value=>({
-    type:CHANGE_STATUS_TO_PLAN,
-    value
-});
-
-export const changeStatusToDev=value=>({
-    type:CHANGE_STATUS_TO_DEV,
-    value
-});
-
-export const changeStatusToIntegration=value=>({
-    type:CHANGE_STATUS_TO_INTEGRATION,
-    value
-});
-
-export const changeStatusToGoTest=value=>({
-    type:CHANGE_STATUS_TO_TEST,
-    value
-});
 
 export const openTaskEdit=value=>({
     type: OPEN_TASK_EDITOR,
@@ -242,21 +172,12 @@ export const filterReset=()=>({
     type: FILTER_RESET
 });
 
-export const filterDoUnderWay=()=>({
-    type: FILTER_UNDERWAY
-});
 
-export const filterDoFinish=()=>({
-    type: FILTER_FINISH
-});
 
 export const filterDoDemandMission=()=>({
    type: FILTER_DEMAND_MISSION
 });
 
-export const filterDoDevMission=()=>({
-    type:FILTER_DEV_MISSION
-}) ;
 
 export const filterDoOwnMission=()=>({
     type:FILTER_OWN_MISSION
@@ -286,37 +207,13 @@ export const closeDetailMission=()=>({
     type: CLOSE_DETAIL_MISSION
 });
 
-export const saveDetailMission=(value)=>({
-    type: SAVE_DETAIL_MISSION,
-    value
-});
 
 
-export const openBuildMission=()=>({
-    type:  OPEN_BUILD_MISSION
-});
 
 export const closeBuildMission=()=>({
     type:  CLOSE_BUILD_MISSION
 });
 
-export const openEditMission=()=>({
-    type:  OPEN_EDIT_MISSION
-});
-
-export const closeEditMission=()=>({
-    type:  CLOSE_EDIT_MISSION
-});
-
-export  const buildSaveMissionDispatch=(value)=>({
-    type:BUILD_SAVE_MISSION,
-    value
-});
-
-export  const editSaveMissionDispatch=(value)=>({
-    type:EDIT_SAVE_MISSION,
-    value
-});
 
 export const saveModule=value=>({
     type: SAVE_BUILD_MODULE,
@@ -328,10 +225,6 @@ export const planChange2Dev=value=>({
     value
 });
 
-export const modifyAfterEditor=value=>({
-    type:MODIFY_AFTER_TASKEDITOR,
-    value
-});
 
 
 export function demandTaskGoToIntegration(saveContent) {
@@ -768,13 +661,7 @@ export function editTestCase(id) {
 
         })
         .catch(error => {
-            // If request fails
             console.log("调用失败");
-            // update state to show error to user
-            // store.dispatch({
-            //     type: AUTH_ERROR,
-            //     payload: 'Invalid credentials.'
-            // });
         });
 }
 

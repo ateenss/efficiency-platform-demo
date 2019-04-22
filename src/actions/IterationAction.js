@@ -11,14 +11,13 @@ import {
     CLOSE_DEVELOP_PLAN,
     GET_PUBLISH_TEST_CASE,
     CLOSE_PUBLISH_TEST_CASE,
-    SHOW_NOTIFICATION, INIT_PROJECT_MEMBERS,
+    INIT_PROJECT_MEMBERS,
     GET_DEVPLAN_DETAIL
 } from './types';
 
-import React from "react";
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
 import RequestBuilder from "../constants/RequestBuilder";
-import {getDemandTaskDetail, openTestCaseEditor, saveModule} from "./BuildMissionAction";
+import {getDemandTaskDetail} from "./BuildMissionAction";
 import UrlConf from "../constants/UrlConf";
 import {error} from "./NotificationAction";
 
@@ -307,11 +306,6 @@ export function getDevelopPlan(id) {
 
     datatemp.demandId = id;
 
-   /* store.dispatch({
-        type: GET_DEVELOP_PLAN,
-        payload: datatemp
-    })
-*/
     //这里的data只有数据方案了，之后还要和其他初始数据融合
     const url = 'http://127.0.0.1:8080/tiger-admin/iteration/getDemandTaskPlanInfo';
     const config = {
@@ -410,7 +404,3 @@ console.log("()()()()()"+demandId);
 
 }
 
-export function addIterationPerson(id) {
-
-
-}

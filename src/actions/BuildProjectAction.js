@@ -1,17 +1,12 @@
 import axios from 'axios';
 import store from '../stores/index';
 import {
-    PULL_INITIAL_PROJECT,
     BUILD_SAVE_PROJECT,
     EDIT_SAVE_PROJECT,
-    PROJECT_SAVE_SUCCESS,
-    PROJECT_SAVE_FAIL,
-    PROJECT_SAVE_ERROR,
     OPEN_BUILD_PROJECT,
     OPEN_EDIT_PROJECT,
     CLOSE_BUILD_PROJECT,
     CLOSE_EDIT_PROJECT,
-    SHOW_NOTIFICATION, INIT_PROJECT_MEMBERS,
 } from "./types"
 import history from "../history/history";
 import UrlConf from "../constants/UrlConf";

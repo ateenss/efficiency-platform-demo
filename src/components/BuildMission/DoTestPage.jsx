@@ -1,28 +1,20 @@
-import React,{ useState } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
-import Grid from "@material-ui/core/Grid";
 import store from "../../stores";
-import {closeGoTestDetail,finishTest,getMyTaskMain} from "../../actions/BuildMissionAction"
-import {OPEN_DETAIL_GOTEST, SHOW_NOTIFICATION} from "../../actions/types";
+import {closeGoTestDetail,finishTest} from "../../actions/BuildMissionAction"
+import {OPEN_DETAIL_GOTEST} from "../../actions/types";
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import permProcessor from "../../constants/PermProcessor";
-import Chip from "@material-ui/core/Chip";
 import MuiSlider from '@material-ui/lab/Slider';
-import MuiExpansionPanel from "../SelfComponent/TrueMuitiSelect";
 import {Tooltip} from "@material-ui/core";
-import {success} from "../../actions/NotificationAction";
 
 
 
@@ -164,10 +156,6 @@ class MissionDetailMain extends React.Component {
        this.setState({
            confirm : true
        })
-
-        // this.setState({
-        //     openAlert:true
-        // })
    };
 
     closeAlert=()=>{
@@ -181,15 +169,6 @@ class MissionDetailMain extends React.Component {
         store.dispatch(closeGoTestDetail());
     };
 
-   /* handleInput = (e) =>{
-        const key = e.target.name;
-        this.state.data[key] = e.target.value;
-        this.setState(this.state.data);
-    };*/
-
-    /*onSubmit = () => {
-        store.dispatch(closeGoTestDetail());
-    };*/
 
     handleChange = (event, progress) => {
         this.setState({ progress });

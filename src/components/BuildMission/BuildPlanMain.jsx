@@ -11,7 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import store from '../../stores/index';
-import {closeBuildPlan, init, submitAndPlan} from "../../actions/BuildMissionAction"
+import {closeBuildPlan,  submitAndPlan} from "../../actions/BuildMissionAction"
 import Grid from '@material-ui/core/Grid';
 import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
@@ -305,7 +305,6 @@ BuildPlanMain.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        initialData: state.reducer.buildMission.initialData,
         buildPlanShow: state.reducer.buildMission.buildPlanShow,
         tempBoardToDetail: state.reducer.buildMission.tempBoardToDetail,
         tempDemandTaskPlan: state.reducer.buildMission.tempDemandTaskPlan,

@@ -16,15 +16,12 @@ import EditQuill from "../SelfComponent/EditQuill"
 import {
     closeTaskEdit,
     submitAndChange2Dev,
-    saveDevPlan, init,
+    saveDevPlan,
 } from "../../actions/BuildMissionAction"
 import InputField from "../SelfComponent/InputField"
 import DatePicker from "../SelfComponent/DatePicker"
-import SingleSelect from "../SelfComponent/SingleSelect"
 import permProcessor from "../../constants/PermProcessor";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
-import {Rules, validating} from "../../actions/validateAction";
-import {error} from "../../actions/NotificationAction";
 
 
 const styles = {
@@ -170,7 +167,7 @@ class DevTaskEditor extends React.Component {
     render() {
 
         const{taskContent}=this.state;
-        const {classes,taskEditorShow,devEditorCanShow} = this.props;
+        const {classes,taskEditorShow} = this.props;
 
 
         let defaultModules = [];
@@ -290,7 +287,6 @@ const mapStateToProps = (state) => {
     return {
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
-        detailMissionShow:state.reducer.buildMission.detailMissionShow,
         taskEditorShow: state.reducer.buildMission.taskEditorShow,
         tempTask: state.reducer.buildMission.tempTask,
         projectMembers:state.reducer.common.projectMembers,

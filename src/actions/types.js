@@ -18,7 +18,6 @@ export const CHANGE_TASK_STATUS="change_task_status";
 export const GET_TASK="get_task";
 export const SAVE_TASK="save_task";
 export const GET_DEMAND="get_demand";
-export const OPEN_PROJECT="open_project";
 export const SELECT_ITERATION="select_iteration";
 export const START_LOADING = "start_loading";
 export const STOP_LOADING = "stop_loading";
@@ -48,11 +47,8 @@ export const BUILD_SAVE_DEMAND="build_save_demand";
 export const EDIT_SAVE_DEMAND="edit_save_demand";
 export const EDIT_SAVE_PROJECT="edit_save_project";
 export const PROJECT_SAVE_SUCCESS="project_save_success";
-export const DEMAND_SAVE_SUCCESS="demand_save_success";
 export const PROJECT_SAVE_FAIL="project_save_fail";
-export const DEMAND_SAVE_FAIL="demand_save_fail";
 export const PROJECT_SAVE_ERROR="project_save_error";
-export const DEMAND_SAVE_ERROR="demand_save_error";
 export const FILTER_DEMAND_OPEN_MANAGER="filter_demand_open_manager";
 export const FILTER_DEMAND_CLOSE_MANAGER="filter_demand_close_manager";
 export const FILTER_DEMAND_OPEN_DEVELOPER="filter_demand_open_developer";
@@ -74,32 +70,24 @@ export const EDIT_SAVE_MISSION="edit_save_mission";
 //需求任务详情
 export const OPEN_DETAIL_MISSION="open_detail_mission";
 export const CLOSE_DETAIL_MISSION="close_detail_mission";
-export const SAVE_DETAIL_MISSION="save_detail_mission";
 //走查任务详情
 export const OPEN_DETAIL_GOTEST="open_detail_goTest";
 export const CLOSE_DETAIL_GOTEST="close_detail_goTest";
-export const SAVE_DETIAL_GOTEST="save_detail_goTest";
 //持续集成任务详情
 export const OPEN_DETAIL_INTEGRATION="open_detail_integration";
 export const CLOSE_DETAIL_INTEGRATION="close_detail_integration";
-export const SAVE_DETIAL_INTEGRATION="save_detail_integration";
 //个人其他任务详情
 export const OPEN_DETAIL_OTHERMISSION="open_detail_otherMission";
 export const CLOSE_DETAIL_OTHERMISSION="close_detail_otherMission";
-export const SAVE_DETAIL_OTHERMISSION="save_detail_otherMission";
 //开发任务详情
 export const OPEN_DETAIL_DEVMISSION="open_detail_devMission";
 export const CLOSE_DETAIL_DEVMISSION="close_detail_devMission";
-export const SAVE_DETAIL_DEVMISSION="save_detail_devMission";
 //新建方案
 export const OPEN_BUILD_PLAN="open_build_plan";
 export const CLOSE_BUILD_PLAN="close_build_plan";
 export const SAVE_BUILD_PLAN="save_build_plan";
 //需求任务筛选
-export const FILTER_UNDERWAY="filter_underway";
-export const FILTER_FINISH="filter_finish";
 export const FILTER_DEMAND_MISSION="filter_demand_mission";
-export const FILTER_DEV_MISSION="filter_dev_mission";
 export const FILTER_OWN_MISSION="filter_own_mission";
 export const FILTER_RESET="filter_reset";
 //模块（子任务）
@@ -131,7 +119,6 @@ export const GET_MYTASK_INFO="get_myTask_info";
 //初始化需求开发任务详情
 export const GET_TASK_DETAIL_INFO="get_taskDetail_info";
 //获取任务人员
-export const INIT_TASK_MEMBERS="init_task_members";
 //新增走查任务到达主面板
 export const ADD_TEST_TASK_PANEL="add_test_task_panel";
 //从方案状态改写到开发状态

@@ -1,18 +1,12 @@
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
-import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import PageIcon from "@material-ui/icons/Pages";
 import {withStyles} from "@material-ui/core/styles";
-import {changeTaskStatus, editDemand, editTask} from "../../actions/DemandTasksAction";
-import DemandGuihuaIcon from "@material-ui/icons/Receipt"
-import SimpleListMenu from "../common/SimpleListMenu";
 import store from '../../stores/index';
-import {openEditDemand} from "../../actions/DemandAction"
 import {getDevelopPlan, getPublishDocuments} from "../../actions/IterationAction";
-import {GET_PUBLISH_TEST_CASE,SAVE_KEY} from "../../actions/types";
+import {SAVE_KEY} from "../../actions/types";
 
 const defaultToolbarSelectStyles = {
     iconButton: {
@@ -53,34 +47,8 @@ class CustomToolBar4DemandList extends React.Component {
         this.props.setSelectedRows(nextSelectedRows);
     };
 
-    handleClickDeselectAll = () => {
-    };
 
-    /***
-     * {
-	"selectedRows": {
-		"lookup": {
-			"0": true
-		},
-		"data": [{
-			"index": 0,
-			"dataIndex": 0
-		}]
-	},
-	"displayData": [{
-		"data": ["YDZF-201809-12", "快速收款码需求这个需求很厉害", "张飞", "开发中", "Jack", "云闪付", "2019-03-13", "是"],
-		"dataIndex": 0
-	}, {
-		"data": ["TYDZF-201809-13", "ApplePayOnweb需求", "韦小宝", "已完成", "Jack", "云闪付", "2019-03-13", "是"],
-		"dataIndex": 1
-	],
-	"classes": {
-		"iconButton": "CustomToolBar4DemandList-iconButton-873",
-		"icon": "CustomToolBar4DemandList-icon-874",
-		"inverseIcon": "CustomToolBar4DemandList-inverseIcon-875"
-	}
-}
-     */
+
     handlePlan = () => {
         let key = this.getDemand();
         store.dispatch({
@@ -110,13 +78,7 @@ class CustomToolBar4DemandList extends React.Component {
         return key;
     };
 
-    handleClickBlockSelected = () => {
-        console.log(`block users with dataIndexes: ${this.props.selectedRows.data.map(row => row.dataIndex)}`);
-    };
 
-    // handleDemand = () =>{
-    //     return <ChooseDemandBox open={true}/>
-    // };
     handleDemand = () => {
         this.setState({open: true})
     };

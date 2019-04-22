@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import {connect} from "react-redux";
 import store from '../../stores/index';
 import {closeFilterManagerDemand, filterSaveManagerDemand} from "../../actions/DemandAction"
@@ -10,11 +9,10 @@ import InputField from "../SelfComponent/InputField";
 import Grid from '@material-ui/core/Grid';
 import DatePicker from "../SelfComponent/DatePicker";
 import SingleSelect from "../SelfComponent/SingleSelect";
-import RadioButton from "../SelfComponent/RadioButton";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import {ADD_DEMAND, FILTER_DEMAND_OPEN_MANAGER} from "../../actions/types";
+import { FILTER_DEMAND_OPEN_MANAGER} from "../../actions/types";
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from "@material-ui/core/IconButton";
 

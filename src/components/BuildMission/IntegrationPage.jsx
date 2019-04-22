@@ -10,11 +10,9 @@ import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
-import {saveTask} from "../../actions/DemandTasksAction";
 import store from "../../stores";
-import MyPage from "./MyPage"
-import {closeDetailMission,closeIntegrationDetail} from "../../actions/BuildMissionAction"
-import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
+import {closeIntegrationDetail} from "../../actions/BuildMissionAction"
+import {SHOW_NOTIFICATION} from "../../actions/types";
 
 
 
@@ -85,12 +83,6 @@ class MissionDetailMain extends React.Component {
                 data: {taskName: nextProps.task.taskName, taskContent: nextProps.task.taskContent}
             });
         }
-        /* if(nextProps.keyNote>-1){
-             this.setState({
-                 projectContent:nextProps.addProjects[nextProps.keyNote]
-             })
-         }*/
-
     }
 
     handleClose = () => {
@@ -109,7 +101,7 @@ class MissionDetailMain extends React.Component {
     };
 
     render() {
-        const {classes,detailIntegrationShow,tempBoardToDetail} = this.props;
+        const {classes,detailIntegrationShow} = this.props;
 
         return (
 

@@ -11,7 +11,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
 import store from "../../stores";
 import MyPage from "./MyPage"
-import {closeDetailMission,  getMyTaskMain,  init} from "../../actions/BuildMissionAction"
+import {closeDetailMission,  getMyTaskMain} from "../../actions/BuildMissionAction"
 import {SHOW_NOTIFICATION} from "../../actions/types";
 
 

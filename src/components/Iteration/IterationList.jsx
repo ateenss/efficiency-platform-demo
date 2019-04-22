@@ -4,7 +4,6 @@ import {withStyles} from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import SingleIteration from "./SingleIteration";
-import Grid from "@material-ui/core/Grid";
 import AddIcon from "@material-ui/icons/Add";
 import IconButton from "@material-ui/core/IconButton";
 import SearchTextField from "./SearchTextField"
