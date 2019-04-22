@@ -6,6 +6,7 @@ import MUIDataTable from "mui-datatables";
 import Typography from "@material-ui/core/Typography";
 import CustomToolBar4DemandList from '../Iteration/CustomToolBar4DemandList';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
+import {muiTableTheme} from "../common/MuiTableTheme";
 
 const styles = theme => ({});
 /**
@@ -81,30 +82,15 @@ class DemandsList extends React.Component {
     state = {};
 
 
-    getMuiTheme = () => createMuiTheme({
-        overrides: {
-            MuiPaper: {
-                root: {
-                    boxShadow: "none !important"
-                }
-            },
-            MUIDataTableBodyCell: {
-                root: {
-                    backgroundColor: "#FFF",
-                    width: "100px"
-                }
-            },
-        }
-    });
+
 
     componentDidMount() {
     }
 
     render() {
         const {classes, data} = this.props;
-        console.log("########"+JSON.stringify(data));
         return (
-            <MuiThemeProvider theme={this.getMuiTheme()}>
+            <MuiThemeProvider theme={muiTableTheme}>
                 <MUIDataTable
                     title="需求列表"
                     data={data}

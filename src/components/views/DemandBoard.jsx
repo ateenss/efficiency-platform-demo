@@ -33,6 +33,7 @@ import {addDemand, getRecentIteration, init, nextPage} from "../../actions/Deman
 import {ADD_DEMAND, SAVE_ADD_DEMAND, SAVE_EDIT_DEMAND, SAVE_REVIEW_DEMAND, UPDATE_ROW} from "../../actions/types";
 import {startLoading, stopLoading} from "../../actions/CommonAction";
 import CustomToolbar4Demand from "../demand/CustomToolbar4Demand";
+import {muiTableTheme} from "../common/MuiTableTheme";
 
 const styles = theme => ({
     root: {
@@ -133,45 +134,6 @@ class TaskBoard extends React.Component {
     };
 
 
-    getMuiTheme = () => createMuiTheme({
-        overrides: {
-            MuiPaper: {
-                root: {
-                    boxShadow: "none !important"
-                }
-            },
-            MUIDataTableBodyCell: {
-                root: {
-                    backgroundColor: "#FFF",
-                    padding: "4px 0px 4px 4px",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                }
-            },
-            MUIDataTableHeadCell:{
-                fixedHeader:{
-                    backgroundColor:"#FFF !important"
-                }
-            },
-            MUIDataTableSelectCell:{
-                root:{
-                    padding:"0 6px",
-                    width:"5%",
-                }
-
-            },
-            MuiTableCell:{
-                root:{
-                    padding:"4px 0px 4px 4px",
-                    "&:nth-child(5)": {
-                        fontWeight:"700"
-                    }
-                }
-            }
-        }
-    });
-
 
     openDemand = e => {
         addDemand();
@@ -191,7 +153,7 @@ class TaskBoard extends React.Component {
 
     mapObjectToArray = (result) => {
 
-        let ret = [];background:""
+        let ret = [];
 
         let demandList = result;
 
@@ -351,7 +313,7 @@ class TaskBoard extends React.Component {
                 {/*</div>*/}
                 {/*</Grid>*/}
                 <Grid item xs={12}>
-                    <MuiThemeProvider theme={this.getMuiTheme()}>
+                    <MuiThemeProvider theme={muiTableTheme}>
                         <MUIDataTable
                             title={"需求列表"}
                             data={this.state.assembleTable}

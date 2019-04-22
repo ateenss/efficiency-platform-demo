@@ -55,7 +55,7 @@ export function validate(rules, value) {
 
 
 export const Regex = {
-    projectCodeRegex: "^(([1-9]{1}\\d*)|(0{1}))(\\.\\d{1,2})$",
+    projectCodeRegex: "^(([1-9]{1}\\d*)|(0{1}))(\\-\\d{1,2})$",
     strRegex: "^[0-9a-zA-Z]+$",
     typeRegex: "^([0-9]{1})$",
     noSpecialSymbol: "^[\u0391-\uFFE5A-Za-z0-9]+$",
