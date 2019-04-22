@@ -181,7 +181,7 @@ class Project extends React.Component {
                         </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-                <ExpansionPanel>
+                <ExpansionPanel defaultExpanded={true}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>我参与的项目</Typography>
                     </ExpansionPanelSummary>

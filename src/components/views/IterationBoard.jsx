@@ -65,7 +65,7 @@ const styles = theme => ({
         fontWeight: "400"
     },
     avatar: {
-        backgroundColor: red[500],
+        backgroundColor: "#4DAF7C",
         width: "32px",
         height: "32px"
     },
@@ -322,7 +322,7 @@ class IterationBoard extends React.Component {
                                                     <div
                                                         className={classes.textInfo}>版本负责人：<Chip
                                                         label={this.state.iterationInfo.iterationOwner}
-                                                        className={classes.chipStyle}/>{}</div>
+                                                        className={classes.chipStyle}/></div>
                                                 </Grid>
                                                 <Grid xs={6} item>
                                                     <div
