@@ -2,21 +2,23 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Icon from '@material-ui/core/Icon';
 // @material-ui/icons
 // core components
 import Grid from "@material-ui/core/Grid";
 import Collapse from '@material-ui/core/Collapse';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MuiCardHeader from '@material-ui/core/CardHeader';
+import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
 import Task from './DemandTask';
+import AddIcon from "@material-ui/icons/Add";
 import {
     openBuildModule,
     doAssignGoTest,
     getDemandTaskPlan, getDemandTaskTestCase
 } from "../../actions/BuildMissionAction"
-import Divider from "@material-ui/core/Divider"
 import {connect} from "react-redux";
 import BuildPlanShow from "./BuildPlanMain"
 import store from '../../stores';
@@ -34,7 +36,7 @@ import permProcessor from "../../constants/PermProcessor";
 import TestCaseEditor from "./TestCaseEditor";
 
 
-const styles = {
+const styles =theme =>( {
     cardTitle,
     actions:{
       padding:0
@@ -42,7 +44,22 @@ const styles = {
     cardSubtitle: {
         float: "left"
     },
+    addIcon:{
+        width:"1em",
+        height:"1em",
+        marginTop: 0,
+        marginBottom:0,
+        paddingBottom:0,
+        paddingTop:0,
+    },
     cardLink,
+    newDevButton: {
+        height:"0.8em",
+        marginRight: "-12px",
+        marginLeft:"10px",
+        background: "#4caf50",
+        color: "#FFFFFF",
+    },
     DemandHeader: {
         margin: "0px !important",
 
@@ -80,6 +97,9 @@ const styles = {
     },
     demandHeader: {
     },
+    rightIcon: {
+        marginLeft: theme.spacing.unit,
+    },
     taskCard: {
         // marginBottom: "15px"
     },
@@ -105,9 +125,12 @@ const styles = {
         flexBasis:"18%",
         margin:"0 1% 0 1%",
         background:"#f5f5f5"
-    }
+    },
+    icon: {
+        margin: theme.spacing.unit * 2,
+    },
 
-};
+});
 
 const CardHeader = withStyles({
     action:{
@@ -139,12 +162,12 @@ class DemandTaskDetail extends React.Component {
                     getDemandTaskPlan(id)
                 }
             }
-        },{
+        },/*{
             name: "新建开发任务",
             func: function (id) {
                 store.dispatch(openBuildModule())
             }
-        },{
+        },*/{
 
             name:"上线案例",
             func: function(id){
@@ -201,6 +224,11 @@ class DemandTaskDetail extends React.Component {
 
     };
 
+    openNewDevTask=()=>{
+        store.dispatch(openBuildModule())
+    };
+
+
 
     render() {
         const {classes, develop, plan, goTest,integration, demands,finish,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
@@ -218,6 +246,9 @@ class DemandTaskDetail extends React.Component {
                             title={
                                 <div className={classes.cardHeaderTitle}>
                                     <span>{detailInfo.taskName}</span>
+                                    <Button variant="contained"  className={classes.newDevButton} size="small" onClick={this.openNewDevTask}>
+                                        <AddIcon className={classes.addIcon}/>
+                                    </Button>
                                     <Chip label={detailInfo.taskStatus} className={classes.chip}/>
                                 </div>
                             }
@@ -296,6 +327,8 @@ class DemandTaskDetail extends React.Component {
         );
     }
 }
+
+
 
 const mapStateToProps = (state) => {
     return {

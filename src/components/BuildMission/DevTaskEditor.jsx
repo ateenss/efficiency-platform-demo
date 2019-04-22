@@ -162,6 +162,12 @@ class DevTaskEditor extends React.Component {
         return ""
     };
 
+    devTaskNameShow=()=>{
+        if (this.props.devEditorCanShow) {
+            return "编辑开发任务"
+        }
+        return "查看开发任务"
+    };
 
 
     render() {
@@ -197,6 +203,8 @@ class DevTaskEditor extends React.Component {
             projectMember4MultiSelect.push(ret);
         }
 
+
+
         return (
 
             <div>
@@ -207,7 +215,8 @@ class DevTaskEditor extends React.Component {
                                 <CloseIcon/>
                             </IconButton>
                             <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
-                                编辑开发任务
+                                {/*编辑开发任务*/}
+                                {this.devTaskNameShow()}
                             </Typography>
                             {this.isOrNotSave()}
                             {this.isOrNotSubmit()}
@@ -273,6 +282,7 @@ class DevTaskEditor extends React.Component {
                                         onChange={this.getContent}
                                         nameIn="devPlan"
                                         defaultValue={taskContent.devPlan}
+                                        placeholder="请输入方案描述"
                                     />
 
                     </DialogContent>

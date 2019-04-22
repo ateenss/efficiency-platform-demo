@@ -86,13 +86,24 @@ class DemandTask extends React.Component {
         };
     }
     funcOptions=(perm,taskOwner)=>()=>{
-        let tempOptions=[{
-            name: "编辑",
-            func: function (id) {
-                store.dispatch(openTaskEdit(id));
-                store.dispatch(calPerm(taskOwner))
-            }
-        }];
+        let tempOptions=[];
+        if(this.props.devEditorCanShow){
+            tempOptions.push({
+                name: "编辑",
+                func: function (id) {
+                    store.dispatch(openTaskEdit(id));
+                    // store.dispatch(calPerm(taskOwner))
+                }
+            })
+        }else if(!this.props.devEditorCanShow){
+            tempOptions.push({
+                name: "查看任务",
+                func: function (id) {
+                    store.dispatch(openTaskEdit(id));
+                    // store.dispatch(calPerm(taskOwner))
+                }
+            })
+        }
         if (this.props.group==="develop") {
 
             tempOptions.push({
@@ -143,6 +154,10 @@ class DemandTask extends React.Component {
         return ret;
     };
 
+    checkPerm=(taskOwner)=>{
+        store.dispatch(calPerm(taskOwner));
+    };
+
     render() {
         const {classes} = this.props;
         return (
@@ -151,7 +166,7 @@ class DemandTask extends React.Component {
                     <CardHeader className={classes.taskHeader}
                                 action={
                                     <SimpleListMenu icon={<MoreVertIcon/>} options={this.funcOptions(this.state.perm,this.props.taskOwner)()}
-                                                    id={this.props.group + "-taskId-" + this.props.taskId}/>
+                                                    id={this.props.group + "-taskId-" + this.props.taskId} openClickAction={this.checkPerm.bind(this,this.props.taskOwner)}/>
                                 }
                                 title={<h6 className={classes.cardTitle}>{this.props.taskName}</h6>}
                     />
@@ -181,7 +196,8 @@ const mapStateToProps = (state) => {
     return {
         demands: state.reducer.task.demands,
         projectMembers: state.reducer.common.projectMembers,
-        modules : state.reducer.buildMission.modules
+        modules : state.reducer.buildMission.modules,
+        devEditorCanShow : state.reducer.buildMission.devEditorCanShow,
     }
 };
 

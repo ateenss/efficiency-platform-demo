@@ -13,6 +13,9 @@ class SimpleListMenu extends React.Component {
 
     handleClick = event => {
         this.setState({anchorEl: event.currentTarget});
+        if (this.props.openClickAction){
+            this.props.openClickAction();
+        }
     };
 
     handleClose = (callback, id, e) => {
