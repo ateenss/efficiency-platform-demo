@@ -91,6 +91,10 @@ const styles = theme => ({
         color: "#232323",
         margin: "5px",
         fontSize: "14px"
+    },
+    tabsIndicator: {
+        backgroundColor: '#4DAF7C',
+
     }
 });
 
@@ -284,7 +288,7 @@ class IterationBoard extends React.Component {
                     </Grid>
                     <Grid item xs={10}>
                         <Paper style={{padding: "10px"}}>
-                            <Tabs value={tabValue} onChange={this.handleChange}>
+                            <Tabs value={tabValue} onChange={this.handleChange}  classes={{indicator: classes.tabsIndicator }}>
                                 <Tab label="版本总览"/>
                                 <Tab label="需求列表"/>
                                 <Tab label="模块信息"/>

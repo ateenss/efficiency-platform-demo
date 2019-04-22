@@ -129,3 +129,6 @@ export const FILTER_TEST_TASK="filter_test_task";
 export const GET_DEVPLAN_DETAIL="get_devplan_detail";
 export const SAVE_KEY="save_key";
 export const CAL_PERM="cal_perm";
+export const CHANGE_PASSWORD="change_password";
+export const SAVE_CHANGE_PASSWORD="save_change_password";
+export const CLOSE_CHANGE_PASSWORD="close_change_password";

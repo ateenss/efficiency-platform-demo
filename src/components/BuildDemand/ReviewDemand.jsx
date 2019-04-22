@@ -54,7 +54,8 @@ class ReviewDemand extends React.Component {
                 defaultContent:{
                     status: !!nextProps.editData.status ? nextProps.editData.status : "",
                     demandDevOwnerId:!!nextProps.editData.demandDevOwnerId ? nextProps.editData.demandDevOwnerId : "",
-                    id:nextProps.editData.id
+                    id:nextProps.editData.id,
+                    iterationId : !!nextProps.editData.iterationId ? nextProps.editData.iterationId : "",
                 }
             });
 

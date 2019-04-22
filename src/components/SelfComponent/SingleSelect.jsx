@@ -43,8 +43,9 @@ class SingleSelect extends React.Component {
     componentDidMount() {
 
         let value = this.props.defaultValue;
-        console.log(this.props.nameIn + "++++" + value)
-        if(this.props.defaultValue != undefined || this.props.defaultValue != ""){
+
+        if(this.props.defaultValue !== undefined && this.props.defaultValue !== ""){
+
             this.setState({
                 value: value
             });

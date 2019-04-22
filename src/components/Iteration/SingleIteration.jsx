@@ -2,14 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import MuiListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import EditIcon from '@material-ui/icons/Edit';
-import {selectIteration} from "../../actions/IterationAction";
 import IterationMenuList from "./IterationMenuList";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {changeTaskStatus, editTask} from "../../actions/DemandTasksAction";
@@ -49,6 +46,24 @@ const options = [
 
     ]
 ;
+
+
+const ListItem = withStyles({
+    root: {
+        '&$selected': {
+            background: "#f5f5f5",
+        },
+        height:"50px",
+        '&$hover':{
+            background:"#121212"
+        }
+    },
+    selected:{
+        background: "#f5f5f5",
+    }
+})(props => <MuiListItem {...props} />);
+
+
 
 class SingleIteration extends React.Component {
     state = {

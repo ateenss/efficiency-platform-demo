@@ -95,6 +95,11 @@ class CustomToolbarSelect extends React.Component {
                         {/*<CompareArrowsIcon className={[classes.icon, classes.inverseIcon].join(" ")}/>*/}
                     {/*</IconButton>*/}
                 {/*</Tooltip>*/}
+                {/*<Tooltip title={"拆分需求"}>*/}
+                    {/*<IconButton className={classes.iconButton} onClick={this.handleEdit}>*/}
+                        {/*<EditIcon className={classes.icon}/>*/}
+                    {/*</IconButton>*/}
+                {/*</Tooltip>*/}
                 <Tooltip title={"编辑"}>
                     <IconButton className={classes.iconButton} onClick={this.handleEdit}>
                         <EditIcon className={classes.icon}/>

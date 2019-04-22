@@ -61,13 +61,14 @@ const columns = [
     {name: "序号", options: {filter: false, display: false}},
     {name: "需求编号", options: {filter: false}},
     {name: "需求名称", options: {filter: false}},
-    {name: "需求负责人", options: {filter: false}},
+    {name: "需求负责人", options: {filter: false, display:false}},
     {name: "需求状态", options: {filter: false}},
     {name: "开发负责人"},
     {name: "关联版本"},
     {name: "需求来源部门"},
-    {name: "需求评审通过起止时间"},
-    {name: "是否需UAT"}
+    {name: "需求评审通过时间"},
+    {name: "是否需UAT"},
+    {name: "是否涉及BM"},
 ];
 
 
@@ -142,15 +143,31 @@ class TaskBoard extends React.Component {
             MUIDataTableBodyCell: {
                 root: {
                     backgroundColor: "#FFF",
-                    padding: "4px 0px 4px 24px",
+                    padding: "4px 0px 4px 4px",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
-                    paddingRight: "14px",
-                    whiteSpace: "nowrap"
+                    whiteSpace: "nowrap",
                 }
             },
-            MuiDataTableCell:{
-                padding:"4px 0px 4px 24px"
+            MUIDataTableHeadCell:{
+                fixedHeader:{
+                    backgroundColor:"#FFF !important"
+                }
+            },
+            MUIDataTableSelectCell:{
+                root:{
+                    padding:"0 6px",
+                    width:"5%",
+                }
+
+            },
+            MuiTableCell:{
+                root:{
+                    padding:"4px 0px 4px 4px",
+                    "&:nth-child(5)": {
+                        fontWeight:"700"
+                    }
+                }
             }
         }
     });
@@ -174,7 +191,7 @@ class TaskBoard extends React.Component {
 
     mapObjectToArray = (result) => {
 
-        let ret = [];
+        let ret = [];background:""
 
         let demandList = result;
 
@@ -257,7 +274,6 @@ class TaskBoard extends React.Component {
             sort: false,
             count: this.state.totalPages,
             serverSide: true,
-            responsive: "scroll",
             rowsPerPage: this.state.pageSize,
             rowsPerPageOptions: [this.state.pageSize],
             onRowsSelect: function (currentRowsSelected, allRowsSelected) {

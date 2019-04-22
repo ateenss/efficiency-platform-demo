@@ -381,7 +381,6 @@ export function closeDevelopPlan() {
 
 export function getPublishDocuments(demandId) {
     const send_edit_data = UrlConf.base + 'task/getDemandTaskTestCase';
-console.log("()()()()()"+demandId);
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,demandId);
     return axios.post(send_edit_data, request,config)

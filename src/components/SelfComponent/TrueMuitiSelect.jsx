@@ -59,7 +59,8 @@ class TrueMuitiSelect extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.state = {
             items: [],
-            selectedItems: []
+            selectedItems: [],
+            expanded : false,
         };
     }
 
@@ -83,8 +84,12 @@ class TrueMuitiSelect extends Component {
             let id = "";
             if(!!selectedItems && selectedItems.length > 0){
                 id = selectedItems[0].id;
+                console.log(JSON.stringify(selectedItems))
+                this.setState({expanded:false});
+
             }
-            this.props.onChange({keyNote: this.props.nameIn, value: id})
+            this.props.onChange({keyNote: this.props.nameIn, value: id});
+
         }else{
             this.props.onChange({keyNote: this.props.nameIn, value: ret})
         }
@@ -110,10 +115,13 @@ class TrueMuitiSelect extends Component {
 
         }
 
+        this.handleExpanded = () =>{
+            this.setState({expanded:!this.state.expanded})
+        };
 
         return (
-            <ExpansionPanel className={classes.root}>
-                <ExpansionPanelSummary  expandIcon={<ExpandMoreIcon className={classes.iconRoot}/>} style={{minHeight: "44px", padding: "0 0 0 2px", margin:"0"}}>
+            <ExpansionPanel className={classes.root} expanded={this.state.expanded} >
+                <ExpansionPanelSummary  onClick={this.handleExpanded} expandIcon={<ExpandMoreIcon className={classes.iconRoot}/>} style={{minHeight: "44px", padding: "0 0 0 2px", margin:"0"}}>
                     <Typography className={classes.heading}>{this.props.label }{!!ret ? ": "+ ret : ""}</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails style={{padding: "0", margin: "0"}}>

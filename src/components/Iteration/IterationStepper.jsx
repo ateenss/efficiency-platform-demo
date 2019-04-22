@@ -6,6 +6,8 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Chip from "@material-ui/core/Chip";
 import StepConnector from "@material-ui/core/StepConnector";
+import {createMuiTheme} from "@material-ui/core";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 
 const styles = theme => ({
     root: {
@@ -29,15 +31,38 @@ const styles = theme => ({
     connectorLine: {
         transition: theme.transitions.create('border-color'),
     },
-    stepContent:{
-        borderLeft:"0",
-        paddingLeft:"0",
-        textAlign:"center"
+    stepContent: {
+        borderLeft: "0",
+        paddingLeft: "0",
+        textAlign: "center",
     },
-    chip:{
-        marginTop:"10px"
-    }
+    stepIcon: {
+        '&$active': {
+            color: "#121212"
+        },
+        color: "#121212",
+        fontSize: "34px"
+    },
+    StepIcon: {
+        color: "#121212"
+    },
+    chip: {
+        marginTop: "10px"
+    },
 });
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiStepIcon: {
+            root: {
+                '&$active': {
+                    color: "#4DAF7C"
+                },
+            },
+        },
+    },
+});
+
 
 class IterationStepper extends React.Component {
     state = {
@@ -67,38 +92,44 @@ class IterationStepper extends React.Component {
         );
         return (
             <div className={classes.root}>
-                <Stepper orientation="horizontal" alternativeLabel>
-                    <Step className={classes.stepContent}>
-                        <StepLabel optional={<Chip className={classes.chip} label={steppers.developPlanSubmitDate} />}>开发方案提交</StepLabel>
-                    </Step>
-                    <Step className={classes.stepContent}>
-                        <StepLabel optional={<Chip className={classes.chip}  label={steppers.codeReviewDate} />}>代码走查</StepLabel>
-                    </Step>
-                    <Step className={classes.stepContent}>
-                        <StepLabel optional={<Chip className={classes.chip}  label={steppers.ciDate} />}>持续集成</StepLabel>
-                    </Step>
-                    <Step className={classes.stepContent}>
-                        <StepLabel optional={<Chip className={classes.chip}  label={steppers.testDate} />}>提测</StepLabel>
-                    </Step>
-                    <Step className={classes.stepContent}>
-                        <StepLabel optional={<Chip className={classes.chip}  label={steppers.publishDate} />}>发布</StepLabel>
-                    </Step>
-                    <Step className={classes.stepContent}>
-                        <StepLabel optional={<Chip className={classes.chip}  label={steppers.deliveryDate} />}>上线</StepLabel>
-                    </Step>
+                <MuiThemeProvider theme={theme}>
+                    <Stepper orientation="horizontal" alternativeLabel>
+                        <Step className={classes.stepContent}>
+                            <StepLabel optional={<Chip className={classes.chip} label={steppers.developPlanSubmitDate}/>}>开发方案提交</StepLabel>
+                        </Step>
+                        <Step className={classes.stepContent}>
+                            <StepLabel optional={<Chip className={classes.chip} label={steppers.codeReviewDate}/>}>代码走查</StepLabel>
+                        </Step>
+                        <Step className={classes.stepContent}>
+                            <StepLabel
+                                optional={<Chip className={classes.chip} label={steppers.ciDate}/>}>持续集成</StepLabel>
+                        </Step>
+                        <Step className={classes.stepContent}>
+                            <StepLabel
+                                optional={<Chip className={classes.chip} label={steppers.testDate}/>}>提测</StepLabel>
+                        </Step>
+                        <Step className={classes.stepContent}>
+                            <StepLabel
+                                optional={<Chip className={classes.chip} label={steppers.publishDate}/>}>发布</StepLabel>
+                        </Step>
+                        <Step className={classes.stepContent}>
+                            <StepLabel
+                                optional={<Chip className={classes.chip} label={steppers.deliveryDate}/>}>上线</StepLabel>
+                        </Step>
 
-                </Stepper>
+                    </Stepper>
+                </MuiThemeProvider>
                 {/*{activeStep === steps.length && (*/}
-                    {/*<Paper square elevation={0} className={classes.resetContainer}>*/}
-                        {/*<Typography>All steps completed - you&apos;re finished</Typography>*/}
-                        {/*<Button onClick={this.handleReset} className={classes.button}>*/}
-                            {/*Reset*/}
-                        {/*</Button>*/}
-                    {/*</Paper>*/}
+                {/*<Paper square elevation={0} className={classes.resetContainer}>*/}
+                {/*<Typography>All steps completed - you&apos;re finished</Typography>*/}
+                {/*<Button onClick={this.handleReset} className={classes.button}>*/}
+                {/*Reset*/}
+                {/*</Button>*/}
+                {/*</Paper>*/}
                 {/*)}*/}
             </div>
-    )
-        ;
+        )
+            ;
     }
 }
 

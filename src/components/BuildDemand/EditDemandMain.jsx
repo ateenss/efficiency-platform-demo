@@ -83,6 +83,19 @@ class EditDemandMain extends React.Component {
     handleSave=()=>{
 
         let ret = validating(this.state.defaultContent, "demandProps");
+
+        if(this.state.defaultContent.demandType === 1){
+
+            if(!this.state.defaultContent.demandLinkCode){
+                error("版本链接编号必填");
+                return false;
+            }
+            if(!this.state.defaultContent.demandCode){
+                error("版本编号必填");
+                return false;
+            }
+        }
+
         if(!ret.result){
             error(ret.message);
             return false;
@@ -167,7 +180,7 @@ class EditDemandMain extends React.Component {
                                 validateEl={Rules.demandProps.demandName}
                             />
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
+                        <Grid item xs={3} className={classes.gridStyle}>
                             <SingleSelect
                                 defaultValue={this.state.defaultContent["demandType"]}
                                 onChange={this.getContent}
@@ -177,7 +190,28 @@ class EditDemandMain extends React.Component {
                                 validateEl={Rules.demandProps.demandType}
                             />
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
+                        <Grid item xs={3} className={classes.gridStyle}>
+                            <InputField
+                                nameIn="demandCode"
+                                onChange={this.getContent}
+                                InputLabelName="版本编号"
+                                defaultValue={this.state.defaultContent["demandCode"]}
+                                validateEl={Rules.demandProps.demandCode}
+                                disabled={this.state.defaultContent.demandType == 0 ? true : false}
+                            />
+                        </Grid>
+                        <Grid item xs={3} className={classes.gridStyle}>
+                            <InputField
+                                defaultValue={this.state.defaultContent["demandLinkCode"]}
+                                onChange={this.getContent}
+                                InputLabelName="版本链接编号"
+                                nameIn="demandLinkCode"
+                                nameArray={type}
+                                validateEl={Rules.demandProps.demandLinkCode}
+                                disabled={this.state.defaultContent.demandType == 0 ? true : false}
+                            />
+                        </Grid>
+                        <Grid item xs={3} className={classes.gridStyle}>
                             <SingleSelect
                                 defaultValue={this.state.defaultContent["status"]}
                                 onChange={this.getContent}
@@ -188,16 +222,7 @@ class EditDemandMain extends React.Component {
                             />
                         </Grid>
 
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <InputField
-                                nameIn="demandSourceDept"
-                                onChange={this.getContent}
-                                InputLabelName="需求来源部门"
-                                defaultValue={this.state.defaultContent["demandSourceDept"]}
-                                validateEl={Rules.demandProps.demandSourceDept}
 
-                            />
-                        </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
                                              nameIn="demandDevOwnerId"
@@ -264,12 +289,22 @@ class EditDemandMain extends React.Component {
                                 validateEl={Rules.demandProps.uatRequired}
                             />
                         </Grid>
-                        <Grid item xs={8} className={classes.gridStyle}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
                                 InputLabelName="关联外部系统"
                                 nameIn="relatedOuterSys"
                                 defaultValue={this.state.defaultContent["relatedOuterSys"]}
                                 onChange={this.getContent}
+                            />
+                        </Grid>
+                        <Grid item xs={4} className={classes.gridStyle}>
+                            <InputField
+                                nameIn="demandSourceDept"
+                                onChange={this.getContent}
+                                InputLabelName="需求来源部门"
+                                defaultValue={this.state.defaultContent["demandSourceDept"]}
+                                validateEl={Rules.demandProps.demandSourceDept}
+
                             />
                         </Grid>
                     </Grid>

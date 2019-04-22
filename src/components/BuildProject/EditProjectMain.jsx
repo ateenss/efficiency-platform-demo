@@ -120,6 +120,8 @@ class EditProjectMain extends React.Component {
 
         let muiSelectMembers = [];
         let projectMembers4muiSelect = [];
+
+        let owner4muiSelect=[];
         for(let j in this.props.projectMembers) {
             let member = this.props.projectMembers[j];
             projectMembers4muiSelect.push({id : member.id, label : member.name, group : member.deptName});
@@ -130,6 +132,10 @@ class EditProjectMain extends React.Component {
                     muiSelectMembers.push({id : member.id, label : member.name, group : member.deptName})
                 }
 
+            }
+
+            if(projectContent.projectOwnerId === member.id){
+                owner4muiSelect.push({id:member.id, label:member.name,group:member.deptName});
             }
 
         }
@@ -157,9 +163,8 @@ class EditProjectMain extends React.Component {
                         </Grid>
 
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="负责人" nameIn="projectOwnerId" defaultValue={projectContent.projectOwnerId}
-                                         nameArray={this.props.projectMembers}
-                                          validateEl={Rules.projectProps.projectOwnerId}
+                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status" defaultValue={projectContent.status}  nameArray={projectStatus}
+                                          validateEl={Rules.projectProps.status}
 
                             />
                         </Grid>
@@ -175,13 +180,16 @@ class EditProjectMain extends React.Component {
                             />
                         </Grid>
 
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="状态" nameIn="status" defaultValue={projectContent.status}  nameArray={projectStatus}
-                                          validateEl={Rules.projectProps.status}
+                        <Grid item xs={6} className={classes.gridStyle}>
 
+                            <TrueMuitiSelect data={projectMembers4muiSelect} onChange={this.getContent}
+                                             nameIn="projectOwnerId"
+                                             label="负责人"
+                                             defaultValue={owner4muiSelect}
+                                             singleSelect
                             />
                         </Grid>
-                        <Grid item xs={8} className={classes.gridStyle}>
+                        <Grid item xs={6} className={classes.gridStyle}>
                             <TrueMuitiSelect data={projectMembers4muiSelect} onChange={this.getContent}
                                              nameIn="projectMembers"
                                              label="项目参与人"

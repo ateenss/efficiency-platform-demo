@@ -106,9 +106,11 @@ class AddIteration extends React.Component {
     render() {
         const {initialData, buttonStyle, classes} = this.props;
         let projectMember4MultiSelect = [];
-
+        let projectMember4SingleSelect=[];
         let defaultCheckers = [];
         let defaultPersons = [];
+        let defaultOwner =[];
+        let defaultDeliveryPersonInCharge = [];
         for (let i in this.props.projectMembers) {
 
             let member = this.props.projectMembers[i];
@@ -135,8 +137,21 @@ class AddIteration extends React.Component {
 
             }
 
+            if(this.state.iterationContent.iterationOwnerId  === member.id){
+                defaultOwner.push({id : member.name, label : member.name, group : member.deptName})
+            }
+            if(this.state.iterationContent.deliveryPersonInChargeId  === member.id){
+                defaultDeliveryPersonInCharge.push({id : member.name, label : member.name, group : member.deptName})
+            }
+
 
             projectMember4MultiSelect.push(ret);
+            projectMember4SingleSelect.push({
+                id: member.id,
+                label: member.name,
+                group:member.deptName
+
+            });
         }
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth
@@ -164,12 +179,13 @@ class AddIteration extends React.Component {
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="版本负责人" nameIn="iterationOwnerId"
-                                          nameArray={this.props.projectMembers}
-                                          defaultValue={this.state.iterationContent.iterationOwnerId}
-                                          validateEl={Rules.iterationProps.iterationOwnerId}
-                            />
 
+                            <TrueMuitiSelect data={projectMember4SingleSelect} onChange={this.getContent}
+                                             nameIn="iterationOwnerId"
+                                             label="版本负责人"
+                                             defaultValue={defaultOwner}
+                                             singleSelect
+                            />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="testDate" InputLabelName="提测时间" onDateChange={this.getContent}
@@ -208,13 +224,13 @@ class AddIteration extends React.Component {
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
-                            <SingleSelect onChange={this.getContent} InputLabelName="上线负责人"
-                                          nameIn="deliveryPersonInChargeId"
-                                          nameArray={this.props.projectMembers}
-                                          defaultValue={this.state.iterationContent.deliveryPersonInChargeId}
 
+                            <TrueMuitiSelect data={projectMember4SingleSelect} onChange={this.getContent}
+                                             nameIn="deliveryPersonInChargeId"
+                                             label="上线负责人"
+                                             defaultValue={defaultDeliveryPersonInCharge}
+                                             singleSelect
                             />
-
                         </Grid>
                         {/*<Grid item xs={4} className={classes.gridStyle}>*/}
                         {/*<MultiSelect onChange={this.getContent} InputLabelName="上线检查人" nameIn="deliveryCheckers"*/}
