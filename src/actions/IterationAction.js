@@ -19,7 +19,7 @@ import {GET_PROJECT_MEMBERS} from "./CommonAction";
 import RequestBuilder from "../constants/RequestBuilder";
 import {getDemandTaskDetail} from "./BuildMissionAction";
 import UrlConf from "../constants/UrlConf";
-import {error} from "./NotificationAction";
+import {error,warning} from "./NotificationAction";
 
 //axios配置
 const config = {
@@ -40,14 +40,13 @@ export function ProvePlan(id) {
     };
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,id);
-    console.log("已经执行到这里面",JSON.stringify(id));
     return axios.post(url, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
                 //下面这个方法没明白是干嘛的
                 // store.dispatch(saveModule(id));
-                getDemandTaskDetail(data);
+                /*getDemandTaskDetail(data);*/
             }else{
 
                 error(response.data.msg);
@@ -318,11 +317,14 @@ export function getDevelopPlan(id) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-
-                store.dispatch({
-                    type: GET_DEVELOP_PLAN,
-                    payload: data
-                })
+                if (data.demandTaskStatus!==1&&data.demandTaskStatus!==0) {
+                    store.dispatch({
+                        type: GET_DEVELOP_PLAN,
+                        payload: data
+                    })
+                }else{
+                    warning("开发方案还未完成");
+                }
             } else {
 
                 console.log("没能拿到数据")

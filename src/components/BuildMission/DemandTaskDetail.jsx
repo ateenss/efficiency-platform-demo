@@ -254,7 +254,7 @@ class DemandTaskDetail extends React.Component {
                                         <AddIcon className={classes.addIcon}/>
                                         新增任务
                                     </Button>
-                                    <Chip label={detailInfo.taskStatus} className={classes.chip}/>
+                                    <Chip label={demands.taskStatus} className={classes.chip}/>
                                 </div>
                             }
                             subheader={detailInfo.taskDeadLine}

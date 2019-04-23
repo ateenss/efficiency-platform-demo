@@ -158,6 +158,7 @@ export default function (state = INITIAL_STATE, action) {
         case GET_MYTASK_INFO:
             return {...state,addTask:action.value.taskList,finished:action.value.finished,unfinished:action.value.underWay};
         case GET_TASK_DETAIL_INFO:
+            // let detailState=JSON.parse(JSON.stringify(state));
             return {...state,demands:action.value};
         case SAVE_BUILD_MODULE:
             let tempSaveContent=new Object();

@@ -311,6 +311,7 @@ export function submitAndPlan(content) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                getDemandTaskDetailSimple(content.taskId);
                 console.log("存储数据成功")
             }else{
 
@@ -362,7 +363,8 @@ export function submitAndChange2Dev(id,content,parentTaskId){
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                getDemandTaskDetail(parentTaskId);
+                // getDemandTaskDetail(parentTaskId);
+                // getDemandTaskDetailSimple(parentTaskId);
                 console.log("存储数据成功")
             }else{
 
@@ -584,6 +586,28 @@ export function getDemandTaskDetail(taskId) {
                 let data = response.data.data;
                 store.dispatch(getDemandTaskDetailInfo(data));
 
+            }else{
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+
+}
+
+export function getDemandTaskDetailSimple(taskId) {
+    const send_edit_data = UrlConf.base + 'task/getDemandTaskDetail';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,taskId);
+    return axios.post(send_edit_data, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                store.dispatch(getDemandTaskDetailInfo(data));
             }else{
                 console.log("没能拿到数据")
             }

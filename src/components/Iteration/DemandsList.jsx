@@ -26,7 +26,8 @@ const columns = [
     {name: "开发负责人", options: {filter: false, display: false}},
     {name: "需求来源", options: {filter: false}},
     {name: "评审时间", options: {filter: false}},
-    {name: "UAT", options: {filter: false}},];
+    {name: "UAT", options: {filter: false}},
+    {name: "需求任务状态", options: {display:false}}];
 
 function Empty() {
     return null;

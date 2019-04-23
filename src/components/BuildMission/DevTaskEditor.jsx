@@ -234,7 +234,7 @@ class DevTaskEditor extends React.Component {
                             </Grid>
                             <Grid item xs={6} className={classes.gridStyle}>
                                 <InputField
-                                    nameIn="estimateWorkHours"
+                                    nameIn="estimateWorkTime"
                                     onChange={this.getContent}
                                     InputLabelName="预估工时"
                                     defaultValue={taskContent.estimateWorkTime}

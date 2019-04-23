@@ -22,6 +22,14 @@ export function error(message){
 
 }
 
+export function warning(message){
+    if(!message){
+        message = "这是警告";
+    }
+    showNotification("warning", message);
+}
+
+
 export function showNotification(type, message) {
     store.dispatch({
         type: SHOW_NOTIFICATION,
