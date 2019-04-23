@@ -237,7 +237,7 @@ class TaskBoard extends React.Component {
             count: this.state.totalPages,
             serverSide: true,
             rowsPerPage: this.state.pageSize,
-            rowsPerPageOptions: [this.state.pageSize],
+            rowsPerPageOptions: [this.state.pageSize,this.state.pageSize,this.state.pageSize],
             onRowsSelect: function (currentRowsSelected, allRowsSelected) {
                 console.log(333);
             },
@@ -287,8 +287,6 @@ class TaskBoard extends React.Component {
                 }
             }
         };
-
-        console.log(JSON.stringify("%%%%%%%%%" + this.state.assembleTable));
 
         //todo:结果都在这个result里面，选取值去定位这个result里面的数组（被选取的索引值和result里面是保持一致的）
         return (

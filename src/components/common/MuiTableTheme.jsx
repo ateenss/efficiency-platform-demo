@@ -24,8 +24,15 @@ export const muiTableTheme = () => createMuiTheme({
         MUIDataTableSelectCell:{
             root:{
                 padding:"0 6px",
-            }
+            },
 
+        },
+        MuiCheckbox:{
+            root:{
+                "&$checked":{
+                    color:"#4DAF7C !important"
+                }
+            },
         },
         MuiTableCell:{
             root:{
@@ -34,6 +41,6 @@ export const muiTableTheme = () => createMuiTheme({
                     fontWeight:"700"
                 }
             }
-        }
+        },
     }
 });

@@ -106,7 +106,7 @@ class BuildProjectMain extends React.Component {
 
             let ret = {
                 id: unit.id,
-                label: unit.name,
+                label: unit.name + "(" + unit.username + ")",
                 group:unit.deptName
 
             };

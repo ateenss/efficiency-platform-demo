@@ -43,9 +43,13 @@ const styles = {
     loginButton: {
         textAlign: "center",
         margin: "30px 0 0 0",
-        minHeight: 60,
+        minHeight: 50,
         fontSize: 20,
-        fontWeight: 700
+        fontWeight: 700,
+        "&:hover":{
+            background:"#4DAF7C",
+            color:"#FFFFFF"
+        }
 
     },
     cardTitle: {
@@ -56,7 +60,7 @@ const styles = {
         // marginBottom: "3px",
         textDecoration: "none",
         textAlign: "center",
-        fontSize: 20,
+        fontSize: 26,
     },
     subTilte: {
         textAlign: "center"
@@ -118,11 +122,12 @@ class SimpleCard extends React.Component {
                 <Reminder/>
                 <GridItem xs={6} sm={6} md={3}>
                     <Card>
-                        <CardHeader color="success">
-                            <h4 className={classes.cardTitle}>效率平台</h4>
-                            <p className={classes.subTilte}>welcome</p>
+                        <CardHeader color="success" style={{background:"#4DAF7C"}}>
+                            <h4 className={classes.cardTitle}>效能平台</h4>
+                            <p className={classes.subTilte}>不支持IE可以吗</p>
                         </CardHeader>
                         <CardBody>
+                            <GridItem xs={12} sm={12} md={12} style={{marginTop:"15px"}}>
 
                             <InputField
                                 nameIn="username"
@@ -130,6 +135,9 @@ class SimpleCard extends React.Component {
                                 InputLabelName="用户名"
                                 validateEl={Rules.loginProps.username}
                             />
+                            </GridItem>
+                            <GridItem xs={12} sm={12} md={12}  style={{marginTop:"15px"}}>
+
                             <InputField
                                 nameIn="password"
                                 onChange={this.getContent}
@@ -137,8 +145,8 @@ class SimpleCard extends React.Component {
                                 validateEl={Rules.loginProps.password}
                                 password
                             />
-
-                            <GridItem xs={12} sm={12} md={12} item>
+                            </GridItem>
+                            <GridItem xs={12} sm={12} md={12} item style={{padding:"0 !important"}}>
                                 <Button className={classes.loginButton} size="lg" fullWidth
                                         color="transparent"
                                         type="submit" label="登陆" onClick={this.onSubmit}>登陆</Button>

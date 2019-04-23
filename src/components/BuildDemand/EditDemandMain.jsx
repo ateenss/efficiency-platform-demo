@@ -152,16 +152,16 @@ class EditDemandMain extends React.Component {
 
             let ret = {
                 id: member.id,
-                label: member.name,
+                label: member.name + "(" + member.username + ")",
                 group:member.deptName
 
             };
             if(this.state.defaultContent.demandDevOwnerId  === member.id){
-                demandDevOwnerIdSelect.push({id : member.id, label : member.name, group : member.deptName})
+                demandDevOwnerIdSelect.push(ret)
             }
 
             if(this.state.defaultContent.demandOwnerId  === member.id){
-                demandOwnerIdSelect.push({id : member.id, label : member.name, group : member.deptName})
+                demandOwnerIdSelect.push(ret)
             }
 
             projectMember4MultiSelect.push(ret);

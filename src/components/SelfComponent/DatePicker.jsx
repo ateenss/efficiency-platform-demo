@@ -73,7 +73,6 @@ class MaterialUIPickers extends React.Component {
                             format={dateFormat}
                             views={["year", "month", "day"]}
                             className={classes.body}
-                            disablePast
                             emptyLabel="选择"
                         />
             </MuiPickersUtilsProvider>

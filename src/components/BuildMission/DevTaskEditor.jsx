@@ -193,12 +193,12 @@ class DevTaskEditor extends React.Component {
 
             let ret = {
                 id: member.id,
-                label: member.name,
+                label: member.name + "(" + member.username + ")",
                 group:member.deptName
 
             };
             if(this.state.taskContent.taskOwner  === member.id){
-                demandDevOwnerIdSelect.push({id : member.id, label : member.name, group : member.deptName})
+                demandDevOwnerIdSelect.push(ret)
             }
             projectMember4MultiSelect.push(ret);
         }

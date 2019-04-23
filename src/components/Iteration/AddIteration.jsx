@@ -117,14 +117,14 @@ class AddIteration extends React.Component {
 
             let ret = {
                 id: member.name,
-                label: member.name,
+                label: member.name + "(" + member.username + ")",
                 group:member.deptName
 
             };
             for(let idx in this.state.iterationContent.deliveryCheckers){
                 let unit = this.state.iterationContent.deliveryCheckers[idx];
                 if(unit  === member.name){
-                    defaultCheckers.push({id : member.name, label : member.name, group : member.deptName})
+                    defaultCheckers.push(ret)
                 }
 
             }
@@ -132,26 +132,28 @@ class AddIteration extends React.Component {
             for(let idx in this.state.iterationContent.deliveryPersons){
                 let unit = this.state.iterationContent.deliveryPersons[idx];
                 if(unit  === member.name){
-                    defaultPersons.push({id : member.name, label : member.name, group : member.deptName})
+                    defaultPersons.push(ret)
                 }
 
             }
 
+            let singleSelect = {
+                id: member.id,
+                label: member.name + "(" + member.username + ")",
+                group:member.deptName
+
+            };
+
             if(this.state.iterationContent.iterationOwnerId  === member.id){
-                defaultOwner.push({id : member.name, label : member.name, group : member.deptName})
+                defaultOwner.push(singleSelect)
             }
             if(this.state.iterationContent.deliveryPersonInChargeId  === member.id){
-                defaultDeliveryPersonInCharge.push({id : member.name, label : member.name, group : member.deptName})
+                defaultDeliveryPersonInCharge.push(singleSelect)
             }
 
 
             projectMember4MultiSelect.push(ret);
-            projectMember4SingleSelect.push({
-                id: member.id,
-                label: member.name,
-                group:member.deptName
-
-            });
+            projectMember4SingleSelect.push(singleSelect);
         }
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth

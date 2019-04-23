@@ -124,18 +124,25 @@ class EditProjectMain extends React.Component {
         let owner4muiSelect=[];
         for(let j in this.props.projectMembers) {
             let member = this.props.projectMembers[j];
-            projectMembers4muiSelect.push({id : member.id, label : member.name, group : member.deptName});
+
+            let ret = {
+                id : member.id,
+                label: member.name + "(" + member.username + ")",
+                group: member.deptName
+            }
+
+            projectMembers4muiSelect.push(ret);
             for(let idx in projectContent.projectMembers){
                 let unit = projectContent.projectMembers[idx];
                 if(unit  === member.id){
 
-                    muiSelectMembers.push({id : member.id, label : member.name, group : member.deptName})
+                    muiSelectMembers.push(ret)
                 }
 
             }
 
             if(projectContent.projectOwnerId === member.id){
-                owner4muiSelect.push({id:member.id, label:member.name,group:member.deptName});
+                owner4muiSelect.push(ret);
             }
 
         }

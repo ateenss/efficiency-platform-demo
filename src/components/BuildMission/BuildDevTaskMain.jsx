@@ -132,7 +132,7 @@ class BuildDevTaskMain extends React.Component {
 
             let ret = {
                 id: member.id,
-                label: member.name,
+                label: member.name + "(" + member.username + ")",
                 group:member.deptName
 
             };

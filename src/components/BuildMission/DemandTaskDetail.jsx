@@ -54,11 +54,15 @@ const styles =theme =>( {
     },
     cardLink,
     newDevButton: {
-        height:"0.8em",
-        marginRight: "-12px",
-        marginLeft:"10px",
-        background: "#4caf50",
-        color: "#FFFFFF",
+        boxShadow:"none",
+        marginLeft:"15px",
+        border:"1px solid #4caf50",
+        color:"#4caf50",
+        padding:"0 12px 0 6px",
+        "&:hover":{
+            background:"#4caf50",
+            color: "#FFFFFF",
+        }
     },
     DemandHeader: {
         margin: "0px !important",
@@ -246,8 +250,9 @@ class DemandTaskDetail extends React.Component {
                             title={
                                 <div className={classes.cardHeaderTitle}>
                                     <span>{detailInfo.taskName}</span>
-                                    <Button variant="contained"  className={classes.newDevButton} size="small" onClick={this.openNewDevTask}>
+                                    <Button variant="outlined"  className={classes.newDevButton} size="small" onClick={this.openNewDevTask}>
                                         <AddIcon className={classes.addIcon}/>
+                                        新增任务
                                     </Button>
                                     <Chip label={detailInfo.taskStatus} className={classes.chip}/>
                                 </div>
