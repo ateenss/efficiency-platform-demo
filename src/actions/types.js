@@ -132,3 +132,8 @@ export const CAL_PERM="cal_perm";
 export const CHANGE_PASSWORD="change_password";
 export const SAVE_CHANGE_PASSWORD="save_change_password";
 export const CLOSE_CHANGE_PASSWORD="close_change_password";
+//需求父任务的按钮显示问题
+export const ALL_ACTION_SHOW="all_action_show";
+export const DEMANDTASK_ACTION_SHOW="demandTask_action_show";
+//开发任务的按钮显示问题
+export const DEVTASK_ACTION_SHOW="devTask_action_show";

@@ -42,6 +42,9 @@ import {
     ADD_TEST_TASK_PANEL,
     MODIFY_AFTER_TASKEDITOR,
     FILTER_TEST_TASK,
+    ALL_ACTION_SHOW,
+    DEMANDTASK_ACTION_SHOW,
+    DEVTASK_ACTION_SHOW,
     INIT_MODULES, OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR,
     CAL_PERM, SAVE_TEST_CASE, EDIT_TEST_CASE, OPEN_ADD_TEST_CASE, CLOSE_ADD_TEST_CASE, SAVE_EDIT_TEST_CASE
 } from "../actions/types"
@@ -122,9 +125,13 @@ const changeStatus=(from,to,content)=>{
 export default function (state = INITIAL_STATE, action) {
     let counter=[];
     switch (action.type) {
+        case ALL_ACTION_SHOW:
+            return {...state,allActonShow:action.payload};
+        case DEMANDTASK_ACTION_SHOW:
+            return {...state,demandTaskActionShow:action.payload};
+        case DEVTASK_ACTION_SHOW:
+            return {...state,devTaskActionShow:action.payload};
         case MODIFY_AFTER_TASKEDITOR:
-            console.log("修改前台数据");
-            console.log(action.value);
             let newTempTask=JSON.parse(JSON.stringify(state.tempTask));
             newTempTask.content=action.value;
             return {...state,tempTask:newTempTask};

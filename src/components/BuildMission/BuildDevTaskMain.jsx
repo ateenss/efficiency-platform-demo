@@ -156,10 +156,10 @@ class BuildDevTaskMain extends React.Component {
                         </Grid>
                         <Grid item xs={3} className={classes.gridStyle}>
                             <InputField
-                                nameIn="estimateWorkHours"
+                                nameIn="estimateWorkTime"
                                 onChange={this.getContent}
                                 InputLabelName="预估工时"
-                                validateEl={Rules.taskProps.estimateWorkHours}
+                                validateEl={Rules.taskProps.estimateWorkTime}
                             />
                         </Grid>
                         <Grid item xs={6} className={classes.gridStyle}>

@@ -18,13 +18,15 @@ import {
     openTaskEdit,
     openAssignGoTest,
     meetRequirements,
-    calPerm
+    calPerm,
+    judgeDevTaskShowActin
 } from "../../actions/BuildMissionAction"
 import permProcessor from "../../constants/PermProcessor";
 import {Typography} from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import {ALL_ACTION_SHOW} from "../../actions/types";
 
 
 const styles = {
@@ -87,6 +89,7 @@ class DemandTask extends React.Component {
     }
     funcOptions=(perm,taskOwner)=>()=>{
         let tempOptions=[];
+        let empty=[];
         if(this.props.devEditorCanShow){
             tempOptions.push({
                 name: "编辑",
@@ -130,8 +133,18 @@ class DemandTask extends React.Component {
                 }
             })
         }
-
-        return tempOptions
+        if (this.props.devTaskActionShow||this.props.allActonShow) {
+            return tempOptions
+        } else {
+            tempOptions = [];
+            tempOptions.push({
+                name: "查看任务",
+                func: function (id) {
+                    store.dispatch(openTaskEdit(id));
+                }
+            });
+            return tempOptions;
+        }
     };
 
     idMap2Name=()=>{
@@ -155,6 +168,7 @@ class DemandTask extends React.Component {
     };
 
     checkPerm=(taskOwner)=>{
+        judgeDevTaskShowActin(taskOwner);
         store.dispatch(calPerm(taskOwner));
     };
 
@@ -198,6 +212,9 @@ const mapStateToProps = (state) => {
         projectMembers: state.reducer.common.projectMembers,
         modules : state.reducer.buildMission.modules,
         devEditorCanShow : state.reducer.buildMission.devEditorCanShow,
+        devTaskActionShow : state.reducer.buildMission.devTaskActionShow,
+        allActonShow : state.reducer.buildMission.allActonShow
+
     }
 };
 

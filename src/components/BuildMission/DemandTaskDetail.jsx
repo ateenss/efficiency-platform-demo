@@ -232,6 +232,29 @@ class DemandTaskDetail extends React.Component {
         store.dispatch(openBuildModule())
     };
 
+    showAddNewDevButton=(classes)=>{
+        let content=(<Button variant="outlined"  className={classes.newDevButton} size="small" onClick={this.openNewDevTask}>
+            <AddIcon className={classes.addIcon}/>
+            新增任务
+        </Button>);
+        if (this.props.allActonShow) {
+            return content
+        }else{
+            return ""
+        }
+    };
+    showDemandTaskTool = (demands) => {
+        let content = (<SimpleListMenu icon={<MoreVertIcon/>}
+                                       options={this.options(this.state.perm)()}
+                                       id={demands.taskId}
+        />);
+        if (this.props.allActonShow){
+            return content
+        } else{
+            return ""
+        }
+    };
+
 
 
     render() {
@@ -243,17 +266,18 @@ class DemandTaskDetail extends React.Component {
         return (
             <Card className={classes.demand}>
                 <CardHeader className={classes.demandHeader}
-                            action={
-                                <SimpleListMenu icon={<MoreVertIcon/>} options={this.options(this.state.perm)()} id={demands.taskId}/>
-                            }
+                            /*action={
+                                <SimpleListMenu icon={<MoreVertIcon/>}
+                                                options={this.options(this.state.perm)()}
+                                                id={demands.taskId}
+                                                />
+                            }*/
+                            action={this.showDemandTaskTool(demands)}
 
                             title={
                                 <div className={classes.cardHeaderTitle}>
                                     <span>{detailInfo.taskName}</span>
-                                    <Button variant="outlined"  className={classes.newDevButton} size="small" onClick={this.openNewDevTask}>
-                                        <AddIcon className={classes.addIcon}/>
-                                        新增任务
-                                    </Button>
+                                    {this.showAddNewDevButton(classes)}
                                     <Chip label={demands.taskStatus} className={classes.chip}/>
                                 </div>
                             }
@@ -343,6 +367,8 @@ const mapStateToProps = (state) => {
         buildModuleShow:state.reducer.buildMission.buildModuleShow,
         assignGoTestShow:state.reducer.buildMission.assignGoTestShow,
         demands:state.reducer.buildMission.demands,
+        allActonShow:state.reducer.buildMission.allActonShow,
+        demandTaskActionShow:state.reducer.buildMission.demandTaskActionShow,
     }
 };
 

@@ -133,7 +133,7 @@ export const Rules = {
             expr: Regex.noSpecialSymbol,
             literal: "任务名称"
         },
-        estimateWorkHours: {
+        estimateWorkTime: {
             required: true,
             maxLength: 4,
             expr: Regex.testEstimateHours,

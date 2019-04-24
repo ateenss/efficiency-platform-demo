@@ -42,7 +42,10 @@ import {
     EDIT_TEST_CASE,
     OPEN_ADD_TEST_CASE,
     CLOSE_ADD_TEST_CASE,
-    SAVE_EDIT_TEST_CASE
+    SAVE_EDIT_TEST_CASE,
+    ALL_ACTION_SHOW,
+    DEMANDTASK_ACTION_SHOW,
+    DEVTASK_ACTION_SHOW
 } from './types';
 import {error} from "./NotificationAction";
 const config = {
@@ -69,7 +72,7 @@ export const getMyTaskInfo=value=>({
     value
 });
 
-export const getDemandTaskDetailInfo=value=>({
+export const  getDemandTaskDetailInfo=value=>({
     type: GET_TASK_DETAIL_INFO,
     value
 });
@@ -364,7 +367,10 @@ export function submitAndChange2Dev(id,content,parentTaskId){
             if (response.data.respCode === "00") {
                 let data = response.data.data;
                 // getDemandTaskDetail(parentTaskId);
-                // getDemandTaskDetailSimple(parentTaskId);
+                console.log("我进来了");
+
+                getDemandTaskDetailSimple(parentTaskId);
+                store.dispatch(closeTaskEdit());
                 console.log("存储数据成功")
             }else{
 
@@ -374,10 +380,6 @@ export function submitAndChange2Dev(id,content,parentTaskId){
             console.log("后台提取数据出现问题"+error);
 
         });
-
-    //todo:这里有可能多余
-    store.dispatch(planChange2Dev(id));
-    store.dispatch(closeTaskEdit());
 
 }
 
@@ -547,6 +549,40 @@ export function init() {
 
 }
 
+//显示面板在主界面的时候，父任务里面的按钮显示问题
+export function judgeDemandTaskShowAction(taskOwnerId){
+    if ((localStorage.getItem("currentUser")-taskOwnerId)===0) {
+        store.dispatch({
+            type:ALL_ACTION_SHOW,
+            payload : true
+        });
+    }else{
+       /* store.dispatch({
+            type:DEMANDTASK_ACTION_SHOW,
+            payload : false
+        });*/
+        store.dispatch({
+            type:ALL_ACTION_SHOW,
+            payload : false
+        });
+    }
+}
+
+export function judgeDevTaskShowActin(taskOwnerId){
+    if ((localStorage.getItem("currentUser")-taskOwnerId)===0) {
+        store.dispatch({
+            type:DEVTASK_ACTION_SHOW,
+            payload : true
+        });
+    }else{
+        store.dispatch({
+            type:DEVTASK_ACTION_SHOW,
+            payload : false
+        });
+    }
+}
+
+
 export function getMyTaskMain() {
     const getMyTaskInfoUrl = UrlConf.base + 'task/getMyTaskInfo';
     const config = {
@@ -558,7 +594,6 @@ export function getMyTaskMain() {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-
                 store.dispatch(getMyTaskInfo(data));
 
             }else{
@@ -584,8 +619,9 @@ export function getDemandTaskDetail(taskId) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                console.log("我是见证传进来的数据fuza",JSON.stringify(data));
                 store.dispatch(getDemandTaskDetailInfo(data));
-
+                judgeDemandTaskShowAction(data.taskOwner);
             }else{
                 console.log("没能拿到数据")
             }
@@ -597,6 +633,7 @@ export function getDemandTaskDetail(taskId) {
 }
 
 export function getDemandTaskDetailSimple(taskId) {
+    console.log("我被调用了"+JSON.stringify(taskId));
     const send_edit_data = UrlConf.base + 'task/getDemandTaskDetail';
     const config = {
         method: 'post'
@@ -607,7 +644,9 @@ export function getDemandTaskDetailSimple(taskId) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                console.log("我是见证传进来的数据",JSON.stringify(data));
                 store.dispatch(getDemandTaskDetailInfo(data));
+                judgeDemandTaskShowAction(data.taskOwner);
             }else{
                 console.log("没能拿到数据")
             }
