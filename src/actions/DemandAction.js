@@ -18,7 +18,7 @@ import {
     SAVE_ADD_DEMAND,
     SAVE_EDIT_DEMAND,
     UPDATE_ROW,
-    INIT_PROJECT_MEMBERS, EDIT_DEMAND, SAVE_REVIEW_DEMAND, CLOSE_REVIEW_DEMAND, REVIEW_DEMAND
+    INIT_PROJECT_MEMBERS, EDIT_DEMAND, SAVE_REVIEW_DEMAND, CLOSE_REVIEW_DEMAND, REVIEW_DEMAND,OPEN_DEMAND_FILTER,CLOSE_DEMAND_FILTER
 } from './types';
 import axios from "axios";
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
@@ -40,8 +40,20 @@ export const SAVE = UrlConf.base + 'demand/save';
 export const SAVE_REVIEW = UrlConf.base + 'demand/saveReview';
 
 
+export function openFilter(currentTarget, filters){
 
+    store.dispatch({
+        type: OPEN_DEMAND_FILTER,
+        payload : {currentTarget : currentTarget, filters : filters}
+    });
 
+}
+export function closeFilter(filters){
+    store.dispatch({
+        type: CLOSE_DEMAND_FILTER,
+        payload : filters
+    });
+}
 export function addDemand() {
     console.log("addDemand");
 
@@ -267,7 +279,7 @@ export function init(pageNo, doAfterInit) {
     let accessToken = localStorage.getItem("token");
 
     function getDemands() {
-        return axios.post(GET_DEMANDS, {"version": "1.0", accessToken: accessToken, data: pageNo}, config);
+        return axios.post(GET_DEMANDS, {"version": "1.0", accessToken: accessToken, data: {pageNo : pageNo}}, config);
     }
 
     function getProjectMembers() {
@@ -278,15 +290,15 @@ export function init(pageNo, doAfterInit) {
         return axios.post(GET_RECENT, {"version": "1.0", accessToken: accessToken}, config);
     }
 
-    axios.all([getDemands(), getProjectMembers(), getRecentIteration()]).then(axios.spread(function (demands, members, iterations) {
+    axios.all([ getProjectMembers(), getRecentIteration()]).then(axios.spread(function (members, iterations) {
 
-        store.dispatch({
-            type: INIT_PROJECT_MEMBERS,
-            payload: members.data.data
+        // store.dispatch({
+        //     type: INIT_PROJECT_MEMBERS,
+        //     payload: members.data.data
+        //
+        // });
 
-        });
-
-        doAfterInit(demands.data.data, members.data.data, iterations.data.data);
+        doAfterInit(members.data.data, iterations.data.data);
 
     }));
 
@@ -296,7 +308,31 @@ export function nextPage(pageNo, doAfterInit) {
 
     let accessToken = localStorage.getItem("token");
 
-    return axios.post(GET_DEMANDS, {"version": "1.0", accessToken: accessToken, data: pageNo}, config)
+    return axios.post(GET_DEMANDS, {"version": "1.0", accessToken: accessToken, data: {pageNo : pageNo}}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+                return false;
+            }
+
+            doAfterInit(response.data.data);
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+}
+
+
+export function search(pageNo, searchText, doAfterInit) {
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(GET_DEMANDS, {"version": "1.0", accessToken: accessToken, data: {pageNo : pageNo, ...searchText}}, config)
         .then(response => {
 
             if (response.data.respCode !== "00") {

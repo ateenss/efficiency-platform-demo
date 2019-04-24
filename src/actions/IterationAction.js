@@ -12,7 +12,8 @@ import {
     GET_PUBLISH_TEST_CASE,
     CLOSE_PUBLISH_TEST_CASE,
     INIT_PROJECT_MEMBERS,
-    GET_DEVPLAN_DETAIL
+    GET_DEVPLAN_DETAIL,
+    DELETE_ITERATION
 } from './types';
 
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
@@ -30,6 +31,8 @@ const config = {
 };
 export const GET_RECENT = UrlConf.base + 'iteration/getRecentIterations';
 export const GET_BY_ID = UrlConf.base + 'iteration/get';
+export const DELETE_BY_ID = UrlConf.base + 'iteration/delete';
+
 export const SAVE = UrlConf.base + 'iteration/save';
 
 //审核通过
@@ -405,3 +408,34 @@ export function getPublishDocuments(demandId) {
 
 }
 
+
+
+/**
+ * 这里要区分到底是新增还是编辑
+ */
+export function deleteIteration(id) {
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(DELETE_BY_ID, {"version": "1.0", accessToken:accessToken,"data": id}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+                return false;
+            }
+
+            store.dispatch({
+                type: DELETE_ITERATION,
+                payload : id
+            })
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+
+
+}

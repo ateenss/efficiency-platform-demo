@@ -26,6 +26,7 @@ class ChangePassword extends React.Component {
 
     state = {
         changePwdContent: {},
+        showChangePassword :false
     };
 
     componentWillReceiveProps(nextProps, nextContext) {

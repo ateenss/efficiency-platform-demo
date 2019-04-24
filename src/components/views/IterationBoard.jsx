@@ -5,9 +5,9 @@ import Grid from "@material-ui/core/Grid";
 import IterationList from "../Iteration/IterationList";
 import {Paper} from "@material-ui/core";
 import {connect} from "react-redux";
-import {selectIteration, addIteration, init} from "../../actions/IterationAction";
+import {selectIteration, addIteration, init, deleteIteration} from "../../actions/IterationAction";
 import AddIteration from "../Iteration/AddIteration";
-import {ITERATION_INIT, SAVE_ADD_ITERATION} from "../../actions/types";
+import {DELETE_ITERATION, ITERATION_INIT, SAVE_ADD_ITERATION} from "../../actions/types";
 import DemandsList from "../Iteration/DemandsList";
 import ShowDevelopPlan from "../Iteration/ShowDevDocuments";
 import ShowPublishDocument from "../Iteration/ShowPublishDocument";
@@ -19,8 +19,7 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import CardContent from "@material-ui/core/CardContent";
-import red from '@material-ui/core/colors/red';
-import {getProjectMembers, startLoading, stopLoading} from "../../actions/CommonAction";
+import {startLoading, stopLoading} from "../../actions/CommonAction";
 import permProcessor from "../../constants/PermProcessor";
 import Chip from "@material-ui/core/Chip";
 import {
@@ -35,6 +34,13 @@ import {
     XAxis,
     YAxis
 } from "recharts";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
+import Slide from "@material-ui/core/Slide";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const drawerWidth = 240;
 
@@ -99,6 +105,10 @@ const styles = theme => ({
 });
 
 
+function Transition(props) {
+    return <Slide direction="up" {...props} />;
+}
+
 class IterationBoard extends React.Component {
 
     constructor(props) {
@@ -108,7 +118,9 @@ class IterationBoard extends React.Component {
             iterationInfo: {},
             tabValue: 0,
             hide: true,
-            perm: permProcessor.init('project')
+            perm: permProcessor.init('project'),
+            openAlert:false,
+            currentIteration : ""
         };
     }
 
@@ -135,6 +147,23 @@ class IterationBoard extends React.Component {
         console.log("edit iteration" + id);
 
     };
+
+
+    handleAlertDelete = (id, e) => {
+        this.setState({openAlert:true, currentIteration:id})
+    };
+
+    handleIterationDelete= () =>{
+
+        let iterationId = this.state.currentIteration;
+
+        deleteIteration(iterationId);
+
+    };
+
+
+
+
     handleSelected = (id) => {
         console.log(id);
         // dispatch一个ID过去，获取该版本下的所有需求，然后选中
@@ -156,6 +185,9 @@ class IterationBoard extends React.Component {
     };
 
 
+    handleDialogClose = () =>{
+        this.setState({openAlert:false, currentIteration:""})
+    }
     //
     // handleEditPerson = () =>{
     //
@@ -216,8 +248,25 @@ class IterationBoard extends React.Component {
 
         this.setState(nextProps.iteration);
 
-
         let iterationState = JSON.parse(JSON.stringify(this.state.iterationState));
+
+        if(nextProps.action === DELETE_ITERATION){
+
+            for (let i in iterationState) {
+                for (let c in iterationState[i].children) {
+                    let delParent = false;
+                    if(iterationState[i].children.length == 1){
+                        delParent = true;
+                    }
+                    if(iterationState[i].children[c].id === nextProps.deleteId){
+                        delete iterationState[i].children[c];
+                        delete iterationState[i];
+                    }
+                }
+            }
+            this.setState({openAlert : false})
+        }
+
         // 这里会返回新建后的版本号，这个版本号需要有一定的归类
         if (nextProps.action === SAVE_ADD_ITERATION) {
             let newIteration = nextProps.iteration.iterationInfo.iterationCode.split(".");
@@ -283,7 +332,7 @@ class IterationBoard extends React.Component {
 
                     <Grid item xs={2}>
                         <IterationList iterations={this.state.iterationState} handleAdd={this.handleAdd}
-                                       handleEdit={this.handleEdit} handleSelected={this.handleSelected}
+                                       handleEdit={this.handleEdit} handleSelected={this.handleSelected} handleDelete={this.handleAlertDelete}
                                        handleSearch={this.handleSearch} perm={this.state.perm}/>
                     </Grid>
                     <Grid item xs={10}>
@@ -437,6 +486,30 @@ class IterationBoard extends React.Component {
                     <ShowDevelopPlan/>
 
                     <ShowPublishDocument/>
+
+                    <Dialog
+                        open={this.state.openAlert}
+                        TransitionComponent={Transition}
+                        keepMounted
+                        onClose={this.handleClose}
+                        aria-labelledby="alert-dialog-slide-title"
+                        aria-describedby="alert-dialog-slide-description"
+                    >
+                        <DialogTitle id="alert-dialog-slide-title">
+                            {"警告"}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="">你确定要删除该版本，以及其对应的所有内容吗？</DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleDialogClose} color="primary">
+                                取消
+                            </Button>
+                            <Button onClick={this.handleIterationDelete} color="primary">
+                                好的
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </Grid>
             </div>
         );
@@ -471,8 +544,8 @@ const
             iterationCode: state.reducer.iteration.iteration.iterationCode,
             openAddIteration: state.reducer.iteration.openAddIteration,
             action: state.reducer.iteration.action,
-            initIterationList: state.reducer.iteration.initIterationList
-
+            initIterationList: state.reducer.iteration.initIterationList,
+            deleteId : state.reducer.iteration.deleteId
 
         }
     };

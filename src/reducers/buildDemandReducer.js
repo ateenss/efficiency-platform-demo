@@ -17,7 +17,7 @@ import {
     SAVE_EDIT_DEMAND,
     ADD_DEMAND,
     SAVE_ADD_DEMAND,
-    REVIEW_DEMAND, CLOSE_REVIEW_DEMAND, SAVE_REVIEW_DEMAND
+    REVIEW_DEMAND, CLOSE_REVIEW_DEMAND, SAVE_REVIEW_DEMAND, OPEN_DEMAND_FILTER, CLOSE_DEMAND_FILTER
 } from "../actions/types"
 import {GET_DEMAND} from "../actions/DemandTasksAction";
 
@@ -122,6 +122,11 @@ export default function (state = INITIAL_STATE, action) {
         case SAVE_REVIEW_DEMAND:
 
             return {...state, updatedRow : action.payload, openReviewDemand:false, action:SAVE_REVIEW_DEMAND}
+        case OPEN_DEMAND_FILTER:
+            console.log("@!@@@@@"+JSON.stringify(action.payload.filters))
+            return {...state, openDemandFilter : true, action : OPEN_DEMAND_FILTER, currentTarget : action.payload.currentTarget, filters : action.payload.filters}
+        case CLOSE_DEMAND_FILTER:
+            return {...state, openDemandFilter : false, action : CLOSE_DEMAND_FILTER, currentTarget : null, filters : action.payload}
         default:
             return state;
     }
