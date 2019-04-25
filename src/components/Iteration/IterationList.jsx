@@ -8,19 +8,49 @@ import AddIcon from "@material-ui/icons/Add";
 import IconButton from "@material-ui/core/IconButton";
 import SearchTextField from "./SearchTextField"
 import permProcessor from "../../constants/PermProcessor";
+import {Typography} from "@material-ui/core";
+import MuiListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 const styles = theme => ({
     root: {
         width: '100%',
         maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
-        boxShadow: "0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)"
+        boxShadow: "none"
     },
     nested: {
         paddingLeft: theme.spacing.unit,
+    },
+    itemText:{
+        paddingLeft:"0"
+    },
+    allversion:{
+        paddingLeft:"15px"
     }
 
 
 });
+
+const ListItem = withStyles({
+    root: {
+        '&$selected': {
+            background: "#f5f5f5",
+            color:"#FFF",
+            margin:"0 10px"
+        },
+        height:"50px",
+        width:"auto",
+        margin:"0 10px",
+        '&$hover':{
+            background:"#121212",
+            margin:"0 10px"
+        }
+    },
+    selected:{
+        background: "#f5f5f5",
+    }
+})(props => <MuiListItem {...props} />);
+
 
 
 class IterationList extends React.Component {
@@ -36,7 +66,7 @@ class IterationList extends React.Component {
         let idx = 1;
         let iterationLists = !this.props.iterations ? "" : this.props.iterations.map((prop, key) => {
                 return (
-                    <SingleIteration key={key} handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit} handleDelete={this.props.handleDelete}
+                    <SingleIteration key={key} handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit} handleDelete={this.props.handleDelete} handleReview={this.props.handleReview}
                                      iterationList={prop.children} iteration={prop.iteration.name}
                                      defaultExpand={idx++ == 1 ? true : prop.iteration.selected} perm={this.props.perm}/>
                 )
@@ -48,7 +78,9 @@ class IterationList extends React.Component {
                 subheader={<ListSubheader component="div">版本列表 {permProcessor.bingo('save', this.props.perm)?  <IconButton onClick={this.props.handleAdd} style={{float: "right", marginRight: "-12px"}}><AddIcon/></IconButton> : ""}</ListSubheader>}
                 className={classes.root}
             >
-                <SearchTextField handleSearch={this.props.handleSearch} clearInput={this.state.clearInput}/>
+                {/*<ListItem button className={classes.nested} style={{paddingRight:"0"}}>*/}
+                    {/*<ListItemText inset primary="所有版本" className={classes.itemText}/>*/}
+                {/*</ListItem>*/}
                 {iterationLists}
 
             </List>

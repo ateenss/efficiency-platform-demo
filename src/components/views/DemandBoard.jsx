@@ -498,6 +498,7 @@ class TaskBoard extends React.Component {
 
 const
     mapStateToProps = (state) => {
+
         return {
             demand: state.reducer.task.demand,
             buildDemandShow: state.reducer.buildDemand.buildDemandShow,
@@ -507,7 +508,6 @@ const
             initialTable: state.reducer.buildDemand.initialData.dataMuiTable,
             updatedRow: state.reducer.buildDemand.updatedRow,
             action: state.reducer.buildDemand.action,
-            projectMembers: state.reducer.common.projectMembers,
             filters : state.reducer.buildDemand.filters
 
         }

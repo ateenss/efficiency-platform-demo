@@ -33,10 +33,15 @@ const ListItem = withStyles({
     root: {
         '&$selected': {
             background: "#f5f5f5",
+            color:"#FFF",
+            margin:"0 10px"
         },
         height:"50px",
+        width:"auto",
+        margin:"0 10px",
         '&$hover':{
-            background:"#121212"
+            background:"#121212",
+            margin:"0 10px"
         }
     },
     selected:{
@@ -71,7 +76,7 @@ class SingleIteration extends React.Component {
 
 
                         <ListItemText inset primary={prop.iter + "版"} className={classes.itemText}/>
-                        <IterationMenuList icon={<MoreVertIcon/>} handleDelete={this.props.handleDelete.bind(this, prop.id)} handleEdit={this.props.handleEdit.bind(this, prop.id)} perm={this.props.perm}/>
+                        <IterationMenuList icon={<MoreVertIcon/>} handleDelete={this.props.handleDelete.bind(this, prop.id)} handleEdit={this.props.handleEdit.bind(this, prop.id)} handleReview={this.props.handleReview} perm={this.props.perm}/>
                     </ListItem>
                 )
             }

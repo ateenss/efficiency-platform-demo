@@ -323,20 +323,26 @@ class IterationBoard extends React.Component {
 
     }
 
+    handleReview = () =>{
+
+        this.setState({tabValue: 1})
+
+    };
+
     render() {
         const {classes, theme, initialData} = this.props;
         const {tabValue} = this.state;
         return (
             <div>
-                <Grid container spacing={8}>
+                <Grid container spacing={16}>
 
                     <Grid item xs={2}>
                         <IterationList iterations={this.state.iterationState} handleAdd={this.handleAdd}
                                        handleEdit={this.handleEdit} handleSelected={this.handleSelected} handleDelete={this.handleAlertDelete}
-                                       handleSearch={this.handleSearch} perm={this.state.perm}/>
+                                       handleSearch={this.handleSearch} perm={this.state.perm} handleReview={this.handleReview}/>
                     </Grid>
                     <Grid item xs={10}>
-                        <Paper style={{padding: "10px"}}>
+                        <Paper style={{padding: "10px", boxShadow:"none"}}>
                             <Tabs value={tabValue} onChange={this.handleChange}  classes={{indicator: classes.tabsIndicator }}>
                                 <Tab label="版本总览"/>
                                 <Tab label="需求列表"/>

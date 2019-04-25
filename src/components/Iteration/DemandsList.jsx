@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import MUIDataTable from "mui-datatables";
 // import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import Typography from "@material-ui/core/Typography";
 import CustomToolBar4DemandList from '../Iteration/CustomToolBar4DemandList';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {muiTableTheme} from "../common/MuiTableTheme";
+import CardIcon from "@material-ui/icons/PriorityHigh";
+import Chip from "@material-ui/core/Chip";
 
 const styles = theme => ({});
 /**
@@ -19,15 +20,29 @@ const columns = [
     {name: "id", options: {filter: false,display:false}},
     {name: "需求编号", options: {filter: false}},
     {name: "需求名称", options: {filter: false}},
-    {name: "需求负责人", options: {filter: true}},
+    {name: "需求负责人", options: {filter: true,display:false}},
     {name: "负责人ID", options: {display: false}},
-    {name: "需求状态",options: {filter: false}},
+    {name: "需求状态",options: {filter: false, display:false}},
     {name: "开发负责人", options: {filter: false}},
     {name: "开发负责人", options: {filter: false, display: false}},
     {name: "需求来源", options: {filter: false}},
     {name: "评审时间", options: {filter: false}},
     {name: "UAT", options: {filter: false}},
-    {name: "需求任务状态", options: {display:false}}];
+    {name: "BM", options: {filter: false}},
+    {name: "需求任务状态", options: {display:true,customBodyRender: (value, tableMeta, updateValue) => {
+
+                        return(
+                            <div>
+                                <Chip
+                                    label={value}
+                                />
+                            </div>
+
+
+                        )
+
+
+            }}}];
 
 function Empty() {
     return null;

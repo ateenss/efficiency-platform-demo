@@ -18,6 +18,10 @@ import {ADD_ITERATION, EDIT_ITERATION} from "../../actions/types";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 import {Rules, validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
+import CardHeader from "@material-ui/core/CardHeader";
+import Card from "@material-ui/core/Card";
+import Avatar from "@material-ui/core/Avatar";
+import CardContent from "@material-ui/core/CardContent";
 
 
 const styles = {
@@ -33,6 +37,20 @@ const styles = {
     gridStyle: {
         marginTop: "15px"
     },
+    card:{
+        boxShadow:"none"
+
+    },
+    cardHeader:{
+        fontSize:"16px",
+        paddingBottom:"0"
+    },
+    cardContent:{
+        paddingTop:"0",
+    },
+    headerLine:{
+        fontSize:"16px"
+    }
 
 };
 
@@ -160,116 +178,123 @@ class AddIteration extends React.Component {
                     maxWidth="lg">
                 <DialogTitle id="simple-dialog-title">{this.state.title}</DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={8}>
-                        <Grid item xs={8} className={classes.gridStyle}>
-                            <InputField
-                                nameIn="iterationCode"
-                                onChange={this.getContent}
-                                InputLabelName="版本编号"
-                                defaultValue={this.state.iterationContent.iterationCode}
-                                validateEl={Rules.iterationProps.iterationCode}
+                    <Card className={classes.card}>
+                        <CardHeader title="基本信息" className={classes.cardHeader} classes={{title : classes.headerLine}}/>
 
-                            />
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <InputField
-                                nameIn="iterationName"
-                                onChange={this.getContent}
-                                InputLabelName="版本名称"
-                                defaultValue={this.state.iterationContent.iterationName}
-                                validateEl={Rules.iterationProps.iterationName}
-                            />
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
+                        <CardContent className={classes.cardContent}>
+                            <Grid container spacing={8}>
+                                <Grid item xs={8} className={classes.gridStyle}>
+                                    <InputField
+                                        nameIn="iterationCode"
+                                        onChange={this.getContent}
+                                        InputLabelName="版本编号"
+                                        defaultValue={this.state.iterationContent.iterationCode}
+                                        validateEl={Rules.iterationProps.iterationCode}
 
-                            <TrueMuitiSelect data={projectMember4SingleSelect} onChange={this.getContent}
-                                             nameIn="iterationOwnerId"
-                                             label="版本负责人"
-                                             defaultValue={defaultOwner}
-                                             singleSelect
-                            />
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="testDate" InputLabelName="提测时间" onDateChange={this.getContent}
-                                        defaultValue={this.state.iterationContent.testDate}z
-                            />
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="publishDate" InputLabelName="发布时间" onDateChange={this.getContent}
-                                        defaultValue={this.state.iterationContent.publishDate}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="deliveryDate" InputLabelName="上线时间" onDateChange={this.getContent}
-                                        defaultValue={this.state.iterationContent.deliveryDate}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="developPlanSubmitDate" InputLabelName="开发方案提交时间"
-                                        onDateChange={this.getContent}
-                                        defaultValue={this.state.iterationContent.developPlanSubmitDate}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="codeReviewDate" InputLabelName="代码走查时间" onDateChange={this.getContent}
-                                        defaultValue={this.state.iterationContent.codeReviewDate}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <DatePicker nameIn="ciDate" InputLabelName="持续集成执行时间" onDateChange={this.getContent}
-                                        defaultValue={this.state.iterationContent.ciDate}/>
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
-                            <InputField onChange={this.getContent} InputLabelName="Bugzilla" nameIn="bugzillaId"
-                                        nameArray={initialData}
-                                        defaultValue={this.state.iterationContent.bugzillaId}
-                                        expr={GlobalValidateRegex.strRegex}
-                                        maxLength="10"
-                                        validate={this.validate}
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <InputField
+                                        nameIn="iterationName"
+                                        onChange={this.getContent}
+                                        InputLabelName="版本名称"
+                                        defaultValue={this.state.iterationContent.iterationName}
+                                        validateEl={Rules.iterationProps.iterationName}
+                                    />
+                                </Grid>
+                                <Grid item xs={6} className={classes.gridStyle}>
+                                    <TrueMuitiSelect data={projectMember4SingleSelect} onChange={this.getContent}
+                                                     nameIn="iterationOwnerId"
+                                                     label="版本负责人"
+                                                     defaultValue={defaultOwner}
+                                                     singleSelect
+                                    />
+                                </Grid>
+                                <Grid item xs={3} className={classes.gridStyle}>
+                                    <InputField onChange={this.getContent} InputLabelName="Bugzilla" nameIn="bugzillaId"
+                                                nameArray={initialData}
+                                                defaultValue={this.state.iterationContent.bugzillaId}
 
-                            />
-                        </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
+                                    />
+                                </Grid>
+                                <Grid item xs={3} className={classes.gridStyle}>
+                                    <InputField onChange={this.getContent} InputLabelName="变更号" nameIn="plateformCode"
+                                                nameArray={initialData}
+                                                defaultValue={this.state.iterationContent.plateformCode}
 
-                            <TrueMuitiSelect data={projectMember4SingleSelect} onChange={this.getContent}
-                                             nameIn="deliveryPersonInChargeId"
-                                             label="上线负责人"
-                                             defaultValue={defaultDeliveryPersonInCharge}
-                                             singleSelect
-                            />
-                        </Grid>
-                        {/*<Grid item xs={4} className={classes.gridStyle}>*/}
-                        {/*<MultiSelect onChange={this.getContent} InputLabelName="上线检查人" nameIn="deliveryCheckers"*/}
-                        {/*nameArray={projectMember4MultiSelect}*/}
-                        {/*defaultValue={this.state.iterationContent.deliveryCheckers}*/}
-                        {/*required*/}
-                        {/*validate={this.validate}*/}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+                    <Card className={classes.card}>
+                        <CardHeader title="版本进度" className={classes.cardHeader} classes={{title : classes.headerLine}}/>
 
+                        <CardContent className={classes.cardContent} style={{paddingTop:"32px"}}>
+                            <Grid container spacing={8}>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <DatePicker nameIn="testDate" InputLabelName="提测时间" onDateChange={this.getContent}
+                                                defaultValue={this.state.iterationContent.testDate}z
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <DatePicker nameIn="publishDate" InputLabelName="发布时间" onDateChange={this.getContent}
+                                                defaultValue={this.state.iterationContent.publishDate}/>
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <DatePicker nameIn="deliveryDate" InputLabelName="上线时间" onDateChange={this.getContent}
+                                                defaultValue={this.state.iterationContent.deliveryDate}/>
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <DatePicker nameIn="developPlanSubmitDate" InputLabelName="开发方案提交时间"
+                                                onDateChange={this.getContent}
+                                                defaultValue={this.state.iterationContent.developPlanSubmitDate}/>
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <DatePicker nameIn="codeReviewDate" InputLabelName="代码走查时间" onDateChange={this.getContent}
+                                                defaultValue={this.state.iterationContent.codeReviewDate}/>
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <DatePicker nameIn="ciDate" InputLabelName="持续集成执行时间" onDateChange={this.getContent}
+                                                defaultValue={this.state.iterationContent.ciDate}/>
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                    </Card>
 
-                        {/*/>*/}
+                    <Card className={classes.card}>
+                        <CardHeader title="上线相关" className={classes.cardHeader} classes={{title : classes.headerLine}}/>
 
-                        {/*</Grid>*/}
-                        {/*<Grid item xs={4} className={classes.gridStyle}>*/}
-                        {/*<MultiSelect onChange={this.getContent} InputLabelName="上线人" nameIn="deliveryPersons"*/}
-                        {/*nameArray={projectMember4MultiSelect}*/}
-                        {/*defaultValue={this.state.iterationContent.deliveryPersons}*/}
-                        {/*required*/}
-                        {/*validate={this.validate}*/}
+                        <CardContent className={classes.cardContent}>
+                            <Grid container spacing={8}>
+                                <Grid item xs={6} className={classes.gridStyle}>
 
-                        {/*/>*/}
+                                    <TrueMuitiSelect data={projectMember4SingleSelect} onChange={this.getContent}
+                                                     nameIn="deliveryPersonInChargeId"
+                                                     label="上线负责人"
+                                                     defaultValue={defaultDeliveryPersonInCharge}
+                                                     singleSelect
+                                    />
+                                </Grid>
 
-                        {/*</Grid>*/}
-                        <Grid item xs={6} className={classes.gridStyle}>
-                            <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
-                                             nameIn="deliveryCheckers"
-                                             defaultValue={defaultCheckers}
-                                             label="上线检查人"
-                            />
-                        </Grid>
-                        <Grid item xs={6} className={classes.gridStyle}>
-                            <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
-                                             nameIn="deliveryPersons"
-                                             defaultValue={defaultPersons}
-                                             label="上线人"
-                            />
-                        </Grid>
-                    </Grid>
+                                <Grid item xs={6} className={classes.gridStyle}>
+                                    <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
+                                                     nameIn="deliveryCheckers"
+                                                     defaultValue={defaultCheckers}
+                                                     label="上线检查人"
+                                    />
+                                </Grid>
+                                <Grid item xs={6} className={classes.gridStyle}>
+                                    <TrueMuitiSelect data={projectMember4MultiSelect} onChange={this.getContent}
+                                                     nameIn="deliveryPersons"
+                                                     defaultValue={defaultPersons}
+                                                     label="上线人"
+                                    />
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.handleClose} color="primary" className={buttonStyle}>

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import Button from '@material-ui/core/Button';
@@ -305,14 +304,9 @@ class BuildDemandMain extends React.Component {
     }
 }
 
-BuildDemandMain.propTypes = {
-    classes: PropTypes.object.isRequired,
-    onClose: PropTypes.func,
-    selectedValue: PropTypes.string,
-};
-
 
 const mapStateToProps = (state) => {
+    console.log(")()()()()()()"+state.reducer.common.projectMembers)
     return {
         buildDemandShow: state.reducer.buildDemand.buildDemandShow,
         projectMembers: state.reducer.common.projectMembers,

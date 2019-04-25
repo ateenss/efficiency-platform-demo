@@ -292,11 +292,11 @@ export function init(pageNo, doAfterInit) {
 
     axios.all([ getProjectMembers(), getRecentIteration()]).then(axios.spread(function (members, iterations) {
 
-        // store.dispatch({
-        //     type: INIT_PROJECT_MEMBERS,
-        //     payload: members.data.data
-        //
-        // });
+        store.dispatch({
+            type: INIT_PROJECT_MEMBERS,
+            payload: members.data.data
+
+        });
 
         doAfterInit(members.data.data, iterations.data.data);
 

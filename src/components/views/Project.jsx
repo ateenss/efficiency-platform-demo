@@ -160,7 +160,7 @@ class Project extends React.Component {
         return (
 
             <div className={classes.root}>
-                <ExpansionPanel defaultExpanded={true}>
+                <ExpansionPanel defaultExpanded={true} style={{boxShadow:"none"}}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>我当前的项目</Typography>
                     </ExpansionPanelSummary>
@@ -181,7 +181,7 @@ class Project extends React.Component {
                         </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-                <ExpansionPanel defaultExpanded={true}>
+                <ExpansionPanel defaultExpanded={true}  style={{boxShadow:"none"}}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>我参与的项目</Typography>
                     </ExpansionPanelSummary>
