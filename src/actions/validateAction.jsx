@@ -127,12 +127,12 @@ export const Rules = {
         }
     },
     taskProps: {
-        taskName: {
+        /*taskName: {
             required: true,
             maxLength: 10,
             expr: Regex.noSpecialSymbol,
             literal: "任务名称"
-        },
+        },*/
         estimateWorkTime: {
             required: true,
             maxLength: 4,

@@ -484,6 +484,7 @@ export function savePlanContent(content) {
 
 
 export function saveBuildModule(saveContent,parentTaskId) {
+    console.log("我來查快餐"+JSON.stringify(saveContent));
     const save_module_data = UrlConf.base + 'task/saveNewDevTask';
     const config = {
         method: 'post'
@@ -619,7 +620,6 @@ export function getDemandTaskDetail(taskId) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                console.log("我是见证传进来的数据fuza",JSON.stringify(data));
                 store.dispatch(getDemandTaskDetailInfo(data));
                 judgeDemandTaskShowAction(data.taskOwner);
             }else{
@@ -644,7 +644,6 @@ export function getDemandTaskDetailSimple(taskId) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                console.log("我是见证传进来的数据",JSON.stringify(data));
                 store.dispatch(getDemandTaskDetailInfo(data));
                 judgeDemandTaskShowAction(data.taskOwner);
             }else{

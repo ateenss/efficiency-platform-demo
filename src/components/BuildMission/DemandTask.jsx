@@ -88,25 +88,13 @@ class DemandTask extends React.Component {
         };
     }
     funcOptions=(perm,taskOwner)=>()=>{
-        let tempOptions=[];
+        let tempOptions=[{
+            name: "编辑",
+            func: function (id) {
+                store.dispatch(openTaskEdit(id));
+                // store.dispatch(calPerm(taskOwner))
+            }}];
         let empty=[];
-        if(this.props.devEditorCanShow){
-            tempOptions.push({
-                name: "编辑",
-                func: function (id) {
-                    store.dispatch(openTaskEdit(id));
-                    // store.dispatch(calPerm(taskOwner))
-                }
-            })
-        }else if(!this.props.devEditorCanShow){
-            tempOptions.push({
-                name: "查看任务",
-                func: function (id) {
-                    store.dispatch(openTaskEdit(id));
-                    // store.dispatch(calPerm(taskOwner))
-                }
-            })
-        }
         if (this.props.group==="develop") {
 
             tempOptions.push({

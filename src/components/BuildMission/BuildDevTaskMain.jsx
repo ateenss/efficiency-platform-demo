@@ -113,6 +113,11 @@ class BuildDevTaskMain extends React.Component {
         this.setState({errorList: errorList});
     };
 
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({
+            moduleContent:{}
+        })
+    }
 
 
     render() {
@@ -138,6 +143,12 @@ class BuildDevTaskMain extends React.Component {
             };
             projectMember4MultiSelect.push(ret);
         }
+        let finalTaskName=this.props.demands.taskName;
+        let taskChildList=this.props.demands.taskDetailList;
+        let number=taskChildList.finish.length+taskChildList.plan.length+taskChildList.develop.length+taskChildList.integration.length+taskChildList.goTest.length;
+        finalTaskName=finalTaskName+"#"+(number+1).toString();
+
+
         return (
             <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="lg">
                 <DialogTitle id="simple-dialog-title">创建开发任务</DialogTitle>
@@ -148,7 +159,8 @@ class BuildDevTaskMain extends React.Component {
                                 nameIn="taskName"
                                 onChange={this.getContent}
                                 InputLabelName="任务名称"
-                                validateEl={Rules.taskProps.taskName}
+                                defaultValue={finalTaskName}
+                                disabled={true}
                             />
                         </Grid>
                         <Grid item xs={3} className={classes.gridStyle}>

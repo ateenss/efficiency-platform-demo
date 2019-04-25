@@ -145,7 +145,7 @@ class DevTaskEditor extends React.Component {
             提交
         </Button>);
         if (this.props.tempTask.content!=null) {
-            if (this.props.tempTask.content.taskStatus==="待处理"&&this.props.devEditorCanShow) {
+            if (this.props.tempTask.content.taskStatus==="待处理"&&(this.props.devTaskActionShow||this.props.allActonShow)) {
                 return show
             }
         }
@@ -156,7 +156,7 @@ class DevTaskEditor extends React.Component {
         let show=(<Button color="inherit" onClick={this.save}>
             保存
         </Button>);
-        if (this.props.devEditorCanShow) {
+        if (this.props.devTaskActionShow||this.props.allActonShow) {
             return show;
         }
         return ""
@@ -304,6 +304,8 @@ const mapStateToProps = (state) => {
         action:state.reducer.buildMission.action,
         modules : state.reducer.buildMission.modules,
         devEditorCanShow : state.reducer.buildMission.devEditorCanShow,
+        devTaskActionShow : state.reducer.buildMission.devTaskActionShow,
+        allActonShow : state.reducer.buildMission.allActonShow
     }
 };
 
