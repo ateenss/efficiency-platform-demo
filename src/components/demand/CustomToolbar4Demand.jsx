@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
 import { withStyles } from "@material-ui/core/styles";
+import FilterIcon from "@material-ui/icons/Filter";
 
 const defaultToolbarStyles = {
     iconButton: {
@@ -17,6 +18,11 @@ class CustomToolbar4DeliveryDoc extends React.Component {
 
         return (
             <React.Fragment>
+                <Tooltip title={"筛选"}>
+                    <IconButton className={classes.iconButton} onClick={this.props.handleFilter.bind(this)}>
+                        <FilterIcon className={classes.icon}/>
+                    </IconButton>
+                </Tooltip>
                 <Tooltip title={"添加"}>
                     <IconButton className={classes.iconButton} onClick={this.props.handleAdd}>
                         <AddIcon className={classes.deleteIcon} />

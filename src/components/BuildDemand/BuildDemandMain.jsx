@@ -160,7 +160,7 @@ class BuildDemandMain extends React.Component {
             projectMember4MultiSelect.push(ret);
         }
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="xl">
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="lg">
                 <DialogTitle id="simple-dialog-title">创建新需求</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>

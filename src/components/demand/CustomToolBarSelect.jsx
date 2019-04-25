@@ -1,16 +1,11 @@
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
-import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
+import FilterIcon from "@material-ui/icons/Filter";
 import EditIcon from "@material-ui/icons/Edit";
 import {withStyles} from "@material-ui/core/styles";
 import {editDemand, openReviewDemand} from "../../actions/DemandAction";
 import DemandGuihuaIcon from "@material-ui/icons/Receipt"
-import ChooseDemandBox from "./ChooseDemandBox";
-import store from '../../stores/index';
-import {openEditDemand} from "../../actions/DemandAction"
-import IterationListMenu from "./IterationListMenu";
 import {connect} from "react-redux";
 
 const defaultToolbarSelectStyles = {
@@ -93,11 +88,6 @@ class CustomToolbarSelect extends React.Component {
                 {/*<Tooltip title={"Inverse selection"}>*/}
                     {/*<IconButton className={classes.iconButton} onClick={this.handleClickInverseSelection}>*/}
                         {/*<CompareArrowsIcon className={[classes.icon, classes.inverseIcon].join(" ")}/>*/}
-                    {/*</IconButton>*/}
-                {/*</Tooltip>*/}
-                {/*<Tooltip title={"拆分需求"}>*/}
-                    {/*<IconButton className={classes.iconButton} onClick={this.handleEdit}>*/}
-                        {/*<EditIcon className={classes.icon}/>*/}
                     {/*</IconButton>*/}
                 {/*</Tooltip>*/}
                 <Tooltip title={"编辑"}>

@@ -9,7 +9,6 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import IterationMenuList from "./IterationMenuList";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import {changeTaskStatus, editTask} from "../../actions/DemandTasksAction";
 
 
 const styles = theme => ({
@@ -28,24 +27,6 @@ const styles = theme => ({
         paddingLeft: "0px !important"
     }
 });
-
-
-const options = [
-        {
-            name: "编辑",
-            func: function (id) {
-                editTask(id)
-            }
-        },
-        {
-            name: "完成",
-            func: function (id) {
-                changeTaskStatus(id);
-            }
-        }
-
-    ]
-;
 
 
 const ListItem = withStyles({
@@ -90,7 +71,7 @@ class SingleIteration extends React.Component {
 
 
                         <ListItemText inset primary={prop.iter + "版"} className={classes.itemText}/>
-                        <IterationMenuList icon={<MoreVertIcon/>} handleEdit={this.props.handleEdit.bind(this, prop.id)} perm={this.props.perm}/>
+                        <IterationMenuList icon={<MoreVertIcon/>} handleDelete={this.props.handleDelete.bind(this, prop.id)} handleEdit={this.props.handleEdit.bind(this, prop.id)} perm={this.props.perm}/>
                     </ListItem>
                 )
             }

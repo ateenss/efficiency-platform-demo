@@ -176,13 +176,13 @@ export const Rules = {
     iterationProps: {
         iterationCode: {
             required: true,
-            maxLength: 10,
+            maxLength: 25,
             expr: Regex.projectCodeRegex,
             literal: "版本编号"
         },
         iterationName: {
             required: true,
-            maxLength: 10,
+            maxLength: 25,
             expr: Regex.noSpecialSymbol,
             literal: "版本名称"
         },

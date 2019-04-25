@@ -36,7 +36,7 @@ class IterationList extends React.Component {
         let idx = 1;
         let iterationLists = !this.props.iterations ? "" : this.props.iterations.map((prop, key) => {
                 return (
-                    <SingleIteration key={key} handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit}
+                    <SingleIteration key={key} handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit} handleDelete={this.props.handleDelete}
                                      iterationList={prop.children} iteration={prop.iteration.name}
                                      defaultExpand={idx++ == 1 ? true : prop.iteration.selected} perm={this.props.perm}/>
                 )

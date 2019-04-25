@@ -38,7 +38,8 @@ export const muiTableTheme = () => createMuiTheme({
             root:{
                 padding:"4px 0px 4px 4px",
                 "&:nth-child(5)": {
-                    fontWeight:"700"
+                    fontWeight:"700",
+                    maxWidth:"300px"
                 }
             }
         },

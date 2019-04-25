@@ -191,7 +191,7 @@ class AddIteration extends React.Component {
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker nameIn="testDate" InputLabelName="提测时间" onDateChange={this.getContent}
-                                        defaultValue={this.state.iterationContent.testDate}
+                                        defaultValue={this.state.iterationContent.testDate}z
                             />
                         </Grid>
                         <Grid item xs={4} className={classes.gridStyle}>

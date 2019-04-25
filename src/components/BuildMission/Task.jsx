@@ -169,7 +169,7 @@ class Task extends React.Component {
                         />
                         <CardContent className={classes.taskContent}>
 
-                            <h4 style={{margin:"0", fontWeight:"700"}}>
+                            <h4 style={{margin:"0", fontWeight:"700", fontSize:"16px"}}>
                                 {this.props.taskName}
                             </h4>
 

@@ -11,7 +11,7 @@ import {
     ITERATION_INIT,
     GET_DEVPLAN_DETAIL,
     CLOSE_PUBLISH_TEST_CASE,
-    SAVE_KEY,
+    SAVE_KEY, DELETE_ITERATION,
 } from '../actions/types';
 
 export const INITIAL_STATE = {
@@ -66,6 +66,13 @@ export default function (state = INITIAL_STATE, action) {
                 publishTestCase:action.payload.testCase};
         case CLOSE_PUBLISH_TEST_CASE:
             return {...state, action:CLOSE_PUBLISH_TEST_CASE, openPublishTestCase:false};
+        case DELETE_ITERATION:
+            let iteration = {
+                demandList: [],
+                iterationCode: "",
+                iterationInfo:{}
+            }
+            return {...state, action: DELETE_ITERATION, deleteId : action.payload, iteration : iteration}
         default:
             return state;
     }

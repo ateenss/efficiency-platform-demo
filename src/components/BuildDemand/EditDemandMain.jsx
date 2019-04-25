@@ -167,7 +167,7 @@ class EditDemandMain extends React.Component {
             projectMember4MultiSelect.push(ret);
         }
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="xl">
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="lg">
                 <DialogTitle id="simple-dialog-title">编辑需求 - {this.state.defaultContent["demandCode"]}</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >

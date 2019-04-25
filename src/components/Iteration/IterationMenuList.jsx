@@ -4,7 +4,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import permProcessor from "../../constants/PermProcessor";
 
-
 const ITEM_HEIGHT = 48;
 
 class IterationMenuList extends React.Component {
@@ -27,12 +26,17 @@ class IterationMenuList extends React.Component {
     handleEdit = (id ,e) =>{
         this.props.handleEdit(id,e);
         this.setState({anchorEl: null});
-    }
+    };
+
+    handleConfirmDelete = (id, e) =>{
+        this.props.handleDelete(id,e);
+        this.setState({anchorEl: null});
+
+    };
 
     render() {
         const {anchorEl} = this.state;
         const open = Boolean(anchorEl);
-
         return (
             <div group={this.props.group} style={{display: this.props.display}} >
                 <IconButton
@@ -56,6 +60,8 @@ class IterationMenuList extends React.Component {
                     }}
                 >
                     {permProcessor.bingo('save', this.props.perm) ? <MenuItem onClick={this.handleEdit}>编辑</MenuItem> :""}
+                     <MenuItem onClick={this.handleConfirmDelete}>删除</MenuItem>
+
                 </Menu>
             </div>
         );
