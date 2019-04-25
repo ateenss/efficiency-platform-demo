@@ -466,7 +466,7 @@ class TaskBoard extends React.Component {
                 <Grid item xs={12}>
                     <MuiThemeProvider theme={muiTableTheme}>
                         <MUIDataTable
-                            title={filterChips}
+                            title={!!filterChips && filterChips.length>0 ? filterChips : "需求列表"}
                             data={this.state.assembleTable}
                             columns={columns}
                             options={options}
