@@ -11,7 +11,7 @@ import {
     ITERATION_INIT,
     GET_DEVPLAN_DETAIL,
     CLOSE_PUBLISH_TEST_CASE,
-    SAVE_KEY, DELETE_ITERATION,
+    SAVE_KEY, DELETE_ITERATION, OPEN_ITERATION_FILTER, CLOSE_ITERATION_FILTER,
 } from '../actions/types';
 
 export const INITIAL_STATE = {
@@ -73,6 +73,11 @@ export default function (state = INITIAL_STATE, action) {
                 iterationInfo:{}
             }
             return {...state, action: DELETE_ITERATION, deleteId : action.payload, iteration : iteration}
+        case OPEN_ITERATION_FILTER:
+            console.log("@!@@@@@"+JSON.stringify(action.payload.filters))
+            return {...state, openIterationFilter : true, action : OPEN_ITERATION_FILTER, currentTarget : action.payload.currentTarget, filters : action.payload.filters}
+        case CLOSE_ITERATION_FILTER:
+            return {...state, openIterationFilter : false, action : CLOSE_ITERATION_FILTER, currentTarget : null, filters : action.payload}
         default:
             return state;
     }

@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import IterationList from "../Iteration/IterationList";
 import {Paper} from "@material-ui/core";
 import {connect} from "react-redux";
-import {selectIteration, addIteration, init, deleteIteration} from "../../actions/IterationAction";
+import {selectIteration, addIteration, init, deleteIteration, search} from "../../actions/IterationAction";
 import AddIteration from "../Iteration/AddIteration";
 import {DELETE_ITERATION, ITERATION_INIT, SAVE_ADD_ITERATION} from "../../actions/types";
 import DemandsList from "../Iteration/DemandsList";
@@ -41,6 +41,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import IterationTable from "../Iteration/IterationTable";
 
 const drawerWidth = 240;
 
@@ -120,7 +121,8 @@ class IterationBoard extends React.Component {
             hide: true,
             perm: permProcessor.init('project'),
             openAlert:false,
-            currentIteration : ""
+            currentIteration : "",
+            allVersionSelected : false
         };
     }
 
@@ -168,6 +170,7 @@ class IterationBoard extends React.Component {
         console.log(id);
         // dispatch一个ID过去，获取该版本下的所有需求，然后选中
         selectIteration(id);
+        this.setState({allVersionSelected : false})
     };
 
     deSelect = () => {
@@ -178,6 +181,7 @@ class IterationBoard extends React.Component {
                 iter.children[j].selected = false;
             }
         }
+        this.setState({iterationState : iterationState})
     };
 
     handleMultiSelect = (id) => {
@@ -329,6 +333,13 @@ class IterationBoard extends React.Component {
 
     };
 
+    handleAllIteration = () =>{
+
+        this.setState({allVersionSelected : true});
+        this.deSelect();
+
+    }
+
     render() {
         const {classes, theme, initialData} = this.props;
         const {tabValue} = this.state;
@@ -337,153 +348,165 @@ class IterationBoard extends React.Component {
                 <Grid container spacing={16}>
 
                     <Grid item xs={2}>
-                        <IterationList iterations={this.state.iterationState} handleAdd={this.handleAdd}
+                        <IterationList iterations={this.state.iterationState} handleAdd={this.handleAdd} handleAllIteration={this.handleAllIteration}
                                        handleEdit={this.handleEdit} handleSelected={this.handleSelected} handleDelete={this.handleAlertDelete}
-                                       handleSearch={this.handleSearch} perm={this.state.perm} handleReview={this.handleReview}/>
+                                       handleSearch={this.handleSearch} perm={this.state.perm} handleReview={this.handleReview} allVersionSelected={this.state.allVersionSelected}/>
                     </Grid>
                     <Grid item xs={10}>
-                        <Paper style={{padding: "10px", boxShadow:"none"}}>
-                            <Tabs value={tabValue} onChange={this.handleChange}  classes={{indicator: classes.tabsIndicator }}>
-                                <Tab label="版本总览"/>
-                                <Tab label="需求列表"/>
-                                <Tab label="模块信息"/>
-                            </Tabs>
 
-                            {tabValue === 0 &&
+                        {
+                            this.state.allVersionSelected === true ?
 
-                            <Grid container spacing={8}>
-                                <Grid xs={12} style={{marginTop: "16px"}} item>
+                                <Paper style={{padding: "10px", boxShadow: "none"}}>
+                                    <IterationTable/>
+                                </Paper>
 
-                                    <Card className={classes.card}>
-                                        <CardHeader avatar={
-                                            <Avatar aria-label="Recipe" className={classes.avatar}>
-                                                T
-                                            </Avatar>
-                                        } title="版本时间轴" className={classes.cardHeader}/>
+                                :
 
-                                        <CardContent className={classes.cardContent}>
-                                            <IterationStepper
-                                                steppers={!!this.state.iterationInfo ? this.state.iterationInfo : {}}/>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                                <Grid xs={6} item>
-                                    <Card className={classes.card}>
-                                        <CardHeader avatar={
-                                            <Avatar aria-label="Recipe" className={classes.avatar}>
-                                                P
-                                            </Avatar>
-                                        } title="版本人员信息" className={classes.cardHeader}/>
+                            <Paper style={{padding: "10px", boxShadow: "none"}}>
+                                <Tabs value={tabValue} onChange={this.handleChange}
+                                      classes={{indicator: classes.tabsIndicator}}>
+                                    <Tab label="版本总览"/>
+                                    <Tab label="需求列表"/>
+                                    <Tab label="模块信息"/>
+                                </Tabs>
 
-                                        <CardContent className={classes.cardContent}>
-                                            <Grid container spacing={8}>
-                                                <Grid xs={6} item>
-                                                    <div
-                                                        className={classes.textInfo}>版本负责人：<Chip
-                                                        label={this.state.iterationInfo.iterationOwner}
-                                                        className={classes.chipStyle}/></div>
-                                                </Grid>
-                                                <Grid xs={6} item>
-                                                    <div
-                                                        className={classes.textInfo}>上线负责人：<Chip
-                                                        label={this.state.iterationInfo.deliveryPersonInCharge}
-                                                        className={classes.chipStyle}/></div>
-                                                </Grid>
-                                                <Grid xs={6} item>
-                                                    <div
-                                                        className={classes.textInfo}>
-                                                        上线人员：{!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryPersons ? this.state.iterationInfo.deliveryPersons.map((value, index) => {
-                                                            return <Chip label={value} className={classes.chipStyle}
-                                                                         key={index}/>
-                                                        }
-                                                    ) : ""}
-                                                    </div>
-                                                </Grid>
-                                                <Grid xs={6} item>
-                                                    <div
-                                                        className={classes.textInfo}>上线人员：
-                                                        {!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryCheckers ? this.state.iterationInfo.deliveryCheckers.map((value, index) => {
+                                {tabValue === 0 &&
+
+                                <Grid container spacing={8}>
+                                    <Grid xs={12} style={{marginTop: "16px"}} item>
+
+                                        <Card className={classes.card}>
+                                            <CardHeader avatar={
+                                                <Avatar aria-label="Recipe" className={classes.avatar}>
+                                                    T
+                                                </Avatar>
+                                            } title="版本时间轴" className={classes.cardHeader}/>
+
+                                            <CardContent className={classes.cardContent}>
+                                                <IterationStepper
+                                                    steppers={!!this.state.iterationInfo ? this.state.iterationInfo : {}}/>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                    <Grid xs={6} item>
+                                        <Card className={classes.card}>
+                                            <CardHeader avatar={
+                                                <Avatar aria-label="Recipe" className={classes.avatar}>
+                                                    P
+                                                </Avatar>
+                                            } title="版本人员信息" className={classes.cardHeader}/>
+
+                                            <CardContent className={classes.cardContent}>
+                                                <Grid container spacing={8}>
+                                                    <Grid xs={6} item>
+                                                        <div
+                                                            className={classes.textInfo}>版本负责人：<Chip
+                                                            label={this.state.iterationInfo.iterationOwner}
+                                                            className={classes.chipStyle}/></div>
+                                                    </Grid>
+                                                    <Grid xs={6} item>
+                                                        <div
+                                                            className={classes.textInfo}>上线负责人：<Chip
+                                                            label={this.state.iterationInfo.deliveryPersonInCharge}
+                                                            className={classes.chipStyle}/></div>
+                                                    </Grid>
+                                                    <Grid xs={6} item>
+                                                        <div
+                                                            className={classes.textInfo}>
+                                                            上线人员：{!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryPersons ? this.state.iterationInfo.deliveryPersons.map((value, index) => {
                                                                 return <Chip label={value} className={classes.chipStyle}
                                                                              key={index}/>
                                                             }
                                                         ) : ""}
-                                                    </div>
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid xs={6} item>
+                                                        <div
+                                                            className={classes.textInfo}>上线人员：
+                                                            {!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryCheckers ? this.state.iterationInfo.deliveryCheckers.map((value, index) => {
+                                                                    return <Chip label={value} className={classes.chipStyle}
+                                                                                 key={index}/>
+                                                                }
+                                                            ) : ""}
+                                                        </div>
+                                                    </Grid>
                                                 </Grid>
-                                            </Grid>
-                                        </CardContent>
+                                            </CardContent>
 
-                                    </Card>
+                                        </Card>
+                                    </Grid>
+                                    <Grid xs={6} item>
+                                        <Card className={classes.card}>
+                                            <CardHeader avatar={
+                                                <Avatar aria-label="Recipe" className={classes.avatar}>
+                                                    R
+                                                </Avatar>
+                                            } title="版本数据" className={classes.cardHeader}/>
+
+
+                                            <CardContent className={classes.cardContent}>
+                                                <Grid container spacing={8}>
+                                                    <Grid xs={6} item>
+                                                        <div
+                                                            className={classes.textInfo}>未提交方案：<Chip
+                                                            label={this.state.iterationInfo.unPlanningCnt}
+                                                            className={classes.chipStyle}/></div>
+                                                    </Grid>
+                                                    <Grid xs={6} item>
+                                                        <div
+                                                            className={classes.textInfo}>待走查方案：<Chip
+                                                            label={this.state.iterationInfo.unCodeReviewCnt}
+                                                            className={classes.chipStyle}/></div>
+                                                    </Grid>
+                                                    <Grid xs={6} item>
+                                                        <div
+                                                            className={classes.textInfo}>待持续集成：<Chip
+                                                            label={this.state.iterationInfo.unCi}
+                                                            className={classes.chipStyle}/></div>
+                                                    </Grid>
+                                                    <Grid xs={6} item>
+                                                        <div
+                                                            className={classes.textInfo}>已完成：<Chip
+                                                            label={this.state.iterationInfo.finished}
+                                                            className={classes.chipStyle}/></div>
+                                                    </Grid>
+                                                </Grid>
+                                            </CardContent>
+
+                                        </Card>
+                                    </Grid>
+
                                 </Grid>
-                                <Grid xs={6} item>
-                                    <Card className={classes.card}>
-                                        <CardHeader avatar={
-                                            <Avatar aria-label="Recipe" className={classes.avatar}>
-                                                R
-                                            </Avatar>
-                                        } title="版本数据" className={classes.cardHeader}/>
+                                }
+                                {tabValue === 1 &&
+                                <DemandsList data={this.state.demandList}/>
 
+                                }
+                                {tabValue === 2 &&
 
-                                        <CardContent className={classes.cardContent}>
-                                            <Grid container spacing={8}>
-                                                <Grid xs={6} item>
-                                                    <div
-                                                        className={classes.textInfo}>未提交方案：<Chip
-                                                        label={this.state.iterationInfo.unPlanningCnt}
-                                                        className={classes.chipStyle}/></div>
-                                                </Grid>
-                                                <Grid xs={6} item>
-                                                    <div
-                                                        className={classes.textInfo}>待走查方案：<Chip
-                                                        label={this.state.iterationInfo.unCodeReviewCnt}
-                                                        className={classes.chipStyle}/></div>
-                                                </Grid>
-                                                <Grid xs={6} item>
-                                                    <div
-                                                        className={classes.textInfo}>待持续集成：<Chip
-                                                        label={this.state.iterationInfo.unCi}
-                                                        className={classes.chipStyle}/></div>
-                                                </Grid>
-                                                <Grid xs={6} item>
-                                                    <div
-                                                        className={classes.textInfo}>已完成：<Chip
-                                                        label={this.state.iterationInfo.finished}
-                                                        className={classes.chipStyle}/></div>
-                                                </Grid>
-                                            </Grid>
-                                        </CardContent>
-
-                                    </Card>
+                                <Grid container spacing={8}>
+                                    <Grid item xs={12}>
+                                        <ResponsiveContainer width="100%" height={400}>
+                                            <BarChart
+                                                data={data}
+                                                margin={{top: 20, right: 20, bottom: 20, left: 100}}
+                                                layout="vertical"
+                                            >
+                                                <XAxis type="number"/>
+                                                <YAxis dataKey="name" type="category"/>
+                                                <Tooltip/>
+                                                <Legend/>
+                                                <Bar dataKey="uv" name="工作量" fill="#4DAF7C" maxBarSize={20}
+                                                     label={{fill: "#F5F5F5"}}/>
+                                            </BarChart>
+                                        </ResponsiveContainer>
+                                    </Grid>
                                 </Grid>
+                                }
+                            </Paper>
 
-                            </Grid>
-                            }
-                            {tabValue === 1 &&
-                            <DemandsList data={this.state.demandList}/>
-
-                            }
-                            {tabValue === 2 &&
-
-                            <Grid container spacing={8}>
-                                <Grid item xs={12}>
-                                    <ResponsiveContainer width="100%" height={400}>
-                                        <BarChart
-                                            data={data}
-                                            margin={{ top: 20, right: 20, bottom: 20, left: 100 }}
-                                            layout="vertical"
-                                        >
-                                            <XAxis type="number"/>
-                                            <YAxis dataKey="name" type="category"/>
-                                            <Tooltip/>
-                                            <Legend/>
-                                            <Bar dataKey="uv" name="工作量" fill="#4DAF7C" maxBarSize={20} label={{fill:"#F5F5F5"}}/>
-                                        </BarChart>
-                                    </ResponsiveContainer>
-                                </Grid>
-                            </Grid>
-                            }
-                        </Paper>
-
-
+                        }
                     </Grid>
                     <AddIteration
                         open={!!this.props.openAddIteration ? this.props.openAddIteration : false}

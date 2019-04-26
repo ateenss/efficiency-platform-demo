@@ -13,12 +13,11 @@ import {
     CLOSE_PUBLISH_TEST_CASE,
     INIT_PROJECT_MEMBERS,
     GET_DEVPLAN_DETAIL,
-    DELETE_ITERATION
+    DELETE_ITERATION, OPEN_ITERATION_FILTER, CLOSE_ITERATION_FILTER
 } from './types';
 
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
 import RequestBuilder from "../constants/RequestBuilder";
-import {getDemandTaskDetail} from "./BuildMissionAction";
 import UrlConf from "../constants/UrlConf";
 import {error,warning} from "./NotificationAction";
 
@@ -34,6 +33,7 @@ export const GET_BY_ID = UrlConf.base + 'iteration/get';
 export const DELETE_BY_ID = UrlConf.base + 'iteration/delete';
 
 export const SAVE = UrlConf.base + 'iteration/save';
+export const HISTORY_ITERATION = UrlConf.base + 'iteration/histories';
 
 //审核通过
 export function ProvePlan(id) {
@@ -438,4 +438,68 @@ export function deleteIteration(id) {
         });
 
 
+}
+
+
+export function nextPage(pageNo, doAfterInit) {
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(HISTORY_ITERATION, {"version": "1.0", accessToken: accessToken, data: {pageNo : pageNo}}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+                return false;
+            }
+
+            doAfterInit(response.data.data);
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+}
+
+
+export function search(pageNo, searchText, doAfterInit) {
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(HISTORY_ITERATION, {"version": "1.0", accessToken: accessToken, data: {pageNo : pageNo, ...searchText}}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+                return false;
+            }
+
+            doAfterInit(response.data.data);
+
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+}
+
+
+export function openFilter(currentTarget, filters){
+
+    store.dispatch({
+        type: OPEN_ITERATION_FILTER,
+        payload : {currentTarget : currentTarget, filters : filters}
+    });
+
+}
+export function closeFilter(filters){
+    store.dispatch({
+        type: CLOSE_ITERATION_FILTER,
+        payload : filters
+    });
 }

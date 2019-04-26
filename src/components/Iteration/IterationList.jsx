@@ -5,12 +5,12 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import SingleIteration from "./SingleIteration";
 import AddIcon from "@material-ui/icons/Add";
+import SearchIcon from "@material-ui/icons/History";
+
 import IconButton from "@material-ui/core/IconButton";
-import SearchTextField from "./SearchTextField"
 import permProcessor from "../../constants/PermProcessor";
-import {Typography} from "@material-ui/core";
 import MuiListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import MuiListItemText from "@material-ui/core/ListItemText";
 const styles = theme => ({
     root: {
         width: '100%',
@@ -35,7 +35,6 @@ const ListItem = withStyles({
     root: {
         '&$selected': {
             background: "#f5f5f5",
-            color:"#FFF",
             margin:"0 10px"
         },
         height:"50px",
@@ -50,6 +49,21 @@ const ListItem = withStyles({
         background: "#f5f5f5",
     }
 })(props => <MuiListItem {...props} />);
+
+
+const ListItemText = withStyles({
+    root: {
+        "&:first-child":{paddingLeft:"15px"},
+        '&$selected': {
+            background: "#f5f5f5",
+            color:"#FFF",
+            margin:"0 10px"
+        },
+    },
+    selected:{
+        background: "#f5f5f5",
+    }
+})(props => <MuiListItemText {...props} />);
 
 
 
@@ -75,12 +89,13 @@ class IterationList extends React.Component {
         return (
             <List
                 component="nav"
-                subheader={<ListSubheader component="div">版本列表 {permProcessor.bingo('save', this.props.perm)?  <IconButton onClick={this.props.handleAdd} style={{float: "right", marginRight: "-12px"}}><AddIcon/></IconButton> : ""}</ListSubheader>}
+                subheader={<ListSubheader component="div">版本列表{permProcessor.bingo('save', this.props.perm)?  <IconButton onClick={this.props.handleAdd} style={{float: "right", marginRight: "-12px"}}><AddIcon/></IconButton> : ""} </ListSubheader>}
                 className={classes.root}
             >
-                {/*<ListItem button className={classes.nested} style={{paddingRight:"0"}}>*/}
-                    {/*<ListItemText inset primary="所有版本" className={classes.itemText}/>*/}
-                {/*</ListItem>*/}
+                <ListItem button className={classes.nested} onClick={this.props.handleAllIteration} selected={this.props.allVersionSelected}>
+                    <ListItemText inset primary="所有版本" className={classes.itemText}/>
+                    <SearchIcon/>
+                </ListItem>
                 {iterationLists}
 
             </List>

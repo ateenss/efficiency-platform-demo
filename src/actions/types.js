@@ -60,6 +60,8 @@ export const CLOSE_DEMAND_FILTER="close_demand_filter";
 export const INIT_PROJECT_MEMBERS="init_project_members";
 export const SAVE_EDIT_DEMAND="save_edit_demand";
 export const DELETE_ITERATION="delete_iteration";
+export const OPEN_ITERATION_FILTER="open_iteration_filter";
+export const CLOSE_ITERATION_FILTER="close_iteration_filter";
 //任务管理
 //任务新建
 export const OPEN_BUILD_MISSION="open_build_mission";
