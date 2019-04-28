@@ -256,7 +256,7 @@ class DevelopPlan extends React.Component {
                         {this.state.moduleList.map((text, index) => (
                             <ListItem button onClick={this.change2Module.bind(this,text.taskId)} key={index}>
                                 <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text.moduleName} />
+                                <ListItemText primary={text.taskName} />
                             </ListItem>
                         ))}
                         <Divider />
