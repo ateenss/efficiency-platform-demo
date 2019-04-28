@@ -12,6 +12,7 @@ import {Menu} from "@material-ui/core";
 import {closeFilter} from "../../actions/DemandAction";
 import {demandConst} from "./DemandConst";
 import DatePicker from "../SelfComponent/DatePicker";
+import DateRange from "../SelfComponent/DateRange";
 
 const styles = theme => ({
     typography: {
@@ -160,15 +161,11 @@ class Filter extends React.Component {
                                         />
                                     </Grid>
                                     <Grid item xs={3} className={classes.gridStyle}>
-                                        <DatePicker nameIn="startTime" InputLabelName="开始时间" onDateChange={this.getContent}
-                                                    defaultValue={this.state.defaultContent.startTime}
+                                        <DateRange nameIn="createTime" InputLabelName="创建时间" onDateChange={this.getContent}
+                                                    defaultValue={this.state.defaultContent.createTime}
                                         />
                                     </Grid>
-                                    <Grid item xs={3} className={classes.gridStyle}>
-                                        <DatePicker nameIn="endTime" InputLabelName="结束时间" onDateChange={this.getContent}
-                                                    defaultValue={this.state.defaultContent.endTime}
-                                        />
-                                    </Grid>
+
                                     {/*<Grid item xs={3} className={classes.gridStyle}>*/}
                                         {/*<InputField*/}
                                             {/*nameIn="demandCode"*/}

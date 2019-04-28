@@ -7,7 +7,13 @@ import {Paper} from "@material-ui/core";
 import {connect} from "react-redux";
 import {selectIteration, addIteration, init, deleteIteration, search} from "../../actions/IterationAction";
 import AddIteration from "../Iteration/AddIteration";
-import {DELETE_ITERATION, ITERATION_INIT, SAVE_ADD_ITERATION} from "../../actions/types";
+import {
+    CLOSE_ITERATION_FILTER,
+    DELETE_ITERATION,
+    ITERATION_INIT,
+    OPEN_ITERATION_FILTER,
+    SAVE_ADD_ITERATION
+} from "../../actions/types";
 import DemandsList from "../Iteration/DemandsList";
 import ShowDevelopPlan from "../Iteration/ShowDevDocuments";
 import ShowPublishDocument from "../Iteration/ShowPublishDocument";
@@ -254,6 +260,11 @@ class IterationBoard extends React.Component {
 
         let iterationState = JSON.parse(JSON.stringify(this.state.iterationState));
 
+        if(nextProps.action === CLOSE_ITERATION_FILTER || nextProps.action === OPEN_ITERATION_FILTER){
+            return;
+        }
+
+
         if(nextProps.action === DELETE_ITERATION){
 
             for (let i in iterationState) {
@@ -273,7 +284,7 @@ class IterationBoard extends React.Component {
 
         // 这里会返回新建后的版本号，这个版本号需要有一定的归类
         if (nextProps.action === SAVE_ADD_ITERATION) {
-            let newIteration = nextProps.iteration.iterationInfo.iterationCode.split(".");
+            let newIteration = nextProps.iteration.iterationInfo.iterationCode.split("-");
             let needNew = true;
             for (let i in iterationState) {
                 if (iterationState[i].iteration.name === newIteration[0]) {
@@ -287,7 +298,7 @@ class IterationBoard extends React.Component {
                 }
             }
             if (needNew) {
-                let newIteration = nextProps.iteration.iterationInfo.iterationCode.split(".")[0];
+                let newIteration = nextProps.iteration.iterationInfo.iterationCode.split("-")[0];
                 let ret = {
                     iteration: {name: newIteration, selected: true},
                     children: [
@@ -315,7 +326,7 @@ class IterationBoard extends React.Component {
                     iter.children[j].selected = false;
                 }
             }
-            if (!!selectedId && iter.iteration.name === iter.children[selectedId].iter.split(".")[0]) {
+            if (!!selectedId && iter.iteration.name === iter.children[selectedId].iter.split("-")[0]) {
                 iter.iteration.selected = true;
             } else {
                 iter.iteration.selected = false;

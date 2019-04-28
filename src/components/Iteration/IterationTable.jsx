@@ -26,6 +26,16 @@ import {iterationConst} from "./IterationConst";
 import IterationFilter from "./IterationFilter";
 import CustomToolbar4IterationList from "./CustomToolbar4IterationList";
 import {openFilter, search, nextPage} from "../../actions/IterationAction";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import {TableHead} from "@material-ui/core";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import IterationStepper from "./IterationStepper";
+import CustomToolbar4Demand from "../views/DemandBoard";
+import TableFooter from "@material-ui/core/TableFooter";
+import DetailTable from "./DetailTable";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
     root: {
@@ -62,15 +72,78 @@ const filterLabel = {
 
     iterationCode : {
         label : "版本编号",
+        renderValue : function(data){
+            return this.label + ":" + data;;
+        }
     },
     iterationName : {
         label : "版本名称",
-        mapping : iterationConst.type
+        renderValue : function(data){
+
+            let label = this.label + ":" + data;
+
+            for(let k in iterationConst.type){
+
+                if(iterationConst.type[k].id === data){
+                    label = this.label +":"+ iterationConst.type[k].name;
+                }
+            }
+
+            return label;
+
+
+        }
+    },
+    testDate: {
+        label: "提测时间",
+        renderValue: function (data) {
+
+            return this.label + ":" + data.from + "-" + data.to;
+
+
+        }
+    },
+    publishDate : {
+        label :"发布时间",
+        renderValue : function(data){
+            return this.label + ":" + data.from + "-" + data.to;
+        }
+    },
+    deliveryDate : {
+        label :"上线时间",
+        renderValue : function(data){
+            return this.label + ":" + data.from + "-" + data.to;
+        }
+    },
+    plateformCode : {
+        label :"变更号",
+        renderValue : function(data){
+            return this.label + ":" + data;
+        }
     }
 
 };
 
 let editInitialData = null;
+
+function EmptyFooter() {
+    return (
+        <TableFooter style={{display:"none"}}>
+            <TableRow>
+                <TableCell>
+                </TableCell>
+            </TableRow>
+        </TableFooter>
+    );
+}
+
+function EmptyHeader() {
+    return (
+        <div style={{display:"none"}}>
+
+        </div>
+    );
+}
 
 class IterationList extends React.Component {
     constructor(props) {
@@ -216,15 +289,15 @@ class IterationList extends React.Component {
             {name:"提测时间",options:{filter:false,display:true}},
             {name:"发布时间",options:{filter:false,display:true}},
             {name:"上线时间",options:{filter:false,display:true}},
-            {name:"developPlanSubmitDate",options:{filter:false,display:false}},
-            {name:"codeReviewDate",options:{filter:false,display:false}},
-            {name:"ciDate",options:{filter:false,display:false}},
-            {name:"bugzillaId",options:{filter:false,display:false}},
-            {name:"deliveryPersonInCharge",options:{filter:false,display:false}},
+            {name:"开发方案提交时间",options:{filter:false,display:false, children:true}},
+            {name:"走查时间",options:{filter:false,display:false, children:true}},
+            {name:"持续集成时间",options:{filter:false,display:false, children:true}},
+            {name:"bugzillaId",options:{filter:false,display:false, children:true}},
+            {name:"上线负责人",options:{filter:false,display:false, children:true}},
             {name:"deliveryPersonInChargeId",options:{filter:false,display:false}},
-            {name:"plateformCode",options:{filter:false,display:false}},
-            {name:"deliveryPersons",options:{filter:false,display:false}},
-            {name:"deliveryCheckers",options:{filter:false,display:false}},
+            {name:"变更号",options:{filter:false,display:false, children:true}},
+            {name:"上线人员",options:{filter:false,display:false, children:true, dataType:"array"}},
+            {name:"上线检查人员",options:{filter:false,display:false, children:true, dataType:"array"}},
         ];
 
         const options = {
@@ -237,6 +310,22 @@ class IterationList extends React.Component {
             search:false,
             rowsPerPage: this.state.pageSize,
             rowsPerPageOptions: [this.state.pageSize],
+            expandableRows:true,
+            selectableRows: "single",
+            renderExpandableRow: (rowData, rowMeta) => {
+                const colSpan = rowData.length + 1;
+
+                return (<TableRow>
+                            <TableCell colSpan={colSpan}>
+                                <Grid container spacing={8}>
+                                    <Grid item xs={12}>
+                                        <DetailTable columns={columns} rowData={rowData}/>
+                                    </Grid>
+                                </Grid>
+                            </TableCell>
+                        </TableRow>)
+
+            },
             onRowsSelect: function (currentRowsSelected, allRowsSelected) {
                 console.log(333);
             },
@@ -296,17 +385,7 @@ class IterationList extends React.Component {
         let filterId = 0;
 
         for(let key in this.state.filters){
-            let label = filterLabel[key].label + " : " +this.state.filters[key];
-            if(!!filterLabel[key] && !!filterLabel[key].mapping){
-
-                for(let k in filterLabel[key].mapping){
-
-                    if(filterLabel[key].mapping[k].id === this.state.filters[key]){
-                        label = filterLabel[key].label +":"+ filterLabel[key].mapping[k].name;
-                    }
-                }
-
-            }
+            let label = filterLabel[key].renderValue(this.state.filters[key]);
 
             filterChips.push(
 
@@ -327,7 +406,7 @@ class IterationList extends React.Component {
                 <Grid item xs={12}>
                     <MuiThemeProvider theme={muiTableTheme}>
                         <MUIDataTable
-                            title={!!filterChips && filterChips.length>0 ? filterChips : "需求列表"}
+                            title={!!filterChips && filterChips.length>0 ? filterChips : "版本列表"}
                             data={this.state.assembleTable}
                             columns={columns}
                             options={options}

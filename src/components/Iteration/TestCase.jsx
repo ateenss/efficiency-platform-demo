@@ -37,6 +37,7 @@ const options = {
         return false;
     },
     print: false,
+    selectableRows: "single",
     onRowsSelect: function (currentRowsSelected, allRowsSelected) {
         console.log(333);
     },
