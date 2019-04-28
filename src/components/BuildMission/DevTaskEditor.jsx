@@ -22,6 +22,8 @@ import InputField from "../SelfComponent/InputField"
 import DatePicker from "../SelfComponent/DatePicker"
 import permProcessor from "../../constants/PermProcessor";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
+import {validating} from "../../actions/validateAction";
+import {error} from "../../actions/NotificationAction";
 
 
 const styles = {
@@ -125,6 +127,14 @@ class DevTaskEditor extends React.Component {
 
 
     onSubmit = () => {
+        if(this.state.taskContent.devPlan===null){
+            delete this.state.taskContent.devPlan;
+        }
+        let ret = validating(this.state.taskContent, "taskEditProps");
+        if(!ret.result){
+            error(ret.message);
+            return false;
+        }
         if (permProcessor.bingo('getDemandTaskDetail', this.state.perm)) {
 
             submitAndChange2Dev(this.state.tempTaskId,this.state.taskContent,this.props.demands.taskId);
