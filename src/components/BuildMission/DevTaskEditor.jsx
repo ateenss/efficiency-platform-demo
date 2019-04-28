@@ -120,6 +120,14 @@ class DevTaskEditor extends React.Component {
 
 
     save=()=>{
+        if(this.state.taskContent.devPlan===null){
+            delete this.state.taskContent.devPlan;
+        }
+        let ret = validating(this.state.taskContent, "taskEditProps");
+        if(!ret.result){
+            error(ret.message);
+            return false;
+        }
         if (permProcessor.bingo('saveTaskEditor', this.state.perm)) {
             saveDevPlan(this.state.taskContent,this.props.demands.taskId);
         }
