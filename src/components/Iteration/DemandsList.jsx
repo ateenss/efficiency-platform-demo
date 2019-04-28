@@ -59,6 +59,7 @@ const options = {
     viewColumns: false,
     rowsPerPage: 10,
     print: false,
+    selectableRows: "single",
     onRowsSelect: function (currentRowsSelected, allRowsSelected) {
         console.log(333);
     },

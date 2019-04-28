@@ -36,6 +36,7 @@ const options = {
     filterType: 'checkbox',
     print: false,
     sort: false,
+    selectableRows: "single",
     onRowsSelect: function (currentRowsSelected, allRowsSelected) {
         console.log(333);
     },

@@ -40,6 +40,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import DeleteIcon from "@material-ui/icons/Delete"
 import Chip from "@material-ui/core/Chip";
 import {demandConst} from "../BuildDemand/DemandConst";
+import {iterationConst} from "../Iteration/IterationConst";
 
 const styles = theme => ({
     root: {
@@ -76,29 +77,89 @@ const filterLabel = {
 
     demandName : {
         label : "需求名称",
+        renderValue : function(data){
+            return this.label + ":" + data;;
+        }
     },
     demandType : {
         label : "需求类型",
-        mapping : demandConst.type
+        renderValue : function(data){
+
+            let label = this.label + ":" + data;
+
+            for(let k in demandConst.type){
+
+                if(demandConst.type[k].id === data){
+                    label = this.label +":"+ demandConst.type[k].name;
+                }
+            }
+
+            return label;
+
+
+        }
     },
     status : {
         label : "需求评审状态",
-        mapping : demandConst.status
+        renderValue : function(data){
+
+            let label = this.label + ":" + data;
+
+            for(let k in demandConst.status){
+
+                if(demandConst.status[k].id === data){
+                    label = this.label +":"+ demandConst.status[k].name;
+                }
+            }
+
+            return label;
+
+
+        }
     },
     bmRequired:{
         label : "是否涉及bm控制台",
-        mapping : demandConst.bmRequired
+        mapping : demandConst.bmRequired,
+        renderValue : function(data){
+
+            let label = this.label + ":" + data;
+
+            for(let k in demandConst.bmRequired){
+
+                if(demandConst.bmRequired[k].id === data){
+                    label = this.label +":"+ demandConst.bmRequired[k].name;
+                }
+            }
+
+            return label;
+
+
+        }
     },
     uatRequired:{
         label:"是否需要uat",
-        mapping : demandConst.uatRequired
-    },
-    startTime:{
-        label : "开始时间",
+        mapping : demandConst.uatRequired,
+        renderValue : function(data){
 
+            let label = this.label + ":" + data;
+
+            for(let k in demandConst.uatRequired){
+
+                if(demandConst.uatRequired[k].id === data){
+                    label = this.label +":"+ demandConst.uatRequired[k].name;
+                }
+            }
+
+            return label;
+
+
+        }
     },
-    endTime:{
-        label : "结束时间",
+    createTime:{
+        label : "创建时间",
+        renderValue : function(data){
+            return this.label + ":" + data.from + "-" + data.to;
+        }
     }
 
 };
@@ -367,6 +428,7 @@ class TaskBoard extends React.Component {
             search:false,
             rowsPerPage: this.state.pageSize,
             rowsPerPageOptions: [this.state.pageSize],
+            selectableRows: "single",
             onRowsSelect: function (currentRowsSelected, allRowsSelected) {
                 console.log(333);
             },
@@ -425,17 +487,8 @@ class TaskBoard extends React.Component {
         let filterChips = [];
         let filterId = 0;
         for(let key in this.state.filters){
-            let label = filterLabel[key].label + " : " +this.state.filters[key];
-            if(!!filterLabel[key] && !!filterLabel[key].mapping){
+            let label = filterLabel[key].renderValue(this.state.filters[key]);
 
-                for(let k in filterLabel[key].mapping){
-
-                    if(filterLabel[key].mapping[k].id === this.state.filters[key]){
-                        label = filterLabel[key].label +":"+ filterLabel[key].mapping[k].name;
-                    }
-                }
-
-            }
 
             filterChips.push(
 

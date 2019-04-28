@@ -56,6 +56,7 @@ class PublishTestCase extends React.Component {
             filterType: 'checkbox',
             print: false,
             sort: false,
+            selectableRows: "single",
             customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
                 console.log("这是被选中的行");
                 console.log(selectedRows.data[0].index);

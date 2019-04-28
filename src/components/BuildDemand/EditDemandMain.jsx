@@ -194,7 +194,7 @@ class EditDemandMain extends React.Component {
                             <InputField
                                 nameIn="demandCode"
                                 onChange={this.getContent}
-                                InputLabelName="版本编号"
+                                InputLabelName="需求业务编号"
                                 defaultValue={this.state.defaultContent["demandCode"]}
                                 validateEl={Rules.demandProps.demandCode}
                                 disabled={this.state.defaultContent.demandType == 0 ? true : false}
@@ -204,7 +204,7 @@ class EditDemandMain extends React.Component {
                             <InputField
                                 defaultValue={this.state.defaultContent["demandLinkCode"]}
                                 onChange={this.getContent}
-                                InputLabelName="版本链接编号"
+                                InputLabelName="需求链接号"
                                 nameIn="demandLinkCode"
                                 nameArray={type}
                                 validateEl={Rules.demandProps.demandLinkCode}

@@ -273,7 +273,7 @@ class IterationBoard extends React.Component {
 
         // 这里会返回新建后的版本号，这个版本号需要有一定的归类
         if (nextProps.action === SAVE_ADD_ITERATION) {
-            let newIteration = nextProps.iteration.iterationInfo.iterationCode.split(".");
+            let newIteration = nextProps.iteration.iterationInfo.iterationCode.split("-");
             let needNew = true;
             for (let i in iterationState) {
                 if (iterationState[i].iteration.name === newIteration[0]) {
@@ -287,7 +287,7 @@ class IterationBoard extends React.Component {
                 }
             }
             if (needNew) {
-                let newIteration = nextProps.iteration.iterationInfo.iterationCode.split(".")[0];
+                let newIteration = nextProps.iteration.iterationInfo.iterationCode.split("-")[0];
                 let ret = {
                     iteration: {name: newIteration, selected: true},
                     children: [
@@ -315,7 +315,7 @@ class IterationBoard extends React.Component {
                     iter.children[j].selected = false;
                 }
             }
-            if (!!selectedId && iter.iteration.name === iter.children[selectedId].iter.split(".")[0]) {
+            if (!!selectedId && iter.iteration.name === iter.children[selectedId].iter.split("-")[0]) {
                 iter.iteration.selected = true;
             } else {
                 iter.iteration.selected = false;

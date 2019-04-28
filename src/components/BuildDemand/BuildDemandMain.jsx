@@ -186,7 +186,7 @@ class BuildDemandMain extends React.Component {
                             <InputField
                                 nameIn="demandCode"
                                 onChange={this.getContent}
-                                InputLabelName="版本编号"
+                                InputLabelName="需求业务编号"
                                 validateEl={Rules.demandProps.demandCode}
                                 disabled={this.state.defaultContent.demandType == 0 ? true : false}
                             />
@@ -194,7 +194,7 @@ class BuildDemandMain extends React.Component {
                         <Grid item xs={3} className={classes.gridStyle}>
                             <InputField
                                 onChange={this.getContent}
-                                InputLabelName="版本链接编号"
+                                InputLabelName="需求链接号"
                                 nameIn="demandLinkCode"
                                 nameArray={type}
                                 validateEl={Rules.demandProps.demandLinkCode}

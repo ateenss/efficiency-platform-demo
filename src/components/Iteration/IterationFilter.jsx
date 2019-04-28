@@ -12,6 +12,8 @@ import InputField from "../SelfComponent/InputField";
 import Grid from "@material-ui/core/Grid";
 import {Menu} from "@material-ui/core";
 import {closeFilter} from "../../actions/IterationAction";
+import DateRange from "../SelfComponent/DateRange";
+import DatePicker from "../BuildDemand/Filter";
 
 const styles = theme => ({
     typography: {
@@ -113,7 +115,7 @@ class Filter extends React.Component {
                 <Menu open={Boolean(anchorEl)} anchorEl={anchorEl}  className={classes.root} onClose={this.handleClose}>
                             <Paper className={classes.paper}>
                                 <Grid container spacing={8}>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={4}>
                                         <InputField
                                             nameIn="iterationCode"
                                             onChange={this.getContent}
@@ -122,7 +124,7 @@ class Filter extends React.Component {
                                             defaultValue={this.state.defaultContent.iterationCode}
                                         />
                                     </Grid>
-                                    <Grid item xs={6} className={classes.gridStyle}>
+                                    <Grid item xs={4} className={classes.gridStyle}>
                                         <InputField
                                             onChange={this.getContent}
                                             InputLabelName="版本名称"
@@ -130,6 +132,23 @@ class Filter extends React.Component {
                                             validateEl={Rules.iterationProps.iterationName}
                                             defaultValue={this.state.defaultContent.iterationName}
                                         />
+                                    </Grid>
+                                    <Grid item xs={4} className={classes.gridStyle}>
+                                        <InputField
+                                            onChange={this.getContent}
+                                            InputLabelName="变更号"
+                                            nameIn="plateformCode"
+                                            defaultValue={this.state.defaultContent.plateformCode}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6} className={classes.gridStyle}>
+                                        <DateRange nameIn="testDate" InputLabelName="提测时间" onDateChange={this.getContent} defaultValue={this.state.defaultContent.testDate}/>
+                                    </Grid>
+                                    <Grid item xs={6} className={classes.gridStyle}>
+                                        <DateRange nameIn="publishDate" InputLabelName="发布时间" onDateChange={this.getContent}/>
+                                    </Grid>
+                                    <Grid item xs={6} className={classes.gridStyle}>
+                                        <DateRange nameIn="deliveryDate" InputLabelName="上线时间" onDateChange={this.getContent}/>
                                     </Grid>
                                 </Grid>
 
