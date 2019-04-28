@@ -7,7 +7,13 @@ import {Paper} from "@material-ui/core";
 import {connect} from "react-redux";
 import {selectIteration, addIteration, init, deleteIteration, search} from "../../actions/IterationAction";
 import AddIteration from "../Iteration/AddIteration";
-import {DELETE_ITERATION, ITERATION_INIT, SAVE_ADD_ITERATION} from "../../actions/types";
+import {
+    CLOSE_ITERATION_FILTER,
+    DELETE_ITERATION,
+    ITERATION_INIT,
+    OPEN_ITERATION_FILTER,
+    SAVE_ADD_ITERATION
+} from "../../actions/types";
 import DemandsList from "../Iteration/DemandsList";
 import ShowDevelopPlan from "../Iteration/ShowDevDocuments";
 import ShowPublishDocument from "../Iteration/ShowPublishDocument";
@@ -253,6 +259,11 @@ class IterationBoard extends React.Component {
         this.setState(nextProps.iteration);
 
         let iterationState = JSON.parse(JSON.stringify(this.state.iterationState));
+
+        if(nextProps.action === CLOSE_ITERATION_FILTER || nextProps.action === OPEN_ITERATION_FILTER){
+            return;
+        }
+
 
         if(nextProps.action === DELETE_ITERATION){
 
