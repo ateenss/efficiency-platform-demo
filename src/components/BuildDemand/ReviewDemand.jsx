@@ -163,7 +163,6 @@ class ReviewDemand extends React.Component {
                                 nameIn="iterationId"
                                 nameArray={iterationSelect}
                                 validateEl={Rules.reviewDemandProps.iterationId}
-                                defaultValue={reviewDemand.iterationId}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.gridStyle}>
