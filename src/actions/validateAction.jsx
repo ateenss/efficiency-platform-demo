@@ -139,7 +139,25 @@ export const Rules = {
             expr: Regex.testEstimateHours,
             literal: "预计工时"
         },
+        involveModule:{
+            required: true,
+            literal: "涉及模块"
+        },
+        taskOwner:{
+            required: true,
+            literal: "开发人员"
+        },
+        taskDeadline:{
+            required: true,
+            literal: "任务截至时间"
+        },
 
+    },
+    taskEditProps:{
+        devPlan:{
+            required: true,
+            literal: "开发方案"
+        }
     },
     projectProps: {
         projectName: {
