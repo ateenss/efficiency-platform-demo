@@ -5,6 +5,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
 import { withStyles } from "@material-ui/core/styles";
 import FilterIcon from "@material-ui/icons/Filter";
+import permProcessor from "../../constants/PermProcessor";
 
 const defaultToolbarStyles = {
     iconButton: {
@@ -23,11 +24,12 @@ class CustomToolbar4DeliveryDoc extends React.Component {
                         <FilterIcon className={classes.icon}/>
                     </IconButton>
                 </Tooltip>
+                {permProcessor.bingo('save', this.props.perm) ?
                 <Tooltip title={"添加"}>
                     <IconButton className={classes.iconButton} onClick={this.props.handleAdd}>
                         <AddIcon className={classes.deleteIcon} />
                     </IconButton>
-                </Tooltip>
+                </Tooltip> : ""}
             </React.Fragment>
         );
     }

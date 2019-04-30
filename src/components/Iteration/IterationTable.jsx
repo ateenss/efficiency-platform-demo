@@ -12,14 +12,8 @@ import deepOrange from '@material-ui/core/colors/deepOrange';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import {
-    ADD_DEMAND,
-    CLOSE_DEMAND_FILTER, CLOSE_ITERATION_FILTER,
-    SAVE_ADD_DEMAND,
-    SAVE_EDIT_DEMAND,
-    SAVE_REVIEW_DEMAND,
-    UPDATE_ROW
+    CLOSE_ITERATION_FILTER,
 } from "../../actions/types";
-import {startLoading, stopLoading} from "../../actions/CommonAction";
 import {muiTableTheme} from "../common/MuiTableTheme";
 import Chip from "@material-ui/core/Chip";
 import {iterationConst} from "./IterationConst";
@@ -28,14 +22,8 @@ import CustomToolbar4IterationList from "./CustomToolbar4IterationList";
 import {openFilter, search, nextPage} from "../../actions/IterationAction";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import {TableHead} from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import IterationStepper from "./IterationStepper";
-import CustomToolbar4Demand from "../views/DemandBoard";
 import TableFooter from "@material-ui/core/TableFooter";
 import DetailTable from "./DetailTable";
-import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
     root: {
@@ -311,7 +299,7 @@ class IterationList extends React.Component {
             rowsPerPage: this.state.pageSize,
             rowsPerPageOptions: [this.state.pageSize],
             expandableRows:true,
-            selectableRows: "single",
+            selectableRows: "none",
             renderExpandableRow: (rowData, rowMeta) => {
                 const colSpan = rowData.length + 1;
 

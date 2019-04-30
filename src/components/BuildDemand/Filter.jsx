@@ -19,7 +19,7 @@ const styles = theme => ({
         padding: theme.spacing.unit * 2,
     },
     root:{
-        zIndex:300,
+        zIndex:1200,
     },
     paper:{
         boxShadow:"none",
@@ -160,7 +160,7 @@ class Filter extends React.Component {
 
                                         />
                                     </Grid>
-                                    <Grid item xs={3} className={classes.gridStyle}>
+                                    <Grid item xs={12} className={classes.gridStyle} style={{marginTop:"26px"}}>
                                         <DateRange nameIn="createTime" InputLabelName="创建时间" onDateChange={this.getContent}
                                                     defaultValue={this.state.defaultContent.createTime}
                                         />

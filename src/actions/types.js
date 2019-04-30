@@ -1,5 +1,6 @@
 export const UPDATE_ROW = "update_row";
 export const EDIT_DEMAND = "edit_demand";
+export const SPLIT_DEMAND="split_demand";
 export const ADD_DEMAND = "add_demand";
 export const SAVE_ADD_DEMAND="save_add_demand";
 export const REVIEW_DEMAND="review_demand";

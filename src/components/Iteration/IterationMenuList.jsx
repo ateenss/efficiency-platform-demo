@@ -64,9 +64,9 @@ class IterationMenuList extends React.Component {
                         },
                     }}
                 >
-                    <MenuItem onClick={this.handleReview}>方案评审</MenuItem>
+                    {permProcessor.bingo('reviewPlan', this.props.perm) ? <MenuItem onClick={this.handleReview}>方案评审</MenuItem> : ""}
                     {permProcessor.bingo('save', this.props.perm) ? <MenuItem onClick={this.handleEdit}>编辑</MenuItem> :""}
-                     <MenuItem onClick={this.handleConfirmDelete}>删除</MenuItem>
+                    {permProcessor.bingo('delete', this.props.perm) ? <MenuItem onClick={this.handleConfirmDelete}>删除</MenuItem> : ""}
 
                 </Menu>
             </div>

@@ -125,7 +125,7 @@ class IterationBoard extends React.Component {
             iterationInfo: {},
             tabValue: 0,
             hide: true,
-            perm: permProcessor.init('project'),
+            perm: permProcessor.init('iteration'),
             openAlert:false,
             currentIteration : "",
             allVersionSelected : false
@@ -354,6 +354,7 @@ class IterationBoard extends React.Component {
     render() {
         const {classes, theme, initialData} = this.props;
         const {tabValue} = this.state;
+        console.log("{}{}{}{}{}"+JSON.stringify(permProcessor.init('iteration')));
         return (
             <div>
                 <Grid container spacing={16}>
@@ -491,7 +492,7 @@ class IterationBoard extends React.Component {
                                 </Grid>
                                 }
                                 {tabValue === 1 &&
-                                <DemandsList data={this.state.demandList}/>
+                                <DemandsList data={this.state.demandList} perm={this.state.perm}/>
 
                                 }
                                 {tabValue === 2 &&

@@ -7,6 +7,8 @@ import {withStyles} from "@material-ui/core/styles";
 import store from '../../stores/index';
 import {getDevelopPlan, getPublishDocuments} from "../../actions/IterationAction";
 import {SAVE_KEY} from "../../actions/types";
+import permProcessor from "../../constants/PermProcessor";
+import MenuItem from "./IterationMenuList";
 
 const defaultToolbarSelectStyles = {
     iconButton: {
@@ -89,17 +91,21 @@ class CustomToolBar4DemandList extends React.Component {
 
         return (
             <div className={"custom-toolbar-select"}>
+                {permProcessor.bingo('reviewPlan', this.props.perm) ?
                 <Tooltip title={"评审方案"}>
                     <IconButton className={classes.iconButton} onClick={this.handlePlan}>
                         <ScheduleIcon className={classes.icon}/>
                     </IconButton>
                 </Tooltip>
+                    :""}
+                {permProcessor.bingo('reviewPlan', this.props.perm) ?
+
                 <Tooltip title={"上线评审"}>
                     <IconButton className={classes.iconButton} onClick={this.handlePublishDocuments}>
                         <PageIcon className={classes.icon}/>
                     </IconButton>
                 </Tooltip>
-
+                    :""}
             </div>
         );
     }

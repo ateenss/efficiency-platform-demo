@@ -1,12 +1,13 @@
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import FilterIcon from "@material-ui/icons/Filter";
+import SplitIcon from "@material-ui/icons/CallSplit";
 import EditIcon from "@material-ui/icons/Edit";
 import {withStyles} from "@material-ui/core/styles";
-import {editDemand, openReviewDemand} from "../../actions/DemandAction";
+import {editDemand, openReviewDemand, splitDemand} from "../../actions/DemandAction";
 import DemandGuihuaIcon from "@material-ui/icons/Receipt"
 import {connect} from "react-redux";
+import permProcessor from "../../constants/PermProcessor";
 
 const defaultToolbarSelectStyles = {
     iconButton: {
@@ -62,17 +63,13 @@ class CustomToolbarSelect extends React.Component {
         console.log(`block users with dataIndexes: ${this.props.selectedRows.data.map(row => row.dataIndex)}`);
     };
 
-    // handleDemand = () =>{
-    //     return <ChooseDemandBox open={true}/>
-    // };
-    handleDemand = () => {
-        this.setState({open: true})
-    };
-
     openReviewDemand = () => {
         openReviewDemand(this.props.displayData[this.props.selectedRows.data[0].dataIndex].data[0]);
     };
 
+    handleSplitDemand = () =>{
+        splitDemand(this.props.displayData[this.props.selectedRows.data[0].dataIndex].data[0]);
+    }
 
 
     render() {
@@ -85,21 +82,26 @@ class CustomToolbarSelect extends React.Component {
                         {/*<IndeterminateCheckBoxIcon className={classes.icon}/>*/}
                     {/*</IconButton>*/}
                 {/*</Tooltip>*/}
-                {/*<Tooltip title={"Inverse selection"}>*/}
-                    {/*<IconButton className={classes.iconButton} onClick={this.handleClickInverseSelection}>*/}
-                        {/*<CompareArrowsIcon className={[classes.icon, classes.inverseIcon].join(" ")}/>*/}
-                    {/*</IconButton>*/}
-                {/*</Tooltip>*/}
+                {permProcessor.bingo('splitDemand', this.props.perm) ?
+                <Tooltip title={"拆分需求"}>
+                    <IconButton className={classes.iconButton} onClick={this.handleSplitDemand}>
+                        <SplitIcon className={classes.icon}/>
+                    </IconButton>
+                </Tooltip> : ""}
+
+                {permProcessor.bingo('save', this.props.perm) ?
                 <Tooltip title={"编辑"}>
                     <IconButton className={classes.iconButton} onClick={this.handleEdit}>
                         <EditIcon className={classes.icon}/>
                     </IconButton>
-                </Tooltip>
-                <Tooltip title={"评审"}>
+                </Tooltip>:""}
+
+                {permProcessor.bingo('saveReview', this.props.perm) ?
+                    <Tooltip title={"评审"}>
                     <IconButton className={classes.iconButton} onClick={this.openReviewDemand}>
                         <DemandGuihuaIcon className={classes.icon}/>
                     </IconButton>
-                </Tooltip>
+                </Tooltip>:""}
                 {/*<Tooltip title={"变更迭代"} id="3333">*/}
                     {/*<IterationListMenu options={this.props.iteration} display="inline" buttonClass={classes.iconButton} id="234"*/}
                                     {/*icon={<DemandGuihuaIcon className={classes.icon}/>} demandId={this.props.displayData[this.props.selectedRows.data[0].dataIndex].data[0]}/>*/}

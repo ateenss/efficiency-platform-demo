@@ -31,11 +31,11 @@ const columns = [
     {name: "BM", options: {filter: false}},
     {name: "需求任务状态", options: {display:true,customBodyRender: (value, tableMeta, updateValue) => {
 
+
+
                         return(
                             <div>
-                                <Chip
-                                    label={value}
-                                />
+                                <Chip label={value}/>
                             </div>
 
 
@@ -48,51 +48,6 @@ function Empty() {
     return null;
 }
 
-const options = {
-    filterType: 'checkbox',
-    sort: false,
-    // search:false,
-    // filter:false,
-    // download:false,
-    // sortFilterList:false,
-
-    viewColumns: false,
-    rowsPerPage: 10,
-    print: false,
-    selectableRows: "single",
-    onRowsSelect: function (currentRowsSelected, allRowsSelected) {
-        console.log(333);
-    },
-    customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
-        <CustomToolBar4DemandList selectedRows={selectedRows} displayData={displayData}
-                                  setSelectedRows={setSelectedRows}/>
-    ),
-    customToolbar: () => {
-        return (
-            <Empty/>
-        );
-    },
-    textLabels: {
-        selectedRows: {
-            text: "行 已选定",
-            delete: "删除",
-            deleteAria: "删除指定行"
-        },
-        toolbar: {
-            search: "搜索",
-            downloadCsv: "下载 CSV",
-            print: "打印",
-            viewColumns: "过滤列",
-            filterTable: "筛选",
-        },
-        pagination: {
-            next: "下一页",
-            previous: "上一页",
-            rowsPerPage: "每页行数:",
-            displayRows: "展示行数",
-        }
-    }
-};
 
 
 class DemandsList extends React.Component {
@@ -106,6 +61,52 @@ class DemandsList extends React.Component {
 
     render() {
         const {classes, data} = this.props;
+
+        const options = {
+            filterType: 'checkbox',
+            sort: false,
+            // search:false,
+            // filter:false,
+            // download:false,
+            // sortFilterList:false,
+
+            viewColumns: false,
+            rowsPerPage: 10,
+            print: false,
+            selectableRows: "single",
+            onRowsSelect: function (currentRowsSelected, allRowsSelected) {
+                console.log(333);
+            },
+            customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
+                <CustomToolBar4DemandList selectedRows={selectedRows} displayData={displayData} perm={this.props.perm}
+                                          setSelectedRows={setSelectedRows}/>
+            ),
+            customToolbar: () => {
+                return (
+                    <Empty/>
+                );
+            },
+            textLabels: {
+                selectedRows: {
+                    text: "行 已选定",
+                    delete: "删除",
+                    deleteAria: "删除指定行"
+                },
+                toolbar: {
+                    search: "搜索",
+                    downloadCsv: "下载 CSV",
+                    print: "打印",
+                    viewColumns: "过滤列",
+                    filterTable: "筛选",
+                },
+                pagination: {
+                    next: "下一页",
+                    previous: "上一页",
+                    rowsPerPage: "每页行数:",
+                    displayRows: "展示行数",
+                }
+            }
+        };
         return (
             <MuiThemeProvider theme={muiTableTheme}>
                 <MUIDataTable

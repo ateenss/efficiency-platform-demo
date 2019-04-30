@@ -7,6 +7,12 @@ export const muiTableTheme = () => createMuiTheme({
                 boxShadow: "none !important"
             }
         },
+        MUIDataTableToolbarSelect:{
+            root:{
+                paddingTop:"0",
+                paddingBottom:"0"
+            }
+        },
         MUIDataTableBodyCell: {
             root: {
                 backgroundColor: "#FFF",

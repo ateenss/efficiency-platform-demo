@@ -18,7 +18,14 @@ import {
     SAVE_ADD_DEMAND,
     SAVE_EDIT_DEMAND,
     UPDATE_ROW,
-    INIT_PROJECT_MEMBERS, EDIT_DEMAND, SAVE_REVIEW_DEMAND, CLOSE_REVIEW_DEMAND, REVIEW_DEMAND,OPEN_DEMAND_FILTER,CLOSE_DEMAND_FILTER
+    INIT_PROJECT_MEMBERS,
+    EDIT_DEMAND,
+    SAVE_REVIEW_DEMAND,
+    CLOSE_REVIEW_DEMAND,
+    REVIEW_DEMAND,
+    OPEN_DEMAND_FILTER,
+    CLOSE_DEMAND_FILTER,
+    SPLIT_DEMAND
 } from './types';
 import axios from "axios";
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
@@ -38,7 +45,7 @@ export const DETERMIND_ITERATION = UrlConf.base + 'demand/determineIteration';
 export const GET_DEMAND = UrlConf.base + 'demand/getDemand';
 export const SAVE = UrlConf.base + 'demand/save';
 export const SAVE_REVIEW = UrlConf.base + 'demand/saveReview';
-
+export const DEMAND_SPLIT = UrlConf.base + "demand/splitDemand";
 
 export function openFilter(currentTarget, filters){
 
@@ -379,23 +386,32 @@ export function editDemand(demandId) {
         });
 }
 
+export function splitDemand(demandId) {
+    console.log("splitDemand");
+
+    let accessToken = localStorage.getItem("accessToken");
+    return axios.post(DEMAND_SPLIT, {"version": "1.0", accessToken: accessToken, data: demandId}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+            }
+
+            let data = response.data.data;
+
+            store.dispatch({
+                type: SPLIT_DEMAND,
+                payload: data
+            });
 
 
+        })
+        .catch(error => {
+            // If request fails
+            console.log("调用失败");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        });
+}
 
 export const openFilterManagerDemand=()=>({
     type:  FILTER_DEMAND_OPEN_MANAGER

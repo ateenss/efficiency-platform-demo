@@ -11,36 +11,33 @@ import red from '@material-ui/core/colors/red';
 import store from '../../stores/index';
 import {
     closeBuildDemand,
-    openFilterManagerDemand,
-    openFilterDeveloperDemand, openFilter
+    openFilter
 } from "../../actions/DemandAction"
 import BuildDemandMain from "../BuildDemand/BuildDemandMain"
 import ReviewDemand from "../BuildDemand/ReviewDemand"
 
 import EditDemandMain from "../BuildDemand/EditDemandMain"
-import FilterDemandManager from "../BuildDemand/FilterDemandManager"
 import deepOrange from '@material-ui/core/colors/deepOrange';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import {addDemand, init, nextPage, search} from "../../actions/DemandAction";
 import {
-    ADD_DEMAND,
     CLOSE_DEMAND_FILTER,
     SAVE_ADD_DEMAND,
     SAVE_EDIT_DEMAND,
-    SAVE_REVIEW_DEMAND,
+    SAVE_REVIEW_DEMAND, SPLIT_DEMAND,
     UPDATE_ROW
 } from "../../actions/types";
 import {startLoading, stopLoading} from "../../actions/CommonAction";
 import CustomToolbar4Demand from "../demand/CustomToolbar4Demand";
 import {muiTableTheme} from "../common/MuiTableTheme";
 import Filter from "../BuildDemand/Filter";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import DeleteIcon from "@material-ui/icons/Delete"
 import Chip from "@material-ui/core/Chip";
 import {demandConst} from "../BuildDemand/DemandConst";
-import {iterationConst} from "../Iteration/IterationConst";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
+import {success} from "../../actions/NotificationAction";
+import permProcessor from "../../constants/PermProcessor";
 
 const styles = theme => ({
     root: {
@@ -174,7 +171,8 @@ class TaskBoard extends React.Component {
             assembleTable: [],
             currentPage: 1,
             totalCount: 1,
-            filters :{}
+            filters :{},
+            perm: permProcessor.init('demand'),
         };
     }
 
@@ -240,15 +238,11 @@ class TaskBoard extends React.Component {
 
     };
 
-    openFilterManager = () => {
-        store.dispatch(openFilterManagerDemand());
-    };
+
     handleClickClose = () => {
         store.dispatch(closeBuildDemand());
     };
-    openFilterDeveloper = () => {
-        store.dispatch(openFilterDeveloperDemand());
-    };
+
 
 
     mapObjectToArray = (result) => {
@@ -294,6 +288,9 @@ class TaskBoard extends React.Component {
                 raw: rows
             })
 
+            success("更新成功");
+
+
         } else if (nextProps.action === SAVE_EDIT_DEMAND || nextProps.action === SAVE_REVIEW_DEMAND) {
             let rows = this.state.raw;
             for (let i in rows) {
@@ -310,7 +307,7 @@ class TaskBoard extends React.Component {
             })
 
 
-        } else if (nextProps.action === SAVE_ADD_DEMAND) {
+        } else if (nextProps.action === SAVE_ADD_DEMAND || nextProps.action === SPLIT_DEMAND) {
 
             let rows = this.state.raw;
             rows.unshift(nextProps.updatedRow);
@@ -318,7 +315,9 @@ class TaskBoard extends React.Component {
             this.setState({
                 assembleTable: this.mapObjectToArray(rows),
                 raw: rows
-            })
+            });
+
+            success("新增成功");
 
 
         } else if(nextProps.action === CLOSE_DEMAND_FILTER){
@@ -388,7 +387,16 @@ class TaskBoard extends React.Component {
                     }
                 }
             },
-            {name: "需求名称", options: {filter: false}},
+            {name: "需求名称", options: {filter: false,customBodyRender: (value, tableMeta, updateValue) => {
+                        if (!value) {
+                            return "";
+                        }
+                        return (
+                            <Tooltip title={value} aria-label="Add">
+                                <Typography>{value}</Typography>
+                            </Tooltip>
+                        )
+                    }}},
             {name: "需求负责人", options: {filter: false, display: false}},
             {name: "需求状态", options: {
                     filter: false
@@ -435,13 +443,13 @@ class TaskBoard extends React.Component {
             customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
                 console.log(selectedRows.data[0].index);
                 return (
-                    <CustomToolbarSelect selectedRows={selectedRows} displayData={displayData}
+                    <CustomToolbarSelect selectedRows={selectedRows} displayData={displayData} perm={this.state.perm}
                                          setSelectedRows={setSelectedRows} iteration={this.state.iteration}/>)
 
             },
             customToolbar: () => {
                 return (
-                    <CustomToolbar4Demand handleAdd={this.openDemand} handleFilter={this.filter} filters={filterChips}/>
+                    <CustomToolbar4Demand handleAdd={this.openDemand} handleFilter={this.filter} filters={filterChips} perm={this.state.perm}/>
                 );
             },
             onChangeRowsPerPage: (numberOfRows) => {
@@ -506,16 +514,6 @@ class TaskBoard extends React.Component {
         return (
             <Grid container spacing={16}>
 
-                {/*<Grid item xs={12}>*/}
-                    {/*<AppBar className={classes.toolbar} position="static" color="default">*/}
-                        {/*<Grid container spacing={0}>*/}
-                            {/*{filterChips}*/}
-                        {/*</Grid>*/}
-
-                    {/*</AppBar>*/}
-                {/*</Grid>*/}
-
-
                 <Grid item xs={12}>
                     <MuiThemeProvider theme={muiTableTheme}>
                         <MUIDataTable
@@ -540,8 +538,6 @@ class TaskBoard extends React.Component {
                     open={editDemandShow}
                     iteration={this.state.iteration}
                 />
-                <FilterDemandManager iteration={this.state.iteration}/>
-                {/*<FilterDemandDeveloper/>*/}
                 <Filter/>
             </Grid>
 
