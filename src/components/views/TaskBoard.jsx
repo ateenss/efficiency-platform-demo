@@ -28,13 +28,16 @@ import {
     filterDoOwnMission,
     filterReset,
     init,
-    filterDoGoTestMission
+    filterDoGoTestMission,
+    openNewOtherTask
 } from "../../actions/BuildMissionAction"
 import MissionDetailMain from "../BuildMission/MissionDetailMain"
 import IntegrationPage from "../BuildMission/IntegrationPage"
 import GoTestPage from "../BuildMission/DoTestPage";
 import OtherMissionPage from "../BuildMission/OtherTaskPage"
 import {startLoading} from "../../actions/CommonAction";
+import BuildOtherTask from "../BuildMission/BuildOtherTaskMain"
+import OtherTaskPage from "../BuildMission/OtherTaskPage"
 
 const styles = theme => ({
     root: {
@@ -169,6 +172,10 @@ class TaskBoard extends React.Component {
         }
     }
 
+    openOtherTask=()=>{
+        store.dispatch(openNewOtherTask());
+    };
+
 
     render() {
         const {classes, addTask,  filterJudge} = this.props;
@@ -249,6 +256,8 @@ class TaskBoard extends React.Component {
         );
 
 
+
+
         return (
 
             <Grid container className={classes.root} spacing={0}>
@@ -260,6 +269,7 @@ class TaskBoard extends React.Component {
                             <Grid item xs={2}>
                                 <Toolbar variant="regular">
                                     <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>
+                                    <Button onClick={this.openOtherTask}>新建个人任务</Button>
                                 </Toolbar>
                             </Grid>
                         </Grid>
@@ -305,6 +315,8 @@ class TaskBoard extends React.Component {
                 <IntegrationPage/>
                 <GoTestPage/>
                 <OtherMissionPage/>
+                <BuildOtherTask/>
+                <OtherTaskPage/>
             </Grid>
         )
     }

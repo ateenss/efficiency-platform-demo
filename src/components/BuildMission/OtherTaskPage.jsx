@@ -9,10 +9,13 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
-import {saveTask} from "../../actions/DemandTasksAction";
 import store from "../../stores";
-import {closeOtherMissionDetail} from "../../actions/BuildMissionAction"
-import {SAVE_TASK, SHOW_NOTIFICATION} from "../../actions/types";
+import {closeOtherMissionDetail,saveOtherEditTask,changeOtherTaskStatus} from "../../actions/BuildMissionAction"
+import InputField from "../SelfComponent/InputField"
+import EditQuill from "../SelfComponent/EditQuill"
+import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
+import DatePicker from "../SelfComponent/DatePicker"
+import Grid from '@material-ui/core/Grid';
 
 
 
@@ -37,13 +40,16 @@ const styles = {
         fontSize: 22
     },
     quillContainer: {
-        marginTop: "10px"
+        marginTop: "10px",
+        height:"400px",
+        width:"90%"
     },
     quillLabel: {
         fontSize: "16px",
         color: "rgba(0, 0, 0, 0.54)",
         marginTop: "15px"
-    }
+    },
+
 
 };
 
@@ -57,57 +63,87 @@ class MissionDetailMain extends React.Component {
         super(props);
         this.state = {
             openTask: false,
-            data: {}
+            data: {},
+            otherEditContent:{},
+            projectList:{}
         }
     }
 
     componentWillReceiveProps(nextProps, nextStatus) {
-        if(nextProps.action === "saveTask"){
+        if (nextProps.tempBoardToDetail!=null){
             this.setState({
-                openTask: nextProps.openTask
-            });
-            setTimeout(function(){
-
-                store.dispatch({
-                    type: SHOW_NOTIFICATION,
-                    payload: "保存成功"
-                });
-
-            }, 500);
-
-            return false;
+                otherEditContent:nextProps.tempBoardToDetail
+            })
         }
-        if (!!nextProps.task) {
+        if (nextProps.initialProjectList!=null){
             this.setState({
-                openTask: nextProps.openTask,
-                data: {taskName: nextProps.task.taskName, taskContent: nextProps.task.taskContent}
-            });
+                projectList:nextProps.initialProjectList
+            })
         }
-        /* if(nextProps.keyNote>-1){
-             this.setState({
-                 projectContent:nextProps.addProjects[nextProps.keyNote]
-             })
-         }*/
 
     }
+
+    getContent=e=>{
+        if (e.keyNote){
+            const keyNote=e.keyNote;
+            const value=e.value;
+            let data = Object.assign({}, this.state.otherEditContent, {
+                [keyNote]: value
+            });
+            this.setState({
+                otherEditContent:data
+            })
+        }else{
+            const keyNote=e.target.name;
+            const value=e.target.value;
+            let data = Object.assign({}, this.state.otherEditContent, {
+                [keyNote]: value
+            });
+            this.setState({
+                otherEditContent:data
+            })
+        }
+    };
 
     handleClose = () => {
         store.dispatch(closeOtherMissionDetail());
     };
 
-    handleInput = (e) =>{
-        const key = e.target.name;
-        this.state.data[key] = e.target.value;
-        this.setState(this.state.data);
-    };
-
-    onSubmit = () => {
-        // saveTask(this.state.data);
+    onSaveOtherTask=()=>{
+        saveOtherEditTask(this.state.otherEditContent);
         store.dispatch(closeOtherMissionDetail());
     };
 
+
+
+    onStart = () => {
+        changeOtherTaskStatus(111,this.state.otherEditContent.taskId);
+    };
+
+    onFinish = () => {
+        changeOtherTaskStatus(222,this.state.otherEditContent.taskId);
+    };
+
     render() {
-        const {classes,tempBoardToDetail,detailOtherMissionShow} = this.props;
+        const {classes,detailOtherMissionShow} = this.props;
+        let projects = [];
+        for(let j in this.state.projectList){
+            let unit = this.state.projectList[j];
+            if(this.state.otherEditContent.belongProjectId === unit.id){
+                projects.push({id : unit.id, label : unit.projectName})
+            }
+        }
+        let projectIdAndNameSelect = [];
+        for (let i in this.state.projectList) {
+
+            let member = this.state.projectList[i];
+
+            let ret = {
+                id: member.id,
+                label: member.projectName,
+            };
+            projectIdAndNameSelect.push(ret);
+        }
 
         return (
 
@@ -121,14 +157,55 @@ class MissionDetailMain extends React.Component {
                             <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
                                 个人其他任务详情
                             </Typography>
-                            <Button color="inherit" onClick={this.onSubmit}>
+                            <Button color="inherit" onClick={this.onSaveOtherTask}>
                                 保存
+                            </Button>
+                            <Button color="inherit" onClick={this.onStart}>
+                                开始任务
+                            </Button>
+                            <Button color="inherit" onClick={this.onFinish}>
+                                完成任务
                             </Button>
                         </Toolbar>
                     </AppBar>
-                    {/*<DialogContent className={classes.dialogContainer}>
-                        <MyPage tempBoardToDetail={tempBoardToDetail}/>
-                    </DialogContent>*/}
+
+                    <Grid container spacing={8} >
+                        <Grid item xs={6} className={classes.gridStyle}>
+                            <InputField
+                                nameIn="taskName"
+                                onChange={this.getContent}
+                                InputLabelName="任务名称"
+                                defaultValue={this.state.otherEditContent.taskName}
+                            />
+                        </Grid>
+                        <Grid item xs={3} className={classes.gridStyle}>
+                            <DatePicker
+                                nameIn="taskDeadline"
+                                InputLabelName="任务截至时间"
+                                defaultValue={this.state.otherEditContent.taskDeadline}
+                                onDateChange={this.getContent}/>
+                        </Grid>
+                        <Grid item xs={6} className={classes.gridStyle}>
+                            <TrueMuitiSelect
+                                data={projectIdAndNameSelect}
+                                onChange={this.getContent}
+                                nameIn="belongProjectId"
+                                label="所属项目"
+                                singleSelect
+                                defaultValue={projects}
+                            />
+
+                        </Grid>
+                    </Grid>
+                    <Typography className={classes.quillLabel}>任务描述</Typography>
+                    <EditQuill
+                        classStyle={classes.quillContainer}
+                        onChange={this.getContent}
+                        nameIn="taskDescription"
+                        placeholder="请输入任务描述"
+                        defaultValue={this.state.otherEditContent.taskDescription}
+                    />
+
                 </Dialog>
             </div>
         )
@@ -144,6 +221,7 @@ const mapStateToProps = (state) => {
         detailOtherMissionShow:state.reducer.buildMission.detailOtherMissionShow,
         tempBoardToDetail:state.reducer.buildMission.tempBoardToDetail,
         addTask:state.reducer.buildMission.addTask,
+        initialProjectList:state.reducer.buildMission.initialProjectList,
     }
 };
 

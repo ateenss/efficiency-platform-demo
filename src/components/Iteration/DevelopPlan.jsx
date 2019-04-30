@@ -253,12 +253,22 @@ class DevelopPlan extends React.Component {
                     {this.demandTaskLabel()}
                     <Divider />
                     <List>
-                        {this.state.moduleList.map((text, index) => (
-                            <ListItem button onClick={this.change2Module.bind(this,text.taskId)} key={index}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text.taskName} />
-                            </ListItem>
-                        ))}
+                        {this.state.moduleList.map((text, index) => {
+                            let showName="";
+                            if (this.props.modules!=null){
+                                for(let i=0;i<this.props.modules.length;i++){
+                                    if (this.props.modules[i].id===text.moduleName) {
+                                        showName=this.props.modules[i].label
+                                    }
+                                }
+                            }
+                            return (
+                                <ListItem button onClick={this.change2Module.bind(this,text.taskId)} key={index}>
+                                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                                    <ListItemText primary={showName} />
+                                </ListItem>
+                            )}
+                        )}
                         <Divider />
 
                     </List>
@@ -447,6 +457,7 @@ const mapStateToProps = (state) => {
         taskIdList: state.reducer.iteration.taskIdList,
         devPlanContent: state.reducer.iteration.devPlanContent,
         wantKey: state.reducer.iteration.wantKey,
+        modules:state.reducer.buildMission.modules,
     }
 };
 // export default withStyles(styles,{withTheme: true})(DevelopPlan);

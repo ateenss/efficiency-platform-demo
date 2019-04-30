@@ -45,9 +45,13 @@ import {
     SAVE_EDIT_TEST_CASE,
     ALL_ACTION_SHOW,
     DEMANDTASK_ACTION_SHOW,
-    DEVTASK_ACTION_SHOW
+    DEVTASK_ACTION_SHOW,
+    OPEN_NEW_OTHER_TASK,
+    CLOSE_NEW_OTHER_TASK,
+    INIT_PROJECT_LISTS
 } from './types';
 import {error} from "./NotificationAction";
+import {GET_MY_PROJECTS} from "./BuildProjectAction";
 const config = {
     method: 'post',
     headers: {'Content-Type': 'application/json;charset=utf-8'},
@@ -55,6 +59,15 @@ const config = {
     outCharset: "utf-8"
 };
 
+
+
+export const closeNewOtherTask=()=>({
+   type: CLOSE_NEW_OTHER_TASK
+});
+
+export const openNewOtherTask=()=>({
+    type:OPEN_NEW_OTHER_TASK,
+});
 
 
 export const calPerm=value=>({
@@ -484,7 +497,6 @@ export function savePlanContent(content) {
 
 
 export function saveBuildModule(saveContent,parentTaskId) {
-    console.log("我來查快餐"+JSON.stringify(saveContent));
     const save_module_data = UrlConf.base + 'task/saveNewDevTask';
     const config = {
         method: 'post'
@@ -507,11 +519,79 @@ export function saveBuildModule(saveContent,parentTaskId) {
         });
 }
 
+export function changeOtherTaskStatus(icon,taskId) {
+    const url = UrlConf.base + 'task/changeOtherTaskStatus';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,{icon,taskId});
+    return axios.post(url, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                getMyTaskMain();
+                store.dispatch(closeOtherMissionDetail());
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+
+}
+
+
+export function saveOtherTask(saveContent) {
+    const url = UrlConf.base + 'task/addNewOtherTask';
+    const config = {
+        method: 'post'
+    };
+    saveContent.doAction=0;
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,saveContent);
+    return axios.post(url, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                getMyTaskMain();
+                store.dispatch(closeNewOtherTask());
+            }else{
+
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+}
+export function getModulesSimple(){
+    const GET_MODULES = UrlConf.base + 'modules/getModules';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    axios.post(GET_MODULES, {"version": "1.0", accessToken: accessToken}, config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                store.dispatch({
+                    type: INIT_MODULES,
+                    payload: data
+                });
+            }
+        });
+}
+
+
 
 export function init() {
     const getMyTaskInfoUrl = UrlConf.base + 'task/getMyTaskInfo';
     const GET_PROJECT_MEMBERS = UrlConf.base + 'member/getProjectMembers';
     const GET_MODULES = UrlConf.base + 'modules/getModules';
+    const GET_MY_PROJECTS = UrlConf.base + "project/getMyProjects";
 
     const config = {
         method: 'post'
@@ -523,6 +603,10 @@ export function init() {
         return axios.post(getMyTaskInfoUrl, {"version": "1.0", accessToken: accessToken}, config);
     }
 
+    function getProjects() {
+        return axios.post(GET_MY_PROJECTS, {"version": "1.0", accessToken: accessToken}, config);
+    }
+
     function getProjectMembers() {
         return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
     }
@@ -531,7 +615,7 @@ export function init() {
         return axios.post(GET_MODULES, {"version": "1.0", accessToken: accessToken}, config);
     }
 
-    axios.all([getProjectMembers(),getMyTask(),getModules()]).then(axios.spread(function(members,myTask, modules){
+    axios.all([getProjectMembers(),getProjects(),getMyTask(),getModules()]).then(axios.spread(function(members,projectList,myTask, modules){
         store.dispatch(getMyTaskInfo(myTask.data.data));
         store.dispatch({
             type: INIT_PROJECT_MEMBERS,
@@ -539,10 +623,14 @@ export function init() {
 
         });
         store.dispatch({
+            type:INIT_PROJECT_LISTS,
+            payload : projectList.data.data
+    });
+        store.dispatch({
             type:INIT_MODULES,
             payload : modules.data.data
-        })
-        console.log("任务主面板初始化数据拉取成功");
+        });
+
         stopLoading();
     }));
 
@@ -568,6 +656,9 @@ export function judgeDemandTaskShowAction(taskOwnerId){
         });
     }
 }
+
+
+
 
 export function judgeDevTaskShowActin(taskOwnerId){
     if ((localStorage.getItem("currentUser")-taskOwnerId)===0) {
@@ -607,6 +698,32 @@ export function getMyTaskMain() {
 
 }
 
+export function saveOtherEditTask(saveContent){
+    const getMyTaskInfoUrl = UrlConf.base + 'task/addNewOtherTask';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    saveContent.doAction=1;
+    delete saveContent.keyNote;
+    let request = RequestBuilder.parseRequest(accessToken,saveContent);
+    console.log("我应该是进来了",JSON.stringify(saveContent));
+    return axios.post(getMyTaskInfoUrl, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                getMyTaskMain();
+
+
+            }else{
+                console.log("没能拿到数据")
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
+}
+
 
 export function getDemandTaskDetail(taskId) {
     const send_edit_data = UrlConf.base + 'task/getDemandTaskDetail';
@@ -633,7 +750,6 @@ export function getDemandTaskDetail(taskId) {
 }
 
 export function getDemandTaskDetailSimple(taskId) {
-    console.log("我被调用了"+JSON.stringify(taskId));
     const send_edit_data = UrlConf.base + 'task/getDemandTaskDetail';
     const config = {
         method: 'post'

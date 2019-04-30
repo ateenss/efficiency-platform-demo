@@ -7,6 +7,8 @@ import {Paper} from "@material-ui/core";
 import {connect} from "react-redux";
 import {selectIteration, addIteration, init, deleteIteration, search} from "../../actions/IterationAction";
 import AddIteration from "../Iteration/AddIteration";
+import {getModulesSimple} from "../../actions/BuildMissionAction"
+
 import {
     CLOSE_ITERATION_FILTER,
     DELETE_ITERATION,
@@ -215,6 +217,7 @@ class IterationBoard extends React.Component {
     componentDidMount() {
 
         let self = this;
+        getModulesSimple();
         init(function (ret) {
             let iterationState = [];
 

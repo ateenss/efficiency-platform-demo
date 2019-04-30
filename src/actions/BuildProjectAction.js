@@ -29,7 +29,6 @@ export const GET_PROJECT_MEMBERS = UrlConf.base + 'member/getProjectMembers';
 
 
 export function init(doAfterInit) {
-    console.log("init");
 
     let accessToken = localStorage.getItem("token");
 

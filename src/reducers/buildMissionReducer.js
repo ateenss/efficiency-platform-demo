@@ -44,8 +44,8 @@ import {
     FILTER_TEST_TASK,
     ALL_ACTION_SHOW,
     DEMANDTASK_ACTION_SHOW,
-    DEVTASK_ACTION_SHOW,
-    INIT_MODULES, OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR,
+    DEVTASK_ACTION_SHOW,INIT_PROJECT_LISTS,
+    INIT_MODULES, OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR,OPEN_NEW_OTHER_TASK,CLOSE_NEW_OTHER_TASK,
     CAL_PERM, SAVE_TEST_CASE, EDIT_TEST_CASE, OPEN_ADD_TEST_CASE, CLOSE_ADD_TEST_CASE, SAVE_EDIT_TEST_CASE
 } from "../actions/types"
 
@@ -125,6 +125,12 @@ const changeStatus=(from,to,content)=>{
 export default function (state = INITIAL_STATE, action) {
     let counter=[];
     switch (action.type) {
+        case CLOSE_NEW_OTHER_TASK:
+            return {...state,newOtherTaskShow: false};
+        case INIT_PROJECT_LISTS:
+            return {...state,initialProjectList:action.payload};
+        case OPEN_NEW_OTHER_TASK:
+            return {...state,newOtherTaskShow:true};
         case ALL_ACTION_SHOW:
             return {...state,allActonShow:action.payload};
         case DEMANDTASK_ACTION_SHOW:
@@ -337,7 +343,6 @@ export default function (state = INITIAL_STATE, action) {
             return {...state, detailIntegrationShow: false};
         case OPEN_DETAIL_OTHERMISSION:
             const openOtherMissionState=JSON.parse(JSON.stringify(state));
-            /*openOtherMissionState.detailOtherMissionShow=true;*/
             let tempOtherMission=state.tempBoardToDetail;
             openOtherMissionState.addTask.map((value,key)=>{
                 if (action.value===value.taskId){
@@ -346,7 +351,6 @@ export default function (state = INITIAL_STATE, action) {
                 }
             });
             return {...state, detailOtherMissionShow: true,tempBoardToDetail:tempOtherMission};
-            return openOtherMissionState;
         case CLOSE_DETAIL_OTHERMISSION:
             return {...state, detailOtherMissionShow: false};
         case OPEN_DETAIL_DEVMISSION:

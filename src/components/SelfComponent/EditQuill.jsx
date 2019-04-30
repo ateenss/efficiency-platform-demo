@@ -28,7 +28,10 @@ class EditQuill extends React.Component {
 
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({editorHtml : nextProps.defaultValue})
+        if (nextProps.defaultValue!=null){
+            this.setState({editorHtml : nextProps.defaultValue})
+        }
+
     }
 
     handleThemeChange (newTheme) {

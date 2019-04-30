@@ -143,3 +143,8 @@ export const ALL_ACTION_SHOW="all_action_show";
 export const DEMANDTASK_ACTION_SHOW="demandTask_action_show";
 //开发任务的按钮显示问题
 export const DEVTASK_ACTION_SHOW="devTask_action_show";
+//打开新建其他个人子任务面板
+export const OPEN_NEW_OTHER_TASK="open_new_other_task";
+//关闭新建其他个人子任务面板
+export const CLOSE_NEW_OTHER_TASK="close_new_other_task";
+export const INIT_PROJECT_LISTS="init_project_lists";
