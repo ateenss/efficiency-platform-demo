@@ -13,7 +13,8 @@ import {
     CLOSE_PUBLISH_TEST_CASE,
     INIT_PROJECT_MEMBERS,
     GET_DEVPLAN_DETAIL,
-    DELETE_ITERATION, OPEN_ITERATION_FILTER, CLOSE_ITERATION_FILTER
+    DELETE_ITERATION, OPEN_ITERATION_FILTER, CLOSE_ITERATION_FILTER,
+    DISABLE_ALL_EXCEPT
 } from './types';
 
 import {GET_PROJECT_MEMBERS} from "./CommonAction";
@@ -502,4 +503,14 @@ export function closeFilter(filters){
         type: CLOSE_ITERATION_FILTER,
         payload : filters
     });
+}
+
+export function disableAllExcept(iterationName){
+
+    store.dispatch({
+        type : DISABLE_ALL_EXCEPT,
+        payload : iterationName
+    });
+
+
 }

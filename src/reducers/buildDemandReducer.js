@@ -17,7 +17,13 @@ import {
     SAVE_EDIT_DEMAND,
     ADD_DEMAND,
     SAVE_ADD_DEMAND,
-    REVIEW_DEMAND, CLOSE_REVIEW_DEMAND, SAVE_REVIEW_DEMAND, OPEN_DEMAND_FILTER, CLOSE_DEMAND_FILTER, SPLIT_DEMAND
+    REVIEW_DEMAND,
+    CLOSE_REVIEW_DEMAND,
+    SAVE_REVIEW_DEMAND,
+    OPEN_DEMAND_FILTER,
+    CLOSE_DEMAND_FILTER,
+    SPLIT_DEMAND,
+    SYNC_DEMAND
 } from "../actions/types"
 import {GET_DEMAND} from "../actions/DemandTasksAction";
 
@@ -103,7 +109,10 @@ export default function (state = INITIAL_STATE, action) {
             return {...state, editData: action.payload, editDemandShow: true, action : EDIT_DEMAND}
         case SPLIT_DEMAND:
 
-            return {...state, updatedRow : action.payload, action:SPLIT_DEMAND}
+            return {...state, updatedRow : [action.payload], action:SPLIT_DEMAND};
+        case SYNC_DEMAND:
+
+            return {...state, updatedRow : action.payload, action:SYNC_DEMAND};
         case ADD_DEMAND:
 
             return {...state, buildDemandShow: true, action : ADD_DEMAND}
@@ -115,7 +124,7 @@ export default function (state = INITIAL_STATE, action) {
             return {...state, updatedRow : action.payload, editDemandShow:false, action:SAVE_EDIT_DEMAND}
         case SAVE_ADD_DEMAND:
 
-            return {...state, updatedRow : action.payload, buildDemandShow:false, action:SAVE_ADD_DEMAND}
+            return {...state, updatedRow : [action.payload], buildDemandShow:false, action:SAVE_ADD_DEMAND}
         case REVIEW_DEMAND:
 
             return {...state, editData: action.payload, openReviewDemand: true, action : REVIEW_DEMAND}

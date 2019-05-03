@@ -9,7 +9,9 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import IterationMenuList from "./IterationMenuList";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-
+import {connect} from "react-redux";
+import {disableAllExcept} from "../../actions/IterationAction";
+import {DISABLE_ALL_EXCEPT} from "../../actions/types";
 
 const styles = theme => ({
     root: {
@@ -53,16 +55,34 @@ const ListItem = withStyles({
 
 class SingleIteration extends React.Component {
     state = {
-        open: false
+        open: false,
+        curName : ""
     };
 
     handleClick = () => {
         this.setState(state => ({open: !state.open}));
     };
 
+    handleSelected = (id, name) =>{
+        this.props.handleSelected(id);
+
+        this.setState({open: !this.state.open, curName : name, headSelected : true});
+
+        disableAllExcept(this.props.iteration);
+    };
+
     componentDidMount() {
         if (this.props.defaultExpand) {
-            this.setState({open: true, selected: true});
+            this.setState({headSelected : true, selected: true, curName : this.props.iterationList[0].iter});
+        }
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(nextProps.action === DISABLE_ALL_EXCEPT){
+            if(this.props.iteration != nextProps.activeName){
+                this.setState({open : false, headSelected : false, curName : ""})
+            }
+
         }
     }
 
@@ -72,7 +92,7 @@ class SingleIteration extends React.Component {
         let iterationComponents = !iterationList ? "" : iterationList.map((prop, key) => {
                 return (
                     <ListItem key={key} button className={classes.nested}
-                              onClick={this.props.handleSelected.bind(this, prop.id)} selected={prop.selected}  style={{paddingRight:"0"}}>
+                              onClick={this.handleSelected.bind(this, prop.id, prop.iter)} selected={prop.selected}  style={{paddingRight:"0"}}>
 
 
                         <ListItemText inset primary={prop.iter + "版"} className={classes.itemText}/>
@@ -83,11 +103,11 @@ class SingleIteration extends React.Component {
         );
         return (
             <div>
-                <ListItem button onClick={this.handleClick}>
-                    <ListItemText inset primary={this.props.iteration + "版"} className={classes.itemTextParent}/>
-                    {this.state.open ? <ExpandLess/> : <ExpandMore/>}
+                <ListItem button onClick={this.handleClick} selected={this.state.headSelected}>
+                    <ListItemText inset primary={this.state.curName==="" ?  (this.props.iteration + "版") : this.state.curName + "版" } className={classes.itemTextParent}/>
+                    {this.state.open ? <ExpandLess style={{color:"#121212"}}/> : <ExpandMore  style={{color:"#121212"}}/>}
                 </ListItem>
-                <List component="div" disablePadding>
+                <List component="div" disablePadding style={{position:"absolute", width:"100%", background:"#FFF", zIndex:"1"}}>
                     <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                         {iterationComponents}
                     </Collapse>
@@ -101,4 +121,21 @@ SingleIteration.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SingleIteration);
+const
+    mapStateToProps = (state) => {
+        return {
+            activeName : state.reducer.iteration.activeName,
+            action : state.reducer.iteration.action
+        }
+    };
+
+export default connect(mapStateToProps)
+
+(
+    withStyles(styles, {withTheme: true})
+
+    (
+        SingleIteration
+    ))
+;
+

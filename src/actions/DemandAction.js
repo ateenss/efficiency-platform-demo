@@ -25,10 +25,11 @@ import {
     REVIEW_DEMAND,
     OPEN_DEMAND_FILTER,
     CLOSE_DEMAND_FILTER,
-    SPLIT_DEMAND
+    SPLIT_DEMAND,
+    SYNC_DEMAND
 } from './types';
 import axios from "axios";
-import {GET_PROJECT_MEMBERS} from "./CommonAction";
+import {GET_PROJECT_MEMBERS, startLoading, stopLoading} from "./CommonAction";
 import UrlConf from "../constants/UrlConf";
 import {error} from "../actions/NotificationAction"
 //axios配置
@@ -46,6 +47,7 @@ export const GET_DEMAND = UrlConf.base + 'demand/getDemand';
 export const SAVE = UrlConf.base + 'demand/save';
 export const SAVE_REVIEW = UrlConf.base + 'demand/saveReview';
 export const DEMAND_SPLIT = UrlConf.base + "demand/splitDemand";
+export const DEMAND_SYNC = UrlConf.base + 'demand/syncDemand';
 
 export function openFilter(currentTarget, filters){
 
@@ -67,6 +69,34 @@ export function addDemand() {
     store.dispatch({
         type: ADD_DEMAND
     });
+
+}
+export function demandSync(){
+
+    console.log("inDemandSync");
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(DEMAND_SYNC, {"version": "1.0", "accessToken": accessToken}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+                return false;
+            }
+
+            store.dispatch({
+                type: SYNC_DEMAND,
+                payload: response.data.data
+            })
+        })
+        .catch(error => {
+            // If request fails
+            console.log("!!!!!!!调用失败" + JSON.stringify(error));
+            // update state to show error to user
+
+        });
+
 
 }
 
@@ -179,7 +209,7 @@ export function closeReviewDemand(){
 export function openReviewDemand(demandId) {
     console.log("openReviewDemand");
 
-    let accessToken = localStorage.getItem("accessToken");
+    let accessToken = localStorage.getItem("token");
 
     // store.dispatch({
     //     type: REVIEW_DEMAND,
@@ -362,7 +392,7 @@ export function search(pageNo, searchText, doAfterInit) {
 export function editDemand(demandId) {
     console.log("editDemand");
 
-    let accessToken = localStorage.getItem("accessToken");
+    let accessToken = localStorage.getItem("token");
     return axios.post(GET_DEMAND, {"version": "1.0", accessToken: accessToken, data: demandId}, config)
         .then(response => {
 
@@ -389,7 +419,11 @@ export function editDemand(demandId) {
 export function splitDemand(demandId) {
     console.log("splitDemand");
 
-    let accessToken = localStorage.getItem("accessToken");
+    startLoading();
+
+
+    let accessToken = localStorage.getItem("token");
+
     return axios.post(DEMAND_SPLIT, {"version": "1.0", accessToken: accessToken, data: demandId}, config)
         .then(response => {
 
@@ -404,6 +438,8 @@ export function splitDemand(demandId) {
                 payload: data
             });
 
+
+            stopLoading()
 
         })
         .catch(error => {

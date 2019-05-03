@@ -821,7 +821,7 @@ export const GET_TEST_CASE = UrlConf.base + 'task/getTestCase';
 export function editTestCase(id) {
     console.log("editTestCase"+id);
 
-    let accessToken = localStorage.getItem("accessToken");
+    let accessToken = localStorage.getItem("token");
     return axios.post(GET_TEST_CASE, {"version": "1.0", accessToken: accessToken, data: id}, config)
         .then(response => {
 

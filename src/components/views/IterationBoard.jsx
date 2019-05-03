@@ -175,9 +175,15 @@ class IterationBoard extends React.Component {
 
 
     handleSelected = (id) => {
-        console.log(id);
+
+        startLoading();
+
         // dispatch一个ID过去，获取该版本下的所有需求，然后选中
-        selectIteration(id);
+        selectIteration(id, function(){
+
+            stopLoading();
+
+        });
         this.setState({allVersionSelected : false})
     };
 
@@ -357,17 +363,16 @@ class IterationBoard extends React.Component {
     render() {
         const {classes, theme, initialData} = this.props;
         const {tabValue} = this.state;
-        console.log("{}{}{}{}{}"+JSON.stringify(permProcessor.init('iteration')));
         return (
             <div>
-                <Grid container spacing={16}>
+                <Grid container spacing={8}>
 
-                    <Grid item xs={2}>
+                    <Grid item xs={12}>
                         <IterationList iterations={this.state.iterationState} handleAdd={this.handleAdd} handleAllIteration={this.handleAllIteration}
                                        handleEdit={this.handleEdit} handleSelected={this.handleSelected} handleDelete={this.handleAlertDelete}
                                        handleSearch={this.handleSearch} perm={this.state.perm} handleReview={this.handleReview} allVersionSelected={this.state.allVersionSelected}/>
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={12}>
 
                         {
                             this.state.allVersionSelected === true ?

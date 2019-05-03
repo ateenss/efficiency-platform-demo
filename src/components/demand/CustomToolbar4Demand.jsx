@@ -3,6 +3,8 @@ import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
+import SyncIcon from "@material-ui/icons/Sync";
+
 import { withStyles } from "@material-ui/core/styles";
 import FilterIcon from "@material-ui/icons/Filter";
 import permProcessor from "../../constants/PermProcessor";
@@ -22,6 +24,11 @@ class CustomToolbar4DeliveryDoc extends React.Component {
                 <Tooltip title={"筛选"}>
                     <IconButton className={classes.iconButton} onClick={this.props.handleFilter.bind(this)}>
                         <FilterIcon className={classes.icon}/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={"需求同步"}>
+                    <IconButton className={classes.iconButton} onClick={this.props.handleSync}>
+                        <SyncIcon className={classes.deleteIcon} />
                     </IconButton>
                 </Tooltip>
                 {permProcessor.bingo('save', this.props.perm) ?

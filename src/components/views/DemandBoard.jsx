@@ -10,7 +10,7 @@ import MUIDataTable from "mui-datatables";
 import red from '@material-ui/core/colors/red';
 import store from '../../stores/index';
 import {
-    closeBuildDemand,
+    closeBuildDemand, demandSync,
     openFilter
 } from "../../actions/DemandAction"
 import BuildDemandMain from "../BuildDemand/BuildDemandMain"
@@ -25,7 +25,7 @@ import {
     CLOSE_DEMAND_FILTER,
     SAVE_ADD_DEMAND,
     SAVE_EDIT_DEMAND,
-    SAVE_REVIEW_DEMAND, SPLIT_DEMAND,
+    SAVE_REVIEW_DEMAND, SPLIT_DEMAND, SYNC_DEMAND,
     UPDATE_ROW
 } from "../../actions/types";
 import {startLoading, stopLoading} from "../../actions/CommonAction";
@@ -307,10 +307,9 @@ class TaskBoard extends React.Component {
             })
 
 
-        } else if (nextProps.action === SAVE_ADD_DEMAND || nextProps.action === SPLIT_DEMAND) {
-
+        } else if (nextProps.action === SAVE_ADD_DEMAND || nextProps.action === SPLIT_DEMAND || nextProps.action === SYNC_DEMAND) {
             let rows = this.state.raw;
-            rows.unshift(nextProps.updatedRow);
+            rows.unshift(...nextProps.updatedRow);
 
             this.setState({
                 assembleTable: this.mapObjectToArray(rows),
@@ -328,7 +327,6 @@ class TaskBoard extends React.Component {
                 self.search(0, nextProps.filters)
 
             })
-
 
         }
 
@@ -361,6 +359,12 @@ class TaskBoard extends React.Component {
 
     };
 
+    handleDemandSync = () =>{
+
+        demandSync();
+
+    };
+
     render() {
         const {classes, buildDemandShow, editDemandShow, tableData} = this.props;
 
@@ -372,6 +376,7 @@ class TaskBoard extends React.Component {
                         if (!value) {
                             return "";
                         }
+                        console.log(value)
                         let literal = value.split(",");
                         if(!!literal[1]){
                             let href = "http://172.17.249.10/NewSys/Requirement/External/ReqDetail.aspx?Id=" + literal[1];
@@ -449,7 +454,7 @@ class TaskBoard extends React.Component {
             },
             customToolbar: () => {
                 return (
-                    <CustomToolbar4Demand handleAdd={this.openDemand} handleFilter={this.filter} filters={filterChips} perm={this.state.perm}/>
+                    <CustomToolbar4Demand handleAdd={this.openDemand} handleFilter={this.filter} filters={filterChips} handleSync={this.handleDemandSync} perm={this.state.perm}/>
                 );
             },
             onChangeRowsPerPage: (numberOfRows) => {
