@@ -258,10 +258,16 @@ class DemandTaskDetail extends React.Component {
 
 
     render() {
-        const {classes, develop, plan, goTest,integration, demands,finish,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
+        const {classes, develop, plan, taskStatusList,taskTypeList,goTest,integration, demands,finish,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
         let detailInfo=tempBoardToDetail;
         if (!tempBoardToDetail){
             detailInfo=""
+        }
+        let ret,x;
+        for (x in taskStatusList) {
+            if (x===demands.taskStatus.toString()){
+                ret=taskStatusList[x]
+            }
         }
         return (
             <Card className={classes.demand}>
@@ -278,7 +284,7 @@ class DemandTaskDetail extends React.Component {
                                 <div className={classes.cardHeaderTitle}>
                                     <span>{detailInfo.taskName}</span>
                                     {this.showAddNewDevButton(classes)}
-                                    <Chip label={demands.taskStatus} className={classes.chip}/>
+                                    <Chip label={ret} className={classes.chip}/>
                                 </div>
                             }
                             subheader={detailInfo.taskDeadLine}
@@ -369,6 +375,8 @@ const mapStateToProps = (state) => {
         demands:state.reducer.buildMission.demands,
         allActonShow:state.reducer.buildMission.allActonShow,
         demandTaskActionShow:state.reducer.buildMission.demandTaskActionShow,
+        taskStatusList: state.reducer.buildMission.taskStatusList,
+        taskTypeList: state.reducer.buildMission.taskTypeList,
     }
 };
 

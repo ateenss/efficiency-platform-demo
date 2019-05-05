@@ -89,8 +89,8 @@ class MultipleSelect extends React.Component {
             <div className={classes.root}>
                 <FormControl className={classes.formControl} fullWidth>
                     <InputLabel htmlFor="select-multiple-checkbox">{InputLabelName}</InputLabel>
-                    <Select
                         multiple
+                    <Select
                         name={nameIn}
                         value={this.state.name}
                         onChange={this.handleChange}

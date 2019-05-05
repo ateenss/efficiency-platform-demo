@@ -16,8 +16,7 @@ import InputField from "../SelfComponent/InputField"
 import permProcessor from "../../constants/PermProcessor";
 import Typography from '@material-ui/core/Typography';
 import EditQuill from "../SelfComponent/EditQuill"
-import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
-import {init} from "../../actions/BuildProjectAction";
+import SingleSelect from "../SelfComponent/SingleSelect";
 
 
 const styles = {
@@ -46,8 +45,12 @@ const styles = {
     },
     quillContainer: {
         marginTop: "10px",
-        height:"500px"
+        height:"500px",
+        width:"900px"
     },
+    quillSelf:{
+        width:"300px"
+    }
 
 
 };
@@ -84,6 +87,7 @@ class BuildOtherTaskMain extends React.Component {
     handleSave=()=>{
         let tempData=this.state.otherContent;
         tempData.taskOwnerId=localStorage.getItem("currentUser");
+        tempData.relatedProjectId=this.props.relatedProjectId;
         saveOtherTask(tempData)
     };
 
@@ -134,42 +138,43 @@ class BuildOtherTaskMain extends React.Component {
             };
             projectIdAndNameSelect.push(ret);
         }
+        const showArray=[{id:1,name:"待处理"},{id:2,name:"进行中"},{id:8,name:"已完成"}];
 
         return (
-            <Dialog  aria-labelledby="simple-dialog-title" open={this.props.newOtherTaskShow} fullWidth maxWidth="lg">
+            <Dialog  aria-labelledby="simple-dialog-title" open={this.props.newOtherTaskShow}  maxWidth="lg">
                 <DialogTitle id="simple-dialog-title">创建其他个人任务</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >
-                        <Grid item xs={6} className={classes.gridStyle}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <InputField
                                 nameIn="taskName"
                                 onChange={this.getContent}
                                 InputLabelName="任务名称"
                             />
                         </Grid>
-                        <Grid item xs={3} className={classes.gridStyle}>
+                        <Grid item xs={4} className={classes.gridStyle}>
                             <DatePicker
                                 nameIn="taskDeadline"
                                 InputLabelName="任务截至时间"
                                 onDateChange={this.getContent}/>
                         </Grid>
-                        <Grid item xs={6} className={classes.gridStyle}>
-                            <TrueMuitiSelect data={projectIdAndNameSelect}
-                                             onChange={this.getContent}
-                                             nameIn="belongProjectId"
-                                             label="所属项目"
-                                             singleSelect
+                        <Grid item xs={4} className={classes.gridStyle}>
+                            <SingleSelect
+                                onChange={this.getContent}
+                                nameIn="taskStatus"
+                                InputLabelName="任务状态"
+                                nameArray={showArray}
                             />
-
                         </Grid>
                     </Grid>
                     <Typography className={classes.quillLabel}>任务描述</Typography>
-                    <EditQuill
-                        classStyle={classes.quillContainer}
-                        onChange={this.getContent}
-                        nameIn="taskDescription"
-                        placeholder="请输入任务描述"
-                    />
+                        <EditQuill
+                            classStyle={classes.quillContainer}
+                            onChange={this.getContent}
+                            nameIn="taskDescription"
+                            placeholder="请输入任务描述"
+                        />
+
 
 
                 </DialogContent>
@@ -199,6 +204,7 @@ const mapStateToProps = (state) => {
         projectMembers:state.reducer.common.projectMembers,
         newOtherTaskShow:state.reducer.buildMission.newOtherTaskShow,
         initialProjectList:state.reducer.buildMission.initialProjectList,
+        relatedProjectId:state.reducer.buildMission.relatedProjectId,
     }
 };
 

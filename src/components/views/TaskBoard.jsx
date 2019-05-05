@@ -21,6 +21,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Chip from "@material-ui/core/Chip";
 import {editTask} from "../../actions/DemandTasksAction";
+import AddIcon from "@material-ui/icons/Add";
 import permProcessor from "../../constants/PermProcessor";
 import {
     closeBuildMission,
@@ -98,7 +99,27 @@ const styles = theme => ({
         marginBottom:theme.spacing.unit*2
     },
     taskGroup:{
-    }
+    },
+    newDevButton: {
+        boxShadow:"none",
+        marginLeft:"15px",
+        border:"1px solid #4caf50",
+        color:"#4caf50",
+        padding:"0 12px 0 6px",
+        "&:hover":{
+            background:"#4caf50",
+            color: "#FFFFFF",
+        },
+        width:"100%",
+    },
+    addIcon:{
+        width:"1em",
+        height:"1em",
+        marginTop: 0,
+        marginBottom:0,
+        paddingBottom:0,
+        paddingTop:0,
+    },
 });
 
 
@@ -196,8 +217,8 @@ class TaskBoard extends React.Component {
 
         let newTaskComponents = tempContent.map((prop, key) => {
             let content = "";
-            if(prop.taskType!=="开发任务"){
-                if(prop.taskStatus === "待处理"){
+            if(prop.taskType!==2){
+                if(prop.taskStatus === 1){
                     content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
                     ++newTaskCnt;
                 }
@@ -207,13 +228,13 @@ class TaskBoard extends React.Component {
         });
         let processingTaskComponents = tempContent.map((prop, key) => {
             let content = "";
-            if(prop.taskType!=="开发任务"){
-                if (prop.taskStatus==="已走查"&&prop.taskType==="需求开发任务"){
+            if(prop.taskType!==2){
+                if (prop.taskStatus===4&&prop.taskType===1){
                     content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
                     ++inProgressTaskCnt;
                     return content;
                 }
-                if(prop.taskStatus !== "待处理" && prop.taskStatus !== "完成"&&prop.taskStatus !== "已走查"){
+                if(prop.taskStatus !== 1 && prop.taskStatus !== 8&&prop.taskStatus !==4){
                     content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
                     ++inProgressTaskCnt;
                 }
@@ -224,8 +245,8 @@ class TaskBoard extends React.Component {
         });
         let finishTaskComponents = tempContent.map((prop, key) => {
             let content = "";
-            if(prop.taskType!=="开发任务"){
-                if(prop.taskStatus === "完成"||(prop.taskStatus === "已走查"&&prop.taskType!=="需求开发任务")){
+            if(prop.taskType!==2){
+                if(prop.taskStatus === 8||(prop.taskStatus === 4&&prop.taskType!==1)){
                     content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
                     ++finishTaskCnt;
                 }
@@ -269,7 +290,13 @@ class TaskBoard extends React.Component {
                             <Grid item xs={2}>
                                 <Toolbar variant="regular">
                                     <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>
-                                    <Button onClick={this.openOtherTask}>新建个人任务</Button>
+                                    <Button onClick={this.openOtherTask}
+                                            className={classes.newDevButton}
+                                            size="small"
+                                            variant="outlined"
+                                    >
+                                        <AddIcon className={classes.addIcon}/>
+                                        个人任务</Button>
                                 </Toolbar>
                             </Grid>
                         </Grid>

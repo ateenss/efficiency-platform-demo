@@ -28,6 +28,7 @@ import {
     OPEN_ASSIGN_GOTEST,
     CLOSE_ASSIGN_GOTEST,
     DO_ASSIGN_GOTEST,
+    INIT_STATUS_TYPE,
     GET_MYTASK_INFO,
     GET_TASK_DETAIL_INFO,
     SAVE_BUILD_MODULE,
@@ -550,6 +551,7 @@ export function saveOtherTask(saveContent) {
         method: 'post'
     };
     saveContent.doAction=0;
+    console.log("我来查看",JSON.stringify(saveContent));
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,saveContent);
     return axios.post(url, request,config)
@@ -592,6 +594,7 @@ export function init() {
     const GET_PROJECT_MEMBERS = UrlConf.base + 'member/getProjectMembers';
     const GET_MODULES = UrlConf.base + 'modules/getModules';
     const GET_MY_PROJECTS = UrlConf.base + "project/getMyProjects";
+    const GET_Task_TypeAndStatus = UrlConf.base + "task/getTaskTypeAndStatus";
 
     const config = {
         method: 'post'
@@ -611,11 +614,16 @@ export function init() {
         return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
     }
 
+    function getTaskStatusAndType() {
+        return axios.post(GET_Task_TypeAndStatus,{"version": "1.0", accessToken: accessToken},config);
+
+    }
+
     function getModules() {
         return axios.post(GET_MODULES, {"version": "1.0", accessToken: accessToken}, config);
     }
 
-    axios.all([getProjectMembers(),getProjects(),getMyTask(),getModules()]).then(axios.spread(function(members,projectList,myTask, modules){
+    axios.all([getProjectMembers(),getProjects(),getMyTask(),getTaskStatusAndType(),getModules()]).then(axios.spread(function(members,projectList,myTask,taskStatusAndType ,modules){
         store.dispatch(getMyTaskInfo(myTask.data.data));
         store.dispatch({
             type: INIT_PROJECT_MEMBERS,
@@ -623,9 +631,13 @@ export function init() {
 
         });
         store.dispatch({
-            type:INIT_PROJECT_LISTS,
-            payload : projectList.data.data
-    });
+            type: INIT_PROJECT_LISTS,
+            payload: projectList.data.data
+        });
+        store.dispatch({
+            type:INIT_STATUS_TYPE,
+            payload : taskStatusAndType.data.data
+        });
         store.dispatch({
             type:INIT_MODULES,
             payload : modules.data.data

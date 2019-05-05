@@ -16,6 +16,8 @@ import EditQuill from "../SelfComponent/EditQuill"
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
 import Grid from '@material-ui/core/Grid';
+import MultiSelect from "../SelfComponent/MultiSelect"
+import SingleSelect from "../SelfComponent/SingleSelect"
 
 
 
@@ -49,7 +51,18 @@ const styles = {
         color: "rgba(0, 0, 0, 0.54)",
         marginTop: "15px"
     },
-
+    wrapperGrid:{
+        left:"170px",
+        height:"20px",
+        top:"40px",
+        position: 'relative',
+    },
+    myQuill:{
+        position: 'relative',
+        top:"60px",
+        left:"170px",
+        width: "1275px"
+    }
 
 };
 
@@ -57,7 +70,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-class MissionDetailMain extends React.Component {
+class OtherTaskPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -144,7 +157,7 @@ class MissionDetailMain extends React.Component {
             };
             projectIdAndNameSelect.push(ret);
         }
-
+        const showArray=[{id:1,name:"待处理"},{id:2,name:"进行中"},{id:8,name:"已完成"}];
         return (
 
             <div>
@@ -160,56 +173,53 @@ class MissionDetailMain extends React.Component {
                             <Button color="inherit" onClick={this.onSaveOtherTask}>
                                 保存
                             </Button>
-                            <Button color="inherit" onClick={this.onStart}>
-                                开始任务
-                            </Button>
-                            <Button color="inherit" onClick={this.onFinish}>
-                                完成任务
-                            </Button>
                         </Toolbar>
                     </AppBar>
 
-                    <Grid container spacing={8} >
-                        <Grid item xs={6} className={classes.gridStyle}>
-                            <InputField
-                                nameIn="taskName"
-                                onChange={this.getContent}
-                                InputLabelName="任务名称"
-                                defaultValue={this.state.otherEditContent.taskName}
-                            />
-                        </Grid>
-                        <Grid item xs={3} className={classes.gridStyle}>
-                            <DatePicker
-                                nameIn="taskDeadline"
-                                InputLabelName="任务截至时间"
-                                defaultValue={this.state.otherEditContent.taskDeadline}
-                                onDateChange={this.getContent}/>
-                        </Grid>
-                        <Grid item xs={6} className={classes.gridStyle}>
-                            <TrueMuitiSelect
-                                data={projectIdAndNameSelect}
-                                onChange={this.getContent}
-                                nameIn="belongProjectId"
-                                label="所属项目"
-                                singleSelect
-                                defaultValue={projects}
-                            />
+                    <div className={classes.wrapperGrid}>
+                        <Grid container spacing={8}>
+                            <Grid item xs={3} className={classes.gridStyle}>
+                                <InputField
+                                    nameIn="taskName"
+                                    onChange={this.getContent}
+                                    InputLabelName="任务名称"
+                                    defaultValue={this.state.otherEditContent.taskName}
+                                />
+                            </Grid>
+                            <Grid item xs={3} className={classes.gridStyle}>
+                                <DatePicker
+                                    nameIn="taskDeadline"
+                                    InputLabelName="任务截至时间"
+                                    defaultValue={this.state.otherEditContent.taskDeadline}
+                                    onDateChange={this.getContent}/>
+                            </Grid>
+                            <Grid item xs={3} className={classes.gridStyle}>
+                                <SingleSelect
+                                    onChange={this.getContent}
+                                    nameIn="taskStatus"
+                                    InputLabelName="任务状态变化"
+                                    nameArray={showArray}
+                                    defaultValue={this.state.otherEditContent.taskStatus}
 
+                                />
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Typography className={classes.quillLabel}>任务描述</Typography>
-                    <EditQuill
-                        classStyle={classes.quillContainer}
-                        onChange={this.getContent}
-                        nameIn="taskDescription"
-                        placeholder="请输入任务描述"
-                        defaultValue={this.state.otherEditContent.taskDescription}
-                    />
-
+                    </div>
+                    <div className={classes.myQuill}>
+                        <Typography className={classes.quillLabel}>任务描述</Typography>
+                        <EditQuill
+                            classStyle={classes.quillContainer}
+                            onChange={this.getContent}
+                            nameIn="taskDescription"
+                            placeholder="请输入任务描述"
+                            defaultValue={this.state.otherEditContent.taskDescription}
+                        />
+                    </div>
                 </Dialog>
             </div>
         )
     };
+
 }
 
 // 从store里面取数据给组件
@@ -225,4 +235,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(MissionDetailMain));
+export default connect(mapStateToProps)(withStyles(styles)(OtherTaskPage));

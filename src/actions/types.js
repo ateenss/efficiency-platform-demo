@@ -150,3 +150,4 @@ export const OPEN_NEW_OTHER_TASK="open_new_other_task";
 //关闭新建其他个人子任务面板
 export const CLOSE_NEW_OTHER_TASK="close_new_other_task";
 export const INIT_PROJECT_LISTS="init_project_lists";
+export const INIT_STATUS_TYPE="init_task_status_type";

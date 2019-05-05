@@ -163,7 +163,7 @@ class DevTaskEditor extends React.Component {
             提交
         </Button>);
         if (this.props.tempTask.content!=null) {
-            if (this.props.tempTask.content.taskStatus==="待处理"&&(this.props.devTaskActionShow||this.props.allActonShow)) {
+            if (this.props.tempTask.content.taskStatus===1&&(this.props.devTaskActionShow||this.props.allActonShow)) {
                 return show
             }
         }

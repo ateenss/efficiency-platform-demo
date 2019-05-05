@@ -44,7 +44,7 @@ import {
     FILTER_TEST_TASK,
     ALL_ACTION_SHOW,
     DEMANDTASK_ACTION_SHOW,
-    DEVTASK_ACTION_SHOW,INIT_PROJECT_LISTS,
+    DEVTASK_ACTION_SHOW,INIT_PROJECT_LISTS,INIT_STATUS_TYPE,
     INIT_MODULES, OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR,OPEN_NEW_OTHER_TASK,CLOSE_NEW_OTHER_TASK,
     CAL_PERM, SAVE_TEST_CASE, EDIT_TEST_CASE, OPEN_ADD_TEST_CASE, CLOSE_ADD_TEST_CASE, SAVE_EDIT_TEST_CASE
 } from "../actions/types"
@@ -125,6 +125,8 @@ const changeStatus=(from,to,content)=>{
 export default function (state = INITIAL_STATE, action) {
     let counter=[];
     switch (action.type) {
+        case INIT_STATUS_TYPE:
+            return {...state,taskStatusList:action.payload.allTaskStatus,taskTypeList:action.payload.allTaskType};
         case CLOSE_NEW_OTHER_TASK:
             return {...state,newOtherTaskShow: false};
         case INIT_PROJECT_LISTS:
@@ -169,7 +171,7 @@ export default function (state = INITIAL_STATE, action) {
             });
             return {...state,addTask:addTaskTemp};
         case GET_MYTASK_INFO:
-            return {...state,addTask:action.value.taskList,finished:action.value.finished,unfinished:action.value.underWay};
+            return {...state,addTask:action.value.taskList,finished:action.value.finished,unfinished:action.value.underWay,relatedProjectId:action.value.relatedProjectId};
         case GET_TASK_DETAIL_INFO:
             // let detailState=JSON.parse(JSON.stringify(state));
             return {...state,demands:action.value};

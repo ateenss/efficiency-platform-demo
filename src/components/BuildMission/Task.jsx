@@ -28,6 +28,7 @@ import {
 } from "../../actions/BuildMissionAction"
 import store from "../../stores";
 import permProcessor from "../../constants/PermProcessor";
+import {connect} from "react-redux";
 
 
 const styles = theme => ({
@@ -121,22 +122,19 @@ class Task extends React.Component {
 
     openDetailPanel = (keyNote, taskType) => {
         switch (taskType) {
-            case "走查任务":
+            case 3:
                 store.dispatch(openGoTestDetail(keyNote));
                 return;
-            case "需求开发任务":
+            case 1:
                 if (permProcessor.bingo('getMyTaskInfo', this.state.perm)) {
                     getDemandTaskDetail(keyNote);
                     return ;
                 }
                 return;
-            case "开发任务":
+            case 2:
                 store.dispatch(openDevMissionDetail(keyNote));
                 return;
-            case "持续集成任务":
-                store.dispatch(openIntegrationDetail(keyNote));
-                return;
-            case "个人其他任务":
+            case 4:
                 store.dispatch(openOtherMissionDetail(keyNote));
                 return;
             default:
@@ -146,7 +144,14 @@ class Task extends React.Component {
 
     render() {
 
-        const {classes, keyNote,  taskType} = this.props;
+        const {classes, keyNote,  taskType,taskStatusList,taskTypeList} = this.props;
+        let ret,x;
+        for (x in taskTypeList) {
+            if (x===taskType.toString()){
+                ret=taskTypeList[x]
+            }
+        }
+
         return (
             <Grid container spacing={0} style={{marginTop :"15px",marginBottom:"15px"}}>
                 <Grid xs={1} item></Grid>
@@ -156,7 +161,8 @@ class Task extends React.Component {
                             className={classes.taskHeader}
                             title={
                                 <div className={classes.cardHeaderTitle}>
-                                    <span>{this.props.taskType} - {this.props.keyNote}</span>
+                                    {/*<span>{this.props.taskType} - {this.props.keyNote}</span>*/}
+                                    <span>{ret} - {this.props.keyNote}</span>
                                 </div>
                             }
                             action={
@@ -197,4 +203,15 @@ class Task extends React.Component {
     }
 }
 
-export default (withStyles(styles, {withTheme: true})(Task));
+
+const mapStateToProps = (state) => {
+        return {
+            demands: state.reducer.task.demands,
+            taskStatusList: state.reducer.buildMission.taskStatusList,
+            taskTypeList: state.reducer.buildMission.taskTypeList,
+
+        }
+    };
+
+// export default (withStyles(styles, {withTheme: true})(Task));
+export default connect(mapStateToProps)(withStyles(styles, {withTheme: true})(Task));
