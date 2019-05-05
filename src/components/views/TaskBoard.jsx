@@ -219,7 +219,7 @@ class TaskBoard extends React.Component {
             let content = "";
             if(prop.taskType!==2){
                 if(prop.taskStatus === 1){
-                    content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    content = <Task key={key} code={prop.taskCode} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
                     ++newTaskCnt;
                 }
             }
@@ -230,12 +230,12 @@ class TaskBoard extends React.Component {
             let content = "";
             if(prop.taskType!==2){
                 if (prop.taskStatus===4&&prop.taskType===1){
-                    content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    content = <Task key={key} code={prop.taskCode} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
                     ++inProgressTaskCnt;
                     return content;
                 }
                 if(prop.taskStatus !== 1 && prop.taskStatus !== 8&&prop.taskStatus !==4){
-                    content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    content = <Task key={key} code={prop.taskCode} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
                     ++inProgressTaskCnt;
                 }
 
@@ -247,7 +247,7 @@ class TaskBoard extends React.Component {
             let content = "";
             if(prop.taskType!==2){
                 if(prop.taskStatus === 8||(prop.taskStatus === 4&&prop.taskType!==1)){
-                    content = <Task key={key} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    content = <Task key={key} code={prop.taskCode} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
                     ++finishTaskCnt;
                 }
             }

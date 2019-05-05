@@ -161,8 +161,7 @@ class Task extends React.Component {
                             className={classes.taskHeader}
                             title={
                                 <div className={classes.cardHeaderTitle}>
-                                    {/*<span>{this.props.taskType} - {this.props.keyNote}</span>*/}
-                                    <span>{ret} - {this.props.keyNote}</span>
+                                    <span>{ret} - {this.props.code}</span>
                                 </div>
                             }
                             action={
