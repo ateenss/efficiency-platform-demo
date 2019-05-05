@@ -141,6 +141,7 @@ class IterationList extends React.Component {
             assembleTable: [],
             currentPage: 1,
             totalCount: 1,
+            pageSize:20,
             filters :{}
         };
     }
@@ -162,11 +163,11 @@ class IterationList extends React.Component {
      * UrlConf.base + 'iteration/save';
      * @param page
      */
-    changePage = (page) => {
+    changePage = (page, pageSize) => {
 
         let self = this;
 
-        nextPage(page + 1, function (ret) {
+        nextPage(page + 1, pageSize,function (ret) {
 
             let result = self.mapObjectToArray(ret.result);
 
@@ -175,11 +176,11 @@ class IterationList extends React.Component {
         })
     };
 
-    search = (pageNo, searchText) =>{
+    search = (pageNo, pageSize, searchText) =>{
 
         let self = this;
 
-        search(pageNo+1, searchText, function(ret){
+        search(pageNo+1, pageSize, searchText, function(ret){
 
             let result = self.mapObjectToArray(ret.result);
 
@@ -297,7 +298,7 @@ class IterationList extends React.Component {
             filter:false,
             search:false,
             rowsPerPage: this.state.pageSize,
-            rowsPerPageOptions: [this.state.pageSize],
+            rowsPerPageOptions: [10,20,40],
             expandableRows:true,
             selectableRows: "none",
             renderExpandableRow: (rowData, rowMeta) => {
@@ -337,13 +338,16 @@ class IterationList extends React.Component {
                 console.log(action, tableState);
                 switch (action) {
                     case 'changePage':
-                        this.search(tableState.page, this.state.filters);
+                        this.search(tableState.page, tableState.rowsPerPage, this.state.filters);
                         break;
                     case 'search':
-                        this.search(tableState.page, tableState.searchText);
+                        this.search(tableState.page, tableState.rowsPerPage, tableState.searchText);
                         break;
                     case 'filterChange' :
-                        this.search(tableState.page, tableState.searchText);
+                        this.search(tableState.page, tableState.rowsPerPage, tableState.searchText);
+                        break;
+                    case 'changeRowsPerPage':
+                        this.search(tableState.page, tableState.rowsPerPage, this.state.filters);
                         break;
                 }
             },

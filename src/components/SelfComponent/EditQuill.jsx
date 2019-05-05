@@ -1,7 +1,7 @@
 import ReactQuill from 'react-quill';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 
 const styles = {
     appBar: {
@@ -9,46 +9,54 @@ const styles = {
     },
     flex: {
         flex: 1,
-    },
+    }
 
 };
 
 
 class EditQuill extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
-        this.state = { editorHtml: '', theme: 'snow' };
+        this.state = {editorHtml: '', theme: 'snow'};
         this.handleChange = this.handleChange.bind(this)
     }
 
-    handleChange (html) {
-        this.setState({ editorHtml: html });
-        this.props.onChange({keyNote:this.props.nameIn,value:html})
+    handleChange(html) {
+        this.setState({editorHtml: html});
+        this.props.onChange({keyNote: this.props.nameIn, value: html})
     }
 
 
     componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.defaultValue!=null){
-            this.setState({editorHtml : nextProps.defaultValue})
+        if (nextProps.defaultValue != null) {
+            this.setState({editorHtml: nextProps.defaultValue})
         }
 
     }
 
-    handleThemeChange (newTheme) {
+    handleThemeChange(newTheme) {
         if (newTheme === "core") newTheme = null;
-        this.setState({ theme: newTheme })
+        this.setState({theme: newTheme})
     }
 
     componentDidMount() {
-        !!this.props.defaultValue&& ( this.setState({
-            editorHtml:this.props.defaultValue
+        !!this.props.defaultValue && (this.setState({
+            editorHtml: this.props.defaultValue
         }))
     }
 
-    render () {
-        const { classes,classStyle ,placeholder} = this.props;
+    render() {
+        const {classes, classStyle, placeholder} = this.props;
+        let readOnly = false;
+        let modules = EditQuill.modules;
+        if (!!this.props.readOnly) {
+            readOnly = this.props.readOnly;
+            modules.toolbar = false;
 
+        }
         return (
+
+
             <div className={classes.wrapper}>
                 <ReactQuill
                     theme={this.state.theme}
@@ -59,6 +67,7 @@ class EditQuill extends React.Component {
                     bounds={'.app'}
                     placeholder={placeholder}
                     className={classStyle}
+                    // readOnly={readOnly}
                 />
             </div>
         )
@@ -71,15 +80,15 @@ class EditQuill extends React.Component {
  */
 EditQuill.modules = {
     toolbar: [
-        [{ 'font': [] }],
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{'font': []}],
+        [{'header': [1, 2, 3, 4, 5, 6, false]}],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{'list': 'ordered'}, {'list': 'bullet'},
             {'indent': '-1'}, {'indent': '+1'}],
-        [{ 'color': [] }, { 'background': [] }],
-        [{ 'align': [] }],
+        [{'color': []}, {'background': []}],
+        [{'align': []}],
         ['clean'],
-        ['link', 'image', 'video'],
+        ['link', 'image'],
     ],
     clipboard: {
         // toggle to add extra line breaks when pasting HTML:
@@ -91,7 +100,7 @@ EditQuill.modules = {
  * See https://quilljs.com/docs/formats/
  */
 EditQuill.formats = [
-    'header', 'font', 'size','background',
+    'header', 'font', 'size', 'background',
     'bold', 'italic', 'underline', 'strike', 'blockquote',
     'list', 'bullet', 'indent',
     'link', 'image', 'video'

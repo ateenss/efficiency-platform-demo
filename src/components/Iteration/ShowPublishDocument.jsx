@@ -10,18 +10,10 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
-import store from '../../stores/index';
-import {closeBuildPlan, saveBuildPlan} from "../../actions/BuildMissionAction"
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-import EditQuill from "../SelfComponent/EditQuill"
-import MultiLineInput from "../SelfComponent/MultiLineInput"
 import {closeDevelopPlan, closePublishTestCase} from "../../actions/IterationAction";
 import {CLOSE_DEVELOP_PLAN, GET_DEVELOP_PLAN, GET_PUBLISH_TEST_CASE} from "../../actions/types";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import DevelopPlan from "./DevelopPlan";
-import TestCase from "./TestCase";
 import PublishTestCase from "./PublishTestCase";
 
 const styles = theme => ({

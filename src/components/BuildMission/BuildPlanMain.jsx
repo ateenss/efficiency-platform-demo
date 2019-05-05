@@ -16,6 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
 import permProcessor from "../../constants/PermProcessor";
+import MyQuill from "../SelfComponent/MyQuill";
 
 
 const styles = theme => ({
@@ -164,12 +165,13 @@ class BuildPlanMain extends React.Component {
                         <Grid item xs={12}>
                             <Grid container spacing={8}>
                                 <Grid item xs={12} className={classes.quillWrapper}>
-                                    <EditQuill
+                                    <MyQuill
                                         classStyle={classes.quillIn}
                                         nameIn="overallPlan"
                                         placeholder="请输入整体方案描述"
                                         onChange={this.getContent}
                                         defaultValue={planContent.overallPlan}
+                                        readOnly={false}
                                     />
                                 </Grid>
                                 <Grid item xs={3}>

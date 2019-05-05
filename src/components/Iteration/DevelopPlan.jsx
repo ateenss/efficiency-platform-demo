@@ -5,8 +5,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
 import {getDevelopPlan, getModuleInfo} from "../../actions/IterationAction";
 import {GET_DEVELOP_PLAN, GET_DEVPLAN_DETAIL} from "../../actions/types";
@@ -20,6 +18,20 @@ import MailIcon from '@material-ui/icons/Mail';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import {Avatar, Tooltip} from "@material-ui/core";
+import MyQuill from "../SelfComponent/MyQuill";
+//
+// import FilterIcon_1 from '@material-ui/icons/Filter1';
+// import FilterIcon_2 from '@material-ui/icons/Filter2';
+// import FilterIcon_3 from '@material-ui/icons/Filter3';
+// import FilterIcon_4 from '@material-ui/icons/Filter4';
+// import FilterIcon_5 from '@material-ui/icons/Filter5';
+// import FilterIcon_6 from '@material-ui/icons/Filter6';
+// import FilterIcon_7 from '@material-ui/icons/Filter7';
+// import FilterIcon_8 from '@material-ui/icons/Filter8';
+//
+
+
 const drawerWidth = 200;
 
 
@@ -129,7 +141,19 @@ const styles = theme => ({
         padding: theme.spacing.unit * 1,
     },
     noneBorder:{
-        borderRight:"0"
+        borderRight:"none"
+    },
+    hideMore:{
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+    },
+    planAvatar:{
+        width:"24px",
+        height:"24px",
+        fontSize:"14px",
+        background:"#4DAF7C",
+        color:"#FFF"
     }
 
 });
@@ -146,7 +170,8 @@ class DevelopPlan extends React.Component {
         taskIdList:this.props.taskIdList,
         tabValue: 0,
         showValue:0,
-        devPlanContent:""
+        devPlanContent:"",
+        currentTaskId : 0,
     };
 
 
@@ -160,12 +185,12 @@ class DevelopPlan extends React.Component {
         if(nextProps.action===GET_DEVPLAN_DETAIL){
 
             this.setState({
-                devPlanContent:nextProps.devPlanContent.planContent
+                devPlanContent:nextProps.devPlanContent.planContent, currentTaskId:nextProps.devPlanContent.taskId
             })
         }
         if (nextProps.action===GET_DEVELOP_PLAN) {
             this.setState({
-                planContent:nextProps.content
+                planContent:nextProps.content, currentTaskId : 0
             })
         }
     }
@@ -215,7 +240,7 @@ class DevelopPlan extends React.Component {
     };
 
     demandTaskLabel=()=>{return (
-        <ListItem button onClick={this.change2DemandTask} >
+        <ListItem button onClick={this.change2DemandTask} dense divider={false} >
             <ListItemIcon><MailIcon /></ListItemIcon>
             <ListItemText primary="需求任务方案" />
         </ListItem>
@@ -241,7 +266,8 @@ class DevelopPlan extends React.Component {
                         paperAnchorLeft : classNames({
                             [classes.noneBorder] : this.state.open,
                         [classes.noneBorder] : !this.state.open,
-                        })
+                        }),
+                        paperAnchorDockedLeft: classes.noneBorder
                     }}
                     open={this.state.open}
                 >
@@ -250,26 +276,38 @@ class DevelopPlan extends React.Component {
                             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     </div>
-                    {this.demandTaskLabel()}
-                    <Divider />
                     <List>
+                        <ListItem button onClick={this.change2DemandTask} dense divider={false} selected={!this.state.currentTaskId || this.state.currentTaskId === 0 ? true : false}>
+                            <ListItemIcon><Avatar className={classes.planAvatar}>总</Avatar></ListItemIcon>
+                            <ListItemText primary="需求任务方案" disableTypography={true}  />
+                        </ListItem>
                         {this.state.moduleList.map((text, index) => {
                             let showName="";
+                            let tooltipName = "";
+                            let selected = false;
                             if (this.props.modules!=null){
                                 for(let i=0;i<this.props.modules.length;i++){
                                     if (this.props.modules[i].id===text.moduleName) {
-                                        showName=this.props.modules[i].label
+                                        showName=this.props.modules[i].label.split("(")[0];
+                                        tooltipName=this.props.modules[i].label;
                                     }
                                 }
                             }
+                            if(text.taskId === this.state.currentTaskId){
+                                selected = true;
+                            }
+
                             return (
-                                <ListItem button onClick={this.change2Module.bind(this,text.taskId)} key={index}>
-                                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                    <ListItemText primary={showName} />
-                                </ListItem>
+                                <Tooltip title={tooltipName} placement="right-end">
+
+                                    <ListItem button onClick={this.change2Module.bind(this,text.taskId)} key={index} dense divider={false} selected={selected}>
+                                        <ListItemIcon><Avatar className={classes.planAvatar}>{++index}</Avatar></ListItemIcon>
+                                        <ListItemText primary={showName} disableTypography={true} className={classes.hideMore}/>
+                                    </ListItem>
+                                </Tooltip>
+
                             )}
                         )}
-                        <Divider />
 
                     </List>
                 </Drawer>
@@ -280,12 +318,12 @@ class DevelopPlan extends React.Component {
                             <Grid item xs={12}>
                                 <Grid container spacing={8}>
                                     <Grid item xs={12} className={classes.quillWrapper}>
-                                        <EditQuill
-                                            classStyle={classes.quillIn}
+                                        <MyQuill
                                             nameIn="overallPlan"
                                             placeholder="请输入整体方案描述"
                                             onChange={this.getContent}
                                             defaultValue={planContent.overallPlan}
+                                            readOnly={true}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
@@ -424,12 +462,13 @@ class DevelopPlan extends React.Component {
                     {this.state.showValue===1&&(
                         <Grid container spacing={8}>
                             <Grid item xs={12} className={classes.quillWrapper}>
-                                <EditQuill
-                                    classStyle={classes.quillIn}
+                                <MyQuill
                                     nameIn="overallPlan"
                                     placeholder="请输入整体方案描述"
                                     onChange={this.getContent}
                                     defaultValue={this.state.devPlanContent}
+                                    readOnly={true}
+
                                 />
                             </Grid>
                         </Grid>

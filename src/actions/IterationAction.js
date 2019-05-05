@@ -442,11 +442,11 @@ export function deleteIteration(id) {
 }
 
 
-export function nextPage(pageNo, doAfterInit) {
+export function nextPage(pageNo, pageSize, doAfterInit) {
 
     let accessToken = localStorage.getItem("token");
 
-    return axios.post(HISTORY_ITERATION, {"version": "1.0", accessToken: accessToken, data: {pageNo : pageNo}}, config)
+    return axios.post(HISTORY_ITERATION, {"version": "1.0", accessToken: accessToken, data: {pageNo : pageNo, pageSize : pageSize}}, config)
         .then(response => {
 
             if (response.data.respCode !== "00") {
@@ -466,11 +466,11 @@ export function nextPage(pageNo, doAfterInit) {
 }
 
 
-export function search(pageNo, searchText, doAfterInit) {
+export function search(pageNo, pageSize, searchText, doAfterInit) {
 
     let accessToken = localStorage.getItem("token");
 
-    return axios.post(HISTORY_ITERATION, {"version": "1.0", accessToken: accessToken, data: {pageNo : pageNo, ...searchText}}, config)
+    return axios.post(HISTORY_ITERATION, {"version": "1.0", accessToken: accessToken, data: {pageNo : pageNo, pageSize : pageSize,...searchText}}, config)
         .then(response => {
 
             if (response.data.respCode !== "00") {

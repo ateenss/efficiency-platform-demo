@@ -162,9 +162,9 @@ export const Rules = {
     projectProps: {
         projectName: {
             required: true,
-            maxLength: 10,
+            maxLength: 25,
             expr: Regex.noSpecialSymbol,
-            literal: "需求负责人"
+            literal: "项目名称"
         },
         projectType: {
             required: true,

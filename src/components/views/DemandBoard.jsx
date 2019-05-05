@@ -38,6 +38,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import {success} from "../../actions/NotificationAction";
 import permProcessor from "../../constants/PermProcessor";
+import DemandIterationStepper from "../demand/DemandIterationStepper";
 
 const styles = theme => ({
     root: {
@@ -66,6 +67,9 @@ const styles = theme => ({
     chip:{
         fontSize:"12px",
         marginRight:theme.spacing.unit
+    },
+    toolTipIteration:{
+        background:"#F5F5F5", padding:"8px"
     }
 });
 
@@ -171,6 +175,7 @@ class TaskBoard extends React.Component {
             assembleTable: [],
             currentPage: 1,
             totalCount: 1,
+            pageSize:20,
             filters :{},
             perm: permProcessor.init('demand'),
         };
@@ -200,11 +205,11 @@ class TaskBoard extends React.Component {
      * UrlConf.base + 'iteration/save';
      * @param page
      */
-    changePage = (page) => {
+    changePage = (page, pageSize) => {
 
         let self = this;
 
-        nextPage(page + 1, function (ret) {
+        nextPage(page + 1, pageSize, function (ret) {
 
             let result = self.mapObjectToArray(ret.result);
 
@@ -213,11 +218,11 @@ class TaskBoard extends React.Component {
         })
     };
 
-    search = (pageNo, searchText) =>{
+    search = (pageNo, pageSize, searchText) =>{
 
         let self = this;
 
-        search(pageNo+1, searchText, function(ret){
+        search(pageNo+1, pageSize, searchText, function(ret){
 
             let result = self.mapObjectToArray(ret.result);
 
@@ -376,7 +381,6 @@ class TaskBoard extends React.Component {
                         if (!value) {
                             return "";
                         }
-                        console.log(value)
                         let literal = value.split(",");
                         if(!!literal[1]){
                             let href = "http://172.17.249.10/NewSys/Requirement/External/ReqDetail.aspx?Id=" + literal[1];
@@ -412,7 +416,24 @@ class TaskBoard extends React.Component {
                     customFilterListRender: v => `需求状态: ${v}`,
 
                 }},
-            {name: "关联版本", options:{filter:false}},
+            {name: "关联版本", options:{filter:false,customBodyRender: (value, tableMeta, updateValue) => {
+                        if (!value) {
+                            return "";
+                        }
+                        let literal = value.split(",");
+                        let ret = {testDate : literal[1], publishDate : literal[2], deliveryDate:literal[3]}
+                        if(!!literal[0]) {
+
+                            return (
+
+                                <Tooltip title={<DemandIterationStepper steppers={ret}/>} leaveDelay={1000} classes={{tooltip:classes.toolTipIteration}}>
+                                    <Typography>{literal[0]}</Typography>
+                                </Tooltip>
+                            )
+
+                        }
+
+                    }}},
             {name: "需求来源部门", options:{filter:false}},
             {name: "需求评审通过时间", options:{filter:false}},
             {name: "是否需UAT", options: {
@@ -440,7 +461,7 @@ class TaskBoard extends React.Component {
             filter:false,
             search:false,
             rowsPerPage: this.state.pageSize,
-            rowsPerPageOptions: [this.state.pageSize],
+            rowsPerPageOptions: [10, 20, 40],
             selectableRows: "single",
             onRowsSelect: function (currentRowsSelected, allRowsSelected) {
                 console.log(333);
@@ -465,13 +486,16 @@ class TaskBoard extends React.Component {
                 console.log(action, tableState);
                 switch (action) {
                     case 'changePage':
-                        this.search(tableState.page, this.state.filters);
+                        this.search(tableState.page, tableState.rowsPerPage, this.state.filters);
                         break;
                     case 'search':
-                        this.search(tableState.page, tableState.searchText);
+                        this.search(tableState.page, tableState.rowsPerPage, tableState.searchText);
                         break;
                     case 'filterChange' :
                         this.search(tableState.page, tableState.searchText);
+                        break;
+                    case 'changeRowsPerPage':
+                        this.search(tableState.page, tableState.rowsPerPage, this.state.filters);
                         break;
                 }
             },

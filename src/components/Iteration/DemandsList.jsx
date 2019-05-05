@@ -65,10 +65,10 @@ class DemandsList extends React.Component {
         const options = {
             filterType: 'checkbox',
             sort: false,
-            // search:false,
-            // filter:false,
-            // download:false,
-            // sortFilterList:false,
+            search:false,
+            filter:false,
+            download:false,
+            sortFilterList:false,
 
             viewColumns: false,
             rowsPerPage: 10,
@@ -110,7 +110,6 @@ class DemandsList extends React.Component {
         return (
             <MuiThemeProvider theme={muiTableTheme}>
                 <MUIDataTable
-                    title="需求列表"
                     data={data}
                     columns={columns}
                     options={options}

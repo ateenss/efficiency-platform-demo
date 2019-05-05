@@ -1,37 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import store from '../../stores/index';
-import {closeBuildPlan, saveBuildPlan} from "../../actions/BuildMissionAction"
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-import EditQuill from "../SelfComponent/EditQuill"
-import MultiLineInput from "../SelfComponent/MultiLineInput"
-import {closeDevelopPlan, getDevelopPlan, ProvePlan} from "../../actions/IterationAction";
-import {CLOSE_DEVELOP_PLAN, GET_DEVELOP_PLAN} from "../../actions/types";
+import {closeDevelopPlan, ProvePlan} from "../../actions/IterationAction";
+import {GET_DEVELOP_PLAN} from "../../actions/types";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import DevelopPlan from "./DevelopPlan";
 import TestCase from "./TestCase";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DevelopPlanMenuList from "./DevelopPlanMenuList";
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 
 
 const styles = theme => ({
@@ -74,6 +56,10 @@ const styles = theme => ({
         fontSize: "19px",
         fontWeight: "20",
         align: "center"
+    },
+    tabsIndicator: {
+        backgroundColor: '#4DAF7C',
+
     }
 
 });
@@ -170,10 +156,10 @@ class ShowDevDocuments extends React.Component {
                                              handleProvePlan={this.handleProvePlan}
                                              handleClosePlan={this.handleClose}/>
 
-                        <Tabs value={tabValue} onChange={this.handleChange}>
+                        <Tabs value={tabValue} onChange={this.handleChange} classes={{indicator: classes.tabsIndicator}}>
                             <Tab label="开发方案"/>
                             <Tab label="内部联调测试案例"/>
-                            <Tab label="问题记录"/>
+                            {/*<Tab label="问题记录"/>*/}
                         </Tabs>
                     </AppBar>
                     {/*{tabValue === 0 &&
@@ -185,23 +171,23 @@ class ShowDevDocuments extends React.Component {
                     {tabValue === 1 &&
                     <TestCase content={this.state.testCase}/>
                     }
-                    {tabValue === 2 &&
-                    <Grid container spacing={24}>
-                        <Grid item xs={12}>
-                            <MultiLineInput fullWidth
-                                            InputLabelName="问题记录"
-                                            nameIn="suggestion"
-                                            onChange={this.getContent}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Button variant="outlined" fullWidth>
-                                保存
-                            </Button>
-                        </Grid>
-                    </Grid>
+                    {/*{tabValue === 2 &&*/}
+                    {/*<Grid container spacing={24}>*/}
+                        {/*<Grid item xs={12}>*/}
+                            {/*<MultiLineInput fullWidth*/}
+                                            {/*InputLabelName="问题记录"*/}
+                                            {/*nameIn="suggestion"*/}
+                                            {/*onChange={this.getContent}*/}
+                            {/*/>*/}
+                        {/*</Grid>*/}
+                        {/*<Grid item xs={12}>*/}
+                            {/*<Button variant="outlined" fullWidth>*/}
+                                {/*保存*/}
+                            {/*</Button>*/}
+                        {/*</Grid>*/}
+                    {/*</Grid>*/}
 
-                    }
+                    {/*}*/}
 
                 </Dialog>
             </div>
