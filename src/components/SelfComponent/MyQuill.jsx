@@ -1,5 +1,5 @@
 import React from "react";
-import Quill from "quill";
+import Quill, {Delta} from "quill";
 import "quill/dist/quill.snow.css";
 import {withStyles} from '@material-ui/core/styles';
 
@@ -15,7 +15,8 @@ const styles = {
 
 class MyQuill extends React.Component {
     state = {
-        value: ""
+        value: "",
+        defaultValue : ""
     };
     componentDidMount() {
         // 配置项，在Quill 官网上有详细说明
@@ -54,22 +55,18 @@ class MyQuill extends React.Component {
             options.readOnly = this.props.readOnly
         }
 
-        // 实例化 Quill 并且储存在实例原型上
         this.editor = new Quill("#editor", options);
-        // 实现输入受控，从state中读取html字符串写入编辑器中
-        const { value } = this.state;
-        // 判断value中是否有值，如果有那么就写入编辑器中
-        if (!!this.props.defaultValue) this.editor.clipboard.dangerouslyPasteHTML(this.props.defaultValue);
-        // 设置事件，change事件，
+        if (!!this.props.defaultValue){
+            this.editor.clipboard.dangerouslyPasteHTML(this.props.defaultValue);
+        }
         this.editor.on("text-change", this.handleChange);
     }
 
     handleChange = () => {
         // change 事件将HTML字符串更新到state里面，
-        this.setState({
-            value: this.editor.root.innerHTML,
-            mediaVisbile: false
-        });
+        // this.setState({
+        //     value: this.editor.root.innerHTML,
+        // });
         this.props.onChange({keyNote: this.props.nameIn, value: this.editor.root.innerHTML})
     };
 

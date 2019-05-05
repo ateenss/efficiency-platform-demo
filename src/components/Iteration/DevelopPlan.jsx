@@ -163,16 +163,21 @@ function Transition(props) {
 }
 
 class DevelopPlan extends React.Component {
-    state = {
-        open: false,
-        planContent:this.props.content,
-        moduleList:this.props.moduleList,
-        taskIdList:this.props.taskIdList,
-        tabValue: 0,
-        showValue:0,
-        devPlanContent:"",
-        currentTaskId : 0,
-    };
+    constructor(props){
+        super(props);
+
+        this.state = {
+            open: false,
+            planContent:this.props.content,
+            moduleList:this.props.moduleList,
+            taskIdList:this.props.taskIdList,
+            tabValue: 0,
+            showValue:0,
+            devPlanContent:"",
+            currentTaskId : 0,
+        };
+    }
+
 
 
 
@@ -183,10 +188,14 @@ class DevelopPlan extends React.Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         if(nextProps.action===GET_DEVPLAN_DETAIL){
-
+            this.setState({
+                showValue:nextProps.devPlanContent.taskId
+            });
             this.setState({
                 devPlanContent:nextProps.devPlanContent.planContent, currentTaskId:nextProps.devPlanContent.taskId
             })
+
+
         }
         if (nextProps.action===GET_DEVELOP_PLAN) {
             this.setState({
@@ -226,9 +235,7 @@ class DevelopPlan extends React.Component {
     };
 
     change2Module=(taskId)=>{
-        this.setState({
-            showValue:1
-        });
+
         getModuleInfo(taskId);
     };
 
@@ -459,20 +466,31 @@ class DevelopPlan extends React.Component {
                             </Grid>
                         </Grid>
                     )}
-                    {this.state.showValue===1&&(
-                        <Grid container spacing={8}>
-                            <Grid item xs={12} className={classes.quillWrapper}>
-                                <MyQuill
-                                    nameIn="overallPlan"
-                                    placeholder="请输入整体方案描述"
-                                    onChange={this.getContent}
-                                    defaultValue={this.state.devPlanContent}
-                                    readOnly={true}
+                    {
+                        this.state.moduleList.map((text, index) => {
+                            return (
+                                this.state.showValue===text.taskId && (
+                                    <Grid container spacing={8}>
+                                        <Grid item xs={12} className={classes.quillWrapper}>
+                                            <MyQuill
+                                                nameIn="overallPlan"
+                                                placeholder="请输入整体方案描述"
+                                                onChange={this.getContent}
+                                                defaultValue={this.state.devPlanContent}
+                                                readOnly={true}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                ))
 
-                                />
-                            </Grid>
-                        </Grid>
-                    )}
+                            })
+                    }
+
+
+
+
+
+
                 </main>
             </div>
 
