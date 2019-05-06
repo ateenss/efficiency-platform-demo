@@ -55,7 +55,7 @@ class ReviewDemand extends React.Component {
                     status: !!nextProps.editData.status ? nextProps.editData.status : "",
                     demandDevOwnerId:!!nextProps.editData.demandDevOwnerId ? nextProps.editData.demandDevOwnerId : "",
                     id:nextProps.editData.id,
-                    iterationId : !!nextProps.editData.iterationId ? nextProps.editData.iterationId : "",
+                    // iterationId : !!nextProps.editData.iterationId ? nextProps.editData.iterationId : "",
                 }
             });
 
@@ -162,7 +162,6 @@ class ReviewDemand extends React.Component {
                                 InputLabelName="关联版本"
                                 nameIn="iterationId"
                                 nameArray={iterationSelect}
-                                validateEl={Rules.reviewDemandProps.iterationId}
                             />
                         </Grid>
                         <Grid item xs={12} className={classes.gridStyle}>

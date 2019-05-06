@@ -173,7 +173,7 @@ class DemandTaskDetail extends React.Component {
             }
         },*/{
 
-            name:"上线案例",
+            name:"上线检查表",
             func: function(id){
                 if (permProcessor.bingo('getDemandTaskPlan', perm)) {
                     getDemandTaskTestCase(id)

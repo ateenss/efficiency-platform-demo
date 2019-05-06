@@ -145,7 +145,9 @@ class IterationBoard extends React.Component {
         this.deSelect();
     };
 
-    handleAdd = () => {
+    handleAdd = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         console.log("add iteration");
         addIteration();
 
@@ -160,6 +162,8 @@ class IterationBoard extends React.Component {
 
 
     handleAlertDelete = (id, e) => {
+        e.preventDefault();
+        e.stopPropagation();
         this.setState({openAlert:true, currentIteration:id})
     };
 
@@ -277,14 +281,21 @@ class IterationBoard extends React.Component {
         if(nextProps.action === DELETE_ITERATION){
 
             for (let i in iterationState) {
-                for (let c in iterationState[i].children) {
-                    let delParent = false;
-                    if(iterationState[i].children.length == 1){
-                        delParent = true;
-                    }
-                    if(iterationState[i].children[c].id === nextProps.deleteId){
-                        delete iterationState[i].children[c];
-                        delete iterationState[i];
+                let outer = iterationState[i];
+
+                let delParent = false;
+
+                if(outer.children.length === 1){
+                    delParent = true;
+                }
+
+                for (let c in outer.children) {
+
+                    if(outer.children[c].id === nextProps.deleteId){
+                        iterationState[i].children.splice(c, 1);
+                        if(delParent){
+                            iterationState.splice(i, 1);
+                        }
                     }
                 }
             }
@@ -353,8 +364,7 @@ class IterationBoard extends React.Component {
 
     };
 
-    handleAllIteration = () =>{
-
+    handleAllIteration = (e) =>{
         this.setState({allVersionSelected : true});
         this.deSelect();
 

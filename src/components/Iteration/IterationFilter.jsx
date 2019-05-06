@@ -129,7 +129,6 @@ class Filter extends React.Component {
                                             onChange={this.getContent}
                                             InputLabelName="版本名称"
                                             nameIn="iterationName"
-                                            validateEl={Rules.iterationProps.iterationName}
                                             defaultValue={this.state.defaultContent.iterationName}
                                         />
                                     </Grid>

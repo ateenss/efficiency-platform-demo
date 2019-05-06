@@ -70,7 +70,7 @@ class AddIteration extends React.Component {
         if (nextProps.action === ADD_ITERATION) {
 
             this.setState({
-                iterationContent: {}
+                iterationContent: {},title:"新增版本"
             })
         }else if(nextProps.action === EDIT_ITERATION){
             this.setState({title : "编辑版本"})
@@ -199,7 +199,6 @@ class AddIteration extends React.Component {
                                         onChange={this.getContent}
                                         InputLabelName="版本名称"
                                         defaultValue={this.state.iterationContent.iterationName}
-                                        validateEl={Rules.iterationProps.iterationName}
                                     />
                                 </Grid>
                                 <Grid item xs={6} className={classes.gridStyle}>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import MuiListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import MuiListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -50,6 +50,24 @@ const ListItem = withStyles({
         background: "#f5f5f5",
     }
 })(props => <MuiListItem {...props} />);
+
+
+const ListItemText = withStyles({
+    root: {
+        "&:first-child":{paddingLeft:"15px"},
+        '&$selected': {
+            background: "#f5f5f5",
+            color:"#FFF",
+            margin:"0 10px"
+        },
+        fontSize:"14px",
+        color:"#121212",
+        fontWeight:"400"
+    },
+    selected:{
+        background: "#f5f5f5",
+    }
+})(props => <MuiListItemText {...props} />);
 
 
 
@@ -104,7 +122,7 @@ class SingleIteration extends React.Component {
         return (
             <div>
                 <ListItem button onClick={this.handleClick} selected={this.state.headSelected}>
-                    <ListItemText inset primary={this.state.curName==="" ?  (this.props.iteration + "版") : this.state.curName + "版" } className={classes.itemTextParent}/>
+                    <ListItemText disableTypography inset primary={this.state.curName==="" ?  (this.props.iteration + "版") : this.state.curName + "版" } className={classes.itemTextParent}/>
                     {this.state.open ? <ExpandLess style={{color:"#121212"}}/> : <ExpandMore  style={{color:"#121212"}}/>}
                 </ListItem>
                 <List component="div" disablePadding style={{position:"absolute", width:"100%", background:"#FFF", zIndex:"1"}}>

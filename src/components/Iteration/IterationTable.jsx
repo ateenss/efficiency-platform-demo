@@ -228,7 +228,7 @@ class IterationList extends React.Component {
             let self = this;
             this.setState({filters : nextProps.filters}, function(){
 
-                self.search(0, nextProps.filters)
+                self.search(0, self.state.pageSize, nextProps.filters)
 
             })
 
@@ -256,7 +256,7 @@ class IterationList extends React.Component {
         this.setState({filters : curFilters}, function(){
 
 
-            self.search(0, curFilters)
+            self.search(0, self.state.pageSize, curFilters)
 
 
         });

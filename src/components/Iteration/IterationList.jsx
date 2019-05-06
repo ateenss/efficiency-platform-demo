@@ -27,7 +27,7 @@ const styles = theme => ({
         paddingLeft: theme.spacing.unit,
     },
     itemText:{
-        paddingLeft:"0"
+        paddingLeft:"0",
     },
     allversion:{
         paddingLeft:"15px"
@@ -64,6 +64,9 @@ const ListItemText = withStyles({
             color:"#FFF",
             margin:"0 10px"
         },
+        fontSize:"14px",
+        color:"#121212",
+        fontWeight:"400"
     },
     selected:{
         background: "#f5f5f5",
@@ -132,9 +135,9 @@ class IterationList extends React.Component {
                         className={classes.root}
                     >
                         <ListItem button className={classes.nested} onClick={this.handleAllIteration} selected={this.props.allVersionSelected}>
-                            <ListItemText inset primary="所有版本" className={classes.itemText}/>
+                            <ListItemText inset primary="所有版本" className={classes.itemText} disableTypography/>
                             {/*<SearchIcon/>*/}
-                            {permProcessor.bingo('save', this.props.perm)?  <IconButton onClick={this.props.handleAdd} style={{float: "right", marginRight: "-12px"}}><AddIcon/></IconButton> : ""}
+                            {permProcessor.bingo('save', this.props.perm)?  <IconButton onClick={this.props.handleAdd.bind(this)} style={{float: "right", marginRight: "-12px"}}><AddIcon/></IconButton> : ""}
                         </ListItem>
 
                     </List>

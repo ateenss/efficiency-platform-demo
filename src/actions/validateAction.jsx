@@ -117,10 +117,6 @@ export const Rules = {
             required: true,
             literal: "需求开发负责人"
         },
-        iterationId: {
-            required: true,
-            literal: "关联版本"
-        },
         status: {
             required: true,
             literal: "需求状态"
@@ -197,12 +193,6 @@ export const Rules = {
             maxLength: 25,
             expr: Regex.projectCodeRegex,
             literal: "版本编号"
-        },
-        iterationName: {
-            required: true,
-            maxLength: 25,
-            expr: Regex.noSpecialSymbol,
-            literal: "版本名称"
         },
         iterationOwnerId: {
             required: true,
