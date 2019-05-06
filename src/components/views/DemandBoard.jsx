@@ -314,7 +314,7 @@ class TaskBoard extends React.Component {
 
         } else if (nextProps.action === SAVE_ADD_DEMAND || nextProps.action === SPLIT_DEMAND || nextProps.action === SYNC_DEMAND) {
             let rows = this.state.raw;
-            rows.unshift(...nextProps.updatedRow);
+                rows.unshift(...nextProps.updatedRow);
 
             this.setState({
                 assembleTable: this.mapObjectToArray(rows),

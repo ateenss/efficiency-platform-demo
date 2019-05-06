@@ -10,11 +10,13 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
-import {closeDevelopPlan, closePublishTestCase} from "../../actions/IterationAction";
+import {closeDevelopPlan, closePublishTestCase, ProvePlan,closeOnlineTestCases,ProveOnLineTestCases} from "../../actions/IterationAction";
 import {CLOSE_DEVELOP_PLAN, GET_DEVELOP_PLAN, GET_PUBLISH_TEST_CASE} from "../../actions/types";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PublishTestCase from "./PublishTestCase";
+import OnlineTestCasesMenuList from "./OnlineTestCasesMenuList";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const styles = theme => ({
     appBar: {
@@ -68,7 +70,8 @@ class ShowPublishDocument extends React.Component {
     state = {
         open: false,
         planContent: {},
-        tabValue: 0
+        tabValue: 0,
+        demandId:""
     };
 
     handleChange = (event, value) => {
@@ -97,7 +100,12 @@ class ShowPublishDocument extends React.Component {
 
             let testCase = this.mapObjectToArray(nextProps.publishTestCase);
 
-            this.setState({testCase : testCase, raw : nextProps.publishTestCase});
+            console.log("前面获取部分",JSON.stringify(nextProps.wantKey));
+            this.setState({
+                testCase : testCase,
+                raw : nextProps.publishTestCase,
+                demandId: nextProps.wantKey});
+
         }
     }
 
@@ -150,6 +158,14 @@ class ShowPublishDocument extends React.Component {
         }
     };
 
+    handleCloseOnlineTestCases = () => {
+        closeOnlineTestCases()
+    };
+
+    handleProveOnlineTestCases=(id)=>{
+        ProveOnLineTestCases(id);
+    };
+
     render() {
         const {classes, openPublishTestCase} = this.props;
         const {tabValue} = this.state;
@@ -162,10 +178,11 @@ class ShowPublishDocument extends React.Component {
                     TransitionComponent={Transition}
                 >
                     <AppBar className={classes.appBar}>
-                        <IconButton color="inherit" onClick={this.handleClose} aria-label="Close"
-                                    style={{position: "absolute", right: "0", top: "0", "zIndex": "9999"}}>
-                            <CloseIcon/>
-                        </IconButton>
+                        <OnlineTestCasesMenuList
+                            icon={<MoreVertIcon/>}
+                            useId={this.state.demandId}
+                            handleProveOnlineTestCases={this.handleProveOnlineTestCases}
+                            handleCloseOnlineTestCases={this.handleCloseOnlineTestCases}/>
                         <Tabs value={tabValue} onChange={this.handleChange}>
                             <Tab label="上线测试案例"/>
                         </Tabs>
@@ -191,6 +208,8 @@ const mapStateToProps = (state) => {
         publishTestCase: state.reducer.iteration.publishTestCase,
         action: state.reducer.iteration.action,
         openPublishTestCase: state.reducer.iteration.openPublishTestCase,
+        demandId: state.reducer.iteration.demandId,
+        wantKey: state.reducer.iteration.wantKey,
     }
 };
 

@@ -105,12 +105,12 @@ const styles = theme => ({
         marginLeft:"15px",
         border:"1px solid #4caf50",
         color:"#4caf50",
-        padding:"0 12px 0 6px",
+        padding:"0 0 0 0",
         "&:hover":{
             background:"#4caf50",
             color: "#FFFFFF",
         },
-        width:"100%",
+
     },
     addIcon:{
         width:"1em",
@@ -289,11 +289,15 @@ class TaskBoard extends React.Component {
 
                             <Grid item xs={2}>
                                 <Toolbar variant="regular">
-                                    <Button onClick={this.toggleDrawer('right', true)}>筛选</Button>
+                                    <Button onClick={this.toggleDrawer('right', true)}
+                                            className={classes.newDevButton}
+                                            size="large"
+                                    >筛选</Button>
                                     <Button onClick={this.openOtherTask}
                                             className={classes.newDevButton}
-                                            size="small"
-                                            variant="outlined"
+                                            size="large"
+                                           /* variant="outlined"*/
+                                            fullWidth={true}
                                     >
                                         <AddIcon className={classes.addIcon}/>
                                         个人任务</Button>

@@ -62,6 +62,10 @@ class CustomToolBar4DemandList extends React.Component {
 
     handlePublishDocuments = () => {
         let key = this.getDemand();
+        store.dispatch({
+            type: SAVE_KEY,
+            payload: key
+        });
         getPublishDocuments(key);
     };
 

@@ -17,7 +17,7 @@ import {
     DISABLE_ALL_EXCEPT
 } from './types';
 
-import {GET_PROJECT_MEMBERS} from "./CommonAction";
+import {GET_PROJECT_MEMBERS, stopLoading} from "./CommonAction";
 import RequestBuilder from "../constants/RequestBuilder";
 import UrlConf from "../constants/UrlConf";
 import {error,warning} from "./NotificationAction";
@@ -48,9 +48,8 @@ export function ProvePlan(id) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                //下面这个方法没明白是干嘛的
                 // store.dispatch(saveModule(id));
-                /*getDemandTaskDetail(data);*/
+                initIterationSimple(doAfterInit);
             }else{
 
                 error(response.data.msg);
@@ -121,6 +120,92 @@ export function init(doAfterInit) {
     }));
 
 }
+
+export function initIterationSimple(doAfterInit) {
+
+    let accessToken = localStorage.getItem("token");
+
+    function getProjectMembers() {
+        return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
+    }
+
+    function getRecentIteration() {
+        return axios.post(GET_RECENT, {"version": "1.0", accessToken: accessToken}, config);
+    }
+
+    axios.all([getProjectMembers(), getRecentIteration()]).then(axios.spread(function (members, iterations) {
+
+        store.dispatch({
+            type: INIT_PROJECT_MEMBERS,
+            payload: members.data.data
+
+        });
+
+
+        let group = [];
+        for (let i in iterations.data.data) {
+            let unit = iterations.data.data[i];
+
+            let unitChild = {id: unit.id, name : unit.iterationCode};
+
+            let inGroup = false;
+
+            for(let j in group){
+
+                if(unit.group === group[j].iteration){
+                    inGroup = true;
+                    group[j].children.push(unitChild);
+                }
+
+            }
+
+            if(!inGroup){
+                let newUnit = {
+                    iteration : unit.group,
+                    children : []
+                };
+                newUnit.children.push(unitChild);
+                group.push(newUnit);
+            }
+
+        }
+        doAfterInit(group);
+    }));
+
+}
+
+
+function doAfterInit(ret) {
+    let iterationState = [];
+
+    let selectId = "";
+    for (let i in ret) {
+        let iter = ret[i];
+
+        let parent = {};
+        let iterationChildren = [];
+        for (let j in iter.children) {
+            let selected = false;
+            if (i == 0 && j == 0) {
+                selected = true;
+                selectId = iter.children[j].id;
+            }
+            iterationChildren.push({iter: iter.children[j].name, selected: selected, id: iter.children[j].id});
+
+        }
+
+        parent.children = iterationChildren;
+        parent.iteration = {name: iter.iteration, selected: false};
+        iterationState.push(parent);
+    }
+
+    if (!!selectId) {
+        selectIteration(selectId, function () {
+        });
+    }
+}
+
+
 
 //这里是登录验证的actions，名字需要更改
 // LOGIN ACTION
@@ -382,6 +467,37 @@ export function closeDevelopPlan() {
         type: CLOSE_DEVELOP_PLAN,
     })
 
+}
+
+export function closeOnlineTestCases() {
+    store.dispatch({
+        type:CLOSE_PUBLISH_TEST_CASE
+    })
+}
+
+//上线测试案例通过
+export function ProveOnLineTestCases(id) {
+    const url = UrlConf.base + 'iteration/proveOnLineTestCase';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,id);
+    console.log("我进来了",JSON.stringify(id));
+    return axios.post(url, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                console.log("成功实现",JSON.stringify(id));
+                // initIterationSimple(doAfterInit);
+            }else{
+
+                error(response.data.msg);
+            }
+        }).catch(error => {
+            console.log("后台提取数据出现问题"+error);
+
+        });
 }
 
 
