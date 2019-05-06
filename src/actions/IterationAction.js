@@ -483,12 +483,15 @@ export function ProveOnLineTestCases(id) {
     };
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,id);
-    console.log("我进来了",JSON.stringify(id));
     return axios.post(url, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                console.log("成功实现",JSON.stringify(id));
+                if (data===333){
+                    warning("还没完成集成测试");
+                }else{store.dispatch({
+                    type:CLOSE_PUBLISH_TEST_CASE
+                })}
                 // initIterationSimple(doAfterInit);
             }else{
 
@@ -505,14 +508,20 @@ export function getPublishDocuments(demandId) {
     const send_edit_data = UrlConf.base + 'task/getDemandTaskTestCase';
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,demandId);
+    console.log("打开没有啊1",JSON.stringify(demandId));
     return axios.post(send_edit_data, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                store.dispatch({
-                    type: GET_PUBLISH_TEST_CASE,
-                    payload: data
-                })
+                console.log("打开没有啊2",JSON.stringify(data));
+                if (data.check!==111){
+                    store.dispatch({
+                        type: GET_PUBLISH_TEST_CASE,
+                        payload: data
+                    })
+                }else{
+                    warning("还没完成上线测试案例");
+                }
             }else{
 
                 console.log("没能拿到数据")

@@ -95,6 +95,7 @@ class DevTestCaseEditor extends React.Component {
         if(nextProps.action === OPEN_TEST_CASE_EDITOR){
 
             let testCase = this.mapObjectToArray(nextProps.testCase);
+            console.log("查看详情",JSON.stringify(nextProps.testCase));
 
             this.setState({testCase : testCase, raw : nextProps.testCase});
 

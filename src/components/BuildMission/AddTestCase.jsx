@@ -93,9 +93,11 @@ class AddTestCase extends React.Component {
             return false;
         }
 
-        this.state.testCaseContent.demandId = demandId;
-
-        saveTestCase(this.props.action, this.state.testCaseContent);
+        // this.state.testCaseContent.demandId = demandId;
+        console.log("demandId到底进来没有啊",JSON.stringify(demandId));
+        let tempData=this.state.testCaseContent;
+        tempData.demandId=demandId;
+        saveTestCase(this.props.action, tempData);
     };
 
     handleCancel = () =>{

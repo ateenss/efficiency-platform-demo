@@ -794,7 +794,7 @@ export const SAVE_TEST_CASE_URL = UrlConf.base + 'task/saveTestCase';
 export function saveTestCase(action, data) {
 
     // TODO post here, use iterationData to post
-    console.log("inSaveTestCase" + JSON.stringify(data));
+    console.log("检查存入的测试案例" + JSON.stringify(data));
 
     let accessToken = localStorage.getItem("token");
 
@@ -806,6 +806,7 @@ export function saveTestCase(action, data) {
                 return false;
             }
 
+
             let type = "";
             if(action === OPEN_ADD_TEST_CASE){
                 type = SAVE_TEST_CASE
@@ -814,6 +815,7 @@ export function saveTestCase(action, data) {
             }
 
 
+            console.log("检查存入的测试案例" + JSON.stringify(response.data.data));
             store.dispatch({
                 type: type,
                 payload: response.data.data

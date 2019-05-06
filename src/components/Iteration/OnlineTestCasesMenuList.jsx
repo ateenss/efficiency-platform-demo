@@ -28,9 +28,8 @@ class OnlineTestCasesMenuList extends React.Component{
     };
 
     handleProveCases=(id)=>()=>{
-        console.log("去拿地址",JSON.stringify(id));
         this.props.handleProveOnlineTestCases(id);
-        this.props.handleCloseOnlineTestCases();
+        // this.props.handleCloseOnlineTestCases();
         this.setState({anchorEl: null});
     };
 

@@ -296,6 +296,7 @@ class TaskBoard extends React.Component {
                                     <Button onClick={this.openOtherTask}
                                             className={classes.newDevButton}
                                             size="large"
+                                            /*root={classes.rootDevButton}*/
                                            /* variant="outlined"*/
                                             fullWidth={true}
                                     >
