@@ -118,7 +118,6 @@ class Project extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        console.log("*******"+nextProps.action);
         if (nextProps.action === BUILD_SAVE_PROJECT) {
             let projectList = JSON.parse(JSON.stringify(this.state.projectList));
             projectList.push(nextProps.newProject);

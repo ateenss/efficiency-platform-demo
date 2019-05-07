@@ -10,7 +10,7 @@ import {
 } from "./types"
 import history from "../history/history";
 import UrlConf from "../constants/UrlConf";
-import {error} from "../actions/NotificationAction"
+import {error,success,warning} from "./NotificationAction";
 //axios配置
 const config = {
     method: 'post',
@@ -87,7 +87,6 @@ export function openEditProject(id) {
 
             let data = response.data.data;
 
-            console.log("!!!!!" + JSON.stringify(data));
 
             store.dispatch({
                 type: OPEN_EDIT_PROJECT,
@@ -130,6 +129,7 @@ export function saveProject(data) {
                 return false;
             }
 
+            success("创建成功");
             store.dispatch({
                 type: BUILD_SAVE_PROJECT,
                 payload: response.data.data
