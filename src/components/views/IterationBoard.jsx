@@ -14,7 +14,7 @@ import {
     DELETE_ITERATION,
     ITERATION_INIT,
     OPEN_ITERATION_FILTER,
-    SAVE_ADD_ITERATION
+    SAVE_ADD_ITERATION, SAVE_EDIT_ITERATION
 } from "../../actions/types";
 import DemandsList from "../Iteration/DemandsList";
 import ShowDevelopPlan from "../Iteration/ShowDevDocuments";
@@ -300,6 +300,39 @@ class IterationBoard extends React.Component {
                 }
             }
             this.setState({openAlert : false})
+        }
+
+        if(nextProps.action === SAVE_EDIT_ITERATION) {
+            let newIteration = nextProps.iteration.iterationInfo.iterationCode.split("-");
+            let needNew = true;
+            for (let i in iterationState) {
+                if (iterationState[i].iteration.name === newIteration[0]) {
+                    let unit = {
+                        id: nextProps.iteration.iterationInfo.id,
+                        iter: nextProps.iteration.iterationInfo.iterationCode,
+                        selected: false
+                    }
+                    iterationState[i].children.push(unit);
+                    needNew = false;
+                }
+            }
+            if (needNew) {
+                let newIteration = nextProps.iteration.iterationInfo.iterationCode.split("-")[0];
+                let ret = {
+                    iteration: {name: newIteration, selected: true},
+                    children: [
+                        {
+                            id: nextProps.iteration.iterationInfo.id,
+                            iter: nextProps.iteration.iterationInfo.iterationCode,
+                            selected: false
+                        }
+
+                    ]
+                };
+                iterationState.push(ret);
+            }
+
+
         }
 
         // 这里会返回新建后的版本号，这个版本号需要有一定的归类

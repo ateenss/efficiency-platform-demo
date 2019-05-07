@@ -24,6 +24,9 @@ import {EDIT_TEST_CASE, OPEN_TEST_CASE_EDITOR, SAVE_EDIT_TEST_CASE, SAVE_TEST_CA
 import AddTestCase from "./AddTestCase";
 import CustomToolBarSelect4DeliveryDoc from "./CustomToolBarSelect4DeliveryDoc";
 import CustomToolbar from "./CustomToolbar4DeliveryDoc";
+import InputField from "../SelfComponent/InputField";
+import ActualResultInput from "./ActualResultInput";
+import SearchTextField from "../Iteration/SearchTextField";
 
 
 const styles = {
@@ -74,11 +77,24 @@ const columns = [
     {name: "是否具备灰度", options: {filter: false}},
 
     {name: "预期结果", options: {filter: false}},
-    {name: "实际结果", options: {filter: false}},
+    {name: "实际结果", options: {filter: false,customBodyRender: (value, tableMeta, updateValue) => {
+                if(!!value){
+                    return value;
+                }else{
+                    return (<SearchTextField
+                        nameIn="actualResult"
+                        // onChange={this.getContent}
+                        defaultValue="23424"
+                    />)}}
+                }
+                },
     {name: "需求Id", options: {filter: false,display:false}},
     {name: "任务Id", options: {filter: false,display:false}},
 
 ];
+
+
+
 
 class DevTestCaseEditor extends React.Component {
 
@@ -90,6 +106,7 @@ class DevTestCaseEditor extends React.Component {
             editTestCase:{}
         }
     }
+
 
     componentWillReceiveProps(nextProps, nextStatus) {
         if(nextProps.action === OPEN_TEST_CASE_EDITOR){
@@ -199,7 +216,6 @@ class DevTestCaseEditor extends React.Component {
     };
 
 
-
     getMuiTheme = () => createMuiTheme({
         overrides: {
             MuiPaper: {
@@ -211,6 +227,14 @@ class DevTestCaseEditor extends React.Component {
                 root: {
                     backgroundColor: "#FFF",
                     width: "600px"
+                }
+            },
+            MuiTableCell:{
+                root:{
+                    padding:"4px 0px 4px 4px",
+                    "&:nth-child(6)": {
+                        maxWidth:"300px"
+                    }
                 }
             },
         }
@@ -247,7 +271,10 @@ class DevTestCaseEditor extends React.Component {
             filterType: 'checkbox',
             print: false,
             sort: false,
-            selectableRows: "single",
+            search:false,
+            download:false,
+            filter:false,
+            selectableRows: "none",
             customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
                 console.log("这是被选中的行");
                 console.log(selectedRows.data[0].index);

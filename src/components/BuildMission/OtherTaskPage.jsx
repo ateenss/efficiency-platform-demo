@@ -10,7 +10,7 @@ import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import store from "../../stores";
-import {closeOtherMissionDetail,saveOtherEditTask,changeOtherTaskStatus} from "../../actions/BuildMissionAction"
+import {closeOtherMissionDetail, saveOtherEditTask, changeOtherTaskStatus} from "../../actions/BuildMissionAction"
 import InputField from "../SelfComponent/InputField"
 import EditQuill from "../SelfComponent/EditQuill"
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
@@ -18,15 +18,15 @@ import DatePicker from "../SelfComponent/DatePicker"
 import Grid from '@material-ui/core/Grid';
 import MultiSelect from "../SelfComponent/MultiSelect"
 import SingleSelect from "../SelfComponent/SingleSelect"
-
+import DialogContent from "@material-ui/core/DialogContent";
 
 
 const styles = {
     appBar: {
         position: 'relative',
-        boxShadow:"none",
-        color:"#292929",
-        background:"#f5f5f5"
+        boxShadow: "none",
+        color: "#292929",
+        background: "#f5f5f5"
     },
     flex: {
         flex: 1,
@@ -43,24 +43,19 @@ const styles = {
     },
     quillContainer: {
         marginTop: "10px",
-        height:"400px",
-        width:"90%"
+        height: "550px",
+        width: "100%"
     },
     quillLabel: {
         fontSize: "16px",
         color: "rgba(0, 0, 0, 0.54)",
         marginTop: "15px"
     },
-    wrapperGrid:{
-        left:"170px",
-        height:"20px",
-        top:"40px",
+
+    myQuill: {
         position: 'relative',
-    },
-    myQuill:{
-        position: 'relative',
-        top:"60px",
-        left:"170px",
+        top: "60px",
+        left: "170px",
         width: "1275px"
     }
 
@@ -77,43 +72,43 @@ class OtherTaskPage extends React.Component {
         this.state = {
             openTask: false,
             data: {},
-            otherEditContent:{},
-            projectList:{}
+            otherEditContent: {},
+            projectList: {}
         }
     }
 
     componentWillReceiveProps(nextProps, nextStatus) {
-        if (nextProps.tempBoardToDetail!=null){
+        if (nextProps.tempBoardToDetail != null) {
             this.setState({
-                otherEditContent:nextProps.tempBoardToDetail
+                otherEditContent: nextProps.tempBoardToDetail
             })
         }
-        if (nextProps.initialProjectList!=null){
+        if (nextProps.initialProjectList != null) {
             this.setState({
-                projectList:nextProps.initialProjectList
+                projectList: nextProps.initialProjectList
             })
         }
 
     }
 
-    getContent=e=>{
-        if (e.keyNote){
-            const keyNote=e.keyNote;
-            const value=e.value;
+    getContent = e => {
+        if (e.keyNote) {
+            const keyNote = e.keyNote;
+            const value = e.value;
             let data = Object.assign({}, this.state.otherEditContent, {
                 [keyNote]: value
             });
             this.setState({
-                otherEditContent:data
+                otherEditContent: data
             })
-        }else{
-            const keyNote=e.target.name;
-            const value=e.target.value;
+        } else {
+            const keyNote = e.target.name;
+            const value = e.target.value;
             let data = Object.assign({}, this.state.otherEditContent, {
                 [keyNote]: value
             });
             this.setState({
-                otherEditContent:data
+                otherEditContent: data
             })
         }
     };
@@ -122,28 +117,27 @@ class OtherTaskPage extends React.Component {
         store.dispatch(closeOtherMissionDetail());
     };
 
-    onSaveOtherTask=()=>{
+    onSaveOtherTask = () => {
         saveOtherEditTask(this.state.otherEditContent);
         store.dispatch(closeOtherMissionDetail());
     };
 
 
-
     onStart = () => {
-        changeOtherTaskStatus(111,this.state.otherEditContent.taskId);
+        changeOtherTaskStatus(111, this.state.otherEditContent.taskId);
     };
 
     onFinish = () => {
-        changeOtherTaskStatus(222,this.state.otherEditContent.taskId);
+        changeOtherTaskStatus(222, this.state.otherEditContent.taskId);
     };
 
     render() {
-        const {classes,detailOtherMissionShow} = this.props;
+        const {classes, detailOtherMissionShow} = this.props;
         let projects = [];
-        for(let j in this.state.projectList){
+        for (let j in this.state.projectList) {
             let unit = this.state.projectList[j];
-            if(this.state.otherEditContent.belongProjectId === unit.id){
-                projects.push({id : unit.id, label : unit.projectName})
+            if (this.state.otherEditContent.belongProjectId === unit.id) {
+                projects.push({id: unit.id, label: unit.projectName})
             }
         }
         let projectIdAndNameSelect = [];
@@ -157,11 +151,11 @@ class OtherTaskPage extends React.Component {
             };
             projectIdAndNameSelect.push(ret);
         }
-        const showArray=[{id:1,name:"待处理"},{id:2,name:"进行中"},{id:8,name:"已完成"}];
+        const showArray = [{id: 1, name: "待处理"}, {id: 2, name: "进行中"}, {id: 8, name: "已完成"}];
         return (
 
             <div>
-                <Dialog  fullScreen open={detailOtherMissionShow} onClose={this.handleClose} TransitionComponent={Transition}>
+                <Dialog fullWidth maxWidth="lg" open={detailOtherMissionShow} onClose={this.handleClose} TransitionComponent={Transition}>
                     <AppBar className={classes.appBar} color="default">
                         <Toolbar variant="dense">
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
@@ -175,10 +169,9 @@ class OtherTaskPage extends React.Component {
                             </Button>
                         </Toolbar>
                     </AppBar>
-
-                    <div className={classes.wrapperGrid}>
-                        <Grid container spacing={8}>
-                            <Grid item xs={3} className={classes.gridStyle}>
+                    <DialogContent>
+                        <Grid container spacing={8} style={{marginTop:"20px"}}>
+                            <Grid item xs={4} className={classes.gridStyle}>
                                 <InputField
                                     nameIn="taskName"
                                     onChange={this.getContent}
@@ -186,14 +179,14 @@ class OtherTaskPage extends React.Component {
                                     defaultValue={this.state.otherEditContent.taskName}
                                 />
                             </Grid>
-                            <Grid item xs={3} className={classes.gridStyle}>
+                            <Grid item xs={4} className={classes.gridStyle}>
                                 <DatePicker
                                     nameIn="taskDeadline"
                                     InputLabelName="任务截至时间"
                                     defaultValue={this.state.otherEditContent.taskDeadline}
                                     onDateChange={this.getContent}/>
                             </Grid>
-                            <Grid item xs={3} className={classes.gridStyle}>
+                            <Grid item xs={4} className={classes.gridStyle}>
                                 <SingleSelect
                                     onChange={this.getContent}
                                     nameIn="taskStatus"
@@ -203,18 +196,18 @@ class OtherTaskPage extends React.Component {
 
                                 />
                             </Grid>
+                            <Grid item xs={12} className={classes.gridStyle}>
+                                <Typography className={classes.quillLabel}>任务描述</Typography>
+                                <EditQuill
+                                    classStyle={classes.quillContainer}
+                                    onChange={this.getContent}
+                                    nameIn="taskDescription"
+                                    placeholder="请输入任务描述"
+                                    defaultValue={this.state.otherEditContent.taskDescription}
+                                />
+                            </Grid>
                         </Grid>
-                    </div>
-                    <div className={classes.myQuill}>
-                        <Typography className={classes.quillLabel}>任务描述</Typography>
-                        <EditQuill
-                            classStyle={classes.quillContainer}
-                            onChange={this.getContent}
-                            nameIn="taskDescription"
-                            placeholder="请输入任务描述"
-                            defaultValue={this.state.otherEditContent.taskDescription}
-                        />
-                    </div>
+                    </DialogContent>
                 </Dialog>
             </div>
         )
@@ -225,13 +218,13 @@ class OtherTaskPage extends React.Component {
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
     return {
-        action : state.reducer.task.action,
+        action: state.reducer.task.action,
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
-        detailOtherMissionShow:state.reducer.buildMission.detailOtherMissionShow,
-        tempBoardToDetail:state.reducer.buildMission.tempBoardToDetail,
-        addTask:state.reducer.buildMission.addTask,
-        initialProjectList:state.reducer.buildMission.initialProjectList,
+        detailOtherMissionShow: state.reducer.buildMission.detailOtherMissionShow,
+        tempBoardToDetail: state.reducer.buildMission.tempBoardToDetail,
+        addTask: state.reducer.buildMission.addTask,
+        initialProjectList: state.reducer.buildMission.initialProjectList,
     }
 };
 
