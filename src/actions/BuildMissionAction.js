@@ -51,7 +51,7 @@ import {
     CLOSE_NEW_OTHER_TASK,
     INIT_PROJECT_LISTS
 } from './types';
-import {error} from "./NotificationAction";
+import {error,success,warning} from "./NotificationAction";
 import {GET_MY_PROJECTS} from "./BuildProjectAction";
 const config = {
     method: 'post',
@@ -255,14 +255,12 @@ export function demandTaskGoToIntegration(saveContent) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                /*store.dispatch(saveModule(saveContent));*/
-                // getDemandTaskDetail(parentTaskId);
             }else{
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -282,11 +280,10 @@ export function getDemandTaskPlan(content){
                 let data = response.data.data;
                 store.dispatch(openBuildPlan(data))
             }else{
-
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -306,10 +303,10 @@ export function getDemandTaskTestCase(content){
                 store.dispatch(openTestCaseEditor(data));
             }else{
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -328,14 +325,14 @@ export function submitAndPlan(content) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                success("提交/保存成功");
                 getDemandTaskDetailSimple(content.taskId);
-                console.log("存储数据成功")
             }else{
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-        console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+        error("后台拉取数据失败",JSON.stringify(e));
 
     });
 }
@@ -352,14 +349,13 @@ export function saveDevPlan(content,taskId) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                success("保存成功");
                 getDemandTaskDetail(taskId);
-                console.log("存储数据成功")
             }else{
-
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -380,19 +376,15 @@ export function submitAndChange2Dev(id,content,parentTaskId){
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                // getDemandTaskDetail(parentTaskId);
-                console.log("我进来了");
-
+                success("提交成功");
                 getDemandTaskDetailSimple(parentTaskId);
                 store.dispatch(closeTaskEdit());
-                console.log("存储数据成功")
             }else{
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
-
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
         });
 
 }
@@ -410,13 +402,12 @@ export function meetRequirements(content) {
         .then(response => {
             if (response.data.respCode === "00") {
                 getDemandTaskDetail(taskId);
-                console.log("拉取数据成功")
             }else{
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -432,16 +423,15 @@ export function finishTest(content) {
     return axios.post(finish_test, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
-                console.log("拉取数据成功");
+                success("完成走查");
                 getMyTaskMain();
                 store.dispatch(closeGoTestDetail());
 
             }else{
-
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -459,16 +449,14 @@ export function goToTest(content,taskId){
         .then(response => {
             if (response.data.respCode === "00") {
                 /*let data = response.data.data;*/
-                console.log("这里到底发射了什么");
-                console.log(content);
+                success("生成走查任务成功");
                 getDemandTaskDetail(taskId);
-                console.log("存储数据成功")
             }else{
+                error(response.data.msg);
 
-                console.log("没能拿到数据")
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -487,11 +475,10 @@ export function savePlanContent(content) {
                 let data = response.data.data;
                 store.dispatch(saveBuildPlan(content));
             }else{
-
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -508,14 +495,15 @@ export function saveBuildModule(saveContent,parentTaskId) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                success("成功添加开发任务");
                 store.dispatch(saveModule(saveContent));
                 getDemandTaskDetail(parentTaskId);
             }else{
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -535,10 +523,10 @@ export function changeOtherTaskStatus(icon,taskId) {
                 store.dispatch(closeOtherMissionDetail());
             }else{
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -551,22 +539,21 @@ export function saveOtherTask(saveContent) {
         method: 'post'
     };
     saveContent.doAction=0;
-    console.log("我来查看",JSON.stringify(saveContent));
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,saveContent);
     return axios.post(url, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                success("成功保存");
                 getMyTaskMain();
                 store.dispatch(closeNewOtherTask());
             }else{
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
-
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
         });
 }
 export function getModulesSimple(){
@@ -658,10 +645,6 @@ export function judgeDemandTaskShowAction(taskOwnerId){
             payload : true
         });
     }else{
-       /* store.dispatch({
-            type:DEMANDTASK_ACTION_SHOW,
-            payload : false
-        });*/
         store.dispatch({
             type:ALL_ACTION_SHOW,
             payload : false
@@ -701,10 +684,10 @@ export function getMyTaskMain() {
                 store.dispatch(getMyTaskInfo(data));
 
             }else{
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -719,19 +702,19 @@ export function saveOtherEditTask(saveContent){
     saveContent.doAction=1;
     delete saveContent.keyNote;
     let request = RequestBuilder.parseRequest(accessToken,saveContent);
-    console.log("我应该是进来了",JSON.stringify(saveContent));
     return axios.post(getMyTaskInfoUrl, request,config)
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                success("保存成功");
                 getMyTaskMain();
 
 
             }else{
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -752,10 +735,10 @@ export function getDemandTaskDetail(taskId) {
                 store.dispatch(getDemandTaskDetailInfo(data));
                 judgeDemandTaskShowAction(data.taskOwner);
             }else{
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -775,10 +758,10 @@ export function getDemandTaskDetailSimple(taskId) {
                 store.dispatch(getDemandTaskDetailInfo(data));
                 judgeDemandTaskShowAction(data.taskOwner);
             }else{
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -794,7 +777,6 @@ export const SAVE_TEST_CASE_URL = UrlConf.base + 'task/saveTestCase';
 export function saveTestCase(action, data) {
 
     // TODO post here, use iterationData to post
-    console.log("检查存入的测试案例" + JSON.stringify(data));
 
     let accessToken = localStorage.getItem("token");
 
@@ -814,17 +796,15 @@ export function saveTestCase(action, data) {
                 type = SAVE_EDIT_TEST_CASE
             }
 
+            success("成功保存");
 
-            console.log("检查存入的测试案例" + JSON.stringify(response.data.data));
             store.dispatch({
                 type: type,
                 payload: response.data.data
             })
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -852,8 +832,8 @@ export function editTestCase(id) {
 
 
         })
-        .catch(error => {
-            console.log("调用失败");
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
         });
 }
 

@@ -62,10 +62,8 @@ export function getProjectMembers(doAfterInit) {
             });
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -105,11 +103,8 @@ export function saveChangePassword(data){
             history.push("/login");
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
-
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
         });
 
 

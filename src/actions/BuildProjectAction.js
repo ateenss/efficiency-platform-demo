@@ -49,7 +49,6 @@ export function init(doAfterInit) {
 }
 
 export function openProject(id) {
-    console.log("openProject被调用");
 
 
     let accessToken = localStorage.getItem("token");
@@ -66,9 +65,8 @@ export function openProject(id) {
             // redirect to the route '/recordings'
             history.push('/taskboard');
         })
-        .catch(error => {
-            // If request fails
-            console.log("调用失败");
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -97,10 +95,8 @@ export function openEditProject(id) {
             });
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -139,10 +135,8 @@ export function saveProject(data) {
                 payload: response.data.data
             })
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
