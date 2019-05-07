@@ -105,8 +105,9 @@ class DevTestCaseEditor extends React.Component {
             if (rawRet!=null){
                 rawRet.push(nextProps.singleTestCase);
                 let testCase = JSON.parse(JSON.stringify(this.state.testCase));
-
                 testCase.push(this.mapObjectToArray(nextProps.singleTestCase));
+                console.log("为啥灰度是空的呢？");
+                console.log(testCase);
 
                 this.setState({testCase : testCase, raw : rawRet});
             }else{
@@ -114,6 +115,7 @@ class DevTestCaseEditor extends React.Component {
                 let testCase = JSON.parse(JSON.stringify(this.state.testCase));
 
                 testCase.push(this.mapObjectToArray(nextProps.singleTestCase));
+
                 this.setState({testCase : testCase});
             }
 
@@ -140,26 +142,47 @@ class DevTestCaseEditor extends React.Component {
     }
 
     mapObjectToArray = (result) => {
-
-        let ret = [];
-
-        let demandList = result;
-
         let parsedDemandList = [];
+        if (result!=null) {
+            if (result.length>1){
+                let ret = [];
 
-        for(let idx in demandList){
+                let demandList = result;
 
-            let unit = demandList[idx];
 
-            let demand = [];
 
-            for(let i in unit){
+                for(let idx in demandList){
 
-                demand.push(unit[i]);
+                    let unit = demandList[idx];
+
+                    let demand = [];
+
+                    for(let i in unit){
+
+                        demand.push(unit[i]);
+                    }
+
+                    parsedDemandList.push(demand);
+                }
+            }else{
+                let ret = [];
+
+                let demandList = result;
+
+
+
+                for(let idx in demandList){
+
+                    let unit = demandList[idx];
+
+
+                    parsedDemandList.push(unit);
+                }
             }
-
-            parsedDemandList.push(demand);
         }
+
+
+
 
         return parsedDemandList;
 
