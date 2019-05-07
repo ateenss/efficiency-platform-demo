@@ -102,13 +102,23 @@ class DevTestCaseEditor extends React.Component {
         }else if(nextProps.action === SAVE_TEST_CASE){
 
             let rawRet = this.state.raw;
-            rawRet.push(nextProps.singleTestCase);
+            if (rawRet!=null){
+                rawRet.push(nextProps.singleTestCase);
+                let testCase = JSON.parse(JSON.stringify(this.state.testCase));
 
-            let testCase = JSON.parse(JSON.stringify(this.state.testCase));
+                testCase.push(this.mapObjectToArray(nextProps.singleTestCase));
 
-            testCase.push(this.mapObjectToArray(nextProps.singleTestCase));
+                this.setState({testCase : testCase, raw : rawRet});
+            }else{
+                // let testCase=this.mapObjectToArray(nextProps.testCase);
+                let testCase = JSON.parse(JSON.stringify(this.state.testCase));
 
-            this.setState({testCase : testCase, raw : rawRet});
+                testCase.push(this.mapObjectToArray(nextProps.singleTestCase));
+                this.setState({testCase : testCase});
+            }
+
+
+
 
         }else if(nextProps.action === SAVE_EDIT_TEST_CASE){
 
