@@ -13,6 +13,7 @@ import store from "../../stores";
 import MyPage from "./MyPage"
 import {closeDetailMission,  getMyTaskMain} from "../../actions/BuildMissionAction"
 import {SHOW_NOTIFICATION} from "../../actions/types";
+// import Link from '@material-ui/core/Link';
 
 
 const styles = {
@@ -43,7 +44,13 @@ const styles = {
         fontSize: "16px",
         color: "rgba(0, 0, 0, 0.54)",
         marginTop: "15px"
-    }
+    },
+    root:{
+        flex: 1,
+        /*link:{color: "#4caf50",
+               textDecoration:"underline"},*/
+        color:"#4caf50",
+    },
 
 };
 
@@ -91,6 +98,27 @@ class MissionDetailMain extends React.Component {
         store.dispatch(closeDetailMission());
     };
 
+    showTitle=(classes)=>{
+        if(!!this.props.demands){
+            if (!!this.props.demands.hyperLink) {
+                return(
+                    <Typography variant="headline" align="center" color="inherit" className={classes.root} component="a"  href={this.props.demands.hyperLink}>
+                        需求任务详情
+                       {/* <Link >
+                            Link
+                        </Link>*/}
+                    </Typography>
+                )
+            }else{
+                return(
+                    <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
+                        需求任务详情
+                    </Typography>
+                )
+            }
+        }
+
+    };
 
 
     render() {
@@ -105,9 +133,7 @@ class MissionDetailMain extends React.Component {
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
                                 <CloseIcon/>
                             </IconButton>
-                            <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
-                                需求任务详情
-                            </Typography>
+                            {this.showTitle(classes)}
                         </Toolbar>
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>
@@ -128,6 +154,7 @@ const mapStateToProps = (state) => {
         detailMissionShow: state.reducer.buildMission.detailMissionShow,
         tempBoardToDetail: state.reducer.buildMission.tempBoardToDetail,
         addTask: state.reducer.buildMission.addTask,
+        demands: state.reducer.buildMission.demands,
     }
 };
 

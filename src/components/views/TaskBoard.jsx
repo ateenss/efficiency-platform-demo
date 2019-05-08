@@ -106,6 +106,10 @@ const styles = theme => ({
         border:"1px solid #4caf50",
         color:"#4caf50",
         padding:"0 0 0 0",
+        minHeight:"15px",
+        height:"28px",
+        minWidth:"100px",
+        width:"100%",
         "&:hover":{
             background:"#4caf50",
             color: "#FFFFFF",
@@ -120,6 +124,10 @@ const styles = theme => ({
         paddingBottom:0,
         paddingTop:0,
     },
+    textLabel:{
+
+    }
+
 });
 
 
@@ -215,6 +223,7 @@ class TaskBoard extends React.Component {
 
         let newTaskCnt = 0,inProgressTaskCnt=0,finishTaskCnt=0;
 
+
         let newTaskComponents = tempContent.map((prop, key) => {
             let content = "";
             if(prop.taskType!==2){
@@ -293,15 +302,21 @@ class TaskBoard extends React.Component {
                                             className={classes.newDevButton}
                                             size="large"
                                     >筛选</Button>
-                                    <Button onClick={this.openOtherTask}
+                                   {/* <Button onClick={this.openOtherTask}
                                             className={classes.newDevButton}
                                             size="large"
-                                            /*root={classes.rootDevButton}*/
-                                           /* variant="outlined"*/
+                                            fullWidth={true}
+                                    >*/}
+                                    <Button onClick={this.openOtherTask}
+                                            classes={{root:classes.newDevButton,
+                                            label:classes.textLabel}}
+                                            size="large"
                                             fullWidth={true}
                                     >
                                         <AddIcon className={classes.addIcon}/>
-                                        个人任务</Button>
+                                        个人任务
+                                    </Button>
+
                                 </Toolbar>
                             </Grid>
                         </Grid>
