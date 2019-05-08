@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 
 import Typography from '@material-ui/core/Typography';
 import InputAdornment from "@material-ui/core/InputAdornment";
+import {connect} from "react-redux";
 
 //组件内部显示css
 const styles = {
@@ -34,13 +35,23 @@ class SearchTextField extends React.Component {
         super(props);
         this.state = {
             curValue: "",
-            prevValue: ""
+            prevValue: "",
+            actualResult:""
         };
     }
 
     handleSearch = (e) => {
-        console.log(324242423423);
+        // console.log(324242423423);
+        // this.props.onClick(e);
+        this.setState({
+            actualResult:e.target.value
+        })
     };
+
+    submit=()=>{
+        this.props.onClick({actualResult:this.state.actualResult,testCase:this.props.testCase});
+    }
+
 
     componentWillReceiveProps(nextProps, nextContext) {
         if(nextProps.clearInput){
@@ -57,11 +68,12 @@ class SearchTextField extends React.Component {
                        margin="dense"
                        InputProps={{
                            endAdornment: <InputAdornment
-                               style={{color: "rgba(0, 0, 0, 0.54)"}}><SearchIcon style={{marginBottom:"6px"}} onClick={this.handleSearch}/></InputAdornment>,
+                               style={{color: "rgba(0, 0, 0, 0.54)"}}><SearchIcon style={{marginBottom:"6px"}} onClick={this.submit}/></InputAdornment>,
                            classes:{
                                    input : classes.inputBase
                            }
                        }}
+                       onChange={this.handleSearch}
                        variant="standard"
 
 
@@ -70,6 +82,16 @@ class SearchTextField extends React.Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        openTestCaseEditor: state.reducer.buildMission.openTestCaseEditor,
+        testCase:state.reducer.buildMission.testCase,
+        action:state.reducer.buildMission.action,
+        singleTestCase:state.reducer.buildMission.singleTestCase,
+        demandId : state.reducer.buildMission.demandId
+    }
+};
 
+export default connect(mapStateToProps)(withStyles(styles)(SearchTextField));
 
-export default withStyles(styles)(SearchTextField);
+// export default withStyles(styles)(SearchTextField);

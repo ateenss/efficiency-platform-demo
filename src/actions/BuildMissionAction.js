@@ -767,6 +767,31 @@ export function getDemandTaskDetailSimple(taskId) {
 
 }
 
+export function saveActionValue({content,testCase}) {
+    const url = UrlConf.base + 'task/changeTestCaseActualValue';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,content);
+    return axios.post(url, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                success("填加成功");
+                let demandId=testCase[0].demandId;
+                store.dispatch(openTestCaseEditor({testCase,demandId}));
+
+            }else{
+                error(response.data.msg);
+            }
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
+
+        });
+
+}
+
 
 export const SAVE_TEST_CASE_URL = UrlConf.base + 'task/saveTestCase';
 
