@@ -229,7 +229,10 @@ export default function (state = INITIAL_STATE, action) {
                     content:tempTaskContent,
                     taskID:action.value}};
         case OPEN_TEST_CASE_EDITOR:
-            const tempData=JSON.parse(JSON.stringify(action.value.testCase));
+            let tempData="";
+            if (!!action.value.testCase) {
+                tempData=JSON.parse(JSON.stringify(action.value.testCase));
+            }
             return {...state, openTestCaseEditor: true,action:OPEN_TEST_CASE_EDITOR, testCase : tempData ,demandId : action.value.demandId};
         case OPEN_ADD_TEST_CASE:
             return {...state, openAddTestCase: true, action:OPEN_ADD_TEST_CASE};

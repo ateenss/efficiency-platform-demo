@@ -135,19 +135,17 @@ constructor(props) {
 }
 
 componentWillReceiveProps(nextProps, nextStatus) {
-    console.log("receive到底有沒有動");
     if(nextProps.action === OPEN_TEST_CASE_EDITOR){
 
         let testCase = this.mapObjectToArray(nextProps.testCase);
         console.log("查看详情",JSON.stringify(nextProps.testCase));
-        console.log("看轉換之後的",JSON.stringify(testCase));
 
         this.setState({testCase : testCase, raw : nextProps.testCase});
 
     }else if(nextProps.action === SAVE_TEST_CASE){
 
         let rawRet = this.state.raw;
-        if (rawRet!=null){
+        if (!!rawRet){
             rawRet.push(nextProps.singleTestCase);
             let testCase = JSON.parse(JSON.stringify(this.state.testCase));
             testCase.push(this.mapObjectToArray(nextProps.singleTestCase));
