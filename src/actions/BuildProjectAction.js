@@ -10,7 +10,7 @@ import {
 } from "./types"
 import history from "../history/history";
 import UrlConf from "../constants/UrlConf";
-import {error} from "../actions/NotificationAction"
+import {error,success,warning} from "./NotificationAction";
 //axios配置
 const config = {
     method: 'post',
@@ -49,7 +49,6 @@ export function init(doAfterInit) {
 }
 
 export function openProject(id) {
-    console.log("openProject被调用");
 
 
     let accessToken = localStorage.getItem("token");
@@ -66,9 +65,8 @@ export function openProject(id) {
             // redirect to the route '/recordings'
             history.push('/taskboard');
         })
-        .catch(error => {
-            // If request fails
-            console.log("调用失败");
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -89,7 +87,6 @@ export function openEditProject(id) {
 
             let data = response.data.data;
 
-            console.log("!!!!!" + JSON.stringify(data));
 
             store.dispatch({
                 type: OPEN_EDIT_PROJECT,
@@ -97,10 +94,8 @@ export function openEditProject(id) {
             });
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -134,15 +129,14 @@ export function saveProject(data) {
                 return false;
             }
 
+            success("创建成功");
             store.dispatch({
                 type: BUILD_SAVE_PROJECT,
                 payload: response.data.data
             })
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 

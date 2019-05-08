@@ -24,12 +24,11 @@ import {EDIT_TEST_CASE, OPEN_TEST_CASE_EDITOR, SAVE_EDIT_TEST_CASE, SAVE_TEST_CA
 import AddTestCase from "./AddTestCase";
 import CustomToolBarSelect4DeliveryDoc from "./CustomToolBarSelect4DeliveryDoc";
 import CustomToolbar from "./CustomToolbar4DeliveryDoc";
-import InputField from "../SelfComponent/InputField";
-import ActualResultInput from "./ActualResultInput";
+
 import SearchTextField from "../Iteration/SearchTextField";
 
 
-const styles = {
+const styles =theme=> ({
     appBar: {
         position: 'relative',
         boxShadow:"none",
@@ -60,8 +59,14 @@ const styles = {
     quillIn:{
         height:"400px"
     },
+    button: {
+        margin: theme.spacing.unit,
+    },
+    input: {
+        display: 'none',
+    },
 
-};
+});
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
@@ -93,9 +98,6 @@ const columns = [
 
 ];
 
-
-
-
 class DevTestCaseEditor extends React.Component {
 
     constructor(props) {
@@ -106,7 +108,6 @@ class DevTestCaseEditor extends React.Component {
             editTestCase:{}
         }
     }
-
 
     componentWillReceiveProps(nextProps, nextStatus) {
         if(nextProps.action === OPEN_TEST_CASE_EDITOR){
@@ -123,8 +124,7 @@ class DevTestCaseEditor extends React.Component {
                 rawRet.push(nextProps.singleTestCase);
                 let testCase = JSON.parse(JSON.stringify(this.state.testCase));
                 testCase.push(this.mapObjectToArray(nextProps.singleTestCase));
-                console.log("为啥灰度是空的呢？");
-                console.log(testCase);
+
 
                 this.setState({testCase : testCase, raw : rawRet});
             }else{

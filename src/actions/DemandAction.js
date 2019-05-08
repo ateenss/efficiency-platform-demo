@@ -73,7 +73,6 @@ export function addDemand() {
 }
 export function demandSync(){
 
-    console.log("inDemandSync");
 
     let accessToken = localStorage.getItem("token");
 
@@ -90,10 +89,8 @@ export function demandSync(){
                 payload: response.data.data
             })
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -124,10 +121,8 @@ export function saveDemand(data) {
                 payload: response.data.data
             })
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -157,10 +152,8 @@ export function saveReviewDemand(data) {
                 payload: response.data.data
             })
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -189,11 +182,8 @@ export function saveEditDemand(data) {
                 payload: response.data.data
             })
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
-
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
         });
 
 }
@@ -231,9 +221,8 @@ export function openReviewDemand(demandId) {
 
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("调用失败");
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
         });
 }
 
@@ -266,10 +255,8 @@ export function determineIteration(iterationId, demandId) {
 
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -294,10 +281,8 @@ export function getRecentIteration(doAfterInit) {
             doAfterInit(response.data.data);
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -356,10 +341,8 @@ export function nextPage(pageNo, pageSize, doAfterInit) {
             doAfterInit(response.data.data);
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -380,10 +363,8 @@ export function search(pageNo, pageSize, searchText, doAfterInit) {
             doAfterInit(response.data.data);
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -409,9 +390,8 @@ export function editDemand(demandId) {
 
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("调用失败");
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -442,9 +422,8 @@ export function splitDemand(demandId) {
             stopLoading()
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("调用失败");
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }

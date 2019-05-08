@@ -297,7 +297,7 @@ class DemandTaskDetail extends React.Component {
                             <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>开发</h5></Grid>
                             <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>走查</h5></Grid>
                             <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>持续集成</h5></Grid>
-                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>完成</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>已提测</h5></Grid>
                         </Grid>
                         <Grid container spacing={0} className={classes.taskGroup}>
 

@@ -54,8 +54,8 @@ export function ProvePlan(id) {
 
                 error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -210,7 +210,6 @@ function doAfterInit(ret) {
 //这里是登录验证的actions，名字需要更改
 // LOGIN ACTION
 export function selectIteration(id, callback) {
-    console.log("selectIteration被调用" + id);
 
     let accessToken = localStorage.getItem("token");
 
@@ -263,10 +262,8 @@ export function selectIteration(id, callback) {
             }
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -302,10 +299,8 @@ export function addIteration(id) {
                 })
 
             })
-            .catch(error => {
-                // If request fails
-                console.log("!!!!!!!调用失败" + JSON.stringify(error));
-                // update state to show error to user
+            .catch(e => {
+                error("后台拉取数据失败",JSON.stringify(e));
 
             });
 
@@ -338,7 +333,6 @@ export function saveIteration(action, iterationData) {
     // TODO post here, use iterationData to post
     let data = {};
     data.iterationInfo = iterationData;
-    console.log("inSaveIteration" + JSON.stringify(data));
     let type = "";
     if (action == ADD_ITERATION) {
         type = SAVE_ADD_ITERATION
@@ -371,10 +365,8 @@ export function saveIteration(action, iterationData) {
                 payload: data
             })
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -416,10 +408,10 @@ export function getDevelopPlan(id) {
                 }
             } else {
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题" + error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -445,10 +437,10 @@ export function getModuleInfo(taskId){
                 })
             } else {
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题" + error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -492,13 +484,12 @@ export function ProveOnLineTestCases(id) {
                 }else{store.dispatch({
                     type:CLOSE_PUBLISH_TEST_CASE
                 })}
-                // initIterationSimple(doAfterInit);
             }else{
 
                 error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
@@ -524,10 +515,10 @@ export function getPublishDocuments(demandId) {
                 }
             }else{
 
-                console.log("没能拿到数据")
+                error(response.data.msg);
             }
-        }).catch(error => {
-            console.log("后台提取数据出现问题"+error);
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 
@@ -556,11 +547,8 @@ export function deleteIteration(id) {
             })
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
-
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
         });
 
 
@@ -582,11 +570,8 @@ export function nextPage(pageNo, pageSize, doAfterInit) {
             doAfterInit(response.data.data);
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
-
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
         });
 }
 
@@ -606,10 +591,8 @@ export function search(pageNo, pageSize, searchText, doAfterInit) {
             doAfterInit(response.data.data);
 
         })
-        .catch(error => {
-            // If request fails
-            console.log("!!!!!!!调用失败" + JSON.stringify(error));
-            // update state to show error to user
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
 
         });
 }
