@@ -47,6 +47,7 @@ import {
     ALL_ACTION_SHOW,
     DEMANDTASK_ACTION_SHOW,
     DEVTASK_ACTION_SHOW,
+    UPDATE_TEST_CASE,
     OPEN_NEW_OTHER_TASK,
     CLOSE_NEW_OTHER_TASK,
     INIT_PROJECT_LISTS
@@ -781,7 +782,6 @@ export function saveActionValue({content,testCase}) {
                 success("填加成功");
                 if (!!testCase) {
                     let demandId=testCase[0].demandId;
-                    // delete testCase[0];
                     store.dispatch(openTestCaseEditor({testCase,demandId}));
                 }
 

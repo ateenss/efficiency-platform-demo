@@ -10,6 +10,7 @@ import {
     CLOSE_DETAIL_MISSION,
     OPEN_BUILD_PLAN,
     CLOSE_BUILD_PLAN,
+    UPDATE_TEST_CASE,
     SAVE_BUILD_PLAN,
     FILTER_DEMAND_MISSION,
     FILTER_OWN_MISSION,
@@ -228,10 +229,8 @@ export default function (state = INITIAL_STATE, action) {
                     content:tempTaskContent,
                     taskID:action.value}};
         case OPEN_TEST_CASE_EDITOR:
-            console.log("進來了");
-            console.log(action.value.testCase);
-            console.log(action.value.demandId);
-            return {...state, openTestCaseEditor: true,action:OPEN_TEST_CASE_EDITOR, testCase : action.value.testCase ,demandId : action.value.demandId};
+            const tempData=JSON.parse(JSON.stringify(action.value.testCase));
+            return {...state, openTestCaseEditor: true,action:OPEN_TEST_CASE_EDITOR, testCase : tempData ,demandId : action.value.demandId};
         case OPEN_ADD_TEST_CASE:
             return {...state, openAddTestCase: true, action:OPEN_ADD_TEST_CASE};
         case CLOSE_TASK_EDITOR:
