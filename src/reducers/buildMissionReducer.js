@@ -228,7 +228,10 @@ export default function (state = INITIAL_STATE, action) {
                     content:tempTaskContent,
                     taskID:action.value}};
         case OPEN_TEST_CASE_EDITOR:
-            return {...state, openTestCaseEditor: true, action:OPEN_TEST_CASE_EDITOR, testCase : action.value.testCase ,demandId : action.value.demandId};
+            console.log("進來了");
+            console.log(action.value.testCase);
+            console.log(action.value.demandId);
+            return {...state, openTestCaseEditor: true,action:OPEN_TEST_CASE_EDITOR, testCase : action.value.testCase ,demandId : action.value.demandId};
         case OPEN_ADD_TEST_CASE:
             return {...state, openAddTestCase: true, action:OPEN_ADD_TEST_CASE};
         case CLOSE_TASK_EDITOR:

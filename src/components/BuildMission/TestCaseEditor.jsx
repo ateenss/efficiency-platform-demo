@@ -78,13 +78,15 @@ const onClick=({value, tableMeta, updateValue})=>(e)=>{
     });
     content.actualResult=e.actualResult;
     let testCase=e.testCase;
-    testCase.map((item,key)=>{
-        if (content.id===item.id){
-            item.actualResult=content.actualResult
-        }
-    });
-    console.log("我來看看傳出去的數據");
-    console.log(content);
+    if (!!testCase) {
+        testCase.map((item,key)=>{
+            if (content.id===item.id){
+                item.actualResult=content.actualResult
+            }
+        });
+    }else{
+        testCase=null
+    }
     saveActionValue({content,testCase});
 
 };
@@ -133,10 +135,12 @@ constructor(props) {
 }
 
 componentWillReceiveProps(nextProps, nextStatus) {
+    console.log("receive到底有沒有動");
     if(nextProps.action === OPEN_TEST_CASE_EDITOR){
 
         let testCase = this.mapObjectToArray(nextProps.testCase);
         console.log("查看详情",JSON.stringify(nextProps.testCase));
+        console.log("看轉換之後的",JSON.stringify(testCase));
 
         this.setState({testCase : testCase, raw : nextProps.testCase});
 
@@ -184,7 +188,7 @@ componentWillReceiveProps(nextProps, nextStatus) {
 mapObjectToArray = (result) => {
     let parsedDemandList = [];
     if (result!=null) {
-        if (result.length>1){
+        if (result.length>=1){
             let ret = [];
 
             let demandList = result;
