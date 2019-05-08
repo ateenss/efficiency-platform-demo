@@ -780,10 +780,13 @@ export function saveActionValue({content,testCase}) {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
                 success("填加成功");
-                if (!!testCase) {
+                /*if (!!testCase) {
                     let demandId=testCase[0].demandId;
                     store.dispatch(openTestCaseEditor({testCase,demandId}));
-                }
+                }*/
+
+                let demandId=data[0].demandId;
+                store.dispatch(openTestCaseEditor({testCase:data,demandId}));
 
             }else{
                 error(response.data.msg);
