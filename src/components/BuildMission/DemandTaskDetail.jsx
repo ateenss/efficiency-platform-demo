@@ -133,6 +133,13 @@ const styles =theme =>( {
     icon: {
         margin: theme.spacing.unit * 2,
     },
+    linkStyle:{
+        color:"#111111",
+        textDecoration: "underline",
+        "&:hover":{
+            color: "#4caf50",
+        }
+    },
 
 });
 
@@ -243,6 +250,25 @@ class DemandTaskDetail extends React.Component {
             return ""
         }
     };
+        
+        showDemandTaskName=(classes,detailInfo)=>{
+            if (!!this.props.demands.hyperLink) {
+                return(
+                    <span>
+                        <a
+                            className={classes.linkStyle}
+                            href={this.props.demands.hyperLink}>{detailInfo.taskName}
+                        </a>
+                    </span>
+                )
+            }else{
+                return(
+                    <span>
+                        {detailInfo.taskName}
+                    </span>
+                )
+            }
+        };
     showDemandTaskTool = (demands) => {
         let content = (<SimpleListMenu icon={<MoreVertIcon/>}
                                        options={this.options(this.state.perm)()}
@@ -254,7 +280,7 @@ class DemandTaskDetail extends React.Component {
             return ""
         }
     };
-
+        
 
 
     render() {
@@ -282,7 +308,7 @@ class DemandTaskDetail extends React.Component {
 
                             title={
                                 <div className={classes.cardHeaderTitle}>
-                                    <span>{detailInfo.taskName}</span>
+                                    {this.showDemandTaskName(classes,detailInfo)}
                                     {this.showAddNewDevButton(classes)}
                                     <Chip label={ret} className={classes.chip}/>
                                 </div>

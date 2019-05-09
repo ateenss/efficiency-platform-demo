@@ -98,27 +98,6 @@ class MissionDetailMain extends React.Component {
         store.dispatch(closeDetailMission());
     };
 
-    showTitle=(classes)=>{
-        if(!!this.props.demands){
-            if (!!this.props.demands.hyperLink) {
-                return(
-                    <Typography variant="headline" align="center" color="inherit" className={classes.root} component="a"  href={this.props.demands.hyperLink}>
-                        需求任务详情
-                       {/* <Link >
-                            Link
-                        </Link>*/}
-                    </Typography>
-                )
-            }else{
-                return(
-                    <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
-                        需求任务详情
-                    </Typography>
-                )
-            }
-        }
-
-    };
 
 
     render() {
@@ -133,7 +112,9 @@ class MissionDetailMain extends React.Component {
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
                                 <CloseIcon/>
                             </IconButton>
-                            {this.showTitle(classes)}
+                            <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
+                                需求任务详情
+                            </Typography>
                         </Toolbar>
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>
