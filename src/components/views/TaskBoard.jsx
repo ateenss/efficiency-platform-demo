@@ -39,6 +39,7 @@ import OtherMissionPage from "../BuildMission/OtherTaskPage"
 import {startLoading} from "../../actions/CommonAction";
 import BuildOtherTask from "../BuildMission/BuildOtherTaskMain"
 import OtherTaskPage from "../BuildMission/OtherTaskPage"
+import TestCaseTask from "../BuildMission/TestCaseTask"
 
 const styles = theme => ({
     root: {
@@ -364,6 +365,7 @@ class TaskBoard extends React.Component {
                 <OtherMissionPage/>
                 <BuildOtherTask/>
                 <OtherTaskPage/>
+                <TestCaseTask/>
             </Grid>
         )
     }

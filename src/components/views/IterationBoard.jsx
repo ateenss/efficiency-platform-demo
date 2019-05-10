@@ -8,13 +8,16 @@ import {connect} from "react-redux";
 import {selectIteration, addIteration, init, deleteIteration, search} from "../../actions/IterationAction";
 import AddIteration from "../Iteration/AddIteration";
 import {getModulesSimple} from "../../actions/BuildMissionAction"
+import store from '../../stores/index';
 
 import {
     CLOSE_ITERATION_FILTER,
     DELETE_ITERATION,
     ITERATION_INIT,
     OPEN_ITERATION_FILTER,
-    SAVE_ADD_ITERATION, SAVE_EDIT_ITERATION
+    SAVE_ADD_ITERATION,
+    SAVE_EDIT_ITERATION,
+    OPEN_EDIT_ITERATION_MEMBER
 } from "../../actions/types";
 import DemandsList from "../Iteration/DemandsList";
 import ShowDevelopPlan from "../Iteration/ShowDevDocuments";
@@ -50,6 +53,7 @@ import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IterationTable from "../Iteration/IterationTable";
+import EditIterationMember from "../Iteration/EditIterationMember";
 
 const drawerWidth = 240;
 
@@ -400,8 +404,13 @@ class IterationBoard extends React.Component {
     handleAllIteration = (e) =>{
         this.setState({allVersionSelected : true});
         this.deSelect();
+    };
 
-    }
+    openEditIterationMember=()=>{
+        store.dispatch({
+            type:OPEN_EDIT_ITERATION_MEMBER,
+            });
+    };
 
     render() {
         const {classes, theme, initialData} = this.props;
@@ -458,7 +467,13 @@ class IterationBoard extends React.Component {
                                                 <Avatar aria-label="Recipe" className={classes.avatar}>
                                                     P
                                                 </Avatar>
-                                            } title="版本人员信息" className={classes.cardHeader}/>
+                                            }
+                                                        title="版本人员信息"
+                                                        className={classes.cardHeader}
+                                                        action={
+                                                            <Button onClick={this.openEditIterationMember}>编辑</Button>
+                                                        }
+                                            />
 
                                             <CardContent className={classes.cardContent}>
                                                 <Grid container spacing={8}>
@@ -499,6 +514,7 @@ class IterationBoard extends React.Component {
 
                                         </Card>
                                     </Grid>
+                                    <EditIterationMember/>
                                     <Grid xs={6} item>
                                         <Card className={classes.card}>
                                             <CardHeader avatar={
@@ -637,7 +653,8 @@ const
             openAddIteration: state.reducer.iteration.openAddIteration,
             action: state.reducer.iteration.action,
             initIterationList: state.reducer.iteration.initIterationList,
-            deleteId : state.reducer.iteration.deleteId
+            deleteId : state.reducer.iteration.deleteId,
+            openEditIterationMember : state.reducer.iteration.openEditIterationMember
 
         }
     };

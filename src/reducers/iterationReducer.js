@@ -9,6 +9,8 @@ import {
     CLOSE_DEVELOP_PLAN,
     GET_PUBLISH_TEST_CASE,
     ITERATION_INIT,
+    CLOSE_EDIT_ITERATION_MEMBER,
+    OPEN_EDIT_ITERATION_MEMBER,
     GET_DEVPLAN_DETAIL,
     CLOSE_PUBLISH_TEST_CASE,
     SAVE_KEY, DELETE_ITERATION, OPEN_ITERATION_FILTER, CLOSE_ITERATION_FILTER, DISABLE_ALL_EXCEPT,
@@ -22,6 +24,11 @@ export const INITIAL_STATE = {
 //专门用来登录验证的reducer
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
+        case OPEN_EDIT_ITERATION_MEMBER:
+            return {...state,openEditIterationMember:true};
+        case CLOSE_EDIT_ITERATION_MEMBER:
+            return {...state,openEditIterationMember:false};
+
         case SAVE_KEY:
             return {...state,wantKey:action.payload};
         case SELECT_ITERATION:

@@ -24,7 +24,8 @@ import {
     openIntegrationDetail,
     openDevMissionDetail,
     openOtherMissionDetail,
-    getDemandTaskDetail
+    getDemandTaskDetail,
+    getTestCaseListByDemands
 } from "../../actions/BuildMissionAction"
 import store from "../../stores";
 import permProcessor from "../../constants/PermProcessor";
@@ -136,6 +137,9 @@ class Task extends React.Component {
                 return;
             case 4:
                 store.dispatch(openOtherMissionDetail(keyNote));
+                return;
+            case 5:
+                getTestCaseListByDemands(keyNote);
                 return;
             default:
                 return false;

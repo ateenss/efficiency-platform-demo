@@ -138,7 +138,11 @@ const styles =theme =>( {
         textDecoration: "underline",
         "&:hover":{
             color: "#4caf50",
-        }
+        },
+        "&:visited":{
+            color:"#111111",
+            textDecoration: "underline",
+        },
     },
 
 });
@@ -257,7 +261,10 @@ class DemandTaskDetail extends React.Component {
                     <span>
                         <a
                             className={classes.linkStyle}
-                            href={this.props.demands.hyperLink}>{detailInfo.taskName}
+                            href={this.props.demands.hyperLink}
+                            target="new"
+                        >{detailInfo.taskName}
+
                         </a>
                     </span>
                 )

@@ -10,6 +10,7 @@ import {
     OPEN_BUILD_PLAN,
     CLOSE_BUILD_PLAN,
     SAVE_BUILD_PLAN,
+    EMPTY_ACTION,
     FILTER_DEMAND_MISSION,
     FILTER_OWN_MISSION,
     FILTER_RESET,
@@ -50,7 +51,10 @@ import {
     UPDATE_TEST_CASE,
     OPEN_NEW_OTHER_TASK,
     CLOSE_NEW_OTHER_TASK,
-    INIT_PROJECT_LISTS
+    INIT_PROJECT_LISTS,
+    OPEN_TEST_CASE_TASK,
+    CLOSE_TEST_CASE_TASK,
+    INJECT_TEST_CASE_CONTENT
 } from './types';
 import {error,success,warning} from "./NotificationAction";
 import {GET_MY_PROJECTS} from "./BuildProjectAction";
@@ -302,6 +306,70 @@ export function getDemandTaskTestCase(content){
             if (response.data.respCode === "00") {
                 let data = response.data.data;
                 store.dispatch(openTestCaseEditor(data));
+            }else{
+
+                error(response.data.msg);
+            }
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
+
+        });
+}
+
+export function openTestCaseTask(){
+    store.dispatch({
+        type:OPEN_TEST_CASE_TASK
+    })
+}
+export function closeTestCaseTask(){
+    store.dispatch({
+        type:CLOSE_TEST_CASE_TASK
+    })
+}
+
+export function setEmptyAction(){
+    store.dispatch({
+        type:EMPTY_ACTION
+    })
+}
+
+
+//根据版本获取需求和上线检查表之间的映射
+export function getTestCaseListByDemands(taskId){
+    const send_edit_data = UrlConf.base + 'task/getTestCaseListByDemands';
+    const config = {
+        method: 'post'
+    };
+    openTestCaseTask();
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,taskId);
+    return axios.post(send_edit_data, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                // store.dispatch(openTestCaseEditor(data));
+                console.log("shujujjjj",JSON.stringify(data));
+                let ret=[];
+                let finalContent={};
+                finalContent.iterationId=data.iterationId;
+                finalContent.taskId=data.taskId;
+                finalContent.demandIdList=data.demandIdList;
+                Object.keys(data.deliveryDoc2DemandsVoMap).map((item,index)=>{
+                    let tempObject={};
+                    tempObject.demandName=item;
+                    if (!!data.deliveryDoc2DemandsVoMap[item]) {
+                        tempObject.testCase=data.deliveryDoc2DemandsVoMap[item];
+                    }else{
+                        tempObject.testCase=[]
+                    }
+                    ret.push(tempObject)
+                });
+                finalContent.demandsArray=ret;
+                console.log("22222222",JSON.stringify(finalContent));
+                store.dispatch({
+                    type:INJECT_TEST_CASE_CONTENT,
+                    value:finalContent
+                })
             }else{
 
                 error(response.data.msg);
@@ -780,9 +848,7 @@ export function saveActionValue({content,testCase}) {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
                 success("填加成功");
-                let demandId=data[0].demandId;
-                store.dispatch(openTestCaseEditor({testCase:data,demandId}));
-
+                getTestCaseListByDemands(parseInt(Object.keys(data)[0]));
             }else{
                 error(response.data.msg);
             }

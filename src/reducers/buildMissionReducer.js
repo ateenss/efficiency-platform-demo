@@ -42,10 +42,13 @@ import {
     CHANGE_PLAN2_DEV,
     ADD_TEST_TASK_PANEL,
     MODIFY_AFTER_TASKEDITOR,
+    INJECT_TEST_CASE_CONTENT,
     FILTER_TEST_TASK,
     ALL_ACTION_SHOW,
+    EMPTY_ACTION,
+    TEST_CASE_SAVE_DEMANDID,
     DEMANDTASK_ACTION_SHOW,
-    DEVTASK_ACTION_SHOW,INIT_PROJECT_LISTS,INIT_STATUS_TYPE,
+    DEVTASK_ACTION_SHOW,INIT_PROJECT_LISTS,INIT_STATUS_TYPE,OPEN_TEST_CASE_TASK,CLOSE_TEST_CASE_TASK,
     INIT_MODULES, OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR,OPEN_NEW_OTHER_TASK,CLOSE_NEW_OTHER_TASK,
     CAL_PERM, SAVE_TEST_CASE, EDIT_TEST_CASE, OPEN_ADD_TEST_CASE, CLOSE_ADD_TEST_CASE, SAVE_EDIT_TEST_CASE
 } from "../actions/types"
@@ -126,6 +129,16 @@ const changeStatus=(from,to,content)=>{
 export default function (state = INITIAL_STATE, action) {
     let counter=[];
     switch (action.type) {
+        case EMPTY_ACTION:
+            return {...state,action:EMPTY_ACTION};
+        case TEST_CASE_SAVE_DEMANDID:
+            return {...state,tempDemandId:action.value};
+        case INJECT_TEST_CASE_CONTENT:
+            return {...state,testCaseTaskInfo:action.value,action:INJECT_TEST_CASE_CONTENT};
+        case CLOSE_TEST_CASE_TASK:
+            return {...state,testCaseTaskShow:false};
+        case OPEN_TEST_CASE_TASK:
+            return {...state,testCaseTaskShow:true};
         case INIT_STATUS_TYPE:
             return {...state,taskStatusList:action.payload.allTaskStatus,taskTypeList:action.payload.allTaskType};
         case CLOSE_NEW_OTHER_TASK:

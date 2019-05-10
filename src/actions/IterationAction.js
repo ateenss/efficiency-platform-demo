@@ -14,7 +14,8 @@ import {
     INIT_PROJECT_MEMBERS,
     GET_DEVPLAN_DETAIL,
     DELETE_ITERATION, OPEN_ITERATION_FILTER, CLOSE_ITERATION_FILTER,
-    DISABLE_ALL_EXCEPT
+    DISABLE_ALL_EXCEPT,
+    CLOSE_EDIT_ITERATION_MEMBER
 } from './types';
 
 import {GET_PROJECT_MEMBERS, stopLoading} from "./CommonAction";
@@ -317,6 +318,13 @@ export function addIteration(id) {
 export function closeAddIteration() {
     store.dispatch({
         type: CLOSE_ADD_ITERATION
+    })
+
+}
+
+export function closeEditIterationMember() {
+    store.dispatch({
+        type:CLOSE_EDIT_ITERATION_MEMBER
     })
 
 }
