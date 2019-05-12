@@ -94,7 +94,6 @@ class AddTestCase extends React.Component {
         }
 
         // this.state.testCaseContent.demandId = demandId;
-        console.log("demandId到底进来没有啊",JSON.stringify(demandId));
         let tempData=this.state.testCaseContent;
         tempData.demandId=demandId;
         saveTestCase(this.props.action, tempData);

@@ -16,6 +16,7 @@ import {
     OPEN_TEST_CASE_EDITOR,
     SAVE_EDIT_TEST_CASE,
     SAVE_TEST_CASE,
+    SAVE_ACTUAL_VALUE_INSERT,
     TEST_CASE_SAVE_DEMANDID
 } from "../../actions/types";
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -283,11 +284,9 @@ class TestCaseTask extends React.Component {
                         item.testCase.push(tempChangeObject.testCase)
                     }
                 });
-                /*console.log("最後一點問題1",JSON.stringify(demandsArray));
-                console.log("最後一點問題2",JSON.stringify(rawRet));*/
                 this.setState({ demandsArray, raw : rawRet});
                 setEmptyAction();
-            }else{
+            } else{
 
                 Object.keys(this.props.testCaseTaskInfo.demandIdList).map((item,index)=>{
                     if (this.props.testCaseTaskInfo.demandIdList[item]===nextProps.singleTestCase.demandId){
@@ -300,7 +299,6 @@ class TestCaseTask extends React.Component {
                 tempChangeObject.testCase=this.mapObjectToArray(nextProps.singleTestCase);
                 let demandsArray = JSON.parse(JSON.stringify(this.state.demandsArray));
                 demandsArray.push(tempChangeObject);
-                console.log("最後一點問題3",JSON.stringify(demandsArray));
                 this.setState({demandsArray});
                 setEmptyAction();
 
@@ -309,7 +307,33 @@ class TestCaseTask extends React.Component {
 
 
 
-        }else if(nextProps.action === SAVE_EDIT_TEST_CASE){
+        }else if(nextProps.action ===SAVE_ACTUAL_VALUE_INSERT){
+            // nextProps.singleTestCaseActualValue
+            let demandNameAndIdMap=this.props.testCaseTaskInfo.demandIdList;
+            let x;
+            let demandNameFind="";
+            for(x in demandNameAndIdMap){
+                if(demandNameAndIdMap[x]===nextProps.singleTestCaseActualValue.demandId){
+                    demandNameFind=x;
+                }
+            }
+            let newDemandsArray=this.state.demandsArray.map((item,index)=>{
+              if (item.demandName===demandNameFind)   {
+                  let tempItem={};
+                  tempItem.testCase=item.testCase.map((itemIn,indexIn)=>{
+                      if (itemIn[0]===nextProps.singleTestCaseActualValue.id) {
+                          return itemIn=this.mapObjectToArray(nextProps.singleTestCaseActualValue);
+                      }
+                      return itemIn;
+
+                  });
+                  tempItem.demandName=item.demandName;
+                  return tempItem;
+              }
+              return item
+            });
+            this.setState({demandsArray:newDemandsArray});
+        } else if(nextProps.action === SAVE_EDIT_TEST_CASE){
 
             let newRaw = JSON.parse(JSON.stringify(this.state.raw));
 
@@ -412,7 +436,6 @@ class TestCaseTask extends React.Component {
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
     return {
-        // action: state.reducer.task.action,
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,
         detailMissionShow: state.reducer.buildMission.detailMissionShow,
@@ -424,6 +447,7 @@ const mapStateToProps = (state) => {
         action: state.reducer.buildMission.action,
         tempDemandId : state.reducer.buildMission.tempDemandId,
         singleTestCase:state.reducer.buildMission.singleTestCase,
+        singleTestCaseActualValue:state.reducer.buildMission.singleTestCaseActualValue,
     }
 };
 

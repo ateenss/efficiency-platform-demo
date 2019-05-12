@@ -11,6 +11,7 @@ import {
     CLOSE_BUILD_PLAN,
     SAVE_BUILD_PLAN,
     EMPTY_ACTION,
+    SAVE_ACTUAL_VALUE_INSERT,
     FILTER_DEMAND_MISSION,
     FILTER_OWN_MISSION,
     FILTER_RESET,
@@ -348,7 +349,6 @@ export function getTestCaseListByDemands(taskId){
             if (response.data.respCode === "00") {
                 let data = response.data.data;
                 // store.dispatch(openTestCaseEditor(data));
-                console.log("shujujjjj",JSON.stringify(data));
                 let ret=[];
                 let finalContent={};
                 finalContent.iterationId=data.iterationId;
@@ -365,7 +365,6 @@ export function getTestCaseListByDemands(taskId){
                     ret.push(tempObject)
                 });
                 finalContent.demandsArray=ret;
-                console.log("22222222",JSON.stringify(finalContent));
                 store.dispatch({
                     type:INJECT_TEST_CASE_CONTENT,
                     value:finalContent
@@ -847,8 +846,13 @@ export function saveActionValue({content,testCase}) {
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                let output=JSON.parse(JSON.stringify(content));
+                store.dispatch({
+                    type:SAVE_ACTUAL_VALUE_INSERT,
+                    payload:output
+                });
                 success("填加成功");
-                getTestCaseListByDemands(parseInt(Object.keys(data)[0]));
+                // getTestCaseListByDemands(parseInt(Object.keys(data)[0]));
             }else{
                 error(response.data.msg);
             }
@@ -905,7 +909,6 @@ export function saveTestCase(action, data) {
 
 export const GET_TEST_CASE = UrlConf.base + 'task/getTestCase';
 export function editTestCase(id) {
-    console.log("editTestCase"+id);
 
     let accessToken = localStorage.getItem("token");
     return axios.post(GET_TEST_CASE, {"version": "1.0", accessToken: accessToken, data: id}, config)

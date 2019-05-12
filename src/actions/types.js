@@ -157,4 +157,5 @@ export const OPEN_TEST_CASE_TASK="open_test_case_task";
 export const CLOSE_TEST_CASE_TASK="close_test_case_task";
 export const INJECT_TEST_CASE_CONTENT="inject_test_case_content";
 export const TEST_CASE_SAVE_DEMANDID="test_case_save_demandId";
+export const SAVE_ACTUAL_VALUE_INSERT="save_actual_value_insert";
 export const EMPTY_ACTION="empty_action";

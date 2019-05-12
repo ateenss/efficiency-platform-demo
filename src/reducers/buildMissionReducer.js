@@ -9,6 +9,7 @@ import {
     OPEN_DETAIL_MISSION,
     CLOSE_DETAIL_MISSION,
     OPEN_BUILD_PLAN,
+    SAVE_ACTUAL_VALUE_INSERT,
     CLOSE_BUILD_PLAN,
     UPDATE_TEST_CASE,
     SAVE_BUILD_PLAN,
@@ -129,6 +130,8 @@ const changeStatus=(from,to,content)=>{
 export default function (state = INITIAL_STATE, action) {
     let counter=[];
     switch (action.type) {
+        case SAVE_ACTUAL_VALUE_INSERT:
+            return {...state,singleTestCaseActualValue:action.payload,action:SAVE_ACTUAL_VALUE_INSERT};
         case EMPTY_ACTION:
             return {...state,action:EMPTY_ACTION};
         case TEST_CASE_SAVE_DEMANDID:
