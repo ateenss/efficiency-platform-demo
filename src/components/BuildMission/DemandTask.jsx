@@ -35,7 +35,7 @@ const styles = {
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
         margin:"0",
-        fontSize:"22px"
+        fontSize:"18px"
     },
     cardSubtitle: {
         float: "left"
@@ -50,10 +50,10 @@ const styles = {
         margin: "15px"
     },
     taskHeader: {
-        padding: "10px 15px 0 15px"
+        padding: "5px 10px 0 10px"
     },
     taskDeadline: {
-        padding: "0 15px 15px 15px",
+        padding: "0 10px 10px 10px",
         paddingBottom: "10px !important",
         marginTop:"-10px"
     },

@@ -53,7 +53,7 @@ const muiTableTheme = () => createMuiTheme({
         },
         MUIDataTableBodyCell: {
             root: {
-                backgroundColor: "#FFF",
+                backgroundColor: "#F5F5F5",
                 padding: "4px 0px 4px 4px",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -64,7 +64,7 @@ const muiTableTheme = () => createMuiTheme({
         },
         MUIDataTableHeadCell:{
             fixedHeader:{
-                backgroundColor:"#FFF !important"
+                backgroundColor:"#F5F5F5 !important"
             }
         },
         MUIDataTableSelectCell:{

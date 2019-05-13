@@ -26,6 +26,9 @@ import CustomToolBarSelect4DeliveryDoc from "./CustomToolBarSelect4DeliveryDoc";
 import CustomToolbar from "./CustomToolbar4DeliveryDoc";
 
 import SearchTextField from "../Iteration/SearchTextField";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableFooter from "@material-ui/core/TableFooter";
 
 
 const styles =theme=> ({
@@ -123,6 +126,19 @@ const columns = [
 
 ];
 
+
+function EmptyFooter() {
+    return (
+        <TableFooter style={{display: "none"}}>
+            <TableRow>
+                <TableCell>
+                </TableCell>
+            </TableRow>
+        </TableFooter>
+    );
+}
+
+
 class DevTestCaseEditor extends React.Component {
 
 constructor(props) {
@@ -208,177 +224,181 @@ mapObjectToArray = (result) => {
         }else{
             let ret = [];
 
-            let demandList = result;
+                let demandList = result;
 
 
 
-            for(let idx in demandList){
+                for(let idx in demandList){
 
-                let unit = demandList[idx];
-
-
-                parsedDemandList.push(unit);
-            }
-        }
-    }
+                    let unit = demandList[idx];
 
 
-
-
-    return parsedDemandList;
-
-};
-
-
-handleClose = () => {
-    store.dispatch(closeTestCaseEditor())
-
-};
-
-handleAdd = () =>{
-    handleAddTestCase();
-};
-
-
-getMuiTheme = () => createMuiTheme({
-    overrides: {
-        MuiPaper: {
-            root: {
-                boxShadow: "none !important"
-            }
-        },
-        MUIDataTableBodyCell: {
-            root: {
-                backgroundColor: "#FFF",
-                width: "600px"
-            }
-        },
-        MuiTableCell:{
-            root:{
-                padding:"4px 0px 4px 4px",
-                "&:nth-child(6)": {
-                    maxWidth:"300px"
+                    parsedDemandList.push(unit);
                 }
             }
-        },
-    }
-});
-
-getContent=e=>{
-    if (e.keyNote){
-        const keyNote=e.keyNote;
-        const value=e.value;
-        let data = Object.assign({}, this.state.taskContent, {
-            [keyNote]: value
-        });
-        this.setState({
-            taskContent:data
-        })
-    }else{
-        const keyNote=e.target.name;
-        const value=e.target.value;
-        let data = Object.assign({}, this.state.taskContent, {
-            [keyNote]: value
-        });
-        this.setState({
-            taskContent:data
-        })
-    }
-};
+        }
 
 
-render() {
 
-    const {classes,openTestCaseEditor} = this.props;
 
-    const options = {
-        filterType: 'checkbox',
-        print: false,
-        sort: false,
-        search:false,
-        download:false,
-        filter:false,
-        selectableRows: "none",
-        customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
-            console.log("这是被选中的行");
-            console.log(selectedRows.data[0].index);
-            return (
-                <CustomToolBarSelect4DeliveryDoc selectedRows={selectedRows} displayData={displayData}
-                                     setSelectedRows={setSelectedRows}/>)
+        return parsedDemandList;
 
-        },
-        customToolbar: () => {
-            return (
-                <CustomToolbar handleAdd={this.handleAdd}/>
-            );
-        },
-        textLabels: {
-            selectedRows: {
-                text: "行 已选定",
-                delete: "删除",
-                deleteAria: "删除指定行"
+    };
+
+
+    handleClose = () => {
+        store.dispatch(closeTestCaseEditor())
+
+    };
+
+    handleAdd = () =>{
+        handleAddTestCase();
+    };
+
+
+    getMuiTheme = () => createMuiTheme({
+        overrides: {
+            MuiPaper: {
+                root: {
+                    boxShadow: "none !important"
+                }
             },
-            toolbar: {
-                search: "搜索",
-                downloadCsv: "下载 CSV",
-                print: "打印",
-                viewColumns: "过滤列",
-                filterTable: "筛选",
+            MUIDataTableBodyCell: {
+                root: {
+                    backgroundColor: "#FFF",
+                    width: "600px"
+                }
             },
-            pagination: {
-                next: "下一页",
-                previous: "上一页",
-                rowsPerPage: "每页行数:",
-                displayRows: "总页数",
-            }
+            MuiTableCell:{
+                root:{
+                    padding:"4px 0px 4px 4px",
+                    "&:nth-child(6)": {
+                        maxWidth:"300px"
+                    }
+                }
+            },
+        }
+    });
+
+    getContent=e=>{
+        if (e.keyNote){
+            const keyNote=e.keyNote;
+            const value=e.value;
+            let data = Object.assign({}, this.state.taskContent, {
+                [keyNote]: value
+            });
+            this.setState({
+                taskContent:data
+            })
+        }else{
+            const keyNote=e.target.name;
+            const value=e.target.value;
+            let data = Object.assign({}, this.state.taskContent, {
+                [keyNote]: value
+            });
+            this.setState({
+                taskContent:data
+            })
         }
     };
 
-    return (
 
-        <div>
-            <Dialog  open={openTestCaseEditor}  TransitionComponent={Transition}  fullWidth maxWidth="xl">
-                <AppBar className={classes.appBar} color="default">
-                    <Toolbar variant="dense">
-                        <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
-                            <CloseIcon/>
-                        </IconButton>
-                        <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
-                            测试案例
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <DialogContent className={classes.dialogContainer}>
-                    <Grid container spacing={8}>
-                        <Grid item xs={12}>
-                            <MuiThemeProvider theme={this.getMuiTheme()}>
-                                <MUIDataTable
-                                    data={this.state.testCase}
-                                    columns={columns}
-                                    options={options}
-                                />
-                            </MuiThemeProvider>
+    render() {
+
+        const {classes,openTestCaseEditor} = this.props;
+
+        const options = {
+            filterType: 'checkbox',
+            print: false,
+            sort: false,
+            search:false,
+            download:false,
+            filter:false,
+            selectableRows: "none",
+            pagination:false,
+            customFooter: () => {
+                return (<EmptyFooter/>)
+            },
+            customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
+                console.log("这是被选中的行");
+                console.log(selectedRows.data[0].index);
+                return (
+                    <CustomToolBarSelect4DeliveryDoc selectedRows={selectedRows} displayData={displayData}
+                                         setSelectedRows={setSelectedRows}/>)
+
+            },
+            customToolbar: () => {
+                return (
+                    <CustomToolbar handleAdd={this.handleAdd}/>
+                );
+            },
+            textLabels: {
+                selectedRows: {
+                    text: "行 已选定",
+                    delete: "删除",
+                    deleteAria: "删除指定行"
+                },
+                toolbar: {
+                    search: "搜索",
+                    downloadCsv: "下载 CSV",
+                    print: "打印",
+                    viewColumns: "过滤列",
+                    filterTable: "筛选",
+                },
+                pagination: {
+                    next: "下一页",
+                    previous: "上一页",
+                    rowsPerPage: "每页行数:",
+                    displayRows: "总页数",
+                }
+            }
+        };
+
+        return (
+
+            <div>
+                <Dialog  open={openTestCaseEditor}  TransitionComponent={Transition}  fullWidth maxWidth="xl">
+                    <AppBar className={classes.appBar} color="default">
+                        <Toolbar variant="dense">
+                            <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
+                                <CloseIcon/>
+                            </IconButton>
+                            <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
+                                测试案例
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                    <DialogContent className={classes.dialogContainer}>
+                        <Grid container spacing={8}>
+                            <Grid item xs={12}>
+                                <MuiThemeProvider theme={this.getMuiTheme()}>
+                                    <MUIDataTable
+                                        data={this.state.testCase}
+                                        columns={columns}
+                                        options={options}
+                                    />
+                                </MuiThemeProvider>
+                            </Grid>
+
                         </Grid>
+                        <AddTestCase demandId={this.props.demandId}/>
 
-                    </Grid>
-                    <AddTestCase demandId={this.props.demandId}/>
-
-                </DialogContent>
-            </Dialog>
-        </div>
-    )
-};
+                    </DialogContent>
+                </Dialog>
+            </div>
+        )
+    };
 }
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
-return {
-    openTestCaseEditor: state.reducer.buildMission.openTestCaseEditor,
-    testCase:state.reducer.buildMission.testCase,
-    action:state.reducer.buildMission.action,
-    singleTestCase:state.reducer.buildMission.singleTestCase,
-    demandId : state.reducer.buildMission.demandId
-}
+    return {
+        openTestCaseEditor: state.reducer.buildMission.openTestCaseEditor,
+        testCase:state.reducer.buildMission.testCase,
+        action:state.reducer.buildMission.action,
+        singleTestCase:state.reducer.buildMission.singleTestCase,
+        demandId : state.reducer.buildMission.demandId
+    }
 };
 
 export default connect(mapStateToProps)(withStyles(styles)(DevTestCaseEditor));

@@ -18,7 +18,8 @@ import CardActions from "@material-ui/core/CardActions";
 
 import IconButton from '@material-ui/core/IconButton';
 import ShareIcon from '@material-ui/icons/ArrowForward';
-import {Typography} from "@material-ui/core";
+import DetailIcon from '@material-ui/icons/CallMadeOutlined';
+import PersonIcon from '@material-ui/icons/PersonOutline';
 import {
     openGoTestDetail,
     openIntegrationDetail,
@@ -30,9 +31,15 @@ import {
 import store from "../../stores";
 import permProcessor from "../../constants/PermProcessor";
 import {connect} from "react-redux";
+import Button from "@material-ui/core/Button";
+import {Divider, Tooltip} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 
 const styles = theme => ({
+    taskHeader:{
+        padding: "10px 10px 0 10px"
+    },
     card: {
         maxWidth: 400,
     },
@@ -146,9 +153,15 @@ class Task extends React.Component {
         }
     };
 
+    changePerson = (keyNote, taskOwner, e) => {
+      if(!!this.props.changePerson){
+        this.props.changePerson(keyNote, taskOwner);
+      }
+    };
+
     render() {
 
-        const {classes, keyNote,  taskType,taskStatusList,taskTypeList} = this.props;
+        const {classes, keyNote,  taskType,taskStatusList,taskTypeList, taskOwner} = this.props;
         let ret,x;
         for (x in taskTypeList) {
             if (x===taskType.toString()){
@@ -168,12 +181,6 @@ class Task extends React.Component {
                                     <span>{ret} - {this.props.code}</span>
                                 </div>
                             }
-                            action={
-                                <IconButton aria-label="详情" taskid="1"
-                                            onClick={this.openDetailPanel.bind(this, keyNote, taskType)}>
-                                    <ShareIcon/>
-                                </IconButton>
-                            }
 
                         />
                         <CardContent className={classes.taskContent}>
@@ -181,22 +188,30 @@ class Task extends React.Component {
                             <h4 style={{margin:"0", fontWeight:"700", fontSize:"16px"}}>
                                 {this.props.taskName}
                             </h4>
-
+                            <Typography style={{
+                                marginTop: "10px",
+                                color: "#b94947",
+                                fontSize: "12px",
+                            }}>{this.props.taskDeadline} 截止</Typography>
                         </CardContent>
+                        <Divider/>
                         <CardActions className={classes.actions} disableActionSpacing>
-                            <Grid container justify="flex-start">
-
-                                <Grid item>
-                                    <Typography style={{
-                                        marginLeft: "10px",
-                                        color: "#b94947",
-                                        fontSize: "12px",
-                                        marginBottom:"10px"
-                                    }}>{this.props.taskDeadline} 截止</Typography>
+                            <Grid container style={{background:"#fbfbfb"}}>
+                                <Grid item xs={6} style={{textAlign:"center"}}>
+                                    <Tooltip title="详情">
+                                        <Button size="small" onClick={this.openDetailPanel.bind(this, keyNote, taskType)}>
+                                            <DetailIcon style={{fontSize:"16px"}} />
+                                        </Button>
+                                    </Tooltip>
+                                </Grid>
+                                <Grid item xs={6} style={{textAlign:"center"}}>
+                                    <Tooltip title="更改负责人">
+                                        <Button size="small" onClick={this.changePerson.bind(this, keyNote, taskOwner)}>
+                                            <PersonIcon style={{fontSize:"16px"}}/>
+                                        </Button>
+                                    </Tooltip>
                                 </Grid>
                             </Grid>
-
-
                         </CardActions>
                     </Card>
                 </Grid>

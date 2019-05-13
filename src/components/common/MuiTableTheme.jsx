@@ -15,7 +15,7 @@ export const muiTableTheme = () => createMuiTheme({
         },
         MUIDataTableBodyCell: {
             root: {
-                backgroundColor: "#FFF",
+                // backgroundColor: "#FFF",
                 padding: "4px 0px 4px 4px",
                 overflow: "hidden",
                 textOverflow: "ellipsis",

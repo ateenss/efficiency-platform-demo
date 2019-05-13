@@ -304,10 +304,11 @@ class IterationList extends React.Component {
             renderExpandableRow: (rowData, rowMeta) => {
                 const colSpan = rowData.length + 1;
 
-                return (<TableRow>
-                            <TableCell colSpan={colSpan}>
-                                <Grid container spacing={8}>
-                                    <Grid item xs={12}>
+                return (<TableRow style={{background:"#F5f5f5"}}>
+                            <TableCell colSpan={colSpan} >
+                                <Grid container spacing={8}  style={{background:"#F5f5f5"}}>
+                                    <Grid item xs={1}></Grid>
+                                    <Grid item xs={11}>
                                         <DetailTable columns={columns} rowData={rowData}/>
                                     </Grid>
                                 </Grid>

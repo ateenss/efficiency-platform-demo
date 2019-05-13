@@ -64,6 +64,7 @@ const theme = createMuiTheme({
 });
 
 
+
 class IterationStepper extends React.Component {
     state = {
         activeStep: 0,
@@ -75,10 +76,40 @@ class IterationStepper extends React.Component {
         }));
     };
 
+    format = (date, fmt) => { //author: meizz
+        var o = {
+            "M+" : date.getMonth()+1,                 //月份
+            "d+" : date.getDate(),                    //日
+            "h+" : date.getHours(),                   //小时
+            "m+" : date.getMinutes(),                 //分
+            "s+" : date.getSeconds(),                 //秒
+            "q+" : Math.floor((date.getMonth()+3)/3), //季度
+            "S"  : date.getMilliseconds()             //毫秒
+        };
+        if(/(y+)/.test(fmt))
+            fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+        for(var k in o)
+            if(new RegExp("("+ k +")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        return fmt;
+    };
+
+    gt = (s1,s2) =>{
+        if(!!s1 && !!s2){
+            return ((new Date(s1.replace(/-/g,"\/")))>(new Date(s2.replace(/-/g,"\/"))));
+        }
+
+        return false;
+    };
 
 
     render() {
         const {classes, steppers} = this.props;
+
+        var today = this.format(new Date(),"yyyy-MM-dd");
+
+
+
         const {activeStep} = this.state;
         const connector = (
             <StepConnector
@@ -94,25 +125,25 @@ class IterationStepper extends React.Component {
             <div className={classes.root}>
                 <MuiThemeProvider theme={theme}>
                     <Stepper orientation="horizontal" alternativeLabel>
-                        <Step className={classes.stepContent}>
+                        <Step className={classes.stepContent} completed={this.gt(today, steppers.developPlanSubmitDate)} active={!this.gt(today, steppers.developPlanSubmitDate)}>
                             <StepLabel optional={<Chip className={classes.chip} label={steppers.developPlanSubmitDate}/>}>开发方案提交</StepLabel>
                         </Step>
-                        <Step className={classes.stepContent}>
+                        <Step className={classes.stepContent} completed={this.gt(today, steppers.codeReviewDate)} active={!this.gt(today, steppers.codeReviewDate) && this.gt(today, steppers.developPlanSubmitDate)}>
                             <StepLabel optional={<Chip className={classes.chip} label={steppers.codeReviewDate}/>}>代码走查</StepLabel>
                         </Step>
-                        <Step className={classes.stepContent}>
+                        <Step className={classes.stepContent} completed={this.gt(today, steppers.ciDate)} active={!this.gt(today, steppers.ciDate) && this.gt(today, steppers.codeReviewDate)}>
                             <StepLabel
                                 optional={<Chip className={classes.chip} label={steppers.ciDate}/>}>持续集成</StepLabel>
                         </Step>
-                        <Step className={classes.stepContent}>
+                        <Step className={classes.stepContent} completed={this.gt(today, steppers.testDate)} active={!this.gt(today, steppers.testDate) && this.gt(today, steppers.ciDate)}>
                             <StepLabel
                                 optional={<Chip className={classes.chip} label={steppers.testDate}/>}>提测</StepLabel>
                         </Step>
-                        <Step className={classes.stepContent}>
+                        <Step className={classes.stepContent} completed={this.gt(today, steppers.publishDate)} active={!this.gt(today, steppers.publishDate) && this.gt(today, steppers.testDate)}>
                             <StepLabel
                                 optional={<Chip className={classes.chip} label={steppers.publishDate}/>}>发布</StepLabel>
                         </Step>
-                        <Step className={classes.stepContent}>
+                        <Step className={classes.stepContent} completed={this.gt(today, steppers.deliveryDate)} active={!this.gt(today, steppers.deliveryDate) && this.gt(today, steppers.publishDate)}>
                             <StepLabel
                                 optional={<Chip className={classes.chip} label={steppers.deliveryDate}/>}>上线</StepLabel>
                         </Step>

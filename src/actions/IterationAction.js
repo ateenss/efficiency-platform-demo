@@ -15,7 +15,7 @@ import {
     GET_DEVPLAN_DETAIL,
     DELETE_ITERATION, OPEN_ITERATION_FILTER, CLOSE_ITERATION_FILTER,
     DISABLE_ALL_EXCEPT,
-    CLOSE_EDIT_ITERATION_MEMBER
+    UPDATE_ITERATION_PERSON_INFO, CLOSE_UPDATE_PERSON_INFO,SAVE_UPDATE_PERSON_INFO
 } from './types';
 
 import {GET_PROJECT_MEMBERS, stopLoading} from "./CommonAction";
@@ -34,6 +34,7 @@ export const GET_RECENT = UrlConf.base + 'iteration/getRecentIterations';
 export const GET_BY_ID = UrlConf.base + 'iteration/get';
 export const DELETE_BY_ID = UrlConf.base + 'iteration/delete';
 
+export const SAVE_PERSON_INFO = UrlConf.base + 'iteration/updatePersonInfo';
 export const SAVE = UrlConf.base + 'iteration/save';
 export const HISTORY_ITERATION = UrlConf.base + 'iteration/histories';
 
@@ -315,16 +316,57 @@ export function addIteration(id) {
 
 }
 
-export function closeAddIteration() {
-    store.dispatch({
-        type: CLOSE_ADD_ITERATION
-    })
+export function updatePersonInfo(id) {
+    let accessToken = localStorage.getItem("token");
+
+
+    let ret = {
+        editData: {},
+        action: ""
+    };
+
+    if (!!id) {
+        return axios.post(GET_BY_ID, {"version": "1.0", accessToken:accessToken,"data": id}, config)
+            .then(response => {
+
+                if (response.data.respCode !== "00") {
+                    error(response.data.msg);
+                    return false;
+                }
+
+
+                ret.editData = response.data.data.iteration;
+                store.dispatch({
+                    type: UPDATE_ITERATION_PERSON_INFO,
+                    payload: ret
+                })
+
+            })
+            .catch(e => {
+                error("后台拉取数据失败",JSON.stringify(e));
+
+            });
+
+    } else {
+        store.dispatch({
+            type: ADD_ITERATION,
+            payload: ret
+        })
+    }
+
 
 }
 
-export function closeEditIterationMember() {
+
+export function closeUpdatePersonInfo() {
     store.dispatch({
-        type:CLOSE_EDIT_ITERATION_MEMBER
+        type: CLOSE_UPDATE_PERSON_INFO
+    })
+
+}
+export function closeAddIteration() {
+    store.dispatch({
+        type: CLOSE_ADD_ITERATION
     })
 
 }
@@ -380,6 +422,42 @@ export function saveIteration(action, iterationData) {
 
 }
 
+export function savePersonInfo(iterationData) {
+
+    let accessToken = localStorage.getItem("token");
+
+
+    // TODO post here, use iterationData to post
+    let data = {};
+    data.iterationInfo = iterationData;
+
+    return axios.post(SAVE_PERSON_INFO, {"version": "1.0", accessToken:accessToken,"data": iterationData}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+                return false;
+            }
+
+            data.iterationInfo = response.data.data.iteration;
+            data.iterationInfo.unPlanningCnt = response.data.data.unPlanningCnt;
+            data.iterationInfo.unCodeReviewCnt = response.data.data.unCodeReviewCnt;
+            data.iterationInfo.unCi = response.data.data.unCi;
+            data.iterationInfo.finished = response.data.data.finished;
+
+
+            store.dispatch({
+                type: SAVE_UPDATE_PERSON_INFO,
+                payload: data
+            })
+        })
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
+
+        });
+
+}
+
 export function getDevelopPlan(id) {
 
     let datatemp = {};
@@ -395,7 +473,7 @@ export function getDevelopPlan(id) {
     datatemp.demandId = id;
 
     //这里的data只有数据方案了，之后还要和其他初始数据融合
-    const url = 'http://127.0.0.1:8080/tiger-admin/iteration/getDemandTaskPlanInfo';
+    const url = UrlConf.base + 'iteration/getDemandTaskPlanInfo';
     const config = {
         method: 'post'
     };
@@ -427,7 +505,7 @@ export function getDevelopPlan(id) {
 
 
 export function getModuleInfo(taskId){
-    const url = 'http://127.0.0.1:8080/tiger-admin/iteration/getModuleInfo';
+    const url = UrlConf.base + 'iteration/getModuleInfo';
     const config = {
         method: 'post'
     };

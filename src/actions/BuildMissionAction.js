@@ -55,7 +55,7 @@ import {
     INIT_PROJECT_LISTS,
     OPEN_TEST_CASE_TASK,
     CLOSE_TEST_CASE_TASK,
-    INJECT_TEST_CASE_CONTENT
+    INJECT_TEST_CASE_CONTENT, CHANGE_TASK_OWNER, CLOSE_UPDATE_PERSON_INFO,CLOSE_CHANGE_TASK_OWNER
 } from './types';
 import {error,success,warning} from "./NotificationAction";
 import {GET_MY_PROJECTS} from "./BuildProjectAction";
@@ -945,4 +945,51 @@ export function closeAddTestCase(){
     store.dispatch({
         type: CLOSE_ADD_TEST_CASE,
     });
+}
+
+
+export const GET_TASK_4_CHANGE = UrlConf.base + "task/changeTaskOwner";
+export function changeTaskOwner(id, ownerId){
+
+    console.log("changeTaskOwner"+id);
+
+    store.dispatch({
+        type: CHANGE_TASK_OWNER,
+        payload: {taskOwner : ownerId, taskId : id}
+    });
+
+
+
+}
+
+export function closeChangeTaskOwner(){
+
+    store.dispatch({
+        type: CLOSE_CHANGE_TASK_OWNER
+    })
+}
+
+export function saveChangeTaskOwner(taskId, taskOwner){
+
+
+    let accessToken = localStorage.getItem("token");
+    return axios.post(GET_TASK_4_CHANGE, {"version": "1.0", accessToken: accessToken, data: {id : taskId, taskOwner : taskOwner}}, config)
+        .then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+            }
+
+            store.dispatch({
+                type: CLOSE_CHANGE_TASK_OWNER,
+                payload: taskId
+            });
+
+
+        })
+        .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
+        });
+
+
 }

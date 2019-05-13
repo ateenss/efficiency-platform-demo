@@ -89,7 +89,7 @@ const styles =theme =>( {
     },
     taskStatus: {
         color: "#484848",
-        fontWeight: "700",
+        // fontWeight: "700",
         padding:"10px 0 10px 0",
         margin:"0"
 

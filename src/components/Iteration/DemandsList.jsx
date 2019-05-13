@@ -8,6 +8,7 @@ import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {muiTableTheme} from "../common/MuiTableTheme";
 import CardIcon from "@material-ui/icons/PriorityHigh";
 import Chip from "@material-ui/core/Chip";
+import CheckIcon from "@material-ui/icons/CheckCircle"
 
 const styles = theme => ({});
 /**
@@ -27,8 +28,22 @@ const columns = [
     {name: "开发负责人", options: {filter: false, display: false}},
     {name: "需求来源", options: {filter: false}},
     {name: "评审时间", options: {filter: false}},
-    {name: "UAT", options: {filter: false}},
-    {name: "BM", options: {filter: false}},
+    {name: "UAT", options: {filter: false,customBodyRender: (value, tableMeta, updateValue) => {
+                if(value === "是"){
+                    return <CheckIcon style={{paddingTop:"10px",fontSize:"18px"}}/>
+                }else{
+                    return <CheckIcon  style={{color:"#f5f5f5",paddingTop:"10px",fontSize:"18px"}}/>
+                }
+
+            }}},
+    {name: "BM", options: {filter: false,customBodyRender: (value, tableMeta, updateValue) => {
+                if(value === "是"){
+                    return <CheckIcon style={{paddingTop:"10px",fontSize:"18px"}}/>
+                }else{
+                    return <CheckIcon  style={{color:"#f5f5f5",paddingTop:"10px",fontSize:"18px"}}/>
+                }
+
+            }}},
     {name: "需求任务状态", options: {display:true,customBodyRender: (value, tableMeta, updateValue) => {
 
 
@@ -103,7 +118,7 @@ class DemandsList extends React.Component {
                     next: "下一页",
                     previous: "上一页",
                     rowsPerPage: "每页行数:",
-                    displayRows: "展示行数",
+                    displayRows: "记录总数",
                 }
             }
         };

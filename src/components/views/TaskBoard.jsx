@@ -30,7 +30,7 @@ import {
     filterReset,
     init,
     filterDoGoTestMission,
-    openNewOtherTask
+    openNewOtherTask, changeTaskOwner
 } from "../../actions/BuildMissionAction"
 import MissionDetailMain from "../BuildMission/MissionDetailMain"
 import IntegrationPage from "../BuildMission/IntegrationPage"
@@ -40,6 +40,7 @@ import {startLoading} from "../../actions/CommonAction";
 import BuildOtherTask from "../BuildMission/BuildOtherTaskMain"
 import OtherTaskPage from "../BuildMission/OtherTaskPage"
 import TestCaseTask from "../BuildMission/TestCaseTask"
+import ChangeTaskOwner from "../BuildMission/ChangeTaskOwner";
 
 const styles = theme => ({
     root: {
@@ -168,6 +169,10 @@ class TaskBoard extends React.Component {
 
     };
 
+    changePerson = (taskId, ownerId, e) =>{
+        changeTaskOwner(taskId, ownerId);
+        console.log(ownerId);
+    };
 
     handleClickClose = () => {
         store.dispatch(closeBuildMission())
@@ -229,7 +234,7 @@ class TaskBoard extends React.Component {
             let content = "";
             if(prop.taskType!==2){
                 if(prop.taskStatus === 1){
-                    content = <Task key={key} code={prop.taskCode} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    content = <Task key={key} taskOwner={prop.taskOwner} code={prop.taskCode} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}  changePerson={this.changePerson}/>;
                     ++newTaskCnt;
                 }
             }
@@ -240,12 +245,12 @@ class TaskBoard extends React.Component {
             let content = "";
             if(prop.taskType!==2){
                 if (prop.taskStatus===4&&prop.taskType===1){
-                    content = <Task key={key} code={prop.taskCode} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    content = <Task key={key} taskOwner={prop.taskOwner} code={prop.taskCode} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}} changePerson={this.changePerson}/>;
                     ++inProgressTaskCnt;
                     return content;
                 }
                 if(prop.taskStatus !== 1 && prop.taskStatus !== 8&&prop.taskStatus !==4){
-                    content = <Task key={key} code={prop.taskCode} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}}/>;
+                    content = <Task key={key} taskOwner={prop.taskOwner} code={prop.taskCode} keyNote={prop.taskId} taskDeadline={prop.taskDeadline} taskName={prop.taskName} taskStatus={prop.taskStatus} taskType={prop.taskType} editFunc={(e) => {this.handleEdit(e, key.toString())}} detailFunc={(e) => {this.handleDetail(e, key.toString())}} changePerson={this.changePerson}/>;
                     ++inProgressTaskCnt;
                 }
 
@@ -366,6 +371,7 @@ class TaskBoard extends React.Component {
                 <BuildOtherTask/>
                 <OtherTaskPage/>
                 <TestCaseTask/>
+                <ChangeTaskOwner/>
             </Grid>
         )
     }
@@ -375,6 +381,7 @@ class TaskBoard extends React.Component {
 // 从store里面取数据给组件
 const
     mapStateToProps = (state) => {
+    console.log("(*&(*&(*&(*&"+JSON.stringify(state.reducer.buildMission.addTask))
         return {
             demands: state.reducer.task.demands,
             buildMissionShow: state.reducer.buildMission.buildMissionShow,

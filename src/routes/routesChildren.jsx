@@ -36,13 +36,6 @@ const dashboardRoutes = [
     //   component: DashboardPage
     // },
     {
-      path: "/iteration",
-      sidebarName: "版本",
-      navbarName: "版本",
-      icon: "content_paste",
-      component: IterationBoard
-    },
-    {
         path: "/project",
         sidebarName: "项目",
         navbarName: "项目",
@@ -56,6 +49,15 @@ const dashboardRoutes = [
         icon: LibraryBooks,
         component: TaskBoard
     },
+    {
+      path: "/iteration",
+      sidebarName: "版本",
+      navbarName: "版本",
+      icon: "content_paste",
+      component: IterationBoard
+    },
+
+
     {
         path: "/demands",
         sidebarName: "需求",

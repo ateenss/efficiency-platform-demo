@@ -8,6 +8,7 @@ import Chip from "@material-ui/core/Chip";
 import StepConnector from "@material-ui/core/StepConnector";
 import {createMuiTheme} from "@material-ui/core";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
     root: {
@@ -76,7 +77,6 @@ class DemandIterationStepper extends React.Component {
     };
 
 
-
     render() {
         const {classes, steppers} = this.props;
         const {activeStep} = this.state;
@@ -91,43 +91,32 @@ class DemandIterationStepper extends React.Component {
             />
         );
         return (
-            <div className={classes.root}>
-                <MuiThemeProvider theme={theme}>
-                    <Stepper orientation="horizontal" alternativeLabel>
-                        {/*<Step className={classes.stepContent}>*/}
-                            {/*<StepLabel optional={<Chip className={classes.chip} label={steppers.developPlanSubmitDate}/>}>开发方案提交</StepLabel>*/}
-                        {/*</Step>*/}
-                        {/*<Step className={classes.stepContent}>*/}
-                            {/*<StepLabel optional={<Chip className={classes.chip} label={steppers.codeReviewDate}/>}>代码走查</StepLabel>*/}
-                        {/*</Step>*/}
-                        {/*<Step className={classes.stepContent}>*/}
-                            {/*<StepLabel*/}
-                                {/*optional={<Chip className={classes.chip} label={steppers.ciDate}/>}>持续集成</StepLabel>*/}
-                        {/*</Step>*/}
-                        <Step className={classes.stepContent}>
-                            <StepLabel
-                                optional={<Chip className={classes.chip} label={!!steppers.testDate ? steppers.testDate : "未指定"}/>}>提测</StepLabel>
-                        </Step>
-                        <Step className={classes.stepContent}>
-                            <StepLabel
-                                optional={<Chip className={classes.chip} label={!!steppers.publishDate ? steppers.publishDate : "未指定"}/>}>发布</StepLabel>
-                        </Step>
-                        <Step className={classes.stepContent}>
-                            <StepLabel
-                                optional={<Chip className={classes.chip} label={!!steppers.deliveryDate ? steppers.deliveryDate : "未指定"}/>}>上线</StepLabel>
-                        </Step>
+            <Grid container>
+                <Grid item xs={12}>
+                    <MuiThemeProvider theme={theme}>
+                        <Stepper orientation="horizontal" alternativeLabel>
 
-                    </Stepper>
-                </MuiThemeProvider>
-                {/*{activeStep === steps.length && (*/}
-                {/*<Paper square elevation={0} className={classes.resetContainer}>*/}
-                {/*<Typography>All steps completed - you&apos;re finished</Typography>*/}
-                {/*<Button onClick={this.handleReset} className={classes.button}>*/}
-                {/*Reset*/}
-                {/*</Button>*/}
-                {/*</Paper>*/}
-                {/*)}*/}
-            </div>
+                            <Step className={classes.stepContent}>
+                                <StepLabel
+                                    optional={<Chip className={classes.chip}
+                                                    label={!!steppers.testDate ? steppers.testDate : "未指定"}/>}>提测</StepLabel>
+                            </Step>
+                            <Step className={classes.stepContent}>
+                                <StepLabel
+                                    optional={<Chip className={classes.chip}
+                                                    label={!!steppers.publishDate ? steppers.publishDate : "未指定"}/>}>发布</StepLabel>
+                            </Step>
+                            <Step className={classes.stepContent}>
+                                <StepLabel
+                                    optional={<Chip className={classes.chip}
+                                                    label={!!steppers.deliveryDate ? steppers.deliveryDate : "未指定"}/>}>上线</StepLabel>
+                            </Step>
+
+                        </Stepper>
+                    </MuiThemeProvider>
+                </Grid>
+            </Grid>
+
         )
             ;
     }

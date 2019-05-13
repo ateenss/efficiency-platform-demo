@@ -49,9 +49,23 @@ import {
     EMPTY_ACTION,
     TEST_CASE_SAVE_DEMANDID,
     DEMANDTASK_ACTION_SHOW,
-    DEVTASK_ACTION_SHOW,INIT_PROJECT_LISTS,INIT_STATUS_TYPE,OPEN_TEST_CASE_TASK,CLOSE_TEST_CASE_TASK,
-    INIT_MODULES, OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR,OPEN_NEW_OTHER_TASK,CLOSE_NEW_OTHER_TASK,
-    CAL_PERM, SAVE_TEST_CASE, EDIT_TEST_CASE, OPEN_ADD_TEST_CASE, CLOSE_ADD_TEST_CASE, SAVE_EDIT_TEST_CASE
+    DEVTASK_ACTION_SHOW,
+    INIT_PROJECT_LISTS,
+    INIT_STATUS_TYPE,
+    OPEN_TEST_CASE_TASK,
+    CLOSE_TEST_CASE_TASK,
+    INIT_MODULES,
+    OPEN_TEST_CASE_EDITOR,
+    CLOSE_TEST_CASE_EDITOR,
+    OPEN_NEW_OTHER_TASK,
+    CLOSE_NEW_OTHER_TASK,
+    CAL_PERM,
+    SAVE_TEST_CASE,
+    EDIT_TEST_CASE,
+    OPEN_ADD_TEST_CASE,
+    CLOSE_ADD_TEST_CASE,
+    SAVE_EDIT_TEST_CASE,
+    CHANGE_TASK_OWNER, CLOSE_CHANGE_TASK_OWNER
 } from "../actions/types"
 
 export const INITIAL_STATE = {
@@ -406,7 +420,29 @@ export default function (state = INITIAL_STATE, action) {
             });
             return saveEditMissionState;
         case INIT_MODULES:
-            return {...state, modules : action.payload}
+            return {...state, modules : action.payload};
+        case CHANGE_TASK_OWNER:
+            return {...state, openTaskOwnerEditor : true, action : CHANGE_TASK_OWNER, taskOwner : action.payload.taskOwner, taskId : action.payload.taskId};
+        case CLOSE_CHANGE_TASK_OWNER:
+
+            if(!!action.payload){
+
+                let tasks = JSON.parse(JSON.stringify(state.addTask));
+
+                for(let idx in tasks){
+                    let unit = tasks[idx];
+                    if(unit.taskId === action.payload){
+
+                        tasks.splice(idx, 1);
+
+                    }
+                }
+                return {...state, openTaskOwnerEditor : false, action : CLOSE_CHANGE_TASK_OWNER, addTask : tasks};
+
+            }
+
+            return {...state, openTaskOwnerEditor : false, action : CLOSE_CHANGE_TASK_OWNER};
+
         default:
             return state;
     }

@@ -9,11 +9,14 @@ import {
     CLOSE_DEVELOP_PLAN,
     GET_PUBLISH_TEST_CASE,
     ITERATION_INIT,
-    CLOSE_EDIT_ITERATION_MEMBER,
-    OPEN_EDIT_ITERATION_MEMBER,
     GET_DEVPLAN_DETAIL,
     CLOSE_PUBLISH_TEST_CASE,
-    SAVE_KEY, DELETE_ITERATION, OPEN_ITERATION_FILTER, CLOSE_ITERATION_FILTER, DISABLE_ALL_EXCEPT,
+    SAVE_KEY,
+    DELETE_ITERATION,
+    OPEN_ITERATION_FILTER,
+    CLOSE_ITERATION_FILTER,
+    DISABLE_ALL_EXCEPT,
+    UPDATE_ITERATION_PERSON_INFO, CLOSE_UPDATE_PERSON_INFO, SAVE_UPDATE_PERSON_INFO
 } from '../actions/types';
 
 export const INITIAL_STATE = {
@@ -24,11 +27,6 @@ export const INITIAL_STATE = {
 //专门用来登录验证的reducer
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
-        case OPEN_EDIT_ITERATION_MEMBER:
-            return {...state,openEditIterationMember:true};
-        case CLOSE_EDIT_ITERATION_MEMBER:
-            return {...state,openEditIterationMember:false};
-
         case SAVE_KEY:
             return {...state,wantKey:action.payload};
         case SELECT_ITERATION:
@@ -39,10 +37,14 @@ export default function (state = INITIAL_STATE, action) {
                 action: ADD_ITERATION, editData : {}};
         case CLOSE_ADD_ITERATION:
             return {...state, openAddIteration: false, action: CLOSE_ADD_ITERATION};
+        case CLOSE_UPDATE_PERSON_INFO:
+            return {...state, openUpdatePersonInfo: false, action: CLOSE_UPDATE_PERSON_INFO};
         case SAVE_ADD_ITERATION:
             return {...state, openAddIteration: false, iteration: action.payload, action: SAVE_ADD_ITERATION};
         case SAVE_EDIT_ITERATION:
             return {...state, openAddIteration: false, iteration: action.payload, action: SAVE_EDIT_ITERATION};
+        case SAVE_UPDATE_PERSON_INFO:
+            return {...state, openUpdatePersonInfo: false, iteration: action.payload, action: SAVE_UPDATE_PERSON_INFO};
         case EDIT_ITERATION:
             return {
                 ...state,
@@ -50,6 +52,13 @@ export default function (state = INITIAL_STATE, action) {
                 action: EDIT_ITERATION,
                 editData: action.payload.editData,
                 initialData: action.payload.initData
+            };
+        case UPDATE_ITERATION_PERSON_INFO:
+            return {
+                ...state,
+                openUpdatePersonInfo: true,
+                action: UPDATE_ITERATION_PERSON_INFO,
+                editData: action.payload.editData
             };
         case GET_DEVELOP_PLAN:
             let tempTaskIdList=[];
@@ -62,7 +71,7 @@ export default function (state = INITIAL_STATE, action) {
                 developPlan:action.payload.demandTaskPlan,
                 moduleList:action.payload.moduleList,
                 taskIdList:tempTaskIdList
-                };
+            };
         case GET_DEVPLAN_DETAIL:
             return {...state,action:GET_DEVPLAN_DETAIL,devPlanContent:action.payload};
         case CLOSE_DEVELOP_PLAN:

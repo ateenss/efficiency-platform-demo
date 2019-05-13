@@ -39,6 +39,8 @@ import Typography from "@material-ui/core/Typography";
 import {success} from "../../actions/NotificationAction";
 import permProcessor from "../../constants/PermProcessor";
 import DemandIterationStepper from "../demand/DemandIterationStepper";
+import CheckIcon from "@material-ui/icons/CheckCircle"
+import CloseIcon from "@material-ui/icons/Close"
 
 const styles = theme => ({
     root: {
@@ -69,7 +71,7 @@ const styles = theme => ({
         marginRight:theme.spacing.unit
     },
     toolTipIteration:{
-        background:"#F5F5F5", padding:"8px"
+        background:"#F5F5F5", padding:"8px",maxWidth:"600px"
     }
 });
 
@@ -119,7 +121,7 @@ const filterLabel = {
         }
     },
     bmRequired:{
-        label : "是否涉及bm控制台",
+        label : "BM",
         mapping : demandConst.bmRequired,
         renderValue : function(data){
 
@@ -138,7 +140,7 @@ const filterLabel = {
         }
     },
     uatRequired:{
-        label:"是否需要uat",
+        label:"UAT",
         mapping : demandConst.uatRequired,
         renderValue : function(data){
 
@@ -401,15 +403,13 @@ class TaskBoard extends React.Component {
                             return "";
                         }
                         return (
-                            <Tooltip title={value} aria-label="Add">
+                            <Tooltip title={value} aria-label="">
                                 <Typography>{value}</Typography>
                             </Tooltip>
                         )
                     }}},
             {name: "需求负责人", options: {filter: false, display: false}},
-            {name: "需求状态", options: {
-                    filter: false
-                }},
+
             {name: "开发负责人",options: {
                     filter: false,
                     filterType: 'textField',
@@ -426,7 +426,7 @@ class TaskBoard extends React.Component {
 
                             return (
 
-                                <Tooltip title={<DemandIterationStepper steppers={ret}/>} leaveDelay={1000} classes={{tooltip:classes.toolTipIteration}}>
+                                <Tooltip title={<DemandIterationStepper steppers={ret}/>} leaveDelay={500} classes={{tooltip:classes.toolTipIteration}}>
                                     <Typography>{literal[0]}</Typography>
                                 </Tooltip>
                             )
@@ -434,21 +434,49 @@ class TaskBoard extends React.Component {
                         }
 
                     }}},
-            {name: "需求来源部门", options:{filter:false}},
-            {name: "需求评审通过时间", options:{filter:false}},
-            {name: "是否需UAT", options: {
+            {name: "来源部门", options:{filter:false}},
+            {name: "评审通过时间", options:{filter:false}},
+            {name: "状态", options: {
                     filter: false,
-                    customFilterListRender: v => `需求状态: ${v}`,
-                    filterType: 'dropdown',
-                    filterOptions: ['是', '否']
+                    customBodyRender: (value, tableMeta, updateValue) => {
+                        console.log(value);
+                        if(value === "评审通过"){
+                            return <Tooltip title={value}><CheckIcon style={{paddingTop:"10px",fontSize:"18px", color:"#4DAF7C"}}/></Tooltip>
+                        }else if(value === "评审不通过"){
+                            return <Tooltip title={value}><CloseIcon  style={{paddingTop:"10px",fontSize:"18px"}}/></Tooltip>
+                        }else{
+                            return <Tooltip title={value}><CheckIcon  style={{color:"#f5f5f5",paddingTop:"10px",fontSize:"18px"}}/></Tooltip>
+                        }
 
+                    }
                 }},
-            {name: "是否涉及BM",options: {
+            {name: "UAT", options: {
                     filter: false,
                     customFilterListRender: v => `需求状态: ${v}`,
                     filterType: 'dropdown',
-                    filterOptions: ['是', '否']
+                    filterOptions: ['是', '否'],
+                    customBodyRender: (value, tableMeta, updateValue) => {
+                        if(value === "是"){
+                            return <Tooltip title={value}><CheckIcon style={{paddingTop:"10px",fontSize:"18px", color:"#4DAF7C"}}/></Tooltip>
+                        }else{
+                            return <Tooltip title={value}><CheckIcon  style={{color:"#f5f5f5",paddingTop:"10px",fontSize:"18px"}}/></Tooltip>
+                        }
 
+                    }
+                }},
+            {name: "BM",options: {
+                    filter: false,
+                    customFilterListRender: v => `需求状态: ${v}`,
+                    filterType: 'dropdown',
+                    filterOptions: ['是', '否'],
+                    customBodyRender: (value, tableMeta, updateValue) => {
+                        if(value === "是"){
+                            return <Tooltip title={value}><CheckIcon style={{paddingTop:"10px",fontSize:"18px", color:"#4DAF7C"}}/></Tooltip>
+                        }else{
+                            return <Tooltip title={value}><CheckIcon  style={{color:"#f5f5f5",paddingTop:"10px",fontSize:"18px"}}/></Tooltip>
+                        }
+
+                    }
                 }},
         ];
 
@@ -463,6 +491,7 @@ class TaskBoard extends React.Component {
             rowsPerPage: this.state.pageSize,
             rowsPerPageOptions: [10, 20, 40],
             selectableRows: "single",
+            rowHover:true,
             onRowsSelect: function (currentRowsSelected, allRowsSelected) {
                 console.log(333);
             },
@@ -516,7 +545,7 @@ class TaskBoard extends React.Component {
                     next: "下一页",
                     previous: "上一页",
                     rowsPerPage: "每页行数:",
-                    displayRows: "总页数",
+                    displayRows: "记录总数：",
                 }
             }
         };
