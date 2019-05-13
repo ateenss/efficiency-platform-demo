@@ -108,7 +108,7 @@ const columns = [
 {name: "是否具备灰度", options: {filter: false}},
 
 {name: "预期结果", options: {filter: false}},
-{name: "实际结果", options: {filter: false,customBodyRender: (value, tableMeta, updateValue) => {
+/*{name: "实际结果", options: {filter: false,customBodyRender: (value, tableMeta, updateValue) => {
                 if (!!value) {
                     return value;
                 } else {
@@ -120,7 +120,8 @@ const columns = [
                 }
         }
     }
-},
+},*/
+    {name: "实际结果", options: {filter: false}},
 {name: "需求Id", options: {filter: false,display:false}},
 {name: "任务Id", options: {filter: false,display:false}},
 

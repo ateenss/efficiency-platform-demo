@@ -567,7 +567,9 @@ export function ProveOnLineTestCases(id) {
                 let data = response.data.data;
                 if (data===333){
                     warning("还没完成集成测试");
-                }else{store.dispatch({
+                }else{
+                    initIterationSimple(doAfterInit);
+                    store.dispatch({
                     type:CLOSE_PUBLISH_TEST_CASE
                 })}
             }else{
