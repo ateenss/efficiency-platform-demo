@@ -8,6 +8,7 @@ import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {muiTableTheme} from "../common/MuiTableTheme";
 import CardIcon from "@material-ui/icons/PriorityHigh";
 import Chip from "@material-ui/core/Chip";
+import Tooltip from "@material-ui/core/Tooltip";
 import CheckIcon from "@material-ui/icons/CheckCircle"
 
 const styles = theme => ({});
@@ -45,19 +46,40 @@ const columns = [
 
             }}},
     {name: "需求任务状态", options: {display:true,customBodyRender: (value, tableMeta, updateValue) => {
+                        // console.log("我就是来看看1",JSON.stringify(value));
+                const showArray = [];
+                const taskPlanApproved = parseInt(value.substring(0, 1));
+                showArray.push(taskPlanApproved);
+                const testCaseApproved = parseInt(value.substring(1, 2));
+                showArray.push(testCaseApproved);
+                const completedDeliveryDoc = parseInt(value.substring(2, 3));
+                showArray.push(completedDeliveryDoc);
+                const completedDevDoc = parseInt(value.substring(3, 4));
+                showArray.push(completedDevDoc);
+                const titleSuccess=["开发方案通过","上线检查表通过","完成上线检查表","完成开发方案"];
+                const titleFail=["开发方案未通过","上线检查表未通过","未完成上线检查表","未完成开发方案"];
+
+                return (
+                    showArray.map((item, index) => {
+                        let successTitle="";
+                        let failTitle="";
+                        for(let i=0;i< titleSuccess.length;i++){
+                            if (i===index) {successTitle=titleSuccess[i]}
+                        }
+                        for(let j=0;j<titleFail.length;j++){
+                            if (j===index){failTitle=titleFail[j]}
+                        }
+                        return (item === 1 ? (<Tooltip title={successTitle}><CheckIcon
+                                style={{paddingTop: "10px", fontSize: "18px", color: "#4DAF7C",paddingRight:"6px"}}/></Tooltip>) :
+                            (<Tooltip title={failTitle}><CheckIcon
+                                style={{color: "#f5f5f5", paddingTop: "10px", fontSize: "18px",paddingRight:"6px"}}/></Tooltip>))
+                    })
+                )
 
 
-
-                        return(
-                            <div>
-                                <Chip label={value}/>
-                            </div>
-
-
-                        )
-
-
-            }}}];
+            }
+        }
+    }];
 
 function Empty() {
     return null;

@@ -287,21 +287,21 @@ class TestCaseTask extends React.Component {
                 this.setState({ demandsArray, raw : rawRet});
                 setEmptyAction();
             } else{
-
-                Object.keys(this.props.testCaseTaskInfo.demandIdList).map((item,index)=>{
-                    if (this.props.testCaseTaskInfo.demandIdList[item]===nextProps.singleTestCase.demandId){
-                        tempObject.demandName=item;
-                        tempObject.testCase=nextProps.singleTestCase;
-                    }
-                });
-                rawRet.push(tempObject);
-                tempChangeObject=tempObject;
-                tempChangeObject.testCase=this.mapObjectToArray(nextProps.singleTestCase);
-                let demandsArray = JSON.parse(JSON.stringify(this.state.demandsArray));
-                demandsArray.push(tempChangeObject);
-                this.setState({demandsArray});
-                setEmptyAction();
-
+                if(this.props.testCaseTaskInfo!=null){
+                    Object.keys(this.props.testCaseTaskInfo.demandIdList).map((item,index)=>{
+                        if (this.props.testCaseTaskInfo.demandIdList[item]===nextProps.singleTestCase.demandId){
+                            tempObject.demandName=item;
+                            tempObject.testCase=nextProps.singleTestCase;
+                        }
+                    });
+                    rawRet.push(tempObject);
+                    tempChangeObject=tempObject;
+                    tempChangeObject.testCase=this.mapObjectToArray(nextProps.singleTestCase);
+                    let demandsArray = JSON.parse(JSON.stringify(this.state.demandsArray));
+                    demandsArray.push(tempChangeObject);
+                    this.setState({demandsArray});
+                    setEmptyAction();
+                }
             }
 
 
