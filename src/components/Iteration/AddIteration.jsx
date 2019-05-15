@@ -22,6 +22,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Card from "@material-ui/core/Card";
 import Avatar from "@material-ui/core/Avatar";
 import CardContent from "@material-ui/core/CardContent";
+import CascadeSelect from "./CascadeSelect";
 
 
 const styles = {
@@ -260,7 +261,13 @@ class AddIteration extends React.Component {
                             </Grid>
                         </CardContent>
                     </Card>
+                    <Card className={classes.card}>
+                        <CardHeader title="关联版本" className={classes.cardHeader} classes={{title : classes.headerLine}}/>
 
+                        <CardContent className={classes.cardContent} style={{paddingTop:"32px"}}>
+                            <CascadeSelect onChange={this.getContent}/>
+                        </CardContent>
+                    </Card>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.handleClose} color="primary" className={buttonStyle}>

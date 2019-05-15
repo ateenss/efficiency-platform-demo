@@ -66,6 +66,20 @@ export function ProvePlan(id) {
 }
 
 
+export function getRecentIterationByProjectId(projectId) {
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(GET_RECENT, {"version": "1.0", accessToken: accessToken, data : projectId}, config);
+}
+
+export function getRecentIteration() {
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(GET_RECENT, {"version": "1.0", accessToken: accessToken}, config);
+}
+
 export function init(doAfterInit) {
     console.log("init");
 
@@ -75,9 +89,7 @@ export function init(doAfterInit) {
         return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
     }
 
-    function getRecentIteration() {
-        return axios.post(GET_RECENT, {"version": "1.0", accessToken: accessToken}, config);
-    }
+
 
     axios.all([getProjectMembers(), getRecentIteration()]).then(axios.spread(function (members, iterations) {
 
@@ -244,10 +256,9 @@ export function selectIteration(id, callback) {
             const data = {
                 iterationInfo: response.data.data.iteration,
                 demandList: parsedDemandList,
-                iterationCode: response.data.data.iteration.iterationCode
-
+                iterationCode: response.data.data.iteration.iterationCode,
+                relatedIterationInfo : response.data.data.relatedIteration
             };
-
             data.iterationInfo.unPlanningCnt = response.data.data.unPlanningCnt;
             data.iterationInfo.unCodeReviewCnt = response.data.data.unCodeReviewCnt;
             data.iterationInfo.unCi = response.data.data.unCi;

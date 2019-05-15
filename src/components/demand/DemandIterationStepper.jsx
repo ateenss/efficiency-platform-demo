@@ -6,7 +6,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Chip from "@material-ui/core/Chip";
 import StepConnector from "@material-ui/core/StepConnector";
-import {createMuiTheme} from "@material-ui/core";
+import {createMuiTheme, Typography} from "@material-ui/core";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import Grid from "@material-ui/core/Grid";
 
@@ -92,6 +92,10 @@ class DemandIterationStepper extends React.Component {
         );
         return (
             <Grid container>
+                <Grid item xs={12} style={{background:"#FFF"}}>
+                    <Typography variant="h6" align="center" style={{paddingTop:"10px"}}>{steppers.iterationCode}</Typography>
+
+                </Grid>
                 <Grid item xs={12}>
                     <MuiThemeProvider theme={theme}>
                         <Stepper orientation="horizontal" alternativeLabel>

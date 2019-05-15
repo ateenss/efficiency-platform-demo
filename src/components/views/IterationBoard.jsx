@@ -45,7 +45,6 @@ import {
     Line,
     LineChart,
     ResponsiveContainer,
-    Tooltip,
     XAxis,
     YAxis
 } from "recharts";
@@ -59,7 +58,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import IterationTable from "../Iteration/IterationTable";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Edit"
+import LinkIcon from "@material-ui/icons/Link"
+
 import UpdatePersonInfo from "../Iteration/UpdatePersonInfo";
+import Tooltip from "@material-ui/core/Tooltip";
+import DemandIterationStepper from "../demand/DemandIterationStepper";
 
 const drawerWidth = 240;
 
@@ -120,6 +123,9 @@ const styles = theme => ({
     tabsIndicator: {
         backgroundColor: '#4DAF7C',
 
+    },
+    toolTipIteration:{
+        background:"#F5F5F5", padding:"8px",maxWidth:"600px"
     }
 });
 
@@ -381,6 +387,21 @@ class IterationBoard extends React.Component {
 
     }
 
+    getIterationTimeline = (ret, classes) => {
+
+        return (<div>
+                    版本时间轴
+
+            <Tooltip title={<DemandIterationStepper steppers={ret}/>} leaveDelay={500} classes={{tooltip:classes.toolTipIteration}}>
+                <IconButton style={{marginRight:"10px"}}>
+                    <LinkIcon/>
+                </IconButton>
+            </Tooltip>
+
+                </div>)
+    }
+
+
     render() {
         const {classes, theme, initialData} = this.props;
         const {tabValue} = this.state;
@@ -415,6 +436,7 @@ class IterationBoard extends React.Component {
 
                                     {tabValue === 0 &&
 
+
                                     <Grid container spacing={8}>
                                         <Grid xs={12} style={{marginTop: "16px"}} item>
 
@@ -423,7 +445,8 @@ class IterationBoard extends React.Component {
                                                     <Avatar aria-label="Recipe" className={classes.avatar}>
                                                         T
                                                     </Avatar>
-                                                } title="版本时间轴" className={classes.cardHeader}/>
+                                                } title={self.getIterationTimeline(this.props.relatedIterationInfo, classes)} className={classes.cardHeader}
+                                                />
 
                                                 <CardContent className={classes.cardContent}>
                                                     <IterationStepper
@@ -619,6 +642,7 @@ const
         }
         return {
             iteration: state.reducer.iteration.iteration,
+            relatedIterationInfo : state.reducer.iteration.iteration.relatedIterationInfo,
             iterationId: state.reducer.iteration.iteration.iterationInfo.id,
             openAddIteration: state.reducer.iteration.openAddIteration,
             action: state.reducer.iteration.action,

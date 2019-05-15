@@ -27,14 +27,16 @@ export const OPEN_PROJECT = UrlConf.base + 'project/openProject';
 export const GET_TEAMS = UrlConf.base + 'member/getTeams';
 export const GET_PROJECT_MEMBERS = UrlConf.base + 'member/getProjectMembers';
 
+export function getProjects() {
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(GET_MY_PROJECTS, {"version": "1.0", accessToken: accessToken}, config);
+}
 
 export function init(doAfterInit) {
 
     let accessToken = localStorage.getItem("token");
-
-    function getProjects() {
-        return axios.post(GET_MY_PROJECTS, {"version": "1.0", accessToken: accessToken}, config);
-    }
 
     function getProjectMembers() {
         return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);

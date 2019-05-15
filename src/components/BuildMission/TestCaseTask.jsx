@@ -28,8 +28,9 @@ import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import SearchTextField from "../Iteration/SearchTextField";
 import CustomToolBarSelect4DeliveryDoc from "./CustomToolBarSelect4DeliveryDoc";
-import CustomToolbar from "./CustomToolbar4DeliveryDoc";
-import AddTestCase from "./AddTestCase";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableFooter from "@material-ui/core/TableFooter";
 
 
 
@@ -131,6 +132,24 @@ const columns = [
 
 ];
 
+function EmptyFooter() {
+    return (
+        <TableFooter style={{display: "none"}}>
+            <TableRow>
+                <TableCell>
+                </TableCell>
+            </TableRow>
+        </TableFooter>
+    );
+}
+
+function EmptyHeader() {
+    return (
+        <div style={{display: "none"}}>
+
+        </div>
+    );
+}
 
 const options = {
     filterType: 'checkbox',
@@ -139,6 +158,11 @@ const options = {
     search:false,
     download:false,
     filter:false,
+    sortFilterList:false,
+    viewColumns:false,
+    customFooter: () => {
+        return (<EmptyFooter/>)
+    },
     selectableRows: "none",
     customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
         console.log("这是被选中的行");
@@ -423,7 +447,6 @@ class TestCaseTask extends React.Component {
 
                                 }):""
                             }
-                            <AddTestCase demandId={this.props.tempDemandId}/>
                         </div>
                     </DialogContent>
                 </Dialog>
