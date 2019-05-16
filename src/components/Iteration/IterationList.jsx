@@ -118,7 +118,6 @@ class IterationList extends React.Component {
                             <SingleIteration key={key} handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit} handleDelete={this.props.handleDelete} handleReview={this.props.handleReview}
                                          iterationList={prop.children} iteration={prop.iteration.name}
                                          defaultExpand={idx++ == 1 ? true : prop.iteration.selected} perm={this.props.perm}/>
-
                         </List>
                     </Grid>
                 )

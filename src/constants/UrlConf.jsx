@@ -1,5 +1,5 @@
 const UrlConf = {
-    base: "http://127.0.0.1:8080/tiger-admin/",
+    base: "http://172.20.182.141:8080/tiger-admin/",
     getUrl: function (domain, cmd) {
         let url = this.base + domain + "/";
         if (!!cmd) {

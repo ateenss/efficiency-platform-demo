@@ -331,7 +331,7 @@ class TaskBoard extends React.Component {
 
             this.setState({filters : nextProps.filters}, function(){
 
-                self.search(0, nextProps.filters)
+                self.search(0, self.state.pageSize, nextProps.filters)
 
             })
 
@@ -358,7 +358,7 @@ class TaskBoard extends React.Component {
         this.setState({filters : curFilters}, function(){
 
 
-            self.search(0, curFilters)
+            self.search(0, self.state.pageSize, curFilters)
 
 
         });
@@ -427,7 +427,7 @@ class TaskBoard extends React.Component {
                             return (
 
                                 <Tooltip title={<DemandIterationStepper steppers={ret}/>} leaveDelay={500} classes={{tooltip:classes.toolTipIteration}}>
-                                    <Typography>{literal[0]}</Typography>
+                                    <Chip label={literal[0]} style={{background: "#e0ecfb", borderRadius: "3px", color: "#176fdc"}}/>
                                 </Tooltip>
                             )
 
