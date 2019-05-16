@@ -11,12 +11,13 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import {closeDevelopPlan, closePublishTestCase, ProvePlan,closeOnlineTestCases,ProveOnLineTestCases} from "../../actions/IterationAction";
-import {CLOSE_DEVELOP_PLAN, GET_DEVELOP_PLAN, GET_PUBLISH_TEST_CASE} from "../../actions/types";
+import {CLOSE_DEVELOP_PLAN, CLOSE_TEST_CASE_EDIT, GET_DEVELOP_PLAN, GET_PUBLISH_TEST_CASE} from "../../actions/types";
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PublishTestCase from "./PublishTestCase";
 import OnlineTestCasesMenuList from "./OnlineTestCasesMenuList";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import EditTestCase from "./EditTestCase";
 
 const styles = theme => ({
     appBar: {
@@ -100,12 +101,23 @@ class ShowPublishDocument extends React.Component {
 
             let testCase = this.mapObjectToArray(nextProps.publishTestCase);
 
-            console.log("前面获取部分",JSON.stringify(nextProps.wantKey));
             this.setState({
                 testCase : testCase,
                 raw : nextProps.publishTestCase,
                 demandId: nextProps.wantKey});
 
+        }else if (nextProps.action ===CLOSE_TEST_CASE_EDIT){
+            let tempData=nextProps.publishTestCase.map((item,index)=>{
+               if (item.id===nextProps.afterEditTestCase.id){
+                   return nextProps.afterEditTestCase;
+               }
+               return item;
+            });
+            let testCase = this.mapObjectToArray(tempData);
+            this.setState({
+                testCase : testCase,
+                raw : tempData,
+                demandId: nextProps.wantKey});
         }
     }
 
@@ -191,6 +203,7 @@ class ShowPublishDocument extends React.Component {
                     {tabValue === 0 &&
                     <PublishTestCase content={this.state.testCase}/>
                     }
+                    <EditTestCase/>
 
                 </Dialog>
             </div>
@@ -210,6 +223,7 @@ const mapStateToProps = (state) => {
         openPublishTestCase: state.reducer.iteration.openPublishTestCase,
         demandId: state.reducer.iteration.demandId,
         wantKey: state.reducer.iteration.wantKey,
+        afterEditTestCase: state.reducer.iteration.afterEditTestCase,
     }
 };
 

@@ -1,12 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import MUIDataTable from "mui-datatables";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import CustomToolBarSelect4DeliveryDoc from "../BuildMission/TestCaseEditor";
 import {connect} from "react-redux";
-import {GET_PUBLISH_TEST_CASE, } from "../../actions/types";
+import {GET_PUBLISH_TEST_CASE,OPEN_TEST_CASE_EDIT } from "../../actions/types";
+import CustomEditToolBar from "./CustomEditToolBar";
+import store from '../../stores/index';
 
 const styles = theme => ({});
 
@@ -47,6 +48,13 @@ class PublishTestCase extends React.Component {
     componentDidMount() {
     }
 
+    handleEdit=(data)=>()=>{
+        store.dispatch({
+            type:OPEN_TEST_CASE_EDIT,
+            value:data
+        });
+    };
+
 
 
     render() {
@@ -58,17 +66,25 @@ class PublishTestCase extends React.Component {
             sort: false,
             selectableRows: "single",
             customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
-                console.log("这是被选中的行");
-                console.log(selectedRows.data[0].index);
-                return (
+                let tempData=[];
+                displayData.map((item,index)=>{
+                    if(item.dataIndex===selectedRows.data[0].dataIndex){
+                        tempData=item.data;
+                    }
+                });
+                let content={id:"",checker:"",checkTime:"",checkItem:"",steps:"",supportGray:"",expectedResult:"",actualResult:"",demandId:"",note:""};
+                tempData.map((itemOut,keyOut)=>{
+                    Object.keys(content).map((itemIn,keyIn)=>{
+                        if (keyOut===keyIn) {
+                            content[itemIn]=itemOut
+                        }
+                    })
+                });
+                /*return (
                     <CustomToolBarSelect4DeliveryDoc selectedRows={selectedRows} displayData={displayData}
-                                                     setSelectedRows={setSelectedRows}/>)
+                                                     setSelectedRows={setSelectedRows}/>)*/
+                return (<CustomEditToolBar handleEdit={this.handleEdit(content)}/>)
 
-            },
-            customToolbar: () => {
-                return (
-                    <Empty/>
-                );
             },
             textLabels: {
                 selectedRows: {

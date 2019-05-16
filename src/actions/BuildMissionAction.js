@@ -348,13 +348,15 @@ export function getTestCaseListByDemands(taskId){
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
+                console.log("这是看看传进来啥数据");
+                console.log(data);
                 // store.dispatch(openTestCaseEditor(data));
                 let ret=[];
                 let finalContent={};
                 finalContent.iterationId=data.iterationId;
                 finalContent.taskId=data.taskId;
-                finalContent.demandIdList=data.demandIdList;
-                Object.keys(data.deliveryDoc2DemandsVoMap).map((item,index)=>{
+                // finalContent.demandIdList=data.demandIdList;
+                /*Object.keys(data.deliveryDoc2DemandsVoMap).map((item,index)=>{
                     let tempObject={};
                     tempObject.demandName=item;
                     if (!!data.deliveryDoc2DemandsVoMap[item]) {
@@ -363,8 +365,8 @@ export function getTestCaseListByDemands(taskId){
                         tempObject.testCase=[]
                     }
                     ret.push(tempObject)
-                });
-                finalContent.demandsArray=ret;
+                });*/
+                finalContent.demandsArray=data.testCaseList4DemandIdNameVo;
                 store.dispatch({
                     type:INJECT_TEST_CASE_CONTENT,
                     value:finalContent
@@ -931,6 +933,8 @@ export function editTestCase(id) {
             error("后台拉取数据失败",JSON.stringify(e));
         });
 }
+
+
 
 export function handleAddTestCase(){
     store.dispatch({

@@ -10,12 +10,14 @@ import {
     GET_PUBLISH_TEST_CASE,
     ITERATION_INIT,
     GET_DEVPLAN_DETAIL,
+    CLOSE_TEST_CASE_EDIT,
     CLOSE_PUBLISH_TEST_CASE,
     SAVE_KEY,
     DELETE_ITERATION,
     OPEN_ITERATION_FILTER,
     CLOSE_ITERATION_FILTER,
     DISABLE_ALL_EXCEPT,
+    OPEN_TEST_CASE_EDIT,
     UPDATE_ITERATION_PERSON_INFO, CLOSE_UPDATE_PERSON_INFO, SAVE_UPDATE_PERSON_INFO
 } from '../actions/types';
 
@@ -27,6 +29,10 @@ export const INITIAL_STATE = {
 //专门用来登录验证的reducer
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
+        case OPEN_TEST_CASE_EDIT:
+            return {...state,openEditTestCaseShow:true,selectedTestCaseData:action.value,action:OPEN_TEST_CASE_EDIT};
+        case CLOSE_TEST_CASE_EDIT:
+            return {...state,openEditTestCaseShow:false,action:CLOSE_TEST_CASE_EDIT,afterEditTestCase:!!action.value?action.value:""};
         case SAVE_KEY:
             return {...state,wantKey:action.payload};
         case SELECT_ITERATION:

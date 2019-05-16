@@ -13,6 +13,7 @@ import {
     CLOSE_PUBLISH_TEST_CASE,
     INIT_PROJECT_MEMBERS,
     GET_DEVPLAN_DETAIL,
+    CLOSE_TEST_CASE_EDIT,
     DELETE_ITERATION, OPEN_ITERATION_FILTER, CLOSE_ITERATION_FILTER,
     DISABLE_ALL_EXCEPT,
     UPDATE_ITERATION_PERSON_INFO, CLOSE_UPDATE_PERSON_INFO,SAVE_UPDATE_PERSON_INFO
@@ -21,7 +22,8 @@ import {
 import {GET_PROJECT_MEMBERS, stopLoading} from "./CommonAction";
 import RequestBuilder from "../constants/RequestBuilder";
 import UrlConf from "../constants/UrlConf";
-import {error,warning} from "./NotificationAction";
+import {error, success, warning} from "./NotificationAction";
+import {getMyTaskMain} from "./BuildMissionAction";
 
 //axios配置
 const config = {
@@ -691,6 +693,31 @@ export function search(pageNo, pageSize, searchText, doAfterInit) {
 
         })
         .catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
+
+        });
+}
+
+//////
+export function saveEditTestCase(content) {
+    store.dispatch({
+       type:CLOSE_TEST_CASE_EDIT, value:content
+    });
+    const url = UrlConf.base + 'task/saveEditTestCase';
+    const config = {
+        method: 'post'
+    };
+    let accessToken = localStorage.getItem("token");
+    let request = RequestBuilder.parseRequest(accessToken,content);
+    return axios.post(url, request,config)
+        .then(response => {
+            if (response.data.respCode === "00") {
+                let data = response.data.data;
+                success("保存成功");
+            }else{
+                error(response.data.msg);
+            }
+        }).catch(e => {
             error("后台拉取数据失败",JSON.stringify(e));
 
         });

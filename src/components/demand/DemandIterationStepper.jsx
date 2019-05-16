@@ -93,7 +93,7 @@ class DemandIterationStepper extends React.Component {
         return (
             <Grid container>
                 <Grid item xs={12} style={{background:"#FFF"}}>
-                    <Typography variant="h6" align="center" style={{paddingTop:"10px"}}>{steppers.iterationCode}</Typography>
+                    <Typography variant="h6" align="center" style={{paddingTop:"10px"}}>{!!steppers?steppers.iterationCode:""}</Typography>
 
                 </Grid>
                 <Grid item xs={12}>
@@ -103,17 +103,17 @@ class DemandIterationStepper extends React.Component {
                             <Step className={classes.stepContent}>
                                 <StepLabel
                                     optional={<Chip className={classes.chip}
-                                                    label={!!steppers.testDate ? steppers.testDate : "未指定"}/>}>提测</StepLabel>
+                                                    label={!!steppers ? (!!steppers.testDate?steppers.testDate: "未指定") : ""}/>}>提测</StepLabel>
                             </Step>
                             <Step className={classes.stepContent}>
                                 <StepLabel
                                     optional={<Chip className={classes.chip}
-                                                    label={!!steppers.publishDate ? steppers.publishDate : "未指定"}/>}>发布</StepLabel>
+                                                    label={!!steppers ? (!!steppers.publishDate?steppers.publishDate: "未指定") : ""}/>}>发布</StepLabel>
                             </Step>
                             <Step className={classes.stepContent}>
                                 <StepLabel
                                     optional={<Chip className={classes.chip}
-                                                    label={!!steppers.deliveryDate ? steppers.deliveryDate : "未指定"}/>}>上线</StepLabel>
+                                                    label={!!steppers ? (!!steppers.deliveryDate?steppers.deliveryDate:"未指定") : ""}/>}>上线</StepLabel>
                             </Step>
 
                         </Stepper>

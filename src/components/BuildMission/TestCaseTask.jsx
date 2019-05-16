@@ -213,15 +213,11 @@ class TestCaseTask extends React.Component {
         }
     }
 
-    handleChange = (panel,demandid) => (event, expanded) => {
+
+    handleChange = (panel) => (event, expanded) => {
         this.setState({
             expanded: expanded ? panel : false,
         });
-        store.dispatch({
-            type:TEST_CASE_SAVE_DEMANDID,
-            value:demandid
-        })
-
     };
 
 
@@ -274,77 +270,25 @@ class TestCaseTask extends React.Component {
         if(nextProps.action === INJECT_TEST_CASE_CONTENT){
             let demandsArrayTemp = nextProps.testCaseTaskInfo.demandsArray;
             let demandsArray=[];
-            demandsArrayTemp.map((item,index)=>{
+            demandsArrayTemp.map((itemOut,indexOut)=>{
                 let tempObject={};
-                tempObject.testCase=this.mapObjectToArray(item.testCase);
-                tempObject.demandName=item.demandName;
+                tempObject.demandId=itemOut.demandId;
+                tempObject.demandName=itemOut.demandName;
+                let testCaseList=[];
+                itemOut.testCaseList.map((itemIn,indexIn)=>{
+                    testCaseList.push(this.mapObjectToArray(itemIn));
+                });
+                tempObject.testCaseList=testCaseList;
                 demandsArray.push(tempObject);
             });
-            this.setState({demandsArray,raw:demandsArrayTemp})
+            this.setState({demandsArray,raw:demandsArrayTemp});
             setEmptyAction();
-        }else if(nextProps.action === SAVE_TEST_CASE){
-            let rawRet = this.state.raw;
-            let tempObject={};
-            let tempChangeObject={};
-            //多寫一步，這裏可以簡化
-            if (!!rawRet){
-                Object.keys(this.props.testCaseTaskInfo.demandIdList).map((item,index)=>{
-                    if (this.props.testCaseTaskInfo.demandIdList[item]===nextProps.singleTestCase.demandId){
-                        tempObject.demandName=item;
-                        tempObject.testCase=nextProps.singleTestCase;
-                    }
-                });
-                rawRet.map((item,index)=>{
-                    if (item.demandName===tempObject.demandName) {
-                        item.testCase.push(tempObject.testCase)
-                    }
-                });
-
-                tempChangeObject=tempObject;
-                tempChangeObject.testCase=this.mapObjectToArray(nextProps.singleTestCase);
-                let demandsArray = JSON.parse(JSON.stringify(this.state.demandsArray));
-                demandsArray.map((item,index)=>{
-                    if (item.demandName===tempChangeObject.demandName) {
-                        item.testCase.push(tempChangeObject.testCase)
-                    }
-                });
-                this.setState({ demandsArray, raw : rawRet});
-                setEmptyAction();
-            } else{
-                if(this.props.testCaseTaskInfo!=null){
-                    Object.keys(this.props.testCaseTaskInfo.demandIdList).map((item,index)=>{
-                        if (this.props.testCaseTaskInfo.demandIdList[item]===nextProps.singleTestCase.demandId){
-                            tempObject.demandName=item;
-                            tempObject.testCase=nextProps.singleTestCase;
-                        }
-                    });
-                    rawRet.push(tempObject);
-                    tempChangeObject=tempObject;
-                    tempChangeObject.testCase=this.mapObjectToArray(nextProps.singleTestCase);
-                    let demandsArray = JSON.parse(JSON.stringify(this.state.demandsArray));
-                    demandsArray.push(tempChangeObject);
-                    this.setState({demandsArray});
-                    setEmptyAction();
-                }
-            }
-
-
-
-
         }else if(nextProps.action ===SAVE_ACTUAL_VALUE_INSERT){
-            // nextProps.singleTestCaseActualValue
-            let demandNameAndIdMap=this.props.testCaseTaskInfo.demandIdList;
-            let x;
-            let demandNameFind="";
-            for(x in demandNameAndIdMap){
-                if(demandNameAndIdMap[x]===nextProps.singleTestCaseActualValue.demandId){
-                    demandNameFind=x;
-                }
-            }
+            const tempdemandId=nextProps.singleTestCaseActualValue.demandId;
             let newDemandsArray=this.state.demandsArray.map((item,index)=>{
-              if (item.demandName===demandNameFind)   {
+              if (item.demandId===tempdemandId)   {
                   let tempItem={};
-                  tempItem.testCase=item.testCase.map((itemIn,indexIn)=>{
+                  tempItem.testCaseList=item.testCaseList.map((itemIn,indexIn)=>{
                       if (itemIn[0]===nextProps.singleTestCaseActualValue.id) {
                           return itemIn=this.mapObjectToArray(nextProps.singleTestCaseActualValue);
                       }
@@ -352,27 +296,12 @@ class TestCaseTask extends React.Component {
 
                   });
                   tempItem.demandName=item.demandName;
+                  tempItem.demandId=item.demandId;
                   return tempItem;
               }
               return item
             });
             this.setState({demandsArray:newDemandsArray});
-        } else if(nextProps.action === SAVE_EDIT_TEST_CASE){
-
-            let newRaw = JSON.parse(JSON.stringify(this.state.raw));
-
-            let editedTestCase = nextProps.singleTestCase;
-
-            for(let i in newRaw){
-                let unit = newRaw[i];
-                if(editedTestCase.id === unit.id){
-                    newRaw[i] = editedTestCase;
-                    break;
-                }
-            }
-
-            this.setState({testCase : this.mapObjectToArray(newRaw), raw : newRaw});
-            setEmptyAction();
         }
     }
 
@@ -428,19 +357,13 @@ class TestCaseTask extends React.Component {
                         <div className={classes.root}>
                             {
                                 !!demandsArray?demandsArray.map((item,index)=>{
-                                    let tempDemandId=0;
-                                    Object.keys(this.props.testCaseTaskInfo.demandIdList).map((itemIn,indexIn)=>{
-                                        if (itemIn===item.demandName){
-                                            tempDemandId=this.props.testCaseTaskInfo.demandIdList[itemIn]
-                                        }
-                                    });
                                     return(
-                                        <ExpansionPanel expanded={expanded === index.toString()} onChange={this.handleChange(index.toString(),tempDemandId)}>
+                                        <ExpansionPanel expanded={expanded === index.toString()} onChange={this.handleChange(index.toString())}>
                                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                                                 <Typography className={classes.heading}>{item.demandName}</Typography>
                                             </ExpansionPanelSummary>
                                             <ExpansionPanelDetails>
-                                                {this.showTestCaseTable(item.testCase)}
+                                                {this.showTestCaseTable(item.testCaseList)}
                                             </ExpansionPanelDetails>
                                         </ExpansionPanel>
                                     )
