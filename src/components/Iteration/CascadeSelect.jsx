@@ -101,9 +101,7 @@ class CascadeSelect extends React.Component {
 
         getRecentIterationByProjectId(e.target.value).then(resp => {
 
-            if(!!resp.data.data && resp.data.data.length > 0){
-                this.setState({iterationId : resp.data.data[0].id});
-            }
+            this.setState({iterationId : -1});
 
             self.setState({curIterations : resp.data.data})
 
@@ -138,7 +136,7 @@ class CascadeSelect extends React.Component {
 
 
         }
-        let iterationOptions = [];
+        let iterationOptions = [{id:-1,name:"未指定"}];
         let defaultIteration = "";
         for(let i in curIterations){
 

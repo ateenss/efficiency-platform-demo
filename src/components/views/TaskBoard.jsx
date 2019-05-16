@@ -81,7 +81,7 @@ const styles = theme => ({
     },
     taskStatus: {
         color: "#484848",
-        fontWeight: "700",
+        fontWeight: "400",
         padding:"10px 0 10px 0",
         margin:"0"
 
@@ -109,7 +109,7 @@ const styles = theme => ({
         color:"#4caf50",
         padding:"0 0 0 0",
         minHeight:"15px",
-        height:"28px",
+        height:"40px",
         minWidth:"100px",
         width:"100%",
         "&:hover":{

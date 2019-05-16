@@ -39,7 +39,7 @@ const columns = [
             }}},
     {name: "BM", options: {filter: false,customBodyRender: (value, tableMeta, updateValue) => {
                 if(value === "是"){
-                    return <CheckIcon style={{paddingTop:"10px",fontSize:"18px"}}/>
+                    return <CheckIcon style={{paddingTop:"10px",fontSize:"18px",color: "#4DAF7C",}}/>
                 }else{
                     return <CheckIcon  style={{color:"#f5f5f5",paddingTop:"10px",fontSize:"18px"}}/>
                 }
@@ -52,12 +52,13 @@ const columns = [
                 showArray.push(taskPlanApproved);
                 const testCaseApproved = parseInt(value.substring(1, 2));
                 showArray.push(testCaseApproved);
-                const completedDeliveryDoc = parseInt(value.substring(2, 3));
-                showArray.push(completedDeliveryDoc);
                 const completedDevDoc = parseInt(value.substring(3, 4));
                 showArray.push(completedDevDoc);
-                const titleSuccess=["开发方案通过","上线检查表通过","完成上线检查表","完成开发方案"];
-                const titleFail=["开发方案未通过","上线检查表未通过","未完成上线检查表","未完成开发方案"];
+                const completedDeliveryDoc = parseInt(value.substring(2, 3));
+                showArray.push(completedDeliveryDoc);
+
+                const titleSuccess=["开发方案通过","上线检查表通过","完成开发方案","完成上线检查表"];
+                const titleFail=["开发方案未通过","上线检查表未通过","未完成开发方案","未完成上线检查表"];
 
                 return (
                     showArray.map((item, index) => {

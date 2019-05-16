@@ -161,7 +161,7 @@ class Filter extends React.Component {
                                         />
                                     </Grid>
                                     <Grid item xs={12} className={classes.gridStyle} style={{marginTop:"26px"}}>
-                                        <DateRange nameIn="createTime" InputLabelName="创建时间" onDateChange={this.getContent}
+                                        <DateRange nameIn="createTime" InputLabelName="评审通过时间" onDateChange={this.getContent}
                                                     defaultValue={this.state.defaultContent.createTime}
                                         />
                                     </Grid>

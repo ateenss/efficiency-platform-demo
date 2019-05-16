@@ -63,6 +63,7 @@ import LinkIcon from "@material-ui/icons/Link"
 import UpdatePersonInfo from "../Iteration/UpdatePersonInfo";
 import Tooltip from "@material-ui/core/Tooltip";
 import DemandIterationStepper from "../demand/DemandIterationStepper";
+import Stats from "../Iteration/Stats";
 
 const drawerWidth = 240;
 
@@ -87,7 +88,7 @@ const styles = theme => ({
         boxShadow: "none"
     },
     textInfo: {
-        margin: theme.spacing.unit * 2,
+        margin: theme.spacing.unit * 1,
         color: "#121212",
         fontSize: "14px",
         fontWeight: "400"
@@ -115,10 +116,13 @@ const styles = theme => ({
         marginRight: "15px"
     },
     chipStyle: {
-        background: "#f5f5f5",
-        color: "#232323",
+        // background: "#f5f5f5",
+        // color: "#232323",
         margin: "5px",
-        fontSize: "14px"
+        fontSize: "14px",
+        borderRadius: "3px",
+        minWidth:"68px",
+        background:"#f5f5f5"
     },
     tabsIndicator: {
         backgroundColor: '#4DAF7C',
@@ -376,9 +380,7 @@ class IterationBoard extends React.Component {
     }
 
     handleReview = () =>{
-
         this.setState({tabValue: 1})
-
     };
 
     handleAllIteration = (e) =>{
@@ -473,7 +475,7 @@ class IterationBoard extends React.Component {
                                                             <div
                                                                 className={classes.textInfo}>版本负责人：<Chip
                                                                 label={this.state.iterationInfo.iterationOwner}
-                                                                className={classes.chipStyle}/></div>
+                                                                className={classes.chipStyle} style={{background: "#e0ecfb", color: "#176fdc",}}/></div>
                                                         </Grid>
                                                         <Grid xs={6} item>
                                                             <div
@@ -481,7 +483,7 @@ class IterationBoard extends React.Component {
                                                                 label={this.state.iterationInfo.deliveryPersonInCharge}
                                                                 className={classes.chipStyle}/></div>
                                                         </Grid>
-                                                        <Grid xs={6} item>
+                                                        <Grid xs={12} item>
                                                             <div
                                                                 className={classes.textInfo}>
                                                                 上线人员：{!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryPersons ? this.state.iterationInfo.deliveryPersons.map((value, index) => {
@@ -491,9 +493,9 @@ class IterationBoard extends React.Component {
                                                             ) : ""}
                                                             </div>
                                                         </Grid>
-                                                        <Grid xs={6} item>
+                                                        <Grid xs={12} item>
                                                             <div
-                                                                className={classes.textInfo}>上线人员：
+                                                                className={classes.textInfo}>上线检查：
                                                                 {!!this.state.iterationInfo && !!this.state.iterationInfo.deliveryCheckers ? this.state.iterationInfo.deliveryCheckers.map((value, index) => {
                                                                         return <Chip label={value} className={classes.chipStyle}
                                                                                      key={index}/>
@@ -557,20 +559,7 @@ class IterationBoard extends React.Component {
 
                                     <Grid container spacing={8}>
                                         <Grid item xs={12}>
-                                            <ResponsiveContainer width="100%" height={400}>
-                                                <BarChart
-                                                    data={data}
-                                                    margin={{top: 20, right: 20, bottom: 20, left: 100}}
-                                                    layout="vertical"
-                                                >
-                                                    <XAxis type="number"/>
-                                                    <YAxis dataKey="name" type="category"/>
-                                                    <Tooltip/>
-                                                    <Legend/>
-                                                    <Bar dataKey="uv" name="工作量" fill="#4DAF7C" maxBarSize={20}
-                                                         label={{fill: "#F5F5F5"}}/>
-                                                </BarChart>
-                                            </ResponsiveContainer>
+                                            <Stats iterationId={!!this.props.iteration ? this.props.iteration.iterationInfo.id : ""} />
                                         </Grid>
                                     </Grid>
                                     }

@@ -23,7 +23,7 @@ const styles = theme => ({
         paddingLeft: "0",
     },
     itemText: {
-        paddingLeft: "40px !important"
+        paddingLeft: "30px !important"
     },
     itemTextParent: {
         paddingLeft: "0px !important"
@@ -113,7 +113,7 @@ class SingleIteration extends React.Component {
                               onClick={this.handleSelected.bind(this, prop.id, prop.iter)} selected={prop.selected}  style={{paddingRight:"0"}}>
 
 
-                        <ListItemText inset primary={prop.iter + "版"} className={classes.itemText}/>
+                        <ListItemText disableTypography inset primary={prop.iter + "版"} className={classes.itemText}/>
                         <IterationMenuList icon={<MoreVertIcon/>} handleDelete={this.props.handleDelete.bind(this, prop.id)} handleEdit={this.props.handleEdit.bind(this, prop.id)} handleReview={this.props.handleReview} perm={this.props.perm}/>
                     </ListItem>
                 )

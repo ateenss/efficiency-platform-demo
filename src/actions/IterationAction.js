@@ -39,7 +39,7 @@ export const DELETE_BY_ID = UrlConf.base + 'iteration/delete';
 export const SAVE_PERSON_INFO = UrlConf.base + 'iteration/updatePersonInfo';
 export const SAVE = UrlConf.base + 'iteration/save';
 export const HISTORY_ITERATION = UrlConf.base + 'iteration/histories';
-
+export const GET_MODULES_STATS_BY_ITERATION = UrlConf.base + "modules/getModulesStatsByIteration";
 //审核通过
 export function ProvePlan(id) {
     const url = UrlConf.base + 'iteration/proveplan';
@@ -746,5 +746,14 @@ export function disableAllExcept(iterationName){
         payload : iterationName
     });
 
+
+}
+
+export function getModulesStatsByIteration(iterationId){
+
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(GET_MODULES_STATS_BY_ITERATION, {"version": "1.0", accessToken: accessToken, data : iterationId}, config);
 
 }
