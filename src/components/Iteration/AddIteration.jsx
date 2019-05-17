@@ -23,9 +23,12 @@ import Card from "@material-ui/core/Card";
 import Avatar from "@material-ui/core/Avatar";
 import CardContent from "@material-ui/core/CardContent";
 import CascadeSelect from "./CascadeSelect";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import classNames from 'classnames';
+import {green} from "@material-ui/core/colors";
 
 
-const styles = {
+const styles = theme => ({
     avatar: {
         backgroundColor: blue[100],
         color: blue[600],
@@ -51,9 +54,43 @@ const styles = {
     },
     headerLine:{
         fontSize:"16px"
+    },
+    wrapper: {
+        margin: theme.spacing.unit,
+        position: 'relative',
+    },
+    buttonSuccess: {
+        backgroundColor: green[500],
+        color:"#FFF",
+        '&:hover': {
+            backgroundColor: green[700],
+        },
+    },
+    fabProgress: {
+        color: green[500],
+        position: 'absolute',
+        top: -6,
+        left: -6,
+        zIndex: 1,
+    },
+    buttonProgress: {
+        color: green[500],
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+    buttonRoot:{
+        background:"#4DAF7C",
+        color:"#FFF",
+        '&:hover':{
+            background:"#4DAF7C",
+
+        }
     }
 
-};
+});
 
 class AddIteration extends React.Component {
     constructor(props) {
@@ -62,7 +99,9 @@ class AddIteration extends React.Component {
             openTask: false,
             iterationContent: {},
             errorList: {},
-            title : "新增版本"
+            title : "新增版本",
+            loading : false,
+            success : false
         }
     }
 
@@ -88,13 +127,37 @@ class AddIteration extends React.Component {
 
     handleSave = () => {
 
-        let ret = validating(this.state.iterationContent, "iterationProps");
-        if(!ret.result){
-            error(ret.message);
-            return false;
+        let self = this;
+
+        if (!this.state.loading) {
+            this.setState(
+                {
+                    success: false,
+                    loading: true,
+                },
+                () => {
+
+                    this.timer = setTimeout(() => {
+
+
+                        let ret = validating(self.state.iterationContent, "iterationProps");
+                        if(!ret.result){
+                            error(ret.message);
+                            return false;
+                        }
+
+                        saveIteration(self.state.action, self.state.iterationContent);
+
+
+                        this.setState({
+                            loading: false,
+                            success: true,
+                        });
+                    }, 2000);
+                },
+            );
         }
 
-        saveIteration(this.state.action, this.state.iterationContent);
     };
 
 
@@ -124,6 +187,12 @@ class AddIteration extends React.Component {
 
     render() {
         const {initialData, buttonStyle, classes} = this.props;
+        const {success, loading} = this.state;
+        const buttonClassname = classNames({
+            [classes.buttonSuccess]: success,
+            [classes.buttonRoot] : !success
+
+        });
         let projectMember4MultiSelect = [];
         let projectMember4SingleSelect=[];
         let defaultCheckers = [];
@@ -273,9 +342,13 @@ class AddIteration extends React.Component {
                     <Button onClick={this.handleClose} color="primary" className={buttonStyle}>
                         取消
                     </Button>
-                    <Button onClick={this.handleSave} color="primary">
-                        提交
-                    </Button>
+                    <div className={classes.wrapper}>
+                        <Button onClick={this.handleSave} variant="contained"  className={buttonClassname} disabled={loading}>
+                            提交
+                        </Button>
+                        {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+                    </div>
+
                 </DialogActions>
             </Dialog>
         );

@@ -170,6 +170,12 @@ class TaskBoard extends React.Component {
     };
 
     changePerson = (taskId, ownerId, e) =>{
+
+        let currentUser = localStorage.getItem("currentUser");
+        if(currentUser != ownerId){
+            return false;
+        }
+
         changeTaskOwner(taskId, ownerId);
         console.log(ownerId);
     };

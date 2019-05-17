@@ -71,7 +71,7 @@ export function addDemand() {
     });
 
 }
-export function demandSync(){
+export function demandSync(callback){
 
 
     let accessToken = localStorage.getItem("token");
@@ -88,6 +88,10 @@ export function demandSync(){
                 type: SYNC_DEMAND,
                 payload: response.data.data
             })
+
+
+            callback();
+
         })
         .catch(e => {
             error("后台拉取数据失败",JSON.stringify(e));

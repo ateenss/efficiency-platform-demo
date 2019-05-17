@@ -68,12 +68,6 @@ import Stats from "../Iteration/Stats";
 const drawerWidth = 240;
 
 
-const data = [
-    {name: 'ACP_GTW_WEB', uv: 20},
-    {name: 'ACP_GTW_APP', uv: 26},
-    {name: 'ACAOS', uv: 23},
-    {name: 'ACP_GTW_BKE', uv: 12},
-];
 const styles = theme => ({
     root: {
         width: '100%'
@@ -321,6 +315,46 @@ class IterationBoard extends React.Component {
                 }
             }
             this.setState({openAlert : false})
+        }
+
+        if(nextProps.action === SAVE_EDIT_ITERATION){
+
+            console.log(JSON.stringify(iterationState));
+
+            /**
+             * [{
+                "children": [{
+                    "iter": "UPAC201905-02",
+                    "selected": true,
+                    "id": 1
+                }],
+                "iteration": {
+                    "name": "UPAC201905",
+                    "selected": true
+                }
+            }]
+             */
+            let newIteration = nextProps.iteration.iterationInfo.iterationCode.split("-");
+            for (let i in iterationState) {
+
+                let unit = iterationState[i];
+
+                for(let j in unit.children){
+
+                    if(unit.children[j].id === nextProps.iteration.iterationInfo.id){
+
+                        unit.children[j].iter = nextProps.iteration.iterationInfo.iterationCode;
+
+                    }
+
+
+
+                }
+
+
+            }
+
+
         }
 
         // 这里会返回新建后的版本号，这个版本号需要有一定的归类
