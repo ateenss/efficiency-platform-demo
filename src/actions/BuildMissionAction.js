@@ -348,8 +348,6 @@ export function getTestCaseListByDemands(taskId){
         .then(response => {
             if (response.data.respCode === "00") {
                 let data = response.data.data;
-                console.log("这是看看传进来啥数据");
-                console.log(data);
                 // store.dispatch(openTestCaseEditor(data));
                 let ret=[];
                 let finalContent={};

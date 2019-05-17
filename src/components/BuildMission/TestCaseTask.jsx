@@ -270,17 +270,19 @@ class TestCaseTask extends React.Component {
         if(nextProps.action === INJECT_TEST_CASE_CONTENT){
             let demandsArrayTemp = nextProps.testCaseTaskInfo.demandsArray;
             let demandsArray=[];
-            demandsArrayTemp.map((itemOut,indexOut)=>{
-                let tempObject={};
-                tempObject.demandId=itemOut.demandId;
-                tempObject.demandName=itemOut.demandName;
-                let testCaseList=[];
-                itemOut.testCaseList.map((itemIn,indexIn)=>{
-                    testCaseList.push(this.mapObjectToArray(itemIn));
+            if (demandsArrayTemp!=null) {
+                demandsArrayTemp.map((itemOut,indexOut)=>{
+                    let tempObject={};
+                    tempObject.demandId=itemOut.demandId;
+                    tempObject.demandName=itemOut.demandName;
+                    let testCaseList=[];
+                    itemOut.testCaseList.map((itemIn,indexIn)=>{
+                        testCaseList.push(this.mapObjectToArray(itemIn));
+                    });
+                    tempObject.testCaseList=testCaseList;
+                    demandsArray.push(tempObject);
                 });
-                tempObject.testCaseList=testCaseList;
-                demandsArray.push(tempObject);
-            });
+            }
             this.setState({demandsArray,raw:demandsArrayTemp});
             setEmptyAction();
         }else if(nextProps.action ===SAVE_ACTUAL_VALUE_INSERT){
