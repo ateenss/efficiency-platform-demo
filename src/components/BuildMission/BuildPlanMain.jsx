@@ -17,6 +17,12 @@ import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
 import permProcessor from "../../constants/PermProcessor";
 import MyQuill from "../SelfComponent/MyQuill";
+import {green} from "@material-ui/core/colors";
+import {validating} from "../../actions/validateAction";
+import {error} from "../../actions/NotificationAction";
+import {saveIteration} from "../../actions/IterationAction";
+import classNames from "classnames";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 const styles = theme => ({
@@ -60,7 +66,24 @@ const styles = theme => ({
         fontSize: "19px",
         fontWeight: "20",
         align: "center"
+    },
+    buttonProgress: {
+        color: green[500],
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+    buttonRoot:{
+        background:"#4DAF7C",
+        color:"#FFF",
+        '&:hover':{
+            background:"#4DAF7C",
+
+        }
     }
+
 
 });
 
@@ -72,7 +95,9 @@ class BuildPlanMain extends React.Component {
     state = {
         open: false,
         planContent: "11",
-        perm: permProcessor.init('task')
+        perm: permProcessor.init('task'),
+        loading : false,
+        success : false
     };
 
 
@@ -96,7 +121,27 @@ class BuildPlanMain extends React.Component {
         tempContent["saveOrSubmit"] = 1;
         if (permProcessor.bingo('submitAndSavePlan', this.state.perm)) {
 
-            submitAndPlan(tempContent);
+            if (!this.state.loading) {
+                this.setState(
+                    {
+                        success: false,
+                        loading: true,
+                    },
+                    () => {
+
+                        this.timer = setTimeout(() => {
+
+                            submitAndPlan(tempContent);
+
+                            this.setState({
+                                loading: false,
+                                success: true,
+                            });
+                        }, 2000);
+                    },
+                );
+            }
+
         }
     };
 
@@ -137,6 +182,12 @@ class BuildPlanMain extends React.Component {
     render() {
         const {classes, buildPlanShow, tempDemandTaskPlan} = this.props;
         const {planContent} = this.state;
+        const {success, loading} = this.state;
+        const buttonClassname = classNames({
+            [classes.buttonSuccess]: success,
+            [classes.buttonRoot] : !success
+
+        });
         return (
             <div>
                 <Dialog
@@ -156,9 +207,11 @@ class BuildPlanMain extends React.Component {
                             <Button color="inherit" onClick={this.savePlan}>
                                 保存
                             </Button>
-                            <Button color="inherit" onClick={this.submitPlan}>
+
+                            <Button onClick={this.submitPlan} variant="contained"  className={buttonClassname} disabled={loading}>
                                 提交
                             </Button>
+                            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                         </Toolbar>
                     </AppBar>
                     <Grid container spacing={8}>

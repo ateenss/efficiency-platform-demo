@@ -107,6 +107,11 @@ class IterationList extends React.Component {
     render() {
         const {classes} = this.props;
         let idx = 1;
+        let size = !!this.props.iterations ? this.props.iterations.length : 0;
+        let groupSize = (size - size%3)/3;
+
+        let containerSize = (size - size%2)/2;
+
         let iterationLists = !this.props.iterations ? "" : this.props.iterations.map((prop, key) => {
                 return (
                     <Grid item xs={2}>

@@ -368,7 +368,15 @@ class TaskBoard extends React.Component {
 
     handleDemandSync = () =>{
 
-        demandSync();
+        startLoading();
+
+        demandSync(function(){
+
+            stopLoading();
+
+            success("同步成功")
+
+        });
 
     };
 
