@@ -8,19 +8,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
-import DatePicker from "../SelfComponent/DatePicker"
 import {connect} from "react-redux";
-import InputField from "../SelfComponent/InputField"
-import SingleSelect from "../SelfComponent/SingleSelect"
-import {closeAddIteration, closeUpdatePersonInfo, saveIteration, savePersonInfo} from "../../actions/IterationAction";
-import GlobalValidateRegex from "../../constants/GlobalValidateRegex";
+import {closeUpdatePersonInfo, savePersonInfo} from "../../actions/IterationAction";
 import {ADD_ITERATION, EDIT_ITERATION} from "../../actions/types";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
-import {Rules, validating} from "../../actions/validateAction";
+import {validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
 import CardHeader from "@material-ui/core/CardHeader";
 import Card from "@material-ui/core/Card";
-import Avatar from "@material-ui/core/Avatar";
 import CardContent from "@material-ui/core/CardContent";
 
 

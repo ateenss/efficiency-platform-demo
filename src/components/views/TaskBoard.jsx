@@ -310,10 +310,10 @@ class TaskBoard extends React.Component {
 
                             <Grid item xs={2}>
                                 <Toolbar variant="regular">
-                                    <Button onClick={this.toggleDrawer('right', true)}
-                                            className={classes.newDevButton}
-                                            size="large"
-                                    >筛选</Button>
+                                    {/*<Button onClick={this.toggleDrawer('right', true)}*/}
+                                            {/*className={classes.newDevButton}*/}
+                                            {/*size="large"*/}
+                                    {/*>筛选</Button>*/}
                                    {/* <Button onClick={this.openOtherTask}
                                             className={classes.newDevButton}
                                             size="large"

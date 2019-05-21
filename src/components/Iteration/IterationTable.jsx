@@ -285,6 +285,7 @@ class IterationList extends React.Component {
             {name:"上线负责人",options:{filter:false,display:false, children:true}},
             {name:"deliveryPersonInChargeId",options:{filter:false,display:false}},
             {name:"变更号",options:{filter:false,display:false, children:true}},
+            {name:"relatedIterationId",options:{filter:false,display:false, children:false}},
             {name:"上线人员",options:{filter:false,display:false, children:true, dataType:"array"}},
             {name:"上线检查人员",options:{filter:false,display:false, children:true, dataType:"array"}},
         ];
@@ -303,7 +304,7 @@ class IterationList extends React.Component {
             selectableRows: "none",
             renderExpandableRow: (rowData, rowMeta) => {
                 const colSpan = rowData.length + 1;
-
+                console.log(JSON.stringify(rowData));
                 return (<TableRow style={{background:"#F5f5f5"}}>
                             <TableCell colSpan={colSpan} >
                                 <Grid container spacing={8}  style={{background:"#F5f5f5"}}>

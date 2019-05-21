@@ -17,6 +17,7 @@ import Project from "../components/views/Project.jsx";
 import TaskBoard from "../components/views/TaskBoard.jsx";
 import DemandBoard from "../components/views/DemandBoard";
 import IterationBoard from "../components/views/IterationBoard";
+import DemandTask from "../components/BuildMission/DemandTask";
 
 
 const dashboardRoutes = [

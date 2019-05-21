@@ -10,7 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import {changeTaskStatus} from "../../actions/DemandTasksAction";
 import {editTask} from "../../actions/DemandTasksAction";
 
-import {Link} from 'react-router-dom'
+import {Link, NavLink} from 'react-router-dom'
 
 import MuiCardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
@@ -34,6 +34,7 @@ import {connect} from "react-redux";
 import Button from "@material-ui/core/Button";
 import {Divider, Tooltip} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import UrlConf from "../../constants/UrlConf";
 
 
 const styles = theme => ({
@@ -198,6 +199,11 @@ class Task extends React.Component {
                         <CardActions className={classes.actions} disableActionSpacing>
                             <Grid container style={{background:"#fbfbfb"}}>
                                 <Grid item xs={6} style={{textAlign:"center"}}>
+                                    {/*<Tooltip title="详情">*/}
+                                        {/*<Link to={"./task/test?keyNote=" + keyNote + "&taskType=" + taskType}>*/}
+                                            {/*<DetailIcon style={{fontSize:"16px"}} />*/}
+                                        {/*</Link>*/}
+                                    {/*</Tooltip>  */}
                                     <Tooltip title="详情">
                                         <Button size="small" onClick={this.openDetailPanel.bind(this, keyNote, taskType)}>
                                             <DetailIcon style={{fontSize:"16px"}} />

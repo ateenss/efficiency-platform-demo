@@ -13,14 +13,12 @@ import {connect} from "react-redux";
 import store from '../../stores/index';
 import {closeBuildPlan,  submitAndPlan} from "../../actions/BuildMissionAction"
 import Grid from '@material-ui/core/Grid';
-import EditQuill from "../SelfComponent/EditQuill"
 import MultiLineInput from "../SelfComponent/MultiLineInput"
 import permProcessor from "../../constants/PermProcessor";
 import MyQuill from "../SelfComponent/MyQuill";
 import {green} from "@material-ui/core/colors";
 import {validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
-import {saveIteration} from "../../actions/IterationAction";
 import classNames from "classnames";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -106,10 +104,18 @@ class BuildPlanMain extends React.Component {
     };
 
     savePlan = () => {
+        let self = this;
         let tempContent = this.state.planContent;
         tempContent["taskId"] = this.props.tempBoardToDetail.taskId;
         tempContent["saveOrSubmit"] = 0;
         if (permProcessor.bingo('submitAndSavePlan', this.state.perm)) {
+
+
+            let ret = validating(tempContent, "devPlanProps");
+            if(!ret.result){
+                error(ret.message);
+                return false;
+            }
 
             submitAndPlan(tempContent);
         }
@@ -121,27 +127,14 @@ class BuildPlanMain extends React.Component {
         tempContent["saveOrSubmit"] = 1;
         if (permProcessor.bingo('submitAndSavePlan', this.state.perm)) {
 
-            if (!this.state.loading) {
-                this.setState(
-                    {
-                        success: false,
-                        loading: true,
-                    },
-                    () => {
 
-                        this.timer = setTimeout(() => {
-
-                            submitAndPlan(tempContent);
-
-                            this.setState({
-                                loading: false,
-                                success: true,
-                            });
-                        }, 2000);
-                    },
-                );
+            let ret = validating(tempContent, "devPlanProps");
+            if(!ret.result){
+                error(ret.message);
+                return false;
             }
 
+            submitAndPlan(tempContent);
         }
     };
 

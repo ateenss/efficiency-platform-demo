@@ -24,6 +24,8 @@ import RequestBuilder from "../constants/RequestBuilder";
 import UrlConf from "../constants/UrlConf";
 import {error, success, warning} from "./NotificationAction";
 import {getMyTaskMain} from "./BuildMissionAction";
+import DownloadIcon from "../components/Iteration/DemandsList";
+import React from "react";
 
 //axios配置
 const config = {
@@ -67,6 +69,17 @@ export function ProvePlan(id) {
 
 }
 
+
+export function getDownloadLink(iterationId){
+
+    let accessToken = localStorage.getItem("token");
+
+    let url = UrlConf.base + "download/deliveryDoc";
+
+    return axios.post(url, {"version": "1.0", accessToken: accessToken, data : iterationId}, config);
+
+
+}
 
 export function getRecentIterationByProjectId(projectId) {
 

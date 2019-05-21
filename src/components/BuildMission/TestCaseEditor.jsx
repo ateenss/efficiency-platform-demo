@@ -358,7 +358,7 @@ mapObjectToArray = (result) => {
         return (
 
             <div>
-                <Dialog  open={openTestCaseEditor}  TransitionComponent={Transition}  fullWidth maxWidth="xl">
+                <Dialog  open={openTestCaseEditor}  TransitionComponent={Transition}  fullWidth maxWidth="lg">
                     <AppBar className={classes.appBar} color="default">
                         <Toolbar variant="dense">
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
@@ -393,6 +393,8 @@ mapObjectToArray = (result) => {
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
+    console.log("P{}{}{}{"+state.reducer.buildMission.demandId);
+
     return {
         openTestCaseEditor: state.reducer.buildMission.openTestCaseEditor,
         testCase:state.reducer.buildMission.testCase,

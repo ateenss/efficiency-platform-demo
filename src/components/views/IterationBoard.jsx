@@ -586,7 +586,7 @@ class IterationBoard extends React.Component {
                                     </Grid>
                                     }
                                     {tabValue === 1 &&
-                                    <DemandsList data={this.state.demandList} perm={this.state.perm}/>
+                                    <DemandsList iterationId={!!this.state.iterationInfo ? this.state.iterationInfo.id : ""} data={this.state.demandList} perm={this.state.perm}/>
 
                                     }
                                     {tabValue === 2 &&

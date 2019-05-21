@@ -13,6 +13,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableFooter from "@material-ui/core/TableFooter";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import Grid from "../BuildMission/TestCaseEditor";
+import Chip from "@material-ui/core/Chip";
 
 const styles = theme => ({
     root: {
@@ -146,11 +147,15 @@ class DetailTable extends React.Component {
             if (!!this.props.columns[i].options.children && this.props.columns[i].options.children == true) {
 
                 cell.push(this.props.rowData[i]);
-
-                let c = {name: this.props.columns[i].name, options: {}}
+console.log(this.props.rowData[i]);
+                let c = {name: this.props.columns[i].name, options: {}};
                 if (this.props.columns[i].options.dataType === "array") {
                     c.options.customBodyRender = (value, tableMeta, updateValue) => {
-                        return JSON.stringify(value);
+                        return !!value && value.map((item, index) => {
+
+                            return <Chip key={index} label={item} style={{borderRadius:"3px",marginRight:"3px"}}/>;
+
+                        });
                     }
                 }
 

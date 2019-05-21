@@ -135,10 +135,11 @@ const styles = theme => ({
         width:20
     }
 });
+import projectImg from "../../assets/img/th.jpeg";
 
 const image =
     {
-        url: 'https://material-ui.com/static/images/grid-list/breakfast.jpg',
+        url: projectImg,
         title: 'Breakfast',
         width: '100%',
     }
@@ -189,6 +190,7 @@ class ProjectPanel extends React.Component {
                       className={classes.imageSrc}
                       style={{
                           backgroundImage: `url(${image.url})`,
+                          opacity:"0.5"
                       }}
                   />
 

@@ -238,6 +238,23 @@ export const Rules = {
             required:true,
             literal:"确认密码"
         },
+    },
+    devPlanProps:{
+        config: {required : true, literal:"参数配置"},
+        dbChange: {required : true, literal:"数据库变更"},
+        deploymentChange: {required : true, literal:"部署需求调整"},
+        disasterRecoveryAssessment: {required : true, literal:"灾备影响性评估"},
+        high5Assessment: {required : true, literal:"五高影响性"},
+        innerSysInterfaceChange: {required : true, literal:"内部子系统间接口调整"},
+        interfaceChange: {required : true, literal:"接口规范变更"},
+        moduleDeploySequence: {required : true, literal:"模块上线顺序要求"},
+        operationChange: {required : true, literal:"运维信息变更"},
+        outerSysChange: {required : true, literal:"外部系统配套改造"},
+        outerSysInterfaceChange: {required : true, literal:"外部系统接口调整"},
+        overallPlan: {required : true, literal:"整体方案描述"},
+        productEnvAssessment: {required : true, literal:"生产影响性评估"},
+        safety: {required : true, literal:"安全相关"},
+        supportGrayEnv: {required : true, literal:"是否支持灰度功能"},
     }
 
 

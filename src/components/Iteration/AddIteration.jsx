@@ -302,19 +302,6 @@ class AddIteration extends React.Component {
                         <CardContent className={classes.cardContent} style={{paddingTop:"32px"}}>
                             <Grid container spacing={8}>
                                 <Grid item xs={4} className={classes.gridStyle}>
-                                    <DatePicker nameIn="testDate" InputLabelName="提测时间" onDateChange={this.getContent}
-                                                defaultValue={this.state.iterationContent.testDate}z
-                                    />
-                                </Grid>
-                                <Grid item xs={4} className={classes.gridStyle}>
-                                    <DatePicker nameIn="publishDate" InputLabelName="发布时间" onDateChange={this.getContent}
-                                                defaultValue={this.state.iterationContent.publishDate}/>
-                                </Grid>
-                                <Grid item xs={4} className={classes.gridStyle}>
-                                    <DatePicker nameIn="deliveryDate" InputLabelName="上线时间" onDateChange={this.getContent}
-                                                defaultValue={this.state.iterationContent.deliveryDate}/>
-                                </Grid>
-                                <Grid item xs={4} className={classes.gridStyle}>
                                     <DatePicker nameIn="developPlanSubmitDate" InputLabelName="开发方案提交时间"
                                                 onDateChange={this.getContent}
                                                 defaultValue={this.state.iterationContent.developPlanSubmitDate}/>
@@ -326,6 +313,19 @@ class AddIteration extends React.Component {
                                 <Grid item xs={4} className={classes.gridStyle}>
                                     <DatePicker nameIn="ciDate" InputLabelName="持续集成执行时间" onDateChange={this.getContent}
                                                 defaultValue={this.state.iterationContent.ciDate}/>
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <DatePicker nameIn="testDate" InputLabelName="提测时间" onDateChange={this.getContent}
+                                                defaultValue={this.state.iterationContent.testDate}z
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <DatePicker nameIn="publishDate" InputLabelName="发布时间" onDateChange={this.getContent}
+                                                defaultValue={this.state.iterationContent.publishDate}/>
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <DatePicker nameIn="deliveryDate" InputLabelName="上线时间" onDateChange={this.getContent}
+                                                defaultValue={this.state.iterationContent.deliveryDate}/>
                                 </Grid>
                             </Grid>
                         </CardContent>

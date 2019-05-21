@@ -10,7 +10,12 @@ import CardIcon from "@material-ui/icons/PriorityHigh";
 import Chip from "@material-ui/core/Chip";
 import Tooltip from "@material-ui/core/Tooltip";
 import CheckIcon from "@material-ui/icons/CheckCircle"
-
+import DownloadIcon from "@material-ui/icons/CloudDownload"
+import IconButton from "@material-ui/core/IconButton";
+import {getDownloadLink} from "../../actions/IterationAction";
+import {error} from "../../actions/NotificationAction";
+import history from "../../history/history";
+import UrlConf from "../../constants/UrlConf";
 const styles = theme => ({});
 /**
  * 业务编号、需求名称、需求状态、需求负责人、开发负责人、需求来源部门、需求评审通过起止时间、是否需UAT
@@ -25,7 +30,7 @@ const columns = [
     {name: "需求负责人", options: {filter: true,display:false}},
     {name: "负责人ID", options: {display: false}},
     {name: "需求状态",options: {filter: false, display:false}},
-    {name: "开发负责人", options: {filter: false}},
+    {name: "开发负责人", options: {filter: true}},
     {name: "开发负责人", options: {filter: false, display: false}},
     {name: "需求来源", options: {filter: false}},
     {name: "评审时间", options: {filter: false}},
@@ -45,7 +50,7 @@ const columns = [
                 }
 
             }}},
-    {name: "需求任务状态", options: {display:true,customBodyRender: (value, tableMeta, updateValue) => {
+    {name: "需求任务状态", options: {display:true,filter:false,customBodyRender: (value, tableMeta, updateValue) => {
                         // console.log("我就是来看看1",JSON.stringify(value));
                 const showArray = [];
                 const taskPlanApproved = parseInt(value.substring(0, 1));
@@ -70,9 +75,9 @@ const columns = [
                         for(let j=0;j<titleFail.length;j++){
                             if (j===index){failTitle=titleFail[j]}
                         }
-                        return (item === 1 ? (<Tooltip title={successTitle}><CheckIcon
+                        return (item === 1 ? (<Tooltip key={index} title={successTitle}><CheckIcon
                                 style={{paddingTop: "10px", fontSize: "18px", color: "#4DAF7C",paddingRight:"6px"}}/></Tooltip>) :
-                            (<Tooltip title={failTitle}><CheckIcon
+                            (<Tooltip  key={index} title={failTitle}><CheckIcon
                                 style={{color: "#f5f5f5", paddingTop: "10px", fontSize: "18px",paddingRight:"6px"}}/></Tooltip>))
                     })
                 )
@@ -91,10 +96,37 @@ function Empty() {
 class DemandsList extends React.Component {
     state = {};
 
-
-
-
     componentDidMount() {
+    }
+
+    handleDownload = () =>{
+
+        let iterationId = this.props.iterationId;
+        if(!iterationId){
+            return false;
+        }
+
+        getDownloadLink(iterationId).then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+                return false;
+            }
+
+            const aLink = document.createElement('a');
+            document.body.appendChild(aLink);
+            aLink.style.display='none';
+            aLink.href = response.data.data;
+            aLink.target = "_new";
+            aLink.click();
+
+
+        }).catch(e => {
+                error("后台拉取数据失败",JSON.stringify(e));
+
+        });
+
+
     }
 
     render() {
@@ -104,7 +136,7 @@ class DemandsList extends React.Component {
             filterType: 'checkbox',
             sort: false,
             search:false,
-            filter:false,
+            filter:true,
             download:false,
             sortFilterList:false,
 
@@ -121,7 +153,13 @@ class DemandsList extends React.Component {
             ),
             customToolbar: () => {
                 return (
-                    <Empty/>
+                    <React.Fragment>
+                        <Tooltip title={"下载上线案例"}>
+                            <IconButton className={classes.iconButton} onClick={this.handleDownload}>
+                                <DownloadIcon className={classes.icon}/>
+                            </IconButton>
+                        </Tooltip>
+                    </React.Fragment>
                 );
             },
             textLabels: {

@@ -111,7 +111,7 @@ class AddTestCase extends React.Component {
 
         return (
 
-            <Dialog open={this.props.openAddTestCase}  TransitionComponent={Transition}  fullWidth maxWidth="sm">
+            <Dialog open={this.props.openAddTestCase}  TransitionComponent={Transition}  fullWidth maxWidth="xl">
                 <AppBar className={classes.appBar} color="default">
                     <Toolbar variant="dense">
                         <IconButton color="inherit" onClick={this.handleCancel} aria-label="Close">

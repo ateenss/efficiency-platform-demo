@@ -500,6 +500,9 @@ class TaskBoard extends React.Component {
             rowsPerPageOptions: [10, 20, 40],
             selectableRows: "single",
             rowHover:true,
+            downloadOptions:{
+                filename : "demandList.csv"
+            },
             onRowsSelect: function (currentRowsSelected, allRowsSelected) {
                 console.log(333);
             },
