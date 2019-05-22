@@ -73,7 +73,7 @@ class EditProjectMain extends React.Component {
             return false;
         }
 
-        saveProject(this.state.projectContent)
+        saveProject(this.state.projectContent, "edit")
     };
 
 

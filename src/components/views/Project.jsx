@@ -21,7 +21,7 @@ import {
     openEditProject,
     addProject, openProject, getProjects
 } from "../../actions/BuildProjectAction"
-import {BUILD_SAVE_PROJECT} from "../../actions/types";
+import {BUILD_SAVE_PROJECT, EDIT_SAVE_PROJECT} from "../../actions/types";
 import {getProjectMembers, startLoading, stopLoading, sysInit} from "../../actions/CommonAction";
 import permProcessor from "../../constants/PermProcessor";
 import {getRecentIteration} from "../../actions/IterationAction";
@@ -135,6 +135,22 @@ class Project extends React.Component {
         if (nextProps.action === BUILD_SAVE_PROJECT) {
             let projectList = JSON.parse(JSON.stringify(this.state.projectList));
             projectList.push(nextProps.newProject);
+            this.setState({projectList: projectList})
+        }else if(nextProps.action === EDIT_SAVE_PROJECT){
+
+            let projectList = JSON.parse(JSON.stringify(this.state.projectList));
+
+            for(let idx in projectList){
+
+                if(projectList[idx].id === nextProps.newProject.id){
+
+                    projectList[idx] = nextProps.newProject;
+
+
+                }
+
+            }
+
             this.setState({projectList: projectList})
         }
     }

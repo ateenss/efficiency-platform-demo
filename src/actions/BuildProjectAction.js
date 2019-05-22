@@ -116,7 +116,7 @@ export function addProject() {
  * 这里要区分到底是新增还是编辑
  * @param iterationData
  */
-export function saveProject(data) {
+export function saveProject(data, action) {
 
     // TODO post here, use iterationData to post
     console.log("inSaveProject" + JSON.stringify(data));
@@ -132,8 +132,14 @@ export function saveProject(data) {
             }
 
             success("创建成功");
+
+            let type = BUILD_SAVE_PROJECT;
+            if(action === "edit"){
+                type = EDIT_SAVE_PROJECT;
+            }
+
             store.dispatch({
-                type: BUILD_SAVE_PROJECT,
+                type: type,
                 payload: response.data.data
             })
         })

@@ -68,7 +68,7 @@ class BuildProjectMain extends React.Component {
         }
 
 
-        saveProject(this.state.projectContent)
+        saveProject(this.state.projectContent, "add")
     };
 
 

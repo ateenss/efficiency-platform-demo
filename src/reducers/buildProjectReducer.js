@@ -49,14 +49,7 @@ export default function (state = INITIAL_STATE, action) {
             successState.noticeMessage="提交过程出现异常";
             return errorState;
         case EDIT_SAVE_PROJECT:
-            console.log("编辑修改store");
-            const newRState=JSON.parse(JSON.stringify(state));
-            newRState.addProjects.forEach((item,index)=>{
-                if (index===action.value.keyNote){
-                    newRState.addProjects[index]=action.value.ReContent
-                }
-            });
-            return newRState;
+            return {...state, newProject : action.payload, buildProjectShow:false,editProjectShow:false, action:EDIT_SAVE_PROJECT};
         case PULL_INITIAL_PROJECT:
             console.log("获取初始化程序成功");
             const initialState=JSON.parse(JSON.stringify(state));
