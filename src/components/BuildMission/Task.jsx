@@ -203,7 +203,7 @@ class Task extends React.Component {
                                         {/*<Link to={"./task/test?keyNote=" + keyNote + "&taskType=" + taskType}>*/}
                                             {/*<DetailIcon style={{fontSize:"16px"}} />*/}
                                         {/*</Link>*/}
-                                    {/*</Tooltip>  */}
+                                    {/*</Tooltip>*/}
                                     <Tooltip title="详情">
                                         <Button size="small" onClick={this.openDetailPanel.bind(this, keyNote, taskType)}>
                                             <DetailIcon style={{fontSize:"16px"}} />

@@ -226,7 +226,7 @@ class DevTaskEditor extends React.Component {
         return (
 
             <div>
-                <Dialog   open={taskEditorShow}  TransitionComponent={Transition}  fullWidth maxWidth="xl">
+                <Dialog   open={taskEditorShow}  TransitionComponent={Transition}  fullWidth maxWidth="lg">
                     <AppBar className={classes.appBar} color="default">
                         <Toolbar variant="dense">
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">

@@ -100,20 +100,7 @@ export function init(doAfterInit) {
 
     let accessToken = localStorage.getItem("token");
 
-    function getProjectMembers() {
-        return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
-    }
-
-
-
-    axios.all([getProjectMembers(), getRecentIteration()]).then(axios.spread(function (members, iterations) {
-
-        store.dispatch({
-            type: INIT_PROJECT_MEMBERS,
-            payload: members.data.data
-
-        });
-
+    axios.post(GET_RECENT, {"version": "1.0", accessToken: accessToken}, config).then(function (members, iterations) {
 
         let group = [];
         for (let i in iterations.data.data) {
@@ -146,7 +133,7 @@ export function init(doAfterInit) {
         doAfterInit(group);
 
 
-    }));
+    });
 
 }
 

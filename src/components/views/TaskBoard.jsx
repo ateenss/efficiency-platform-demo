@@ -387,7 +387,6 @@ class TaskBoard extends React.Component {
 // 从store里面取数据给组件
 const
     mapStateToProps = (state) => {
-    console.log("(*&(*&(*&(*&"+JSON.stringify(state.reducer.buildMission.addTask))
         return {
             demands: state.reducer.task.demands,
             buildMissionShow: state.reducer.buildMission.buildMissionShow,

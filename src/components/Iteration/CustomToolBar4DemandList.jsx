@@ -8,7 +8,6 @@ import store from '../../stores/index';
 import {getDevelopPlan, getPublishDocuments} from "../../actions/IterationAction";
 import {SAVE_KEY} from "../../actions/types";
 import permProcessor from "../../constants/PermProcessor";
-import MenuItem from "./IterationMenuList";
 
 const defaultToolbarSelectStyles = {
     iconButton: {

@@ -141,7 +141,7 @@ class BuildOtherTaskMain extends React.Component {
         const showArray=[{id:1,name:"待处理"},{id:2,name:"进行中"},{id:8,name:"已完成"}];
 
         return (
-            <Dialog  aria-labelledby="simple-dialog-title" open={this.props.newOtherTaskShow}  maxWidth="lg">
+            <Dialog  aria-labelledby="simple-dialog-title" open={!!this.props.newOtherTaskShow ? this.props.newOtherTaskShow : false}  maxWidth="lg">
                 <DialogTitle id="simple-dialog-title">创建其他个人任务</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8} >

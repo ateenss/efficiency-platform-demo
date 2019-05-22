@@ -9,21 +9,15 @@ import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
 import DialogContent from '@material-ui/core/DialogContent';
-import store from "../../stores";
-import { getMyTaskMain, handleAddTestCase, saveActionValue,setEmptyAction,closeTestCaseTask,openTestCaseTask} from "../../actions/BuildMissionAction"
+import {saveActionValue,setEmptyAction,closeTestCaseTask} from "../../actions/BuildMissionAction"
 import {
     INJECT_TEST_CASE_CONTENT,
-    OPEN_TEST_CASE_EDITOR,
-    SAVE_EDIT_TEST_CASE,
-    SAVE_TEST_CASE,
     SAVE_ACTUAL_VALUE_INSERT,
-    TEST_CASE_SAVE_DEMANDID
 } from "../../actions/types";
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Grid from "./TestCaseEditor";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import SearchTextField from "../Iteration/SearchTextField";
@@ -344,7 +338,7 @@ class TestCaseTask extends React.Component {
         return (
 
             <div>
-                <Dialog fullScreen open={testCaseTaskShow}  TransitionComponent={Transition}>
+                <Dialog fullScreen open={!!testCaseTaskShow ? testCaseTaskShow : false}  TransitionComponent={Transition}>
                     <AppBar className={classes.appBar} color="default">
                         <Toolbar variant="dense">
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">

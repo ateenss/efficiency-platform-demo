@@ -19,11 +19,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 import {
     init,
     openEditProject,
-    addProject, openProject
+    addProject, openProject, getProjects
 } from "../../actions/BuildProjectAction"
 import {BUILD_SAVE_PROJECT} from "../../actions/types";
-import {getProjectMembers, startLoading, stopLoading} from "../../actions/CommonAction";
+import {getProjectMembers, startLoading, stopLoading, sysInit} from "../../actions/CommonAction";
 import permProcessor from "../../constants/PermProcessor";
+import {getRecentIteration} from "../../actions/IterationAction";
+import {error} from "../../actions/NotificationAction";
 
 const styles = theme => ({
     root: {
@@ -93,13 +95,25 @@ class Project extends React.Component {
     componentDidMount() {
 
         let self = this;
-        init(function (projects, members) {
 
-            self.setState({projectList: projects, projectMembers : members});
+        sysInit(function(initParams) {
 
-            stopLoading();
+            getProjects().then(resp => {
+
+                self.setState({projectList: resp.data.data, projectMembers : initParams.projectMembers, modules : initParams.modules});
+
+                stopLoading();
+
+            }).catch(e => {
+                error("后台拉取数据失败", JSON.stringify(e));
+
+            });
+
+
+
 
         });
+
 
     }
 

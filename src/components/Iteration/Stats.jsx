@@ -1,42 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {createMuiTheme, withStyles} from '@material-ui/core/styles';
-import Grid from "@material-ui/core/Grid";
-import IterationList from "../Iteration/IterationList";
-import {Paper} from "@material-ui/core";
+import {withStyles} from '@material-ui/core/styles';
 import {connect} from "react-redux";
 import {
-    selectIteration,
-    addIteration,
-    init,
-    deleteIteration,
-    search,
-    updatePersonInfo, getModulesStatsByIteration
+    getModulesStatsByIteration
 } from "../../actions/IterationAction";
-import AddIteration from "../Iteration/AddIteration";
-import {getModulesSimple} from "../../actions/BuildMissionAction"
-
-import {
-    CLOSE_ITERATION_FILTER,
-    DELETE_ITERATION,
-    ITERATION_INIT,
-    OPEN_ITERATION_FILTER,
-    SAVE_ADD_ITERATION, SAVE_EDIT_ITERATION
-} from "../../actions/types";
-import DemandsList from "../Iteration/DemandsList";
-import ShowDevelopPlan from "../Iteration/ShowDevDocuments";
-import ShowPublishDocument from "../Iteration/ShowPublishDocument";
-import IterationStepper from "../Iteration/IterationStepper";
-
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import Avatar from "@material-ui/core/Avatar";
-import CardContent from "@material-ui/core/CardContent";
-import {startLoading, stopLoading} from "../../actions/CommonAction";
 import permProcessor from "../../constants/PermProcessor";
-import Chip from "@material-ui/core/Chip";
 import {
     Bar,
     BarChart,
@@ -48,21 +17,8 @@ import {
     XAxis,
     YAxis
 } from "recharts";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogActions from "@material-ui/core/DialogActions";
-import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import IterationTable from "../Iteration/IterationTable";
-import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/Edit"
-import LinkIcon from "@material-ui/icons/Link"
-
-import UpdatePersonInfo from "../Iteration/UpdatePersonInfo";
 import Tooltip from "@material-ui/core/Tooltip";
-import DemandIterationStepper from "../demand/DemandIterationStepper";
 import {error} from "../../actions/NotificationAction";
 
 const drawerWidth = 240;
@@ -159,15 +115,18 @@ class Stats extends React.Component {
 
     componentDidMount() {
 
+        let self = this;
+
         getModulesStatsByIteration(this.props.iterationId).then(resp => {
+
             let ret = [];
             for(let idx in resp.data.data){
 
                 let unit = resp.data.data[idx];
 
-                for(let j in this.props.modules){
+                for(let j in self.props.modules){
 
-                    let u = this.props.modules[j];
+                    let u = self.props.modules[j];
 
                     if(u.id == idx){
 
@@ -209,13 +168,7 @@ class Stats extends React.Component {
 
 
     render() {
-        const {classes, theme, modules} = this.props;
-        const {tabValue} = this.state;
-        let self = this;
-
-
-
-
+        const {} = this.props;
         return (
             <ResponsiveContainer width="100%" height={400}>
                 <BarChart
@@ -251,7 +204,6 @@ const
     mapStateToProps = (state) => {
 
         return {
-            modules : state.reducer.buildMission.modules
 
 
         }

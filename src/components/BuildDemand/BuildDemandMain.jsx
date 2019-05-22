@@ -351,7 +351,6 @@ class BuildDemandMain extends React.Component {
 const mapStateToProps = (state) => {
     return {
         buildDemandShow: state.reducer.buildDemand.buildDemandShow,
-        projectMembers: state.reducer.common.projectMembers,
         action: state.reducer.buildDemand.action
     }
 };

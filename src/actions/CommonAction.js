@@ -1,13 +1,14 @@
 import {
     SHOW_NOTIFICATION,
     SINGLE_SELECT_VALUE,
-    INIT_PROJECT_MEMBERS, START_LOADING, STOP_LOADING, CHANGE_PASSWORD, SAVE_CHANGE_PASSWORD,CLOSE_CHANGE_PASSWORD
+    INIT_PROJECT_MEMBERS, START_LOADING, STOP_LOADING, CHANGE_PASSWORD, SAVE_CHANGE_PASSWORD,CLOSE_CHANGE_PASSWORD,SYS_INIT
 } from './types';
 import axios from "axios";
 import store from "../stores";
 import UrlConf from "../constants/UrlConf";
 import {error} from "./NotificationAction";
 import history from "../history/history";
+import {getRecentIteration} from "./IterationAction";
 
 export const changSingleSelectValue=(value)=>({
     type:SINGLE_SELECT_VALUE,
@@ -25,7 +26,7 @@ const config = {
 export const GET_PROJECT_MEMBERS = UrlConf.base + 'member/getProjectMembers';
 export const GET_ALL_MEMBERS = UrlConf.base + 'member/getAllMembers';
 export const SAVE_PASSWORD = UrlConf.base + 'member/changePassword';
-
+export const GET_MODULES = UrlConf.base + 'modules/getModules';
 
 export const GET_BY_CODE = UrlConf.base + 'iteration/get';
 export const SAVE = UrlConf.base + 'iteration/save';
@@ -41,6 +42,65 @@ export function stopLoading(){
         });
     }, 500);
 }
+
+export function sysInit(afterInit){
+
+    let defaultTimeout = 1000 * 60 * 60
+
+    let fetchFromRemote = false;
+
+    let accessToken = localStorage.getItem("token");
+
+    function getProjectMembers() {
+        return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
+    }
+
+    function getModules() {
+        return axios.post(GET_MODULES, {"version": "1.0", accessToken: accessToken}, config);
+    }
+
+    let projectMember = localStorage.getItem("projectMembers");
+    let modules = localStorage.getItem("modules");
+
+    let pm = JSON.parse(projectMember);
+    let ml = JSON.parse(modules);
+
+    let timeout = false;
+    let cur = new Date().getTime();
+    if((!!pm && (cur - pm.timeout > defaultTimeout)) || (!!ml && (cur - ml.timeout > defaultTimeout))){
+        timeout = true;
+    }
+
+    if(!projectMember || !modules || timeout){
+
+        fetchFromRemote = true;
+
+        let curTime = new Date().getTime();
+
+        axios.all([getProjectMembers(), getModules()]).then(axios.spread(function (members, modules) {
+
+            localStorage.setItem("projectMembers",JSON.stringify( {data : members.data.data, timeout : curTime}));
+            localStorage.setItem("modules", JSON.stringify({data : modules.data.data, timeout : curTime}));
+
+            afterInit({
+                projectMembers : members.data.data,
+                modules : modules.data.data
+            });
+
+            return false;
+
+        }));
+
+    }
+
+    !timeout && !fetchFromRemote && afterInit({
+        projectMembers : JSON.parse(projectMember).data,
+        modules : JSON.parse(modules).data
+    });
+
+
+}
+
 
 export function getProjectMembers(doAfterInit) {
 

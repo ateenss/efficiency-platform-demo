@@ -18,6 +18,7 @@ import TaskBoard from "../components/views/TaskBoard.jsx";
 import DemandBoard from "../components/views/DemandBoard";
 import IterationBoard from "../components/views/IterationBoard";
 import DemandTask from "../components/BuildMission/DemandTask";
+import NewMissionDetailMain from "../components/BuildMission/NewMissionDetailMain";
 
 
 const dashboardRoutes = [
@@ -68,11 +69,11 @@ const dashboardRoutes = [
     },
 
     {
-        path: "/task/my",
+        path: "/task/test",
         sidebarName: "需求",
         navbarName: "我的需求",
         icon: Notifications,
-        component: MyPage,
+        component: NewMissionDetailMain,
         hide: true
     },
     {redirect: true, path: "/", to: "/project", navbarName: "Redirect"}

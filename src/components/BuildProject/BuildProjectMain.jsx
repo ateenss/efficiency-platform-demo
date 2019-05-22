@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import store from '../../stores/index';
 import Grid from '@material-ui/core/Grid';
 import DatePicker from "../SelfComponent/DatePicker"
-import {hintDelete, buildSaveProjectDispatch, closeBuildProject, saveProject} from "../../actions/BuildProjectAction"
+import {closeBuildProject, saveProject} from "../../actions/BuildProjectAction"
 import {connect} from "react-redux";
 import SingleSelect from "../SelfComponent/SingleSelect"
 import InputField from "../SelfComponent/InputField"
@@ -98,7 +98,7 @@ class BuildProjectMain extends React.Component {
 
 
     render() {
-        const {classes, onClose, selectedValue, initialData, buttonStyle, hintMessage, randomNum} = this.props;
+        const {classes, buttonStyle} = this.props;
         let projectMember4MultiSelect = [];
         for (let i in this.props.projectMembers) {
 
@@ -114,7 +114,7 @@ class BuildProjectMain extends React.Component {
             projectMember4MultiSelect.push(ret);
         }
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} maxWidth="xl" fullWidth>
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} maxWidth="lg" fullWidth>
                 <DialogTitle id="simple-dialog-title">创建新项目</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>

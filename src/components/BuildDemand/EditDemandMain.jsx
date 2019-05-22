@@ -370,7 +370,6 @@ const mapStateToProps = (state) => {
         editDemandShow:state.reducer.buildDemand.editDemandShow,
         editData : state.reducer.buildDemand.editData,
         action:state.reducer.buildDemand.action,
-        projectMembers: state.reducer.common.projectMembers
     }
 };
 

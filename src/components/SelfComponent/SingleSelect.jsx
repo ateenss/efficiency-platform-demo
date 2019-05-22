@@ -8,7 +8,6 @@ import Select from '@material-ui/core/Select';
 import store from '../../stores/index';
 import {validate} from "../../actions/validateAction";
 import Typography from "@material-ui/core/Typography";
-import TextField from "./InputField";
 
 const styles = theme => ({
     root: {

@@ -100,7 +100,6 @@ class ChangeTaskOwner extends React.Component {
 
         let prevTaskOwner = [];
         let projectMember4SingleSelect=[];
-        let defaultDeliveryPersonInCharge = [];
         for (let i in this.props.projectMembers) {
 
             let member = this.props.projectMembers[i];

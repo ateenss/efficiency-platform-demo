@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import SingleIteration from "./SingleIteration";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@material-ui/icons/AddBox";
 
 import IconButton from "@material-ui/core/IconButton";
 import permProcessor from "../../constants/PermProcessor";
@@ -111,13 +111,13 @@ class IterationList extends React.Component {
 
         let iterationLists = !this.props.iterations ? "" : this.props.iterations.map((prop, key) => {
                 return (
-                    <Grid item xs={2}>
+                    <Grid item xs={2} key={key} >
                         <List
                             component="nav"
                             // subheader={<ListSubheader component="div">版本列表{permProcessor.bingo('save', this.props.perm)?  <IconButton onClick={this.props.handleAdd} style={{float: "right", marginRight: "-12px"}}><AddIcon/></IconButton> : ""} </ListSubheader>}
                             className={classes.root}
                         >
-                            <SingleIteration key={key} handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit} handleDelete={this.props.handleDelete} handleReview={this.props.handleReview}
+                            <SingleIteration handleSelected={this.props.handleSelected} handleEdit={this.props.handleEdit} handleDelete={this.props.handleDelete} handleReview={this.props.handleReview}
                                          iterationList={prop.children} iteration={prop.iteration.name}
                                          defaultExpand={idx++ == 1 ? true : prop.iteration.selected} perm={this.props.perm}/>
                         </List>

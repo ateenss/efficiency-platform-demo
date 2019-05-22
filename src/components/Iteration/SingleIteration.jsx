@@ -97,7 +97,7 @@ class SingleIteration extends React.Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         if(nextProps.action === DISABLE_ALL_EXCEPT){
-            if(this.props.iteration != nextProps.activeName){
+            if(this.props.iteration !== nextProps.activeName){
                 this.setState({open : false, headSelected : false, curName : ""})
             }
 

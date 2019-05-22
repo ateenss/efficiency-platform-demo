@@ -11,16 +11,13 @@ import Grid from '@material-ui/core/Grid';
 import DatePicker from "../SelfComponent/DatePicker"
 import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
-import SingleSelect from "../SelfComponent/SingleSelect"
 import {closeAddIteration, saveIteration} from "../../actions/IterationAction";
-import GlobalValidateRegex from "../../constants/GlobalValidateRegex";
 import {ADD_ITERATION, EDIT_ITERATION} from "../../actions/types";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 import {Rules, validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
 import CardHeader from "@material-ui/core/CardHeader";
 import Card from "@material-ui/core/Card";
-import Avatar from "@material-ui/core/Avatar";
 import CardContent from "@material-ui/core/CardContent";
 import CascadeSelect from "./CascadeSelect";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -101,7 +98,8 @@ class AddIteration extends React.Component {
             errorList: {},
             title : "新增版本",
             loading : false,
-            success : false
+            success : false,
+            projectMembers : localStorage.getItem("members")
         }
     }
 
@@ -366,8 +364,7 @@ const mapStateToProps = (state) => {
     return {
         initialData: state.reducer.iteration.initialData,
         editData: !!state.reducer.iteration.editData ? state.reducer.iteration.editData : "",
-        action: state.reducer.iteration.action,
-        projectMembers: state.reducer.common.projectMembers
+        action: state.reducer.iteration.action
     }
 };
 

@@ -111,7 +111,7 @@ class EditProjectMain extends React.Component {
 
 
     render() {
-        const {classes, onClose, selectedValue,keyNote,buttonStyle, initialData} = this.props;
+        const {classes, buttonStyle} = this.props;
         const {projectContent}=this.state;
         let projectUnit = {};
         if(!!this.props.project){
@@ -147,7 +147,7 @@ class EditProjectMain extends React.Component {
 
         }
         return (
-            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="xl">
+            <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open} fullWidth maxWidth="lg">
                 <DialogTitle id="simple-dialog-title">编辑项目 - {projectUnit.projectCode}</DialogTitle>
                 <DialogContent>
                     <Grid container spacing={8}>

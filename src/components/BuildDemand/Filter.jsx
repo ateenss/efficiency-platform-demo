@@ -11,7 +11,6 @@ import Grid from "@material-ui/core/Grid";
 import {Menu} from "@material-ui/core";
 import {closeFilter} from "../../actions/DemandAction";
 import {demandConst} from "./DemandConst";
-import DatePicker from "../SelfComponent/DatePicker";
 import DateRange from "../SelfComponent/DateRange";
 
 const styles = theme => ({

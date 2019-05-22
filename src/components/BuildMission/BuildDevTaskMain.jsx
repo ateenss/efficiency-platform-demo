@@ -121,7 +121,7 @@ class BuildDevTaskMain extends React.Component {
 
 
     render() {
-        const {classes,buttonStyle, ...other} = this.props;
+        const {classes,buttonStyle} = this.props;
         let defaultModules = [];
         const{moduleContent}=this.state;
         for(let j in this.props.modules){

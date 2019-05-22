@@ -118,15 +118,13 @@ export default function (state = INITIAL_STATE, action) {
                 let newDemands = JSON.parse(JSON.stringify(state.demands));
                 let curGroup = "plan";
                 let taskId = action.payload.taskId;
-                // console.log(taskId);
                 for (let idx in newDemands) {
                     let tasksGroup = newDemands[idx].tasks;
                     if (!tasksGroup) {
                         continue;
                     }
-                    let nextGroup = taskStatus.next(curGroup);
 
-                    var thisTask = 0;
+                    let thisTask = 0;
 
                     let curGroupTask = tasksGroup[curGroup];
                     for (let i in curGroupTask) {

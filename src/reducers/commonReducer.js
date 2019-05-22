@@ -6,7 +6,7 @@ import {
     STOP_LOADING,
     CHANGE_PASSWORD,
     SAVE_CHANGE_PASSWORD,
-    CLOSE_CHANGE_PASSWORD
+    CLOSE_CHANGE_PASSWORD, SYS_INIT
 } from '../actions/types';
 
 export const INITIAL_STATE = {
@@ -34,6 +34,8 @@ export default function (state = INITIAL_STATE, action) {
             return {...state, showChangePassword: false, action:SAVE_CHANGE_PASSWORD};
         case CLOSE_CHANGE_PASSWORD:
             return {...state, showChangePassword: false, action:CLOSE_CHANGE_PASSWORD};
+        case SYS_INIT:
+            return {...state, sysInit: action.payload, sysInitialized : true}
         default:
             return state;
     }

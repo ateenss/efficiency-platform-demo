@@ -104,7 +104,6 @@ class BuildPlanMain extends React.Component {
     };
 
     savePlan = () => {
-        let self = this;
         let tempContent = this.state.planContent;
         tempContent["taskId"] = this.props.tempBoardToDetail.taskId;
         tempContent["saveOrSubmit"] = 0;

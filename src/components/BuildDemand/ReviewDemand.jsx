@@ -201,7 +201,6 @@ const mapStateToProps = (state) => {
         openReviewDemand:state.reducer.buildDemand.openReviewDemand,
         editData : state.reducer.buildDemand.editData,
         action:state.reducer.buildDemand.action,
-        projectMembers:state.reducer.common.projectMembers
     }
 };
 

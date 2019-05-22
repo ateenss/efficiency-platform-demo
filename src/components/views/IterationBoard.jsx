@@ -11,10 +11,9 @@ import {
     init,
     deleteIteration,
     search,
-    updatePersonInfo
+    updatePersonInfo, getRecentIteration
 } from "../../actions/IterationAction";
 import AddIteration from "../Iteration/AddIteration";
-import {getModulesSimple} from "../../actions/BuildMissionAction"
 
 import {
     CLOSE_ITERATION_FILTER,
@@ -34,20 +33,9 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import CardContent from "@material-ui/core/CardContent";
-import {startLoading, stopLoading} from "../../actions/CommonAction";
+import {startLoading, stopLoading, sysInit} from "../../actions/CommonAction";
 import permProcessor from "../../constants/PermProcessor";
 import Chip from "@material-ui/core/Chip";
-import {
-    Bar,
-    BarChart,
-    CartesianGrid,
-    Legend,
-    Line,
-    LineChart,
-    ResponsiveContainer,
-    XAxis,
-    YAxis
-} from "recharts";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -64,6 +52,7 @@ import UpdatePersonInfo from "../Iteration/UpdatePersonInfo";
 import Tooltip from "@material-ui/core/Tooltip";
 import DemandIterationStepper from "../demand/DemandIterationStepper";
 import Stats from "../Iteration/Stats";
+import {error} from "../../actions/NotificationAction";
 
 const drawerWidth = 240;
 
@@ -143,7 +132,9 @@ class IterationBoard extends React.Component {
             perm: permProcessor.init('iteration'),
             openAlert:false,
             currentIteration : "",
-            allVersionSelected : false
+            allVersionSelected : false,
+            projectMembers:[],
+            modules:[]
         };
     }
 
@@ -242,41 +233,81 @@ class IterationBoard extends React.Component {
     componentDidMount() {
 
         let self = this;
-        getModulesSimple();
-        init(function (ret) {
-            let iterationState = [];
 
-            let selectId = "";
-            for (let i in ret) {
-                let iter = ret[i];
+        sysInit(function(initParams){
 
-                let parent = {};
-                let iterationChildren = [];
-                for (let j in iter.children) {
-                    let selected = false;
-                    if (i == 0 && j == 0) {
-                        selected = true;
-                        selectId = iter.children[j].id;
+            getRecentIteration().then(resp => {
+
+                let group = [];
+                for (let i in resp.data.data) {
+                    let unit = resp.data.data[i];
+
+                    let unitChild = {id: unit.id, name : unit.iterationCode};
+
+                    let inGroup = false;
+
+                    for(let j in group){
+
+                        if(unit.group === group[j].iteration){
+                            inGroup = true;
+                            group[j].children.push(unitChild);
+                        }
+
                     }
-                    iterationChildren.push({iter: iter.children[j].name, selected: selected, id: iter.children[j].id});
+
+                    if(!inGroup){
+                        let newUnit = {
+                            iteration : unit.group,
+                            children : []
+                        };
+                        newUnit.children.push(unitChild);
+                        group.push(newUnit);
+                    }
 
                 }
 
-                parent.children = iterationChildren;
-                parent.iteration = {name: iter.iteration, selected: false};
-                iterationState.push(parent);
-            }
+                let iterationState = [];
 
-            self.setState({iterationState: iterationState});
-            if (!!selectId) {
-                selectIteration(selectId, function () {
+                let selectId = "";
+                for (let i in group) {
+                    let iter = group[i];
+
+                    let parent = {};
+                    let iterationChildren = [];
+                    for (let j in iter.children) {
+                        let selected = false;
+                        if (i == 0 && j == 0) {
+                            selected = true;
+                            selectId = iter.children[j].id;
+                        }
+                        iterationChildren.push({iter: iter.children[j].name, selected: selected, id: iter.children[j].id});
+
+                    }
+
+                    parent.children = iterationChildren;
+                    parent.iteration = {name: iter.iteration, selected: false};
+                    iterationState.push(parent);
+                }
+
+                self.setState({iterationState: iterationState, projectMembers : initParams.projectMembers, modules : initParams.modules});
+                if (!!selectId) {
+                    selectIteration(selectId, function () {
+                        stopLoading();
+                    });
+                } else {
                     stopLoading();
-                });
-            } else {
-                stopLoading();
-            }
+                }
 
-        });
+
+            }).catch(e => {
+                error("后台拉取数据失败", JSON.stringify(e));
+
+            });
+
+
+
+        })
+
 
 
     }
@@ -593,7 +624,8 @@ class IterationBoard extends React.Component {
 
                                     <Grid container spacing={8}>
                                         <Grid item xs={12}>
-                                            <Stats iterationId={!!this.props.iteration ? this.props.iteration.iterationInfo.id : ""} />
+                                            <Stats iterationId={!!this.props.iteration ? this.props.iteration.iterationInfo.id : ""} modules={this.state.modules}
+                                            />
                                         </Grid>
                                     </Grid>
                                     }
@@ -604,9 +636,12 @@ class IterationBoard extends React.Component {
                     <AddIteration
                         open={!!this.props.openAddIteration ? this.props.openAddIteration : false}
                         onClose={this.handleClickClose}
+                        projectMembers={this.state.projectMembers}
                     />
 
-                    <UpdatePersonInfo open={!!this.props.openUpdatePersonInfo ? this.props.openUpdatePersonInfo : false}/>
+                    <UpdatePersonInfo open={!!this.props.openUpdatePersonInfo ? this.props.openUpdatePersonInfo : false}
+                                      projectMembers={this.state.projectMembers}
+                    />
 
                     <ShowDevelopPlan/>
 

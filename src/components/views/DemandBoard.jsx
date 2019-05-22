@@ -28,7 +28,7 @@ import {
     SAVE_REVIEW_DEMAND, SPLIT_DEMAND, SYNC_DEMAND,
     UPDATE_ROW
 } from "../../actions/types";
-import {startLoading, stopLoading} from "../../actions/CommonAction";
+import {startLoading, stopLoading, sysInit} from "../../actions/CommonAction";
 import CustomToolbar4Demand from "../demand/CustomToolbar4Demand";
 import {muiTableTheme} from "../common/MuiTableTheme";
 import Filter from "../BuildDemand/Filter";
@@ -36,11 +36,13 @@ import Chip from "@material-ui/core/Chip";
 import {demandConst} from "../BuildDemand/DemandConst";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import {success} from "../../actions/NotificationAction";
+import {error, success} from "../../actions/NotificationAction";
 import permProcessor from "../../constants/PermProcessor";
 import DemandIterationStepper from "../demand/DemandIterationStepper";
 import CheckIcon from "@material-ui/icons/CheckCircle"
 import CloseIcon from "@material-ui/icons/Close"
+import {getRecentIteration} from "../../actions/IterationAction";
+import AddIteration from "./IterationBoard";
 
 const styles = theme => ({
     root: {
@@ -193,11 +195,21 @@ class TaskBoard extends React.Component {
     componentDidMount() {
 
         let self = this;
-        init(1, function (members, iteration) {
 
-            self.setState({iteration: iteration});
+        sysInit(function(initParams){
 
-            stopLoading();
+            getRecentIteration().then(resp => {
+
+
+                self.setState({iteration: resp.data.data, projectMembers : initParams.projectMembers, modules : initParams.modules});
+
+                stopLoading();
+
+            }).catch(e => {
+                error("后台拉取数据失败", JSON.stringify(e));
+
+            });
+
 
         });
 
@@ -597,15 +609,21 @@ class TaskBoard extends React.Component {
                 <BuildDemandMain
                     open={buildDemandShow}
                     iteration={this.state.iteration}
+                    projectMembers={this.state.projectMembers}
+
                 />
 
                 <ReviewDemand
                     iteration={this.state.iteration}
+                    projectMembers={this.state.projectMembers}
+
                 />
 
                 <EditDemandMain
                     open={editDemandShow}
                     iteration={this.state.iteration}
+                    projectMembers={this.state.projectMembers}
+
                 />
                 <Filter/>
             </Grid>
