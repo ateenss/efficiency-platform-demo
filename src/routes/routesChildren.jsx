@@ -1,24 +1,12 @@
 // @material-ui/icons
-import Dashboard from "@material-ui/icons/Dashboard";
-import Person from "@material-ui/icons/Person";
-// import ContentPaste from "@material-ui/icons/ContentPaste";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import Notifications from "@material-ui/icons/Notifications";
 // core components/views
-import DashboardPage from "../components/views/Dashboard.jsx";
-import UserProfile from "../components/views/UserProfile.jsx";
-import TableList from "../components/views/TableList.jsx";
-import Typography from "../components/views/Typography.jsx";
-import Icons from "../components/views/Icons.jsx";
-import NotificationsPage from "../components/views/Notifications.jsx";
-import MyPage from "../components/BuildMission/MyPage.jsx";
 import Project from "../components/views/Project.jsx";
 import TaskBoard from "../components/views/TaskBoard.jsx";
 import DemandBoard from "../components/views/DemandBoard";
 import IterationBoard from "../components/views/IterationBoard";
-import DemandTask from "../components/BuildMission/DemandTask";
-import NewMissionDetailMain from "../components/BuildMission/NewMissionDetailMain";
 import testDir2 from "../components/testDir/testDir2";
 
 

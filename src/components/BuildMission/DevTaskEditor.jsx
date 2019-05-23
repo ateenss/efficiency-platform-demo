@@ -317,10 +317,8 @@ const mapStateToProps = (state) => {
         openTask: state.reducer.task.openTask,
         taskEditorShow: state.reducer.buildMission.taskEditorShow,
         tempTask: state.reducer.buildMission.tempTask,
-        projectMembers:state.reducer.common.projectMembers,
         demands:state.reducer.buildMission.demands,
         action:state.reducer.buildMission.action,
-        modules : state.reducer.buildMission.modules,
         devEditorCanShow : state.reducer.buildMission.devEditorCanShow,
         devTaskActionShow : state.reducer.buildMission.devTaskActionShow,
         allActonShow : state.reducer.buildMission.allActonShow

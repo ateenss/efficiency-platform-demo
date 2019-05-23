@@ -117,7 +117,7 @@ const AlertDialogSlide=props=>{
 };
 
 
-class MissionDetailMain extends React.Component {
+class DoTestPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -181,7 +181,6 @@ class MissionDetailMain extends React.Component {
     };
 
     componentWillUnmount() {
-        console.log("#$$#%#%#$%#");
         this.setState({progress : 0})
     }
 
@@ -239,4 +238,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(MissionDetailMain));
+export default connect(mapStateToProps)(withStyles(styles)(DoTestPage));

@@ -201,7 +201,6 @@ BuildOtherTaskMain.propTypes = {
 const mapStateToProps = (state) => {
     return {
         demands:state.reducer.buildMission.demands,
-        projectMembers:state.reducer.common.projectMembers,
         newOtherTaskShow:state.reducer.buildMission.newOtherTaskShow,
         initialProjectList:state.reducer.buildMission.initialProjectList,
         relatedProjectId:state.reducer.buildMission.relatedProjectId,

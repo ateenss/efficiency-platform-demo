@@ -393,7 +393,6 @@ mapObjectToArray = (result) => {
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
-    console.log("P{}{}{}{"+state.reducer.buildMission.demandId);
 
     return {
         openTestCaseEditor: state.reducer.buildMission.openTestCaseEditor,

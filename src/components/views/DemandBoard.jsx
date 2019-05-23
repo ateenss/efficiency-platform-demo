@@ -171,7 +171,7 @@ const filterLabel = {
 
 let editInitialData = null;
 
-class TaskBoard extends React.Component {
+class DemandBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -654,6 +654,6 @@ export default connect(mapStateToProps)
     withStyles(styles, {withTheme: true})
 
     (
-        TaskBoard
+        DemandBoard
     ))
 ;

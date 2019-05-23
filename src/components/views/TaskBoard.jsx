@@ -36,7 +36,7 @@ import MissionDetailMain from "../BuildMission/MissionDetailMain"
 import IntegrationPage from "../BuildMission/IntegrationPage"
 import GoTestPage from "../BuildMission/DoTestPage";
 import OtherMissionPage from "../BuildMission/OtherTaskPage"
-import {startLoading} from "../../actions/CommonAction";
+import {startLoading, sysInit} from "../../actions/CommonAction";
 import BuildOtherTask from "../BuildMission/BuildOtherTaskMain"
 import OtherTaskPage from "../BuildMission/OtherTaskPage"
 import TestCaseTask from "../BuildMission/TestCaseTask"
@@ -209,8 +209,21 @@ class TaskBoard extends React.Component {
     }
 
     componentDidMount() {
+
+        let self = this;
+
         if (permProcessor.bingo('getDemandTaskDetail', this.state.perm)) {
-            init()
+
+            sysInit(function(initParams) {
+
+
+                init();
+
+                self.setState({projectMembers : initParams.projectMembers, modules : initParams.modules});
+
+            });
+
+
         }
     }
 
@@ -374,14 +387,14 @@ class TaskBoard extends React.Component {
                         </div>
                     </Drawer>
                 </div>
-                <MissionDetailMain/>
+                <MissionDetailMain projectMembers={this.state.projectMembers} modules={this.state.modules}/>
                 <IntegrationPage/>
                 <GoTestPage/>
                 <OtherMissionPage/>
-                <BuildOtherTask/>
+                <BuildOtherTask projectMembers={this.state.projectMembers}/>
                 <OtherTaskPage/>
                 <TestCaseTask/>
-                <ChangeTaskOwner/>
+                <ChangeTaskOwner projectMembers={this.state.projectMembers}/>
             </Grid>
         )
     }

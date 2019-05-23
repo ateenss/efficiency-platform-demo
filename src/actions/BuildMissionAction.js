@@ -665,37 +665,24 @@ export function init() {
         return axios.post(GET_MY_PROJECTS, {"version": "1.0", accessToken: accessToken}, config);
     }
 
-    function getProjectMembers() {
-        return axios.post(GET_PROJECT_MEMBERS, {"version": "1.0", accessToken: accessToken}, config);
-    }
-
     function getTaskStatusAndType() {
         return axios.post(GET_Task_TypeAndStatus,{"version": "1.0", accessToken: accessToken},config);
 
     }
 
-    function getModules() {
-        return axios.post(GET_MODULES, {"version": "1.0", accessToken: accessToken}, config);
-    }
 
-    axios.all([getProjectMembers(),getProjects(),getMyTask(),getTaskStatusAndType(),getModules()]).then(axios.spread(function(members,projectList,myTask,taskStatusAndType ,modules){
+    axios.all([getProjects(),getMyTask(),getTaskStatusAndType()]).then(axios.spread(function(projectList,myTask,taskStatusAndType){
+
         store.dispatch(getMyTaskInfo(myTask.data.data));
-        store.dispatch({
-            type: INIT_PROJECT_MEMBERS,
-            payload: members.data.data
 
-        });
         store.dispatch({
             type: INIT_PROJECT_LISTS,
             payload: projectList.data.data
         });
+
         store.dispatch({
             type:INIT_STATUS_TYPE,
             payload : taskStatusAndType.data.data
-        });
-        store.dispatch({
-            type:INIT_MODULES,
-            payload : modules.data.data
         });
 
         stopLoading();

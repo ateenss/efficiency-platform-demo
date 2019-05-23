@@ -2,10 +2,11 @@
 import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import Demand from './DemandTaskDetail';
+import DemandTaskDetail from './DemandTaskDetail';
 import {connect} from "react-redux";
 
 import Grid from '@material-ui/core/Grid'
+import BuildOtherTask from "../views/TaskBoard";
 
 const styles = theme => ({
     root: {
@@ -33,18 +34,21 @@ class MyPage extends React.Component {
 
     render() {
         const {classes, demands,tempBoardToDetail} = this.props;
+        console.log(JSON.stringify(this.props.projectMembers))
         let demandsComponents;
         if (demands) {
             let taskGroup = demands.taskDetailList;
             demandsComponents =
                 (
-                    <Demand taskName={demands.taskName} taskOwner={demands.taskOwner} expanded={true}
+                    <DemandTaskDetail taskName={demands.taskName} taskOwner={demands.taskOwner} expanded={true}
                             develop={taskGroup.develop ? taskGroup.develop : ""}
                             plan={taskGroup.plan ? taskGroup.plan : ""}
                             integration={taskGroup.integration ? taskGroup.integration : ""}
                             goTest={taskGroup.goTest ? taskGroup.goTest : ""}
                             finish={taskGroup.finish ? taskGroup.finish : ""}
                             tempBoardToDetail={tempBoardToDetail}
+                            projectMembers={this.props.projectMembers}
+                            modules={this.props.modules}
                     />
                 );
         }
@@ -53,7 +57,7 @@ class MyPage extends React.Component {
         return (
 
             <Grid spacing={16} container fullWidth>
-                    <Grid xs={12}>{demandsComponents}</Grid>
+                    <Grid item xs={12}>{demandsComponents}</Grid>
             </Grid>
         );
 

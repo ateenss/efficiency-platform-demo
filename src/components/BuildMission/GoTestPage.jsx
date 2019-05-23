@@ -109,7 +109,6 @@ class GoTestPage extends React.Component{
 const mapStateToProps = (state) => {
     return {
         demands:state.reducer.buildMission.demands,
-        projectMembers:state.reducer.common.projectMembers,
         assignGoTestShow:state.reducer.buildMission.assignGoTestShow,
         tempAssignGoTest:state.reducer.buildMission.tempAssignGoTest
     }

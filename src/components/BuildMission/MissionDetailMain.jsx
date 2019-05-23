@@ -13,6 +13,7 @@ import store from "../../stores";
 import MyPage from "./MyPage"
 import {closeDetailMission,  getMyTaskMain} from "../../actions/BuildMissionAction"
 import {SHOW_NOTIFICATION} from "../../actions/types";
+import BuildOtherTask from "../views/TaskBoard";
 // import Link from '@material-ui/core/Link';
 
 
@@ -118,7 +119,7 @@ class MissionDetailMain extends React.Component {
                         </Toolbar>
                     </AppBar>
                     <DialogContent className={classes.dialogContainer}>
-                        <MyPage tempBoardToDetail={tempBoardToDetail}/>
+                        <MyPage tempBoardToDetail={tempBoardToDetail} projectMembers={this.props.projectMembers}  modules={this.props.modules}/>
                     </DialogContent>
                 </Dialog>
             </div>

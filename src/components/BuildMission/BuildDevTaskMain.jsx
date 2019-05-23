@@ -217,8 +217,6 @@ const mapStateToProps = (state) => {
     return {
         buildDemandShow:state.reducer.buildDemand.buildDemandShow,
         demands:state.reducer.buildMission.demands,
-        projectMembers:state.reducer.common.projectMembers,
-        modules : state.reducer.buildMission.modules
     }
 };
 

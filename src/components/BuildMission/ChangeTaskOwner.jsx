@@ -164,7 +164,6 @@ ChangeTaskOwner.propTypes = {
 const mapStateToProps = (state) => {
     return {
         action: state.reducer.buildMission.action,
-        projectMembers: state.reducer.common.projectMembers,
         openTaskOwnerEditor: state.reducer.buildMission.openTaskOwnerEditor,
         ownerId : state.reducer.buildMission.taskOwner,
         taskId : state.reducer.buildMission.taskId,

@@ -51,7 +51,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-class MissionDetailMain extends React.Component {
+class IntegrationPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -141,4 +141,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(MissionDetailMain));
+export default connect(mapStateToProps)(withStyles(styles)(IntegrationPage));

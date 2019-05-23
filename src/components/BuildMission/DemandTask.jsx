@@ -87,6 +87,11 @@ class DemandTask extends React.Component {
             perm: permProcessor.init('task')
         };
     }
+
+    componentDidMount() {
+        console.log("||||"+JSON.stringify(this.props.projectMembers));
+    }
+
     funcOptions=(perm,taskOwner)=>()=>{
         let tempOptions=[{
             name: "编辑",
@@ -197,8 +202,6 @@ class DemandTask extends React.Component {
 const mapStateToProps = (state) => {
     return {
         demands: state.reducer.task.demands,
-        projectMembers: state.reducer.common.projectMembers,
-        modules : state.reducer.buildMission.modules,
         devEditorCanShow : state.reducer.buildMission.devEditorCanShow,
         devTaskActionShow : state.reducer.buildMission.devTaskActionShow,
         allActonShow : state.reducer.buildMission.allActonShow
