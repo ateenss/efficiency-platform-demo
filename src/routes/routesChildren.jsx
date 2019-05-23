@@ -19,6 +19,7 @@ import DemandBoard from "../components/views/DemandBoard";
 import IterationBoard from "../components/views/IterationBoard";
 import DemandTask from "../components/BuildMission/DemandTask";
 import NewMissionDetailMain from "../components/BuildMission/NewMissionDetailMain";
+import testDir2 from "../components/testDir/testDir2";
 
 
 const dashboardRoutes = [
@@ -69,11 +70,11 @@ const dashboardRoutes = [
     },
 
     {
-        path: "/task/test",
-        sidebarName: "需求",
-        navbarName: "我的需求",
+        path: "/taskboard/test",
+        sidebarName: "第二级",
+        navbarName: "第二级",
         icon: Notifications,
-        component: NewMissionDetailMain,
+        component: testDir2,
         hide: true
     },
     {redirect: true, path: "/", to: "/project", navbarName: "Redirect"}

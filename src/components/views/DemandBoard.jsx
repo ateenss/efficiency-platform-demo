@@ -641,7 +641,6 @@ const
             editDemandShow: state.reducer.buildDemand.editDemandShow,
             filterManagerDemandShow: state.reducer.buildDemand.filterManagerDemandShow,
             tableData: state.reducer.buildDemand.addDemand,
-            initialTable: state.reducer.buildDemand.initialData.dataMuiTable,
             updatedRow: state.reducer.buildDemand.updatedRow,
             action: state.reducer.buildDemand.action,
             filters : state.reducer.buildDemand.filters

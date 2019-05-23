@@ -9,10 +9,7 @@ import permProcessor from "../../constants/PermProcessor";
 import {
     Bar,
     BarChart,
-    CartesianGrid,
     Legend,
-    Line,
-    LineChart,
     ResponsiveContainer,
     XAxis,
     YAxis

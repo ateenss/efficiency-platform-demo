@@ -41,6 +41,7 @@ import BuildOtherTask from "../BuildMission/BuildOtherTaskMain"
 import OtherTaskPage from "../BuildMission/OtherTaskPage"
 import TestCaseTask from "../BuildMission/TestCaseTask"
 import ChangeTaskOwner from "../BuildMission/ChangeTaskOwner";
+import {Link} from "react-router-dom";
 
 const styles = theme => ({
     root: {
@@ -328,6 +329,9 @@ class TaskBoard extends React.Component {
                                         <AddIcon className={classes.addIcon}/>
                                         个人任务
                                     </Button>
+                                    <Link to="/taskboard/test">
+                                        <AddIcon className={classes.addIcon}/>
+                                    </Link>
 
                                 </Toolbar>
                             </Grid>

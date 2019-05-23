@@ -2,11 +2,9 @@ import React from 'react';
 import {Route, Redirect} from "react-router-dom";
 import indexRoutes from "../routes/index.jsx";
 import {connect} from 'react-redux';
-import {pullBuildDemandInitial} from "../actions/DemandAction"
 class AuthenticatedComponent extends React.Component {
     constructor(props) {
         super(props);
-        pullBuildDemandInitial();
     }
 
     render() {
