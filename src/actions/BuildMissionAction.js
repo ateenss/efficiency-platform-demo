@@ -30,14 +30,11 @@ import {
     OPEN_ASSIGN_GOTEST,
     CLOSE_ASSIGN_GOTEST,
     DO_ASSIGN_GOTEST,
-    INIT_STATUS_TYPE,
     GET_MYTASK_INFO,
     GET_TASK_DETAIL_INFO,
     SAVE_BUILD_MODULE,
     CHANGE_PLAN2_DEV,
-    MODIFY_AFTER_TASKEDITOR,
     FILTER_TEST_TASK,
-    INIT_PROJECT_MEMBERS,
     INIT_MODULES,
     CAL_PERM,
     OPEN_TEST_CASE_EDITOR, CLOSE_TEST_CASE_EDITOR,
@@ -47,18 +44,15 @@ import {
     CLOSE_ADD_TEST_CASE,
     SAVE_EDIT_TEST_CASE,
     ALL_ACTION_SHOW,
-    DEMANDTASK_ACTION_SHOW,
     DEVTASK_ACTION_SHOW,
-    UPDATE_TEST_CASE,
     OPEN_NEW_OTHER_TASK,
     CLOSE_NEW_OTHER_TASK,
     INIT_PROJECT_LISTS,
     OPEN_TEST_CASE_TASK,
     CLOSE_TEST_CASE_TASK,
-    INJECT_TEST_CASE_CONTENT, CHANGE_TASK_OWNER, CLOSE_UPDATE_PERSON_INFO,CLOSE_CHANGE_TASK_OWNER
+    INJECT_TEST_CASE_CONTENT, CHANGE_TASK_OWNER,CLOSE_CHANGE_TASK_OWNER
 } from './types';
-import {error,success,warning} from "./NotificationAction";
-import {GET_MY_PROJECTS} from "./BuildProjectAction";
+import {error,success} from "./NotificationAction";
 const config = {
     method: 'post',
     headers: {'Content-Type': 'application/json;charset=utf-8'},
@@ -646,8 +640,6 @@ export function getModulesSimple(){
 
 export function init() {
     const getMyTaskInfoUrl = UrlConf.base + 'task/getMyTaskInfo';
-    const GET_PROJECT_MEMBERS = UrlConf.base + 'member/getProjectMembers';
-    const GET_MODULES = UrlConf.base + 'modules/getModules';
     const GET_MY_PROJECTS = UrlConf.base + "project/getMyProjects";
     const GET_Task_TypeAndStatus = UrlConf.base + "task/getTaskTypeAndStatus";
 
@@ -665,24 +657,13 @@ export function init() {
         return axios.post(GET_MY_PROJECTS, {"version": "1.0", accessToken: accessToken}, config);
     }
 
-    function getTaskStatusAndType() {
-        return axios.post(GET_Task_TypeAndStatus,{"version": "1.0", accessToken: accessToken},config);
-
-    }
-
-
-    axios.all([getProjects(),getMyTask(),getTaskStatusAndType()]).then(axios.spread(function(projectList,myTask,taskStatusAndType){
+    axios.all([getProjects(),getMyTask()]).then(axios.spread(function(projectList,myTask){
 
         store.dispatch(getMyTaskInfo(myTask.data.data));
 
         store.dispatch({
             type: INIT_PROJECT_LISTS,
             payload: projectList.data.data
-        });
-
-        store.dispatch({
-            type:INIT_STATUS_TYPE,
-            payload : taskStatusAndType.data.data
         });
 
         stopLoading();

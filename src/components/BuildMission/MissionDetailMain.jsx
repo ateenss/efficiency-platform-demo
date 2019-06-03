@@ -13,7 +13,6 @@ import store from "../../stores";
 import MyPage from "./MyPage"
 import {closeDetailMission,  getMyTaskMain} from "../../actions/BuildMissionAction"
 import {SHOW_NOTIFICATION} from "../../actions/types";
-import BuildOtherTask from "../views/TaskBoard";
 // import Link from '@material-ui/core/Link';
 
 
@@ -135,7 +134,6 @@ const mapStateToProps = (state) => {
         openTask: state.reducer.task.openTask,
         detailMissionShow: state.reducer.buildMission.detailMissionShow,
         tempBoardToDetail: state.reducer.buildMission.tempBoardToDetail,
-        addTask: state.reducer.buildMission.addTask,
         demands: state.reducer.buildMission.demands,
     }
 };

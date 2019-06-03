@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -21,18 +20,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ChangePassword from "./ChangePassword";
 import {showChangePassword} from "../../actions/CommonAction";
 
-const styles = theme => ({
-    menuItem: {
-        '&:focus': {
-            backgroundColor: theme.palette.primary.main,
-            '& $primary, & $icon': {
-                color: theme.palette.common.white,
-            },
-        },
-    },
-    primary: {},
-    icon: {},
-});
 
 
 class HeaderLinks extends React.Component {

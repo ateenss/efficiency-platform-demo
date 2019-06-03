@@ -10,7 +10,7 @@ import {
 } from "./types"
 import history from "../history/history";
 import UrlConf from "../constants/UrlConf";
-import {error,success,warning} from "./NotificationAction";
+import {error,success} from "./NotificationAction";
 //axios配置
 const config = {
     method: 'post',

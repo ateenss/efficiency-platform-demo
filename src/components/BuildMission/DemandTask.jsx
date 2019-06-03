@@ -5,9 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import store from '../../stores';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import {changeTaskStatus} from "../../actions/DemandTasksAction";
-import {editTask} from "../../actions/DemandTasksAction";
+import MoreVertIcon from '@material-ui/icons/MoreHoriz';
 
 
 import MuiCardHeader from "@material-ui/core/CardHeader";
@@ -22,11 +20,9 @@ import {
     judgeDevTaskShowActin
 } from "../../actions/BuildMissionAction"
 import permProcessor from "../../constants/PermProcessor";
-import {Typography} from "@material-ui/core";
+import {Tooltip, Typography} from "@material-ui/core";
 import CardActions from "@material-ui/core/CardActions";
-import IconButton from "@material-ui/core/IconButton";
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import {ALL_ACTION_SHOW} from "../../actions/types";
+import Divider from "@material-ui/core/Divider";
 
 
 const styles = {
@@ -35,22 +31,24 @@ const styles = {
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
         margin:"0",
-        fontSize:"18px"
+        fontSize:"16px"
     },
     cardSubtitle: {
         float: "left"
     },
     cardLink: {
         color: "#484848",
-        fontWeight: "700",
-        margin: "15px 0 15px 0"
+        fontWeight: "400",
+        margin: "10px 0 10px 0",
+        fontSize:"14px"
     },
 
     taskCard: {
-        margin: "15px"
+        margin: "15px",
+        boxShadow: "none"
     },
     taskHeader: {
-        padding: "5px 10px 0 10px"
+        padding: "10px"
     },
     taskDeadline: {
         padding: "0 10px 10px 10px",
@@ -59,6 +57,14 @@ const styles = {
     },
     root: {
         width: "100%"
+    },
+    actions: {
+        display: 'flex',
+        padding: "0px"
+
+    },
+    boxShadowNone:{
+        boxShadow:"none"
     }
 
 
@@ -89,7 +95,6 @@ class DemandTask extends React.Component {
     }
 
     componentDidMount() {
-        console.log("||||"+JSON.stringify(this.props.projectMembers));
     }
 
     funcOptions=(perm,taskOwner)=>()=>{
@@ -171,11 +176,8 @@ class DemandTask extends React.Component {
             <Grid className={classes.root}>
                 <Card className={classes.taskCard}>
                     <CardHeader className={classes.taskHeader}
-                                action={
-                                    <SimpleListMenu icon={<MoreVertIcon/>} options={this.funcOptions(this.state.perm,this.props.taskOwner)()}
-                                                    id={this.props.group + "-taskId-" + this.props.taskId} openClickAction={this.checkPerm.bind(this,this.props.taskOwner)}/>
-                                }
-                                title={<h6 className={classes.cardTitle}>{this.props.taskName}</h6>}
+
+                                title={<Tooltip title={this.props.taskName}><h6 className={classes.cardTitle}>{this.props.taskName}</h6></Tooltip>}
                     />
                     <CardContent className={classes.taskDeadline}>
 
@@ -192,6 +194,20 @@ class DemandTask extends React.Component {
                         }}>{this.props.taskDeadline} 截止</Typography>
 
                     </CardContent>
+                    <Divider/>
+                    <CardActions className={classes.actions} disableActionSpacing>
+                        <Grid container style={{background:"#fbfbfb"}}>
+                            <Grid item xs={12} style={{textAlign:"center"}}>
+                                <Tooltip title="详情">
+                                    <SimpleListMenu icon={<MoreVertIcon style={{fontSize:"20px"}}/>} options={this.funcOptions(this.state.perm,this.props.taskOwner)()}
+                                                    id={this.props.group + "-taskId-" + this.props.taskId} openClickAction={this.checkPerm.bind(this,this.props.taskOwner)}/>
+                                    {/*<Button size="small">*/}
+                                        {/*<DetailIcon style={{fontSize:"16px"}}/>*/}
+                                    {/*</Button>*/}
+                                </Tooltip>
+                            </Grid>
+                        </Grid>
+                    </CardActions>
                 </Card>
             </Grid>
         );

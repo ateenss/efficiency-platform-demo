@@ -14,19 +14,9 @@ import {
     XAxis,
     YAxis
 } from "recharts";
-import Slide from "@material-ui/core/Slide";
 import Tooltip from "@material-ui/core/Tooltip";
 import {error} from "../../actions/NotificationAction";
 
-const drawerWidth = 240;
-
-
-const data = [
-    {name: 'ACP_GTW_WEB', uv: 20},
-    {name: 'ACP_GTW_APP', uv: 26},
-    {name: 'ACAOS', uv: 23},
-    {name: 'ACP_GTW_BKE', uv: 12},
-];
 const styles = theme => ({
     root: {
         width: '100%'
@@ -85,10 +75,6 @@ const styles = theme => ({
         background: "#F5F5F5", padding: "8px", maxWidth: "600px"
     }
 });
-
-function Transition(props) {
-    return <Slide direction="up" {...props} />;
-}
 
 class Stats extends React.Component {
 
@@ -205,14 +191,4 @@ const
 
         }
     };
-
-export default connect(mapStateToProps)
-
-(
-    withStyles(styles, {withTheme: true})
-
-    (
-        Stats
-    ))
-;
-
+export default connect(mapStateToProps)(    withStyles(styles, {withTheme: true})    (        Stats    ));

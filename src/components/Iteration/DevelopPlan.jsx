@@ -13,23 +13,12 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {Avatar, Tooltip} from "@material-ui/core";
 import MyQuill from "../SelfComponent/MyQuill";
-//
-// import FilterIcon_1 from '@material-ui/icons/Filter1';
-// import FilterIcon_2 from '@material-ui/icons/Filter2';
-// import FilterIcon_3 from '@material-ui/icons/Filter3';
-// import FilterIcon_4 from '@material-ui/icons/Filter4';
-// import FilterIcon_5 from '@material-ui/icons/Filter5';
-// import FilterIcon_6 from '@material-ui/icons/Filter6';
-// import FilterIcon_7 from '@material-ui/icons/Filter7';
-// import FilterIcon_8 from '@material-ui/icons/Filter8';
-//
 
 
 const drawerWidth = 200;
@@ -54,7 +43,6 @@ const styles = theme => ({
         // marginRight: "8px",
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        height: "563px"
     },
     quillIn: {
         height: "500px"
@@ -158,9 +146,6 @@ const styles = theme => ({
 
 });
 
-function Transition(props) {
-    return <Slide direction="up" {...props} />;
-}
 
 class DevelopPlan extends React.Component {
     constructor(props){
@@ -333,7 +318,7 @@ class DevelopPlan extends React.Component {
                                             readOnly={true}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="外部系统接口调整"
                                                         nameIn="outerSysInterfaceChange"
@@ -341,7 +326,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.outerSysInterfaceChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="是否支持灰度功能"
                                                         nameIn="supportGrayEnv"
@@ -350,7 +335,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.supportGrayEnv}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="灾备影响性评估"
                                                         nameIn="disasterRecoveryAssessment"
@@ -359,7 +344,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.disasterRecoveryAssessment}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="生产影响性评估"
                                                         nameIn="productEnvAssessment"
@@ -372,7 +357,7 @@ class DevelopPlan extends React.Component {
                             </Grid>
                             <Grid item xs={12}>
                                 <Grid container spacing={8}>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="外部系统配套改造"
                                                         nameIn="outerSysChange"
@@ -381,7 +366,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.outerSysChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="模块上线顺序要求"
                                                         nameIn="moduleDeploySequence"
@@ -390,7 +375,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.moduleDeploySequence}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="内部子系统间接口调整"
                                                         nameIn="innerSysInterfaceChange"
@@ -399,7 +384,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.innerSysInterfaceChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="安全相关"
                                                         nameIn="safety"
@@ -408,7 +393,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.safety}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="数据库修改点"
                                                         nameIn="dbChange"
@@ -417,7 +402,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.dbChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="参数配置要求"
                                                         nameIn="config"
@@ -426,7 +411,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.config}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="接口规范变更"
                                                         nameIn="interfaceChange"
@@ -435,7 +420,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.interfaceChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="运维信息变更"
                                                         nameIn="operationChange"
@@ -444,7 +429,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.operationChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="部署需求调整"
                                                         nameIn="deploymentChange"
@@ -453,7 +438,7 @@ class DevelopPlan extends React.Component {
                                                         defaultValue={planContent.deploymentChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={6}>
                                         <MultiLineInput fullWidth disabled
                                                         InputLabelName="五高影响性"
                                                         nameIn="high5Assessment"

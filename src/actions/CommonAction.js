@@ -1,5 +1,4 @@
 import {
-    SHOW_NOTIFICATION,
     SINGLE_SELECT_VALUE,
     INIT_PROJECT_MEMBERS, START_LOADING, STOP_LOADING, CHANGE_PASSWORD, SAVE_CHANGE_PASSWORD,CLOSE_CHANGE_PASSWORD,SYS_INIT
 } from './types';
@@ -8,7 +7,6 @@ import store from "../stores";
 import UrlConf from "../constants/UrlConf";
 import {error} from "./NotificationAction";
 import history from "../history/history";
-import {getRecentIteration} from "./IterationAction";
 
 export const changSingleSelectValue=(value)=>({
     type:SINGLE_SELECT_VALUE,

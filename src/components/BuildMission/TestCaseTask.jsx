@@ -1,15 +1,14 @@
 import React from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {connect} from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
-import DialogContent from '@material-ui/core/DialogContent';
-import {saveActionValue,setEmptyAction,closeTestCaseTask} from "../../actions/BuildMissionAction"
+import {
+    saveActionValue,
+    setEmptyAction,
+    closeTestCaseTask,
+    getTestCaseListByDemands, getDemandTaskDetail
+} from "../../actions/BuildMissionAction"
 import {
     INJECT_TEST_CASE_CONTENT,
     SAVE_ACTUAL_VALUE_INSERT,
@@ -25,6 +24,8 @@ import CustomToolBarSelect4DeliveryDoc from "./CustomToolBarSelect4DeliveryDoc";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableFooter from "@material-ui/core/TableFooter";
+import {sysInit} from "../../actions/CommonAction";
+import {UrlParser} from "../../constants/UrlConf";
 
 
 
@@ -206,6 +207,28 @@ class TestCaseTask extends React.Component {
 
         }
     }
+    componentDidMount() {
+
+        let taskId = UrlParser.parse(window.location.href).id;
+
+
+        let self = this;
+
+        sysInit(function(initParams){
+            if(!!taskId){
+                getTestCaseListByDemands(new Number(taskId));
+            }
+
+
+            self.setState({projectMembers : initParams.projectMembers, modules : initParams.modules})
+
+        })
+
+
+
+
+
+    }
 
 
     handleChange = (panel) => (event, expanded) => {
@@ -338,18 +361,6 @@ class TestCaseTask extends React.Component {
         return (
 
             <div>
-                <Dialog fullScreen open={!!testCaseTaskShow ? testCaseTaskShow : false}  TransitionComponent={Transition}>
-                    <AppBar className={classes.appBar} color="default">
-                        <Toolbar variant="dense">
-                            <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
-                                <CloseIcon/>
-                            </IconButton>
-                            <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
-                                上线检查表任务详情
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <DialogContent className={classes.dialogContainer}>
                         <div className={classes.root}>
                             {
                                 !!demandsArray?demandsArray.map((item,index)=>{
@@ -367,8 +378,6 @@ class TestCaseTask extends React.Component {
                                 }):""
                             }
                         </div>
-                    </DialogContent>
-                </Dialog>
     </div>
 
         )

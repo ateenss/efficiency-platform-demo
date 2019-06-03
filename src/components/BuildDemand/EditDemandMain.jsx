@@ -14,7 +14,7 @@ import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import {EDIT_DEMAND} from "../../actions/types";
-import {Rules, validate, validating} from "../../actions/validateAction";
+import {Rules, validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 import CardHeader from "./BuildDemandMain";
@@ -68,6 +68,12 @@ const bmRequired=[
 ];
 const uatRequired=[
     {id : 0, name : "否"},{id : 1, name : "是"}
+];
+const vipDemand=[
+    {id : 0, name : "普通需求"},{id : 1, name : "重点需求"}
+]
+const traceDemand=[
+    {id : 0, name : "不跟踪"},{id : 1, name : "跟踪"}
 ]
 
 
@@ -227,7 +233,7 @@ class EditDemandMain extends React.Component {
                                         InputLabelName="需求业务编号"
                                         defaultValue={this.state.defaultContent["demandCode"]}
                                         validateEl={Rules.demandProps.demandCode}
-                                        disabled={this.state.defaultContent.demandType == 0 ? true : false}
+                                        disabled={this.state.defaultContent.demandType === 0 ? true : false}
                                     />
                                 </Grid>
                                 <Grid item xs={4} className={classes.gridStyle}>
@@ -238,7 +244,7 @@ class EditDemandMain extends React.Component {
                                         nameIn="demandLinkCode"
                                         nameArray={type}
                                         validateEl={Rules.demandProps.demandLinkCode}
-                                        disabled={this.state.defaultContent.demandType == 0 ? true : false}
+                                        disabled={this.state.defaultContent.demandType === 0 ? true : false}
                                     />
                                 </Grid>
                                 <Grid item xs={6} className={classes.gridStyle}>
@@ -342,7 +348,65 @@ class EditDemandMain extends React.Component {
                             </Grid>
                         </CardContent>
                     </Card>
+                    <Card className={classes.card}>
+                        <CardHeader title="其他信息" className={classes.cardHeader} classes={{title : classes.headerLine}}/>
 
+                        <CardContent className={classes.cardContent} style={{paddingTop:"10px"}}>
+                            <Grid container spacing={8}>
+
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <SingleSelect
+                                        onChange={this.getContent}
+                                        InputLabelName="是否重点需求"
+                                        nameIn="vipDemand"
+                                        nameArray={vipDemand}
+                                        validateEl={Rules.demandProps.vipDemand}
+                                        defaultValue={this.state.defaultContent["vipDemand"]}
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <SingleSelect
+                                        onChange={this.getContent}
+                                        InputLabelName="是否业务量跟踪"
+                                        nameIn="traceDemand"
+                                        nameArray={traceDemand}
+                                        validateEl={Rules.demandProps.traceDemand}
+                                        defaultValue={this.state.defaultContent["traceDemand"]}
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <InputField
+                                        nameIn="statType"
+                                        onChange={this.getContent}
+                                        InputLabelName="业务量统计方式"
+                                        defaultValue={this.state.defaultContent["statType"]}
+                                        validateEl={Rules.demandProps.statType}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <InputField
+                                        nameIn="statPeriod"
+                                        onChange={this.getContent}
+                                        InputLabelName="业务量统计周期"
+                                        defaultValue={this.state.defaultContent["statPeriod"]}
+                                        validateEl={Rules.demandProps.statPeriod}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <InputField
+                                        nameIn="demandRate"
+                                        onChange={this.getContent}
+                                        InputLabelName="需求价值评分"
+                                        defaultValue={this.state.defaultContent["demandRate"]}
+                                        validateEl={Rules.demandProps.demandRate}
+
+                                    />
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                    </Card>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.handleClose} color="primary" className={buttonStyle}>

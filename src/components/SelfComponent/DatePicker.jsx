@@ -2,11 +2,12 @@ import 'date-fns';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
+import {createMuiTheme, withStyles} from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, DatePicker, InlineDatePicker} from 'material-ui-pickers';
 import cnLocale from "date-fns/locale/zh-CN";
 import format from "date-fns/format";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 
 
 
@@ -32,6 +33,52 @@ class LocalizedUtils extends DateFnsUtils {
 }
 
 
+const theme = createMuiTheme({
+    overrides: {
+        MuiFilledInput: {
+            root: {
+                backgroundColor:"#f5f5f5",
+                "&:hover":{
+                    background:"#f5f5f5 !important",
+                },
+                '&:before': {
+                    borderBottom: "none"
+                },
+                '&:disabled':{
+                    backgroundColor:"#f5f5f5",
+                }
+            },
+            disabled:{
+                backgroundColor:"#f5f5f5 !important",
+            },
+
+            underline:{
+                "&:hover":"1px solid #4DAF7C !important",
+                '&:before': {
+                    borderBottom: "none"
+                },
+                '&:after':{
+                    borderBottom:"1px solid #4DAF7C !important"
+                }
+            },
+            focused:{
+                backgroundColor:"#f5f5f5 !important"
+            },
+        },
+        MuiFormLabel: {
+            root:{
+                "&:focused":{
+                    color:"#4daf7c !important"
+                }
+            },
+            focused:{
+                color:"#4daf7c !important"
+            }
+
+        }
+
+    },
+});
 class MaterialUIPickers extends React.Component {
     state = {
         data:null,
@@ -62,6 +109,8 @@ class MaterialUIPickers extends React.Component {
         const { data } = this.state;
         const dateFormat = "yyyy-MM-dd";
         return (
+            <MuiThemeProvider theme={theme}>
+
             <MuiPickersUtilsProvider utils={LocalizedUtils} locale={cnLocale} className={classes.provider}>
                         <InlineDatePicker
                             fullWidth
@@ -69,6 +118,7 @@ class MaterialUIPickers extends React.Component {
                             margin="normal"
                             label={InputLabelName}
                             value={data}
+                            variant="filled"
                             onChange={this.handleDateChange}
                             format={dateFormat}
                             views={["year", "month", "day"]}
@@ -76,6 +126,7 @@ class MaterialUIPickers extends React.Component {
                             emptyLabel="选择"
                         />
             </MuiPickersUtilsProvider>
+            </MuiThemeProvider>
         );
     }
 }

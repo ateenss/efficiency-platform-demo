@@ -297,7 +297,7 @@ class AddIteration extends React.Component {
                     <Card className={classes.card}>
                         <CardHeader title="版本进度" className={classes.cardHeader} classes={{title : classes.headerLine}}/>
 
-                        <CardContent className={classes.cardContent} style={{paddingTop:"32px"}}>
+                        <CardContent className={classes.cardContent}>
                             <Grid container spacing={8}>
                                 <Grid item xs={4} className={classes.gridStyle}>
                                     <DatePicker nameIn="developPlanSubmitDate" InputLabelName="开发方案提交时间"
@@ -331,7 +331,7 @@ class AddIteration extends React.Component {
                     <Card className={classes.card}>
                         <CardHeader title="关联版本" className={classes.cardHeader} classes={{title : classes.headerLine}}/>
 
-                        <CardContent className={classes.cardContent} style={{paddingTop:"32px"}}>
+                        <CardContent className={classes.cardContent} >
                             <CascadeSelect onChange={this.getContent}/>
                         </CardContent>
                     </Card>

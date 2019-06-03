@@ -1,7 +1,7 @@
 import React from "react";
-import Quill, {Delta} from "quill";
-import "quill/dist/quill.snow.css";
+import Quill from "quill";
 import {withStyles} from '@material-ui/core/styles';
+import "../../assets/css/quill.snow.css";
 
 const styles = {
     appBar: {
@@ -72,7 +72,7 @@ class MyQuill extends React.Component {
 
     render() {
         return (
-                <div id="editor" style={{height:"500px"}}/>
+                <div id="editor" style={{height:"500px", background:"#f5f5f5", border:"none"}}/>
         );
     }
 }

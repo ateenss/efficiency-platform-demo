@@ -12,9 +12,8 @@ import Grid from "@material-ui/core/Grid";
 const styles = {
     root: {
         boxShadow: "none",
-        borderBottom: "1px solid #949494",
+        // borderBottom: "1px solid #949494",
         borderRadius:"none",
-        marginTop:'3px'
     },
     heading: {
         color: "#0000008a"
@@ -44,10 +43,10 @@ const ExpansionPanelSummary = withStyles({
 
     },
     content: {
-      marginBottom:"0px"
+        marginBottom:"0px !important",
+        marginLeft:"10px !important",
     },
-    expandIcon : {right:"2px",padding:"0"},
-    expanded: {},
+    expandIcon : {right:"2px",top:"30px",padding:"0"},
 })(props => <MuiExpansionPanelSummary {...props} />);
 
 
@@ -120,11 +119,11 @@ class TrueMuitiSelect extends Component {
         };
 
         return (
-            <ExpansionPanel className={classes.root} expanded={this.state.expanded} >
+            <ExpansionPanel className={classes.root} expanded={this.state.expanded}  style={{background:"#f5f5f5", minHeight:"56px"}}>
                 <ExpansionPanelSummary  onClick={this.handleExpanded} expandIcon={<ExpandMoreIcon className={classes.iconRoot}/>} style={{minHeight: "44px", padding: "0 0 0 2px", margin:"0"}}>
                     <Typography className={classes.heading}>{this.props.label }{!!ret ? ": "+ ret : ""}</Typography>
                 </ExpansionPanelSummary>
-                <ExpansionPanelDetails style={{padding: "0", margin: "0"}}>
+                <ExpansionPanelDetails style={{padding: "0", margin: "0", marginTop:"10px"}}>
                     <Grid container spacing={0}>
                         <Grid item xs={12}>
                             <MultiSelect classNames={classes.wrapper}

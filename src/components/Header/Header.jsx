@@ -11,16 +11,34 @@ import Hidden from "@material-ui/core/Hidden";
 import Menu from "@material-ui/icons/Menu";
 // core components
 import HeaderLinks from "./HeaderLinks.jsx";
-import Button from "../../components/CustomButtons/Button.jsx";
 
 import headerStyle from "../../assets/jss/material-dashboard-react/components/headerStyle.jsx";
+import {Link} from "react-router-dom";
 
 function Header({ ...props }) {
   function makeBrand() {
-    var name;
+    let name;
     props.routes.map((prop, key) => {
       if (prop.path === props.location.pathname) {
-        name = prop.navbarName;
+        // 这里匹配到的一定是符合完全范式的route，然后需要对path解析，根据/来拆分
+        let idx = prop.path.lastIndexOf("/");
+        if(idx === 0){
+          name = <div className={classes.flex}><Link color="transparent" to={prop.path} className={classes.title} style={{fontWeight:"400"}}>{prop.navbarName}</Link></div>
+        }else{
+
+          let target = prop.path.substring(0, idx);
+          let n = props.routes.map((p,k) =>{
+
+            if(p.path === target){
+              return p.navbarName;
+            }
+
+          });
+
+
+          name = <div className={classes.flex}><Link color="transparent" to={prop.path.substring(0, idx)} className={classes.title}>{n}</Link>  /  <Link color="transparent" to={prop.path} className={classes.title} style={{fontWeight:"400"}}>{prop.navbarName}</Link></div>
+        }
+
       }
       return null;
     });
@@ -33,12 +51,8 @@ function Header({ ...props }) {
   return (
     <AppBar className={classes.appBar + appBarClasses} >
       <Toolbar className={classes.container}>
-        <div className={classes.flex}>
-          {/* Here we create navbar brand, based on route name */}
-          <Button color="transparent" href="#" className={classes.title}>
-            {makeBrand()}
-          </Button>
-        </div>
+
+          {makeBrand()}
         <Hidden mdDown  implementation="css">
           <HeaderLinks />
         </Hidden>

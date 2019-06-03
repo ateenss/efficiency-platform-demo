@@ -158,7 +158,7 @@ class ShowDevDocuments extends React.Component {
 
                         <Tabs value={tabValue} onChange={this.handleChange} classes={{indicator: classes.tabsIndicator}}>
                             <Tab label="开发方案"/>
-                            <Tab label="内部联调测试案例"/>
+                            {/*<Tab label="内部联调测试案例"/>*/}
                             {/*<Tab label="问题记录"/>*/}
                         </Tabs>
                     </AppBar>
@@ -168,9 +168,9 @@ class ShowDevDocuments extends React.Component {
                     {tabValue === 0 &&
                     <DevelopPlan content={this.state.planContent}/>
                     }
-                    {tabValue === 1 &&
-                    <TestCase content={this.state.testCase}/>
-                    }
+                    {/*{tabValue === 1 &&*/}
+                    {/*<TestCase content={this.state.testCase}/>*/}
+                    {/*}*/}
                     {/*{tabValue === 2 &&*/}
                     {/*<Grid container spacing={24}>*/}
                         {/*<Grid item xs={12}>*/}

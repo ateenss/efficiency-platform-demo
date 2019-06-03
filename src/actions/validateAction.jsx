@@ -88,6 +88,11 @@ export const Rules = {
             literal: "需求类型"
         },
         status: {required: true, literal: "需求状态"},
+        vipDemand: {required: false, literal: "是否重点需求"},
+        traceDemand: {required: false, literal: "是否跟踪业务量"},
+        statType:{required:false, literal:"业务量统计方式"},
+        statPeriod:{required:false, literal:"业务量统计周期"},
+        demandRate:{required:false, literal:"需求价值评分"},
         demandSourceDept: {
             maxLength: 20,
             expr: Regex.noSpecialSymbol,

@@ -19,13 +19,10 @@ import {
     UPDATE_ITERATION_PERSON_INFO, CLOSE_UPDATE_PERSON_INFO,SAVE_UPDATE_PERSON_INFO
 } from './types';
 
-import {GET_PROJECT_MEMBERS, stopLoading} from "./CommonAction";
+import {GET_PROJECT_MEMBERS} from "./CommonAction";
 import RequestBuilder from "../constants/RequestBuilder";
 import UrlConf from "../constants/UrlConf";
 import {error, success, warning} from "./NotificationAction";
-import {getMyTaskMain} from "./BuildMissionAction";
-import DownloadIcon from "../components/Iteration/DemandsList";
-import React from "react";
 
 //axios配置
 const config = {

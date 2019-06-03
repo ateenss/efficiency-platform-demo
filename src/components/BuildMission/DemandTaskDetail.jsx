@@ -34,7 +34,6 @@ import {
 import {changeTaskStatus, editTask} from "../../actions/DemandTasksAction";
 import permProcessor from "../../constants/PermProcessor";
 import TestCaseEditor from "./TestCaseEditor";
-import BuildOtherTask from "../views/TaskBoard";
 
 
 const styles =theme =>( {
@@ -56,7 +55,6 @@ const styles =theme =>( {
     cardLink,
     newDevButton: {
         boxShadow:"none",
-        marginLeft:"15px",
         border:"1px solid #4caf50",
         color:"#4caf50",
         padding:"0 12px 0 6px",
@@ -129,7 +127,7 @@ const styles =theme =>( {
         maxWidth:"18%",
         flexBasis:"18%",
         margin:"0 1% 0 1%",
-        background:"#f5f5f5"
+        background:"#eee"
     },
     icon: {
         margin: theme.spacing.unit * 2,
@@ -157,6 +155,28 @@ const CardHeader = withStyles({
 
 
 
+const taskConst = {
+    allTaskStatus: {
+        "0": "待处理",
+        "1": "待处理",
+        "2": "完成方案",
+        "3": "已评审",
+        "4": "已走查",
+        "5": "已完成持续集成",
+        "6": "已提测",
+        "7": "具备持续集成条件",
+        "8": "完成",
+        "9": "走查",
+        "10": "完成上线测试案例"
+    },
+    allTaskType: {
+        "1": "需求开发任务",
+        "2": "开发任务",
+        "3": "走查任务",
+        "4": "个人其他任务",
+        "5": "上线检查案例任务"
+    }
+};
 
 class DemandTaskDetail extends React.Component {
     constructor(props) {
@@ -278,7 +298,7 @@ class DemandTaskDetail extends React.Component {
             }
         };
     showDemandTaskTool = (demands) => {
-        let content = (<SimpleListMenu icon={<MoreVertIcon/>}
+        let content = (<SimpleListMenu icon={<MoreVertIcon style={{marginTop:"5px"}}/>}
                                        options={this.options(this.state.perm)()}
                                        id={demands.taskId}
         />);
@@ -292,16 +312,15 @@ class DemandTaskDetail extends React.Component {
 
 
     render() {
-        const {classes, develop, plan, taskStatusList,taskTypeList,goTest,integration, demands,finish,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
-        console.log(JSON.stringify(this.props.projectMembers))
+        const {classes, develop, plan,goTest,integration, demands,finish,buildModuleShow,buildPlanShow,tempBoardToDetail} = this.props;
         let detailInfo=tempBoardToDetail;
         if (!tempBoardToDetail){
             detailInfo=""
         }
         let ret,x;
-        for (x in taskStatusList) {
+        for (x in taskConst.allTaskStatus) {
             if (x===demands.taskStatus.toString()){
-                ret=taskStatusList[x]
+                ret=taskConst.allTaskStatus[x]
             }
         }
         return (
@@ -328,11 +347,11 @@ class DemandTaskDetail extends React.Component {
                 <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                     <Grid container spacing={0} className={classes.taskFlowStatus}>
                         <Grid container spacing={0} className={classes.taskStatusGroup}>
-                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>方案</h5></Grid>
-                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>开发</h5></Grid>
-                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>走查</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>编写方案</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>进行开发</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>进行走查</h5></Grid>
                             <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>持续集成</h5></Grid>
-                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>已提测</h5></Grid>
+                            <Grid item xs={2} sm={12} md={2}  className={classes.taskWidth}><h5 align="center" className={classes.taskStatus}>完成提测</h5></Grid>
                         </Grid>
                         <Grid container spacing={0} className={classes.taskGroup}>
 
@@ -404,14 +423,11 @@ const mapStateToProps = (state) => {
     return {
         editMissionShow:state.reducer.buildMission.editMissionShow,
         buildPlanShow:state.reducer.buildMission.buildPlanShow,
-        addTask:state.reducer.buildMission.addTask,
         buildModuleShow:state.reducer.buildMission.buildModuleShow,
         assignGoTestShow:state.reducer.buildMission.assignGoTestShow,
         demands:state.reducer.buildMission.demands,
         allActonShow:state.reducer.buildMission.allActonShow,
         demandTaskActionShow:state.reducer.buildMission.demandTaskActionShow,
-        taskStatusList: state.reducer.buildMission.taskStatusList,
-        taskTypeList: state.reducer.buildMission.taskTypeList,
     }
 };
 

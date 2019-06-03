@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from '@material-ui/core/Button';
@@ -13,7 +12,6 @@ import {error} from "../../actions/NotificationAction";
 import {connect} from "react-redux";
 import {closeChangePassword, saveChangePassword} from "../../actions/CommonAction";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import {SAVE_CHANGE_PASSWORD} from "../../actions/types";
 
 const styles = theme => ({
     root: {

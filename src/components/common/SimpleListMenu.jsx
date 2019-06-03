@@ -36,7 +36,7 @@ class SimpleListMenu extends React.Component {
 
         return (
             <div group={this.props.group} style={{display: this.props.display}}>
-                <IconButton className={this.props.buttonClass}
+                <IconButton className={this.props.buttonClass} style={{padding:"6px 24px", borderRadius:"3px"}}
                             aria-label="More"
                             aria-owns={open ? 'long-menu' : undefined}
                             aria-haspopup="true"
@@ -57,7 +57,7 @@ class SimpleListMenu extends React.Component {
                     }}
                 >
                     {this.props.options.map(option => (
-                        <MenuItem key={option.name} onClick={this.handleClose.bind(this, option.func, this.props.id)}>
+                        <MenuItem key={option.name} onClick={this.handleClose.bind(this, option.func, this.props.id)} style={{fontSize:"14px", paddingTop:"5px", paddingBottom:"5px"}}>
                             {option.name}
                         </MenuItem>
                     ))}

@@ -108,12 +108,4 @@ const
         }
     };
 
-export default connect(mapStateToProps)
-
-(
-    withStyles(defaultToolbarSelectStyles, {name: "CustomToolbarSelect"})
-
-    (
-        CustomToolBarSelect4DeliveryDoc
-    ))
-;
+export default connect(mapStateToProps)(withStyles(defaultToolbarSelectStyles, {name: "CustomToolbarSelect"})(CustomToolBarSelect4DeliveryDoc));

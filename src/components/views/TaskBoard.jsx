@@ -98,21 +98,19 @@ const styles = theme => ({
         maxWidth:"31%",
         flexBasis:"31%",
         margin:"0 1% 0 1%",
-        background:"#f5f5f5",
+        background:"#eee",
         marginBottom:theme.spacing.unit*2
     },
     taskGroup:{
     },
     newDevButton: {
         boxShadow:"none",
-        marginLeft:"15px",
         border:"1px solid #4caf50",
         color:"#4caf50",
         padding:"0 0 0 0",
         minHeight:"15px",
         height:"40px",
         minWidth:"100px",
-        width:"100%",
         "&:hover":{
             background:"#4caf50",
             color: "#FFFFFF",
@@ -215,7 +213,6 @@ class TaskBoard extends React.Component {
         if (permProcessor.bingo('getDemandTaskDetail', this.state.perm)) {
 
             sysInit(function(initParams) {
-
 
                 init();
 
@@ -324,27 +321,15 @@ class TaskBoard extends React.Component {
 
                             <Grid item xs={2}>
                                 <Toolbar variant="regular">
-                                    {/*<Button onClick={this.toggleDrawer('right', true)}*/}
-                                            {/*className={classes.newDevButton}*/}
-                                            {/*size="large"*/}
-                                    {/*>筛选</Button>*/}
-                                   {/* <Button onClick={this.openOtherTask}
-                                            className={classes.newDevButton}
-                                            size="large"
-                                            fullWidth={true}
-                                    >*/}
+                                  
                                     <Button onClick={this.openOtherTask}
                                             classes={{root:classes.newDevButton,
                                             label:classes.textLabel}}
                                             size="large"
-                                            fullWidth={true}
                                     >
                                         <AddIcon className={classes.addIcon}/>
                                         个人任务
                                     </Button>
-                                    <Link to="/taskboard/test">
-                                        <AddIcon className={classes.addIcon}/>
-                                    </Link>
 
                                 </Toolbar>
                             </Grid>
@@ -387,13 +372,13 @@ class TaskBoard extends React.Component {
                         </div>
                     </Drawer>
                 </div>
-                <MissionDetailMain projectMembers={this.state.projectMembers} modules={this.state.modules}/>
+                {/*<MissionDetailMain projectMembers={this.state.projectMembers} modules={this.state.modules}/>*/}
                 <IntegrationPage/>
                 <GoTestPage/>
                 <OtherMissionPage/>
                 <BuildOtherTask projectMembers={this.state.projectMembers}/>
                 <OtherTaskPage/>
-                <TestCaseTask/>
+                {/*<TestCaseTask/>*/}
                 <ChangeTaskOwner projectMembers={this.state.projectMembers}/>
             </Grid>
         )
@@ -415,13 +400,4 @@ const
             unfinished: state.reducer.buildMission.unfinished
         }
     };
-
-export default connect(mapStateToProps)
-
-(
-    withStyles(styles, {withTheme: true})
-
-    (
-        TaskBoard
-    ))
-;
+export default connect(mapStateToProps)(    withStyles(styles, {withTheme: true})    (        TaskBoard    ));

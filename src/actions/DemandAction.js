@@ -71,6 +71,18 @@ export function addDemand() {
     });
 
 }
+
+
+export function handleDownload(filters){
+
+    let accessToken = localStorage.getItem("token");
+
+    let url = UrlConf.base + "download/demands";
+
+    return axios.post(url, {"version": "1.0", accessToken: accessToken, data : filters}, config);
+
+}
+
 export function demandSync(callback){
 
 

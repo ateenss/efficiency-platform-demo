@@ -13,10 +13,8 @@ import store from "../../stores";
 import {closeOtherMissionDetail, saveOtherEditTask, changeOtherTaskStatus} from "../../actions/BuildMissionAction"
 import InputField from "../SelfComponent/InputField"
 import EditQuill from "../SelfComponent/EditQuill"
-import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 import DatePicker from "../SelfComponent/DatePicker"
 import Grid from '@material-ui/core/Grid';
-import MultiSelect from "../SelfComponent/MultiSelect"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import DialogContent from "@material-ui/core/DialogContent";
 
@@ -223,7 +221,6 @@ const mapStateToProps = (state) => {
         openTask: state.reducer.task.openTask,
         detailOtherMissionShow: state.reducer.buildMission.detailOtherMissionShow,
         tempBoardToDetail: state.reducer.buildMission.tempBoardToDetail,
-        addTask: state.reducer.buildMission.addTask,
         initialProjectList: state.reducer.buildMission.initialProjectList,
     }
 };

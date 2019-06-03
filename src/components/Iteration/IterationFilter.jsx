@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {createMuiTheme, withStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import {connect} from "react-redux";
 import {
@@ -13,7 +13,9 @@ import Grid from "@material-ui/core/Grid";
 import {Menu} from "@material-ui/core";
 import {closeFilter} from "../../actions/IterationAction";
 import DateRange from "../SelfComponent/DateRange";
-import DatePicker from "../BuildDemand/Filter";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 
 const styles = theme => ({
     typography: {
@@ -29,6 +31,17 @@ const styles = theme => ({
     }
 });
 
+
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiTypography:{
+            body1:{color:"rgba(0, 0, 0, 0.54)"}
+        }
+    },
+});
+
+
 class Filter extends React.Component {
     constructor(props) {
         super(props);
@@ -39,6 +52,16 @@ class Filter extends React.Component {
         };
     }
 
+
+    handleChecked = (e) =>{
+
+        if(e.target.checked){
+            this.getContent({keyNote : "ongoingIteration", value : 1});
+        }else{
+            this.getContent({keyNote : "ongoingIteration", value : 0});
+        }
+
+    }
 
     componentWillReceiveProps(nextProps, nextContext) {
 
@@ -86,7 +109,7 @@ class Filter extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { anchorEl, open } = this.state;
+        const { anchorEl } = this.state;
         let iterationSelect = [];
         for (let i in this.props.iteration) {
             let unit = this.props.iteration[i];
@@ -149,6 +172,20 @@ class Filter extends React.Component {
                                     <Grid item xs={6} className={classes.gridStyle}>
                                         <DateRange nameIn="deliveryDate" InputLabelName="上线时间" onDateChange={this.getContent}/>
                                     </Grid>
+                                    <Grid item xs={6} className={classes.gridStyle}>
+                                        <MuiThemeProvider theme={theme}>
+                                        <FormControlLabel style={{marginLeft:"0", marginRight:"0", width:"100%", background:"#f5f5f5", height:"56px", color:"rgba(0, 0, 0, 0.54)"}}
+                                            control={
+                                                <Checkbox
+                                                    onChange={this.handleChecked}
+                                                    value="1"
+                                                    name="ongoingIteration"
+                                                />
+                                            }
+                                            label="未规划版本"
+                                        />
+                                        </MuiThemeProvider>
+                                    </Grid>
                                 </Grid>
 
 
@@ -175,13 +212,4 @@ const
 
         }
     };
-
-export default connect(mapStateToProps)
-
-(
-    withStyles(styles, {withTheme: true})
-
-    (
-        Filter
-    ))
-;
+export default connect(mapStateToProps)(    withStyles(styles, {withTheme: true})    (        Filter    ));

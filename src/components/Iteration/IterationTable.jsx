@@ -24,6 +24,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableFooter from "@material-ui/core/TableFooter";
 import DetailTable from "./DetailTable";
+import CheckIcon from "./DemandsList";
 
 const styles = theme => ({
     root: {
@@ -107,6 +108,12 @@ const filterLabel = {
         label :"变更号",
         renderValue : function(data){
             return this.label + ":" + data;
+        }
+    },
+    ongoingIteration:{
+        label :"未规划版本",
+        renderValue : function(data){
+            return this.label;
         }
     }
 
@@ -271,7 +278,9 @@ class IterationList extends React.Component {
 
         const columns = [
             {name:"序号",options:{filter:false,display:false}},
-            {name:"版本编号",options:{filter:false,display:true}},
+            {name:"版本编号",options:{filter:false,display:true,customBodyRender: (value, tableMeta, updateValue) => {
+                        return <Chip label={value} onClick={this.props.handleSelection.bind(this, tableMeta.rowData[0])} style={{background: "#e0ecfb", borderRadius: "3px", color: "#176fdc"}}/>
+                    }}},
             {name:"版本名称",options:{filter:false,display:true}},
             {name:"版本负责人",options:{filter:false,display:true}},
             {name:"iterationOwnerId",options:{filter:false,display:false}},
@@ -286,6 +295,7 @@ class IterationList extends React.Component {
             {name:"deliveryPersonInChargeId",options:{filter:false,display:false}},
             {name:"变更号",options:{filter:false,display:false, children:true}},
             {name:"relatedIterationId",options:{filter:false,display:false, children:false}},
+            {name:"关联版本",options:{filter:false,display:true, children:false}},
             {name:"上线人员",options:{filter:false,display:false, children:true, dataType:"array"}},
             {name:"上线检查人员",options:{filter:false,display:false, children:true, dataType:"array"}},
         ];

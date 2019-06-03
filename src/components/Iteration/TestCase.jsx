@@ -1,13 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import MUIDataTable from "mui-datatables";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import Typography from "@material-ui/core/Typography";
-import CustomToolBar4DemandList from '../Iteration/CustomToolBar4DemandList';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
-const styles = theme => ({});
 
 const columns = [
     {name: "案例描述", options: {filter: false}},
@@ -106,4 +102,4 @@ class TestCase extends React.Component {
 }
 
 
-export default withStyles(styles)(TestCase);
+export default withStyles(TestCase);

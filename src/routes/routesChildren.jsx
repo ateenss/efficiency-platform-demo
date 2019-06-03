@@ -7,7 +7,9 @@ import Project from "../components/views/Project.jsx";
 import TaskBoard from "../components/views/TaskBoard.jsx";
 import DemandBoard from "../components/views/DemandBoard";
 import IterationBoard from "../components/views/IterationBoard";
-import testDir2 from "../components/testDir/testDir2";
+import MyPage from "../components/BuildMission/MyPage";
+import TestCaseTask from "../components/BuildMission/TestCaseTask";
+import NewDemandBoard from "../components/views/NewDemandBoard";
 
 
 const dashboardRoutes = [
@@ -58,12 +60,28 @@ const dashboardRoutes = [
     },
 
     {
-        path: "/taskboard/test",
-        sidebarName: "第二级",
-        navbarName: "第二级",
+        path: "/taskboard/detail",
+        sidebarName: "任务详情",
+        navbarName: "任务详情",
         icon: Notifications,
-        component: testDir2,
+        component: MyPage,
         hide: true
+    },
+
+    {
+        path: "/taskboard/testCase",
+        sidebarName: "上线任务详情",
+        navbarName: "上线任务详情",
+        icon: Notifications,
+        component: TestCaseTask,
+        hide: true
+    },
+    {
+        path: "/newDemand",
+        sidebarName: "新需求",
+        navbarName: "新需求",
+        icon: Notifications,
+        component: NewDemandBoard,
     },
     {redirect: true, path: "/", to: "/project", navbarName: "Redirect"}
 ];

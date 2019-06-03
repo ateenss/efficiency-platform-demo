@@ -132,7 +132,7 @@ class DoTestPage extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        console.log(nextProps.action)
+
         if(nextProps.action ===OPEN_DETAIL_GOTEST ){
             this.setState({progress : 0})
         }
@@ -233,7 +233,6 @@ const mapStateToProps = (state) => {
         openTask: state.reducer.task.openTask,
         detailGoTestShow:state.reducer.buildMission.detailGoTestShow,
         tempBoardToDetail:state.reducer.buildMission.tempBoardToDetail,
-        addTask:state.reducer.buildMission.addTask,
         demands:state.reducer.buildMission.demands,
     }
 };

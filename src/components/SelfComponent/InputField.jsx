@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
+import {createMuiTheme, withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
 import {validate} from "../../actions/validateAction";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 const styles = theme => ({
     container: {
         display: 'flex',
@@ -23,6 +24,52 @@ const styles = theme => ({
     },
 });
 
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiFilledInput: {
+            root: {
+                backgroundColor:"#f5f5f5",
+                "&:hover":{
+                    background:"#f5f5f5 !important",
+                },
+                '&:before': {
+                    borderBottom: "none"
+                },
+                '&:disabled':{
+                    backgroundColor:"#f5f5f5",
+                }
+            },
+            disabled:{
+                backgroundColor:"#f5f5f5 !important",
+            },
+            underline:{
+                "&:hover":"1px solid #4DAF7C !important",
+                '&:before': {
+                    borderBottom: "none"
+                },
+                '&:after':{
+                    borderBottom:"1px solid #4DAF7C !important"
+                }
+            },
+            focused:{
+                backgroundColor:"#f5f5f5 !important"
+            },
+        },
+        MuiFormLabel: {
+            root:{
+                "&:focused":{
+                    color:"#4daf7c !important"
+                }
+            },
+            focused:{
+                color:"#4daf7c !important"
+            }
+
+        }
+
+    },
+});
 
 class TextFields extends React.Component {
 
@@ -62,6 +109,8 @@ class TextFields extends React.Component {
 
         return (
             <div>
+                <MuiThemeProvider theme={theme}>
+
                 <TextField
                     disabled={disabled}
                     id="standard-name"
@@ -74,11 +123,13 @@ class TextFields extends React.Component {
                     inputProps={{
                         onBlur: this.onBlur.bind(this),
                     }}
+                    variant="filled"
                     fullWidth
                     type={this.props.password ? "password" : ""}
                     error={this.state.error}
                     inputRef={this.props.inputRef}
                 />
+                </MuiThemeProvider>
                 <Typography color="error">{this.state.message}</Typography>
             </div>
         );

@@ -10,7 +10,7 @@ import MUIDataTable from "mui-datatables";
 import red from '@material-ui/core/colors/red';
 import store from '../../stores/index';
 import {
-    closeBuildDemand, demandSync,
+    closeBuildDemand, demandSync, handleDownload,
     openFilter
 } from "../../actions/DemandAction"
 import BuildDemandMain from "../BuildDemand/BuildDemandMain"
@@ -42,7 +42,7 @@ import DemandIterationStepper from "../demand/DemandIterationStepper";
 import CheckIcon from "@material-ui/icons/CheckCircle"
 import CloseIcon from "@material-ui/icons/Close"
 import {getRecentIteration} from "../../actions/IterationAction";
-import AddIteration from "./IterationBoard";
+import HighIcon from "@material-ui/icons/Star"
 
 const styles = theme => ({
     root: {
@@ -214,6 +214,32 @@ class DemandBoard extends React.Component {
         });
 
     }
+
+    handleDownload = () =>{
+
+
+        handleDownload(this.state.filters).then(response => {
+
+            if (response.data.respCode !== "00") {
+                error(response.data.msg);
+                return false;
+            }
+
+            const aLink = document.createElement('a');
+            document.body.appendChild(aLink);
+            aLink.style.display='none';
+            aLink.href = response.data.data;
+            aLink.target = "_new";
+            aLink.click();
+
+
+        }).catch(e => {
+            error("后台拉取数据失败",JSON.stringify(e));
+
+        });
+
+
+    };
 
     /**
      * UrlConf.base + 'iteration/save';
@@ -397,9 +423,17 @@ class DemandBoard extends React.Component {
 
         const columns = [
             {name: "序号", options: {filter: false, display: false}},
+            {name: "", options: {filter: false, display: true, customBodyRender:(value, tableMeta, updateValue) =>{
+                if(value){
+                    return <HighIcon style={{fontSize:"18px",color: "rgb(230, 52, 34)", fontWeight:"700", paddingTop:"4px"}}/>;
+                }else{
+                    return "";
+                }
+            }}},
             {
                 name: "需求编号", options: {
                     filter: false, customBodyRender: (value, tableMeta, updateValue) => {
+
                         if (!value) {
                             return "";
                         }
@@ -407,9 +441,9 @@ class DemandBoard extends React.Component {
                         if(!!literal[1]){
                             let href = "http://172.17.249.10/NewSys/Requirement/External/ReqDetail.aspx?Id=" + literal[1];
                             return (
-                                <a href={href} target="new" style={{color:"#121212", textDecoration:"underline"}}>
+                                <div><a href={href} target="new" style={{fontWeight:"400px",color:"#121212", textDecoration:"underline"}}>
                                     {literal[0]}
-                                </a>
+                                </a></div>
                             );
                         }else{
                             return literal[0];
@@ -512,6 +546,7 @@ class DemandBoard extends React.Component {
             rowsPerPageOptions: [10, 20, 40],
             selectableRows: "single",
             rowHover:true,
+            download:false,
             downloadOptions:{
                 filename : "demandList.csv"
             },
@@ -527,7 +562,7 @@ class DemandBoard extends React.Component {
             },
             customToolbar: () => {
                 return (
-                    <CustomToolbar4Demand handleAdd={this.openDemand} handleFilter={this.filter} filters={filterChips} handleSync={this.handleDemandSync} perm={this.state.perm}/>
+                    <CustomToolbar4Demand handleDownload={this.handleDownload} handleAdd={this.openDemand} handleFilter={this.filter} filters={filterChips} handleSync={this.handleDemandSync} perm={this.state.perm}/>
                 );
             },
             onChangeRowsPerPage: (numberOfRows) => {

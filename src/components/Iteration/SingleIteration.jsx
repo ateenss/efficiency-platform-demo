@@ -146,14 +146,4 @@ const
             action : state.reducer.iteration.action
         }
     };
-
-export default connect(mapStateToProps)
-
-(
-    withStyles(styles, {withTheme: true})
-
-    (
-        SingleIteration
-    ))
-;
-
+export default connect(mapStateToProps)(    withStyles(styles, {withTheme: true})    (        SingleIteration    ));

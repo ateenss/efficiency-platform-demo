@@ -7,6 +7,11 @@ import {connect} from "react-redux";
 
 import Grid from '@material-ui/core/Grid'
 import BuildOtherTask from "../views/TaskBoard";
+import {getDemandTaskDetail, openDevMissionDetail} from "../../actions/BuildMissionAction";
+import {sysInit} from "../../actions/CommonAction";
+import permProcessor from "../../constants/PermProcessor";
+import store from "../../stores";
+import {UrlParser} from "../../constants/UrlConf";
 
 const styles = theme => ({
     root: {
@@ -20,11 +25,33 @@ class MyPage extends React.Component {
         super(props);
         this.state = {
             expanded: false,
-            value: 0
+            value: 0,
+            projectMembers : [],
+            modules : [],
+            perm: permProcessor.init('task')
+
         };
         // const [value, setValue] = React.useState(0);
     }
 
+    componentDidMount() {
+
+        let taskId = UrlParser.parse(window.location.href).id;
+
+        let self = this;
+
+        sysInit(function(initParams){
+            if (permProcessor.bingo('getMyTaskInfo', self.state.perm)) {
+                if(!!taskId){
+                    getDemandTaskDetail(new Number(taskId));
+                }
+
+            }
+
+            self.setState({projectMembers : initParams.projectMembers, modules : initParams.modules})
+
+        })
+    }
 
     handleChange = (event, newValue) => {
         this.setState({value: newValue});
@@ -34,7 +61,6 @@ class MyPage extends React.Component {
 
     render() {
         const {classes, demands,tempBoardToDetail} = this.props;
-        console.log(JSON.stringify(this.props.projectMembers))
         let demandsComponents;
         if (demands) {
             let taskGroup = demands.taskDetailList;
@@ -47,8 +73,8 @@ class MyPage extends React.Component {
                             goTest={taskGroup.goTest ? taskGroup.goTest : ""}
                             finish={taskGroup.finish ? taskGroup.finish : ""}
                             tempBoardToDetail={tempBoardToDetail}
-                            projectMembers={this.props.projectMembers}
-                            modules={this.props.modules}
+                            projectMembers={this.state.projectMembers}
+                            modules={this.state.modules}
                     />
                 );
         }
@@ -56,7 +82,7 @@ class MyPage extends React.Component {
 
         return (
 
-            <Grid spacing={16} container fullWidth>
+            <Grid spacing={16} container>
                     <Grid item xs={12}>{demandsComponents}</Grid>
             </Grid>
         );

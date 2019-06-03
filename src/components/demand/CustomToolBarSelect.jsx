@@ -115,18 +115,8 @@ class CustomToolbarSelect extends React.Component {
 
 const
     mapStateToProps = (state) => {
-        console.log("!!!!!!!!" + JSON.stringify(state.reducer.buildDemand.updatedRow));
         return {
             updatedRow : state.reducer.buildDemand.updatedRow
         }
     };
-
-export default connect(mapStateToProps)
-
-(
-    withStyles(defaultToolbarSelectStyles, {name: "CustomToolbarSelect"})
-
-    (
-        CustomToolbarSelect
-    ))
-;
+export default connect(mapStateToProps)(withStyles(defaultToolbarSelectStyles,{name:"CustomToolbarSelect"})(CustomToolbarSelect));

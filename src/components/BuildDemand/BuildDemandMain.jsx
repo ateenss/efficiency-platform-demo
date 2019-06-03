@@ -13,12 +13,13 @@ import {connect} from "react-redux";
 import InputField from "../SelfComponent/InputField"
 import SingleSelect from "../SelfComponent/SingleSelect"
 import {ADD_DEMAND} from "../../actions/types";
-import {Rules, Regex, validate, validating} from "../../actions/validateAction";
-import {error, success} from "../../actions/NotificationAction";
+import {Rules, validating} from "../../actions/validateAction";
+import {error} from "../../actions/NotificationAction";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
+import MultiLineInput from "../SelfComponent/MultiLineInput";
 
 const priority = [
     {id : 0,  name : "默认"},{id : 1,  name : "低"},{id : 2,  name : "普通"},{id : 3,  name : "高"},
@@ -38,7 +39,13 @@ const bmRequired=[
 ];
 const uatRequired=[
     {id : 0, name : "否"},{id : 1, name : "是"}
-]
+];
+const vipDemand=[
+    {id : 0, name : "普通需求"},{id : 1, name : "重点需求"}
+];
+const traceDemand=[
+    {id : 0, name : "不跟踪"},{id : 1, name : "跟踪"}
+];
 
 
 const styles = {
@@ -220,7 +227,7 @@ class BuildDemandMain extends React.Component {
                                     onChange={this.getContent}
                                     InputLabelName="需求业务编号"
                                     validateEl={Rules.demandProps.demandCode}
-                                    disabled={this.state.defaultContent.demandType == 0 ? true : false}
+                                    disabled={this.state.defaultContent.demandType === 0 ? true : false}
                                 />
                             </Grid>
                             <Grid item xs={4} className={classes.gridStyle}>
@@ -230,7 +237,7 @@ class BuildDemandMain extends React.Component {
                                     nameIn="demandLinkCode"
                                     nameArray={type}
                                     validateEl={Rules.demandProps.demandLinkCode}
-                                    disabled={this.state.defaultContent.demandType == 0 ? true : false}
+                                    disabled={this.state.defaultContent.demandType === 0 ? true : false}
                                 />
                             </Grid>
                             <Grid item xs={6} className={classes.gridStyle}>
@@ -267,7 +274,7 @@ class BuildDemandMain extends React.Component {
                     <Card className={classes.card}>
                         <CardHeader title="开发信息" className={classes.cardHeader} classes={{title : classes.headerLine}}/>
 
-                        <CardContent className={classes.cardContent} style={{paddingTop:"32px"}}>
+                        <CardContent className={classes.cardContent} style={{paddingTop:"10px"}}>
                             <Grid container spacing={8}>
 
                                 <Grid item xs={4} className={classes.gridStyle}>
@@ -331,6 +338,72 @@ class BuildDemandMain extends React.Component {
                         </CardContent>
                     </Card>
 
+                    <Card className={classes.card}>
+                        <CardHeader title="其他信息" className={classes.cardHeader} classes={{title : classes.headerLine}}/>
+
+                        <CardContent className={classes.cardContent} style={{paddingTop:"10px"}}>
+                            <Grid container spacing={8}>
+
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <SingleSelect
+                                        onChange={this.getContent}
+                                        InputLabelName="是否重点需求"
+                                        nameIn="vipDemand"
+                                        nameArray={vipDemand}
+                                        validateEl={Rules.demandProps.vipDemand}
+                                        defaultValue={0}
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <SingleSelect
+                                        onChange={this.getContent}
+                                        InputLabelName="是否业务量跟踪"
+                                        nameIn="traceDemand"
+                                        nameArray={traceDemand}
+                                        validateEl={Rules.demandProps.traceDemand}
+                                        defaultValue={0}
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <InputField
+                                        nameIn="statType"
+                                        onChange={this.getContent}
+                                        InputLabelName="业务量统计方式"
+                                        validateEl={Rules.demandProps.statType}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <InputField
+                                        nameIn="statPeriod"
+                                        onChange={this.getContent}
+                                        InputLabelName="业务量统计周期"
+                                        validateEl={Rules.demandProps.statPeriod}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <InputField
+                                        nameIn="demandRate"
+                                        onChange={this.getContent}
+                                        InputLabelName="需求价值评分"
+                                        validateEl={Rules.demandProps.demandRate}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={12} className={classes.gridStyle}>
+                                    <MultiLineInput
+                                        fullWidth
+                                        nameIn="note"
+                                        onChange={this.getContent}
+                                        InputLabelName="需求备注"
+                                    />
+                                </Grid>
+
+                            </Grid>
+
+                        </CardContent>
+                    </Card>
 
 
                 </DialogContent>

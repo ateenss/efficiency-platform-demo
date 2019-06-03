@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {createMuiTheme, withStyles} from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
 import IterationList from "../Iteration/IterationList";
 import {Paper} from "@material-ui/core";
@@ -8,9 +8,7 @@ import {connect} from "react-redux";
 import {
     selectIteration,
     addIteration,
-    init,
     deleteIteration,
-    search,
     updatePersonInfo, getRecentIteration
 } from "../../actions/IterationAction";
 import AddIteration from "../Iteration/AddIteration";
@@ -18,7 +16,6 @@ import AddIteration from "../Iteration/AddIteration";
 import {
     CLOSE_ITERATION_FILTER,
     DELETE_ITERATION,
-    ITERATION_INIT,
     OPEN_ITERATION_FILTER,
     SAVE_ADD_ITERATION, SAVE_EDIT_ITERATION
 } from "../../actions/types";
@@ -53,9 +50,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import DemandIterationStepper from "../demand/DemandIterationStepper";
 import Stats from "../Iteration/Stats";
 import {error} from "../../actions/NotificationAction";
-
-const drawerWidth = 240;
-
 
 const styles = theme => ({
     root: {
@@ -488,7 +482,7 @@ class IterationBoard extends React.Component {
                             this.state.allVersionSelected === true ?
 
                                 <Paper style={{padding: "10px", boxShadow: "none"}}>
-                                    <IterationTable/>
+                                    <IterationTable handleSelection={this.handleSelected}/>
                                 </Paper>
 
                                 :
@@ -710,14 +704,4 @@ const
 
         }
     };
-
-export default connect(mapStateToProps)
-
-(
-    withStyles(styles, {withTheme: true})
-
-    (
-        IterationBoard
-    ))
-;
-
+export default connect(mapStateToProps)(    withStyles(styles, {withTheme: true})    (        IterationBoard    ));

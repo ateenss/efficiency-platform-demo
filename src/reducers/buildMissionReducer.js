@@ -124,6 +124,7 @@ const findTask=(data,changeState)=>{
         if (!(item.taskId-taskId)){
             tempTaskContent=item
         }
+        return null;
     });
     return tempTaskContent;
 };
@@ -135,6 +136,7 @@ const changeStatus=(from,to,content)=>{
         if (item.taskCode===content.taskCode){
             tempIndex=index;
         }
+        return null;
     });
     from.splice(tempIndex,1);
 };
@@ -189,6 +191,7 @@ export default function (state = INITIAL_STATE, action) {
                if (item.taskCode===action.value){
                    tempIndex=index;
                }
+               return null;
             });
             changTestView.develop.splice(tempIndex,1);
             return {...state, assignGoTestShow: false,demands:{...state.demands,changTestView}};
@@ -198,6 +201,7 @@ export default function (state = INITIAL_STATE, action) {
                 if (item.taskId===action.value) {
                     addTaskTemp.splice(index,1)
                 }
+                return null;
             });
             return {...state,addTask:addTaskTemp};
         case GET_MYTASK_INFO:
@@ -249,6 +253,7 @@ export default function (state = INITIAL_STATE, action) {
                     tempTaskContent=item;
 
                 }
+                return null;
             });
             return {...state,
                 taskEditorShow: true,
@@ -292,6 +297,7 @@ export default function (state = INITIAL_STATE, action) {
                 if (content.taskType === "个人任务"){
                     counter.push(key)
                 }
+                return null;
             });
             let tempOwn=state.filterJudge;
             tempOwn.switch="1";
@@ -303,6 +309,7 @@ export default function (state = INITIAL_STATE, action) {
                 if (content.taskType === "需求开发任务"){
                     counter.push(key)
                 }
+                return null;
             });
             let tempDemand=state.filterJudge;
             tempDemand.switch="1";
@@ -314,6 +321,7 @@ export default function (state = INITIAL_STATE, action) {
                 if (content.taskType === "走查任务"){
                     counter.push(key)
                 }
+                return null;
             });
             let tempTask=state.filterJudge;
             tempTask.switch="1";
@@ -341,6 +349,7 @@ export default function (state = INITIAL_STATE, action) {
                     value["keyNote"]=action.value;
                     tempMissionDeatil=value;
                 }
+                return null;
             });
             return {...state, detailMissionShow: true,tempBoardToDetail:tempMissionDeatil};
         case OPEN_DETAIL_GOTEST:
@@ -352,6 +361,7 @@ export default function (state = INITIAL_STATE, action) {
                     value["keyNote"]=action.value;
                     tempDetailGotest=value;
                 }
+                return null;
             });
             return {...state,detailGoTestShow:true,tempBoardToDetail:tempDetailGotest, action :OPEN_DETAIL_GOTEST};
         case CLOSE_DETAIL_MISSION:
@@ -373,6 +383,7 @@ export default function (state = INITIAL_STATE, action) {
                     value["keyNote"]=action.value;
                     tempIntegration=value;
                 }
+                return null;
             });
             return {...state,detailIntegrationShow:true, tempBoardToDetail: tempIntegration};
         case CLOSE_DETAIL_INTEGRATION:
@@ -385,6 +396,7 @@ export default function (state = INITIAL_STATE, action) {
                     value["keyNote"]=action.value;
                     tempOtherMission=value;
                 }
+                return null;
             });
             return {...state, detailOtherMissionShow: true,tempBoardToDetail:tempOtherMission};
         case CLOSE_DETAIL_OTHERMISSION:
@@ -392,12 +404,14 @@ export default function (state = INITIAL_STATE, action) {
         case OPEN_DETAIL_DEVMISSION:
             const openDevMissionState=JSON.parse(JSON.stringify(state));
             /*openDevMissionState.detailDevMissionShow=true;*/
+            console.log("{}{}{}{}"+state.tempBoardToDetail)
             let tempDevDetail=state.tempBoardToDetail;
             openDevMissionState.addTask.map((value,key)=>{
                 if (action.value===value.taskId){
                     value["keyNote"]=action.value;
                     tempDevDetail=value
                 }
+                return null;
             });
             return {...state, detailDevMissionShow: true,tempBoardToDetail:tempDevDetail};
         case CLOSE_DETAIL_DEVMISSION:
@@ -416,6 +430,7 @@ export default function (state = INITIAL_STATE, action) {
                     saveEditMissionState.addTask[key]=action.value;
                     saveEditMissionState.tempBoardToDetail=action.value
                 }
+                return null;
             });
             return saveEditMissionState;
         case INIT_MODULES:

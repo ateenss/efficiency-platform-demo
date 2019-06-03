@@ -24,7 +24,7 @@ import permProcessor from "../../constants/PermProcessor";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 import {validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
-
+import FullScreen from "@material-ui/icons/Fullscreen"
 
 const styles = {
     appBar: {
@@ -77,7 +77,8 @@ class DevTaskEditor extends React.Component {
             errorList: {},
             tempTaskId:null,
             taskEditorContent:null,
-            perm: permProcessor.init('task')
+            perm: permProcessor.init('task'),
+            fullScreen : false
         }
     }
 
@@ -187,6 +188,9 @@ class DevTaskEditor extends React.Component {
         return "查看开发任务"
     };
 
+    handleFullScreen = () =>{
+        this.setState({fullScreen : !this.state.fullScreen})
+    }
 
     render() {
 
@@ -226,16 +230,22 @@ class DevTaskEditor extends React.Component {
         return (
 
             <div>
-                <Dialog   open={taskEditorShow}  TransitionComponent={Transition}  fullWidth maxWidth="lg">
+                <Dialog   open={taskEditorShow}  TransitionComponent={Transition}  fullWidth maxWidth="lg" fullScreen={this.state.fullScreen}>
                     <AppBar className={classes.appBar} color="default">
                         <Toolbar variant="dense">
+
                             <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
                                 <CloseIcon/>
                             </IconButton>
-                            <Typography variant="headline" align="center" color="inherit" className={classes.flex}>
+
+                            <Typography variant="headline" align="center" color="inherit" className={classes.flex} style={{fontSize:"18px"}}>
                                 {/*编辑开发任务*/}
                                 {this.devTaskNameShow()}
+                                <IconButton color="inherit" onClick={this.handleFullScreen} aria-label="Close">
+                                    <FullScreen/>
+                                </IconButton>
                             </Typography>
+
                             {this.isOrNotSave()}
                             {this.isOrNotSubmit()}
                         </Toolbar>
@@ -312,6 +322,7 @@ class DevTaskEditor extends React.Component {
 
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
+    console.log("######"+state.reducer.buildMission.devTaskActionShow)
     return {
         task: state.reducer.task.task,
         openTask: state.reducer.task.openTask,

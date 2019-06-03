@@ -154,9 +154,9 @@ class CascadeSelect extends React.Component {
         }
 
         return (
-            <Grid container spacing={8}>
+            <Grid container spacing={8} style={{marginTop:"10px"}}>
                 <Grid item xs={6}>
-                    <Select style={{width:"100%"}}
+                    <Select style={{width:"100%", background:"#f5f5f5", height:"50px", lineHeight:"50px"}}
                         value={this.state.projectValue}
                         onChange={this.handleChange}
                         name="projectId"
@@ -171,10 +171,10 @@ class CascadeSelect extends React.Component {
                     </Select>
                 </Grid>
                 <Grid item xs={6}>
-                    <Select style={{width:"100%"}}
+                    <Select style={{width:"100%", background:"#f5f5f5", height:"50px", lineHeight:"50px"}}
                         name="版本"
                         onChange={this.renderValue}
-                        value={this.state.iterationId}
+                        value={this.state.iterationId} variant="filled"
                     >
                         {
                             iterationOptions.map((value, index) => {

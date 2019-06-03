@@ -1,5 +1,4 @@
 import {
-    OPEN_BUILD_DEMAND,
     CLOSE_BUILD_DEMAND,
     PULL_INITIAL_DEMAND,
     BUILD_SAVE_DEMAND,
@@ -25,7 +24,6 @@ import {
     SPLIT_DEMAND,
     SYNC_DEMAND
 } from "../actions/types"
-import {GET_DEMAND} from "../actions/DemandTasksAction";
 
 
 export const INITIAL_STATE = {
@@ -99,8 +97,8 @@ export default function (state = INITIAL_STATE, action) {
             editDemandState.addDemand.map((value,key)=>{
                if (key===action.value.findNote){
                    editDemandState.addDemand[key]=action.value;
-                   console.log(editDemandState.addDemand[key]);
                }
+               return null;
             });
 
             return editDemandState;

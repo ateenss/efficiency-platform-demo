@@ -15,6 +15,8 @@ import { REVIEW_DEMAND} from "../../actions/types";
 import {Rules, validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
 import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
+import InputField from "../SelfComponent/InputField";
+import MultiLineInput from "../SelfComponent/MultiLineInput";
 
 
 const styles = {
@@ -172,6 +174,15 @@ class ReviewDemand extends React.Component {
                                 nameIn="status"
                                 nameArray={status}
                                 validateEl={Rules.reviewDemandProps.status}
+                            />
+                        </Grid>
+                        <Grid item xs={12} className={classes.gridStyle}>
+                            <MultiLineInput
+                                fullWidth
+                                nameIn="note"
+                                onChange={this.getContent}
+                                InputLabelName="需求备注"
+                                defaultValue={reviewDemand.note}
                             />
                         </Grid>
                     </Grid>
