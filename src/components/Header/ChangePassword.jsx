@@ -81,9 +81,9 @@ class ChangePassword extends React.Component {
 
             <Dialog  onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.state.showChangePassword} fullWidth maxWidth="sm">
                 <DialogTitle id="simple-dialog-title">修改密码</DialogTitle>
-                <DialogContent>
+                <DialogContent style={{paddingBottom:"0"}}>
                     <Grid container spacing={8}>
-                        <Grid item xs={4} className={classes.gridStyle}>
+                        <Grid item xs={12} className={classes.gridStyle}>
                             <InputField
                                 nameIn="oldPwd"
                                 onChange={this.getContent}
@@ -92,7 +92,7 @@ class ChangePassword extends React.Component {
 
                             />
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
+                        <Grid item xs={12} className={classes.gridStyle}>
                             <InputField
                                 nameIn="newPwd"
                                 onChange={this.getContent}
@@ -100,7 +100,7 @@ class ChangePassword extends React.Component {
                                 validateEl={Rules.changePwdProps.newPwd}
                             />
                         </Grid>
-                        <Grid item xs={4} className={classes.gridStyle}>
+                        <Grid item xs={12} className={classes.gridStyle}>
                             <InputField
                                 nameIn="confirmPwd"
                                 onChange={this.getContent}

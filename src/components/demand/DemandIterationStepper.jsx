@@ -113,6 +113,11 @@ class DemandIterationStepper extends React.Component {
                             <Step className={classes.stepContent}>
                                 <StepLabel
                                     optional={<Chip className={classes.chip}
+                                                    label={!!steppers && !!steppers.greyDate ? steppers.greyDate : "未指定"}/>}>灰度</StepLabel>
+                            </Step>
+                            <Step className={classes.stepContent}>
+                                <StepLabel
+                                    optional={<Chip className={classes.chip}
                                                     label={!!steppers && !!steppers.deliveryDate ? steppers.deliveryDate : "未指定"}/>}>上线</StepLabel>
                             </Step>
 

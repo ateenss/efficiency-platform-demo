@@ -13,9 +13,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import permProcessor from "../../constants/PermProcessor";
-import MuiSlider from '@material-ui/lab/Slider';
+// import MuiSlider from '@material-ui/lab/Slider';
 import {Tooltip} from "@material-ui/core";
 
+import { Slider } from 'material-ui-slider';
 
 
 const styles = {
@@ -51,31 +52,45 @@ const styles = {
     },
     hide:{
         display:"none"
+    },
+    sliderWrapper:{
+        width:"40px",
+        height:"40px",
+        marginTop:"14px",
+        borderRadius:"3px",
+        backgroundColor:"#4DAF7C !important",
+        "&:before":{
+            display:"none"
+        }
+    },
+    sliderTrack:{
+        height:"30px !important",
+        backgroundColor:"#4DAF7C !important"
     }
 
 };
 
 
-const Slider = withStyles({
-    root:{
-    },
-    track:{
-        height:"30px",
-        background:"#ababab"
-    },
-    trackBefore:{
-        height:"30px",
-        background:"#4DAF7C"
-    },
-    thumb:{
-        height:"30px !important",
-        borderRadius:"0",
-        background:"#4DAF7C",
-    },
-
-
-
-})(props => <MuiSlider {...props} />);
+// const Slider = withStyles({
+//     root:{
+//     },
+//     track:{
+//         height:"30px",
+//         background:"#ababab"
+//     },
+//     trackBefore:{
+//         height:"30px",
+//         background:"#4DAF7C"
+//     },
+//     thumb:{
+//         height:"30px !important",
+//         borderRadius:"0",
+//         background:"#4DAF7C",
+//     },
+//
+//
+//
+// })(props => <MuiSlider {...props} />);
 
 
 
@@ -127,7 +142,6 @@ class DoTestPage extends React.Component {
             openAlert:false,
             perm: permProcessor.init('task'),
             confirm:false,
-            progress:0
         }
     }
 
@@ -170,18 +184,18 @@ class DoTestPage extends React.Component {
     };
 
 
-    handleChange = (event, progress) => {
-        this.setState({ progress });
-        if(progress === 100) {
+    handleChange = (value) => {
+        let self = this;
+        if(value === 100){
             if (permProcessor.bingo('finishTest', this.state.perm)) {
-                finishTest(this.props.tempBoardToDetail.taskId);
-                this.setState({progress : 0})
+                setTimeout(function(){
+                    finishTest(self.props.tempBoardToDetail.taskId);
+                }, 500);
             }
         }
     };
 
     componentWillUnmount() {
-        this.setState({progress : 0})
     }
 
     render() {
@@ -202,16 +216,17 @@ class DoTestPage extends React.Component {
                             {!!tempBoardToDetail?tempBoardToDetail.taskDeadline:""} 截止
                         </Typography>
                     </DialogContent>
-                    <DialogActions style={{padding:"24px 12px 24px 12px"}}>
-                        <Tooltip title="滑动以确认走查" placement="top-start">
-                            <Slider
-                                value={progress}
-                                aria-labelledby="label"
-                                onChange={this.handleChange}
-                                // disabled={this.state.disabled}
+                    <DialogActions style={{padding:"0px 18px 24px 18px"}}>
+                            {/*<Slider*/}
+                                {/*value={progress}*/}
+                                {/*aria-labelledby="label"*/}
+                                {/*onChange={this.handleChange}*/}
+                                {/*// disabled={this.state.disabled}*/}
 
-                            />
-                        </Tooltip>
+                            {/*/>*/}
+                            <Slider defaultValue={0} min={0} max={100} onChangeComplete={this.handleChange} classes={{
+                                pointer : classes.sliderWrapper, track:classes.sliderTrack
+                            }}></Slider>
                     </DialogActions>
 
                 </Dialog>

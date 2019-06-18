@@ -200,8 +200,10 @@ class DemandBoard extends React.Component {
 
             getRecentIteration().then(resp => {
 
+                self.setState({iteration: resp.data.data, projectMembers : initParams.projectMembers, modules : initParams.modules},function(){
 
-                self.setState({iteration: resp.data.data, projectMembers : initParams.projectMembers, modules : initParams.modules});
+                    self.search(0, self.state.pageSize)
+                });
 
                 stopLoading();
 
@@ -239,23 +241,6 @@ class DemandBoard extends React.Component {
         });
 
 
-    };
-
-    /**
-     * UrlConf.base + 'iteration/save';
-     * @param page
-     */
-    changePage = (page, pageSize) => {
-
-        let self = this;
-
-        nextPage(page + 1, pageSize, function (ret) {
-
-            let result = self.mapObjectToArray(ret.result);
-
-            self.setState({assembleTable: result, pageSize: ret.pageSize, totalCount: ret.totalCount, raw: ret.result, currentPage : page});
-
-        })
     };
 
     search = (pageNo, pageSize, searchText) =>{
@@ -493,7 +478,6 @@ class DemandBoard extends React.Component {
             {name: "状态", options: {
                     filter: false,
                     customBodyRender: (value, tableMeta, updateValue) => {
-                        console.log(value);
                         if(value === "评审通过"){
                             return <Tooltip title={value}><CheckIcon style={{paddingTop:"10px",fontSize:"18px", color:"#4DAF7C"}}/></Tooltip>
                         }else if(value === "评审不通过"){
@@ -533,6 +517,8 @@ class DemandBoard extends React.Component {
                     }
                 }},
         ];
+
+        console.log(this.state.totalCount + "/////////" + this.state.currentPage);
 
         const options = {
             print: false,
@@ -584,6 +570,7 @@ class DemandBoard extends React.Component {
                     case 'changeRowsPerPage':
                         this.search(tableState.page, tableState.rowsPerPage, this.state.filters);
                         break;
+
                 }
             },
             textLabels: {
@@ -631,6 +618,7 @@ class DemandBoard extends React.Component {
             <Grid container spacing={16}>
 
                 <Grid item xs={12}>
+                    {this.state.totalCount === 1 ? ""  :
                     <MuiThemeProvider theme={muiTableTheme}>
                         <MUIDataTable
                             title={!!filterChips && filterChips.length>0 ? filterChips : "需求列表"}
@@ -639,7 +627,7 @@ class DemandBoard extends React.Component {
                             options={options}
                         />
                     </MuiThemeProvider>
-
+                    }
                 </Grid>
                 <BuildDemandMain
                     open={buildDemandShow}

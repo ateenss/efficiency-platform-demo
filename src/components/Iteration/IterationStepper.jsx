@@ -143,7 +143,11 @@ class IterationStepper extends React.Component {
                             <StepLabel
                                 optional={<Chip className={classes.chip} label={steppers.publishDate}/>}>发布</StepLabel>
                         </Step>
-                        <Step className={classes.stepContent} completed={this.gt(today, steppers.deliveryDate)} active={!this.gt(today, steppers.deliveryDate) && this.gt(today, steppers.publishDate)}>
+                        <Step className={classes.stepContent} completed={this.gt(today, steppers.greyDate)} active={!this.gt(today, steppers.greyDate) && this.gt(today, steppers.publishDate)}>
+                            <StepLabel
+                                optional={<Chip className={classes.chip} label={steppers.greyDate}/>}>灰度</StepLabel>
+                        </Step>
+                        <Step className={classes.stepContent} completed={this.gt(today, steppers.deliveryDate)} active={!this.gt(today, steppers.deliveryDate) && this.gt(today, steppers.greyDate)}>
                             <StepLabel
                                 optional={<Chip className={classes.chip} label={steppers.deliveryDate}/>}>上线</StepLabel>
                         </Step>

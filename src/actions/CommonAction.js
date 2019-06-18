@@ -7,6 +7,7 @@ import store from "../stores";
 import UrlConf from "../constants/UrlConf";
 import {error} from "./NotificationAction";
 import history from "../history/history";
+import {GET_RECENT} from "./IterationAction";
 
 export const changSingleSelectValue=(value)=>({
     type:SINGLE_SELECT_VALUE,
@@ -21,6 +22,7 @@ const config = {
     inCharset: "utf-8",
     outCharset: "utf-8"
 };
+export const GET_MY = UrlConf.base + 'member/my';
 export const GET_PROJECT_MEMBERS = UrlConf.base + 'member/getProjectMembers';
 export const GET_ALL_MEMBERS = UrlConf.base + 'member/getAllMembers';
 export const SAVE_PASSWORD = UrlConf.base + 'member/changePassword';
@@ -98,6 +100,14 @@ export function sysInit(afterInit){
 
 
 }
+
+export function getMy() {
+
+    let accessToken = localStorage.getItem("token");
+
+    return axios.post(GET_MY, {"version": "1.0", accessToken: accessToken}, config);
+}
+
 
 
 export function getProjectMembers(doAfterInit) {

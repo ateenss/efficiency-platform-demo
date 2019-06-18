@@ -60,7 +60,7 @@ const styles = theme => ({
     header: {
         boxShadow: "none",
         background: "#FFFFFF",
-        marginBottom: "15px"
+        marginBottom: "10px"
     },
     margin: {
         margin: theme.spacing.unit * 2,
@@ -91,7 +91,7 @@ const styles = theme => ({
         maxWidth:"31%",
         flexBasis:"31%",
         margin:"0 1% 0 1%",
-        background:"#f5f5f5",
+        background:"#eee",
         marginTop:theme.spacing.unit*2
     },
     taskWidth:{
@@ -99,17 +99,17 @@ const styles = theme => ({
         flexBasis:"31%",
         margin:"0 1% 0 1%",
         background:"#eee",
-        marginBottom:theme.spacing.unit*2
     },
     taskGroup:{
     },
     newDevButton: {
         boxShadow:"none",
-        border:"1px solid #4caf50",
-        color:"#4caf50",
+        // border:"1px solid #4caf50",
+        background:"#4caf50",
+        color:"#FFF",
         padding:"0 0 0 0",
         minHeight:"15px",
-        height:"40px",
+        height:"35px",
         minWidth:"100px",
         "&:hover":{
             background:"#4caf50",
@@ -118,8 +118,8 @@ const styles = theme => ({
 
     },
     addIcon:{
-        width:"1em",
-        height:"1em",
+        width:"0.8em",
+        height:"0.8em",
         marginTop: 0,
         marginBottom:0,
         paddingBottom:0,
@@ -325,7 +325,7 @@ class TaskBoard extends React.Component {
                                     <Button onClick={this.openOtherTask}
                                             classes={{root:classes.newDevButton,
                                             label:classes.textLabel}}
-                                            size="large"
+                                            variant="contained"
                                     >
                                         <AddIcon className={classes.addIcon}/>
                                         个人任务

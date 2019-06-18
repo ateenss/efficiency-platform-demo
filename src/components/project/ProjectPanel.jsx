@@ -135,7 +135,7 @@ const styles = theme => ({
         width:20
     }
 });
-import projectImg from "../../assets/img/th.jpeg";
+import projectImg from "../../assets/img/project.png";
 
 const image =
     {

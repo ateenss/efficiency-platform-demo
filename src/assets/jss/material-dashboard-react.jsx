@@ -25,8 +25,8 @@ const transition = {
 };
 
 const container = {
-  paddingRight: "15px",
-  paddingLeft: "15px",
+  paddingRight: "10px",
+  paddingLeft: "10px",
   marginRight: "auto",
   marginLeft: "auto"
 };

@@ -98,6 +98,12 @@ const filterLabel = {
             return this.label + ":" + data.from + "-" + data.to;
         }
     },
+    greyDate : {
+        label :"灰度时间",
+        renderValue : function(data){
+            return this.label + ":" + data.from + "-" + data.to;
+        }
+    },
     deliveryDate : {
         label :"上线时间",
         renderValue : function(data){
@@ -162,26 +168,9 @@ class IterationList extends React.Component {
 
     componentDidMount() {
 
-        this.search(0)
+        this.search(0, this.state.pageSize);
 
     }
-
-    /**
-     * UrlConf.base + 'iteration/save';
-     * @param page
-     */
-    changePage = (page, pageSize) => {
-
-        let self = this;
-
-        nextPage(page + 1, pageSize,function (ret) {
-
-            let result = self.mapObjectToArray(ret.result);
-
-            self.setState({assembleTable: result, pageSize: ret.pageSize, totalCount: ret.totalCount, raw: ret.result, currentPage : page});
-
-        })
-    };
 
     search = (pageNo, pageSize, searchText) =>{
 
@@ -408,6 +397,7 @@ class IterationList extends React.Component {
             <Grid container spacing={16}>
 
                 <Grid item xs={12}>
+                    {this.state.totalCount === 1 ? "" :
                     <MuiThemeProvider theme={muiTableTheme}>
                         <MUIDataTable
                             title={!!filterChips && filterChips.length>0 ? filterChips : "版本列表"}
@@ -416,7 +406,7 @@ class IterationList extends React.Component {
                             options={options}
                         />
                     </MuiThemeProvider>
-
+                    }
                 </Grid>
 
                 <IterationFilter/>

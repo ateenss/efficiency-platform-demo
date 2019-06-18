@@ -2,6 +2,8 @@
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import Notifications from "@material-ui/icons/Notifications";
+import Dashboard from "@material-ui/icons/Dashboard";
+
 // core components/views
 import Project from "../components/views/Project.jsx";
 import TaskBoard from "../components/views/TaskBoard.jsx";
@@ -9,7 +11,7 @@ import DemandBoard from "../components/views/DemandBoard";
 import IterationBoard from "../components/views/IterationBoard";
 import MyPage from "../components/BuildMission/MyPage";
 import TestCaseTask from "../components/BuildMission/TestCaseTask";
-import NewDemandBoard from "../components/views/NewDemandBoard";
+import My from "../components/views/My";
 
 
 const dashboardRoutes = [
@@ -29,10 +31,17 @@ const dashboardRoutes = [
     //   component: DashboardPage
     // },
     {
+        path: "/my",
+        sidebarName: "我的",
+        navbarName: "我的",
+        icon: Notifications,
+        component: My,
+    },
+    {
         path: "/project",
         sidebarName: "项目",
         navbarName: "项目",
-        icon: BubbleChart,
+        icon: Dashboard,
         component: Project
     },
     {
@@ -40,7 +49,8 @@ const dashboardRoutes = [
         sidebarName: "我的任务",
         navbarName: "我的任务",
         icon: LibraryBooks,
-        component: TaskBoard
+        component: TaskBoard,
+        hide:true
     },
     {
       path: "/iteration",
@@ -76,14 +86,9 @@ const dashboardRoutes = [
         component: TestCaseTask,
         hide: true
     },
-    {
-        path: "/newDemand",
-        sidebarName: "新需求",
-        navbarName: "新需求",
-        icon: Notifications,
-        component: NewDemandBoard,
-    },
-    {redirect: true, path: "/", to: "/project", navbarName: "Redirect"}
+
+
+    {redirect: true, path: "/", to: "/my", navbarName: "Redirect"}
 ];
 
 export default dashboardRoutes;

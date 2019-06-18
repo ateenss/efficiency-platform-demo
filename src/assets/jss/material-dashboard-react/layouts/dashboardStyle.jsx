@@ -24,13 +24,13 @@ const appStyle = theme => ({
     paddingTop:"10px"
   },
   content: {
-    marginTop: "70px",
+    marginTop: "50px",
     padding: "0",
     minHeight: "calc(100vh - 123px)",
   },
   container,
   map: {
-    marginTop: "70px"
+    marginTop: "60px"
   },
   headerCss:{
     backgroundColor:"#FFFFFF !important"

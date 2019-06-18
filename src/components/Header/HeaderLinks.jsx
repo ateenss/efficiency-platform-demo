@@ -19,6 +19,7 @@ import ChangePasswordIcon from "@material-ui/icons/Lock";
 import ListItemText from "@material-ui/core/ListItemText";
 import ChangePassword from "./ChangePassword";
 import {showChangePassword} from "../../actions/CommonAction";
+import {Link} from "react-router-dom";
 
 
 
@@ -83,6 +84,16 @@ class HeaderLinks extends React.Component {
                     open={Boolean(anchorEl)}
                     onClose={this.handleMenuClose}
                 >
+                    <Link color="transparent" to="/my">
+                        <MenuItem>
+
+                            <ListItemIcon className={classes.icon}>
+                                <Person />
+                            </ListItemIcon>
+                            <ListItemText classes={{ primary: classes.primary }} inset primary="我的" />
+
+                        </MenuItem>
+                    </Link>
                     <MenuItem onClick={this.handleChangePassword}>
 
                         <ListItemIcon className={classes.icon}>

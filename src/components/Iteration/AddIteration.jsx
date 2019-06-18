@@ -314,12 +314,16 @@ class AddIteration extends React.Component {
                                 </Grid>
                                 <Grid item xs={4} className={classes.gridStyle}>
                                     <DatePicker nameIn="testDate" InputLabelName="提测时间" onDateChange={this.getContent}
-                                                defaultValue={this.state.iterationContent.testDate}z
+                                                defaultValue={this.state.iterationContent.testDate}
                                     />
                                 </Grid>
                                 <Grid item xs={4} className={classes.gridStyle}>
                                     <DatePicker nameIn="publishDate" InputLabelName="发布时间" onDateChange={this.getContent}
                                                 defaultValue={this.state.iterationContent.publishDate}/>
+                                </Grid>
+                                <Grid item xs={4} className={classes.gridStyle}>
+                                    <DatePicker nameIn="greyDate" InputLabelName="灰度时间" onDateChange={this.getContent}
+                                                defaultValue={this.state.iterationContent.greyDate}/>
                                 </Grid>
                                 <Grid item xs={4} className={classes.gridStyle}>
                                     <DatePicker nameIn="deliveryDate" InputLabelName="上线时间" onDateChange={this.getContent}
