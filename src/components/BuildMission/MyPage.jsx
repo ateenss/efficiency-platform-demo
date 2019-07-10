@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 
 import Grid from '@material-ui/core/Grid'
 import BuildOtherTask from "../views/TaskBoard";
-import {getDemandTaskDetail, openDevMissionDetail} from "../../actions/BuildMissionAction";
+import {getDemandTaskDetail, getMyTaskMain, openDevMissionDetail} from "../../actions/BuildMissionAction";
 import {sysInit} from "../../actions/CommonAction";
 import permProcessor from "../../constants/PermProcessor";
 import store from "../../stores";
@@ -37,10 +37,10 @@ class MyPage extends React.Component {
     componentDidMount() {
 
         let taskId = UrlParser.parse(window.location.href).id;
-
         let self = this;
 
         sysInit(function(initParams){
+
             if (permProcessor.bingo('getMyTaskInfo', self.state.perm)) {
                 if(!!taskId){
                     getDemandTaskDetail(new Number(taskId));
@@ -62,6 +62,7 @@ class MyPage extends React.Component {
     render() {
         const {classes, demands,tempBoardToDetail} = this.props;
         let demandsComponents;
+        console.log(JSON.stringify(tempBoardToDetail + "()()()()"))
         if (demands) {
             let taskGroup = demands.taskDetailList;
             demandsComponents =
@@ -95,7 +96,8 @@ class MyPage extends React.Component {
 // 从store里面取数据给组件
 const mapStateToProps = (state) => {
     return {
-        demands: state.reducer.buildMission.demands
+        demands: state.reducer.buildMission.demands,
+        tempBoardToDetail : state.reducer.buildMission.tempBoardToDetail
     }
 };
 

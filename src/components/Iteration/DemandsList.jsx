@@ -11,6 +11,7 @@ import DownloadIcon from "@material-ui/icons/CloudDownload"
 import IconButton from "@material-ui/core/IconButton";
 import {getDownloadLink} from "../../actions/IterationAction";
 import {error} from "../../actions/NotificationAction";
+import Chip from "@material-ui/core/Chip";
 const styles = theme => ({});
 /**
  * 业务编号、需求名称、需求状态、需求负责人、开发负责人、需求来源部门、需求评审通过起止时间、是否需UAT
@@ -20,7 +21,13 @@ const styles = theme => ({});
 // ["2019-04-00004", "234", "周之豪", 1, "评审通过", "周之豪", 1, null, null, "否"]
 const columns = [
     {name: "id", options: {filter: false,display:false}},
-    {name: "需求编号", options: {filter: false}},
+    {
+        name: "需求编号", options: {
+            filter: false, customBodyRender: (value, tableMeta, updateValue) => {
+                return <Chip label={value} style={{fontWeight:"400", background: "#fbec2f", borderRadius: "3px", color: "rgb(80, 71, 19)", width:"130px"}}/>;
+            }
+        }
+    },
     {name: "需求名称", options: {filter: false}},
     {name: "需求负责人", options: {filter: true,display:false}},
     {name: "负责人ID", options: {display: false}},

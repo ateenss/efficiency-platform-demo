@@ -19,7 +19,6 @@ import {Link} from "react-router-dom";
 import Goto from "@material-ui/icons/ArrowUpward";
 import ChangePasswordIcon from "@material-ui/icons/Lock";
 import classNames from 'classnames';
-import face from "../../assets/img/faces/marc.jpg";
 import {error} from "../../actions/NotificationAction";
 import IconButton from "@material-ui/core/IconButton";
 import Chip from "@material-ui/core/Chip";
@@ -181,7 +180,9 @@ class My extends React.Component {
         this.state = {
             myInfo: {
                 demands: [],
-                iterations: []
+                iterations: [],
+                username:"",
+                realName:""
             }
         };
     }
@@ -237,7 +238,9 @@ class My extends React.Component {
 
 
     render() {
-        const {classes, buildDemandShow, editDemandShow, tableData} = this.props;
+        const {classes} = this.props;
+
+        let face = "http://172.17.249.10/NewSys/Pic/Employee/" + this.state.myInfo.realName + ".jpg";
 
         //todo:结果都在这个result里面，选取值去定位这个result里面的数组（被选取的索引值和result里面是保持一致的）
         return (
@@ -320,6 +323,7 @@ class My extends React.Component {
                 <Grid item xs={9}>
                 <Grid container spacing={8}>
                 <Grid item xs={12}>
+                    <Link color="transparent" to="/iteration">
                     <Card>
                         <CardHeader
                             title="我参与的版本"
@@ -363,9 +367,11 @@ class My extends React.Component {
                             </Grid>
                         </CardContent>
                     </Card>
-
+                    </Link>
                 </Grid>
                 <Grid item xs={12}>
+                    <Link color="transparent" to="/demands">
+
                     <Card>
                         <CardHeader
                             title="我参与的需求"
@@ -415,7 +421,7 @@ class My extends React.Component {
                             </Grid>
                         </CardContent>
                     </Card>
-
+                    </Link>
                 </Grid>
 
                 </Grid>

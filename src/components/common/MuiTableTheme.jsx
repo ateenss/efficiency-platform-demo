@@ -19,7 +19,8 @@ export const muiTableTheme = () => createMuiTheme({
                 padding: "4px 0px 4px 4px",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
+                whiteSpace: "initial",
+                maxWidth:"300px"
             }
         },
         MUIDataTableHeadCell:{

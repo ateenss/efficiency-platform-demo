@@ -21,7 +21,6 @@ import {validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
 import classNames from "classnames";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import SelectThenInput from "../SelfComponent/SelectThenInput";
 
 
 const styles = theme => ({
@@ -173,7 +172,7 @@ class BuildPlanMain extends React.Component {
 
 
     render() {
-        const {classes, buildPlanShow} = this.props;
+        const {classes, buildPlanShow, tempDemandTaskPlan} = this.props;
         const {planContent} = this.state;
         const {success, loading} = this.state;
         const buttonClassname = classNames({
@@ -220,8 +219,23 @@ class BuildPlanMain extends React.Component {
                                         readOnly={false}
                                     />
                                 </Grid>
-
-                                <Grid item xs={6}>
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="外部系统接口调整"
+                                                    nameIn="outerSysInterfaceChange"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.outerSysInterfaceChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="是否支持灰度功能"
+                                                    nameIn="supportGrayEnv"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.supportGrayEnv}
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
                                     <MultiLineInput fullWidth
                                                     InputLabelName="灾备影响性评估"
                                                     nameIn="disasterRecoveryAssessment"
@@ -229,7 +243,7 @@ class BuildPlanMain extends React.Component {
                                                     defaultValue={planContent.disasterRecoveryAssessment}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={3}>
                                     <MultiLineInput fullWidth
                                                     InputLabelName="生产影响性评估"
                                                     nameIn="productEnvAssessment"
@@ -241,122 +255,84 @@ class BuildPlanMain extends React.Component {
                         </Grid>
                         <Grid item xs={12}>
                             <Grid container spacing={8}>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                                     InputLabelName="外部系统接口调整"
-                                                     nameIn="outerSysInterfaceChange"
-                                                     onChange={this.getContent}
-                                                     defaultValue={planContent.outerSysInterfaceChange}
-                                                     defaultChecked={false}
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="外部系统配套改造"
+                                                    nameIn="outerSysChange"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.outerSysChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                                     InputLabelName="是否支持灰度功能"
-                                                     nameIn="supportGrayEnv"
-                                                     onChange={this.getContent}
-                                                     defaultValue={planContent.supportGrayEnv}
-                                                     defaultChecked={true}
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="模块上线顺序要求"
+                                                    nameIn="moduleDeploySequence"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.moduleDeploySequence}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                        InputLabelName="外部系统配套改造"
-                                        nameIn="outerSysChange"
-                                        onChange={this.getContent}
-                                        defaultValue={planContent.outerSysChange}
-                                                    defaultChecked={false}
-
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="内部子系统间接口调整"
+                                                    nameIn="innerSysInterfaceChange"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.innerSysInterfaceChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                        InputLabelName="模块上线顺序要求"
-                                        nameIn="moduleDeploySequence"
-                                        onChange={this.getContent}
-                                        defaultValue={planContent.moduleDeploySequence}
-                                                    defaultChecked={false}
-
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="安全相关"
+                                                    nameIn="safety"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.safety}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                        InputLabelName="内部子系统间接口调整"
-                                        nameIn="innerSysInterfaceChange"
-                                        onChange={this.getContent}
-                                        defaultValue={planContent.innerSysInterfaceChange}
-                                                    defaultChecked={false}
-
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="数据库修改点"
+                                                    nameIn="dbChange"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.dbChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                        InputLabelName="安全相关"
-                                        nameIn="safety"
-                                        onChange={this.getContent}
-                                        defaultValue={planContent.safety}
-                                                    defaultChecked={false}
-
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="参数配置要求"
+                                                    nameIn="config"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.config}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                        InputLabelName="数据库修改点"
-                                        nameIn="dbChange"
-                                        onChange={this.getContent}
-                                        defaultValue={planContent.dbChange}
-                                                    defaultChecked={false}
-
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="接口规范变更"
+                                                    nameIn="interfaceChange"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.interfaceChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                        InputLabelName="参数配置要求"
-                                        nameIn="config"
-                                        onChange={this.getContent}
-                                        defaultValue={planContent.config}
-                                                    defaultChecked={false}
-
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="运维信息变更"
+                                                    nameIn="operationChange"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.operationChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                        InputLabelName="接口规范变更"
-                                        nameIn="interfaceChange"
-                                        onChange={this.getContent}
-                                        defaultValue={planContent.interfaceChange}
-                                                    defaultChecked={false}
-
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="部署需求调整"
+                                                    nameIn="deploymentChange"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.deploymentChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                        InputLabelName="运维信息变更"
-                                        nameIn="operationChange"
-                                        onChange={this.getContent}
-                                        defaultValue={planContent.operationChange}
-                                                    defaultChecked={false}
-
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                        InputLabelName="部署需求调整"
-                                        nameIn="deploymentChange"
-                                        onChange={this.getContent}
-                                        defaultValue={planContent.deploymentChange}
-                                                    defaultChecked={false}
-
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <SelectThenInput fullWidth
-                                        InputLabelName="五高影响性"
-                                        nameIn="high5Assessment"
-                                        onChange={this.getContent}
-                                        defaultValue={planContent.high5Assessment}
-                                                    defaultChecked={false}
-
+                                <Grid item xs={3}>
+                                    <MultiLineInput fullWidth
+                                                    InputLabelName="五高影响性"
+                                                    nameIn="high5Assessment"
+                                                    onChange={this.getContent}
+                                                    defaultValue={planContent.high5Assessment}
                                     />
                                 </Grid>
 

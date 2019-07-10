@@ -208,7 +208,7 @@ export default function (state = INITIAL_STATE, action) {
             return {...state,addTask:action.value.taskList,finished:action.value.finished,unfinished:action.value.underWay,relatedProjectId:action.value.relatedProjectId};
         case GET_TASK_DETAIL_INFO:
             // let detailState=JSON.parse(JSON.stringify(state));
-            return {...state,demands:action.value};
+            return {...state,demands:action.value, tempBoardToDetail : action.value};
         case SAVE_BUILD_MODULE:
             let tempSaveContent=new Object();
             tempSaveContent["taskName"]=action.value.taskName;
@@ -345,7 +345,7 @@ export default function (state = INITIAL_STATE, action) {
             openDetailMissionState.detailMissionShow=true;
             let tempMissionDeatil=state.tempBoardToDetail;
             openDetailMissionState.addTask.map((value,key)=>{
-                if (action.value===value.taskId){
+                if (action.value==value.taskId){
                     value["keyNote"]=action.value;
                     tempMissionDeatil=value;
                 }

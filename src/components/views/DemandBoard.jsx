@@ -427,11 +427,11 @@ class DemandBoard extends React.Component {
                             let href = "http://172.17.249.10/NewSys/Requirement/External/ReqDetail.aspx?Id=" + literal[1];
                             return (
                                 <div><a href={href} target="new" style={{fontWeight:"400px",color:"#121212", textDecoration:"underline"}}>
-                                    {literal[0]}
+                                    <Chip label={literal[0]} style={{fontWeight:"400", background: "#f5f5f5", borderRadius: "3px", color: "rgb(80, 71, 19)", width:"130px"}}/>
                                 </a></div>
                             );
                         }else{
-                            return literal[0];
+                            return <Chip label={literal[0]} style={{fontWeight:"400", background: "#f5f5f5", borderRadius: "3px", color: "rgb(80, 71, 19)", width:"130px"}}/>;
                         }
 
                     }
@@ -466,7 +466,7 @@ class DemandBoard extends React.Component {
                             return (
 
                                 <Tooltip title={<DemandIterationStepper steppers={ret}/>} leaveDelay={500} classes={{tooltip:classes.toolTipIteration}}>
-                                    <Chip label={literal[0]} style={{background: "#e0ecfb", borderRadius: "3px", color: "#176fdc"}}/>
+                                    <Chip label={literal[0]} style={{background: "#fbec2f", borderRadius: "3px", color: "rgb(80, 71, 19)", width:"90px"}}/>
                                 </Tooltip>
                             )
 

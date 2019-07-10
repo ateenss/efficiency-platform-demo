@@ -61,7 +61,8 @@ const styles =theme =>( {
         "&:hover":{
             background:"#4caf50",
             color: "#FFFFFF",
-        }
+        },
+        marginLeft:"10px"
     },
     DemandHeader: {
         margin: "0px !important",
@@ -95,8 +96,9 @@ const styles =theme =>( {
     },
     cardHeaderTitle: {
         margin: "0",
-        fontWeight:"700",
-        padding:"7px"
+        fontWeight:"400",
+        padding:"7px",
+        fontSize:"1.2rem"
     },
     demandHeader: {
     },

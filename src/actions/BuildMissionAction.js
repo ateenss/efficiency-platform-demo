@@ -761,7 +761,7 @@ export function getDemandTaskDetail(taskId) {
     const config = {
         method: 'post'
     };
-    store.dispatch(openDetailMission(taskId));
+    // store.dispatch(openDetailMission(taskId));
     let accessToken = localStorage.getItem("token");
     let request = RequestBuilder.parseRequest(accessToken,taskId);
     return axios.post(send_edit_data, request,config)
