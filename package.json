@@ -91,7 +91,10 @@
     "workbox-webpack-plugin": "3.6.3",
     "clsx": "latest",
     "recharts": "^1.5.0",
-    "material-ui-slider": "^3.0.3"
+    "material-ui-slider": "^3.0.3",
+    "braft-editor": "^2.3.7",
+    "braft-utils": "^3.0.12",
+    "braft-extensions": "^0.0.18"
   },
   "scripts": {
     "start": "node scripts/start.js",

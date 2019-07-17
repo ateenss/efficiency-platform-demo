@@ -25,6 +25,7 @@ import TrueMuitiSelect from "../SelfComponent/TrueMuitiSelect";
 import {validating} from "../../actions/validateAction";
 import {error} from "../../actions/NotificationAction";
 import FullScreen from "@material-ui/icons/Fullscreen"
+import BraftOwnEditor from "./BraftOwnEditor";
 
 const styles = {
     appBar: {
@@ -304,14 +305,19 @@ class DevTaskEditor extends React.Component {
                             </Grid>
                         </Grid>
 
-                        <Typography className={classes.quillLabel}>开发方案</Typography>
+                        {/*<Typography className={classes.quillLabel}>开发方案</Typography>
                                     <EditQuill
                                         classStyle={classes.quillContainer}
                                         onChange={this.getContent}
                                         nameIn="devPlan"
                                         defaultValue={taskContent.devPlan}
                                         placeholder="请输入方案描述"
-                                    />
+                                    />*/}
+                        <BraftOwnEditor
+                            defaultValue={taskContent.devPlan}
+                            onChange={this.getContent}
+                            nameIn="devPlan"
+                        />
 
                     </DialogContent>
                 </Dialog>
